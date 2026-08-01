@@ -10,6 +10,8 @@ spl_autoload_register(function (string $class): void {
         $path = BASE_PATH . "/php/{$dir}/{$class}.php";
         if (is_file($path)) { require $path; return; }
     }
+    $seedPath = BASE_PATH . "/database/seeds/{$class}.php";
+    if (is_file($seedPath)) { require $seedPath; return; }
 });
 
 $files = glob(__DIR__ . '/unit/*Test.php') ?: [];

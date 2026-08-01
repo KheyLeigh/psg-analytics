@@ -63,7 +63,7 @@ final class StatisticRepository extends Repository
     public function timeline(int $playerId): array
     {
         $rows = $this->fetchAll(
-            'SELECT m.id match_id, m.played_at, s.goals, s.passes, s.minutes, s.rating
+            'SELECT m.id match_id, m.played_at, s.goals, s.assists, s.minutes, s.rating
              FROM player_match_stats s
              JOIN matches m ON m.id = s.match_id
              WHERE s.player_id = ?
@@ -75,7 +75,8 @@ final class StatisticRepository extends Repository
                 'matchId'  => (int) $r['match_id'],
                 'playedAt' => (string) $r['played_at'],
                 'goals'    => (int) $r['goals'],
-                'passes'   => (int) $r['passes'],
+                // Passes décisives (assists), pas le total des passes.
+                'assists'  => (int) $r['assists'],
                 'minutes'  => (int) $r['minutes'],
                 'rating'   => $r['rating'] !== null ? (float) $r['rating'] : null,
             ];

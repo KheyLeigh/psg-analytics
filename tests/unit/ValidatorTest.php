@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/ValidatorTest.php
+// Vérifie le bornage int et le rejet hors liste blanche.
 final class ValidatorTest extends TestCase
 {
     public function testIntBorne(): void

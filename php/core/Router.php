@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// php/core/Router.php
+// Résout une URL vers un couple contrôleur/action.
 // Exception levée quand aucune route ne correspond à la requête.
 final class RouteNotFound extends RuntimeException {}
 

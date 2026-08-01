@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// php/config/routes.php
+// Table de routage déclarative : méthode+chemin → contrôleur/action.
 return [
     'GET /' => ['HomeController', 'index'],
 ];

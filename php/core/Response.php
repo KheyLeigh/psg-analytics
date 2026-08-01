@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
-// php/core/Response.php
-// Fabrique les réponses HTTP (JSON ou HTML) et l'enveloppe standard de l'API.
+// Fabrique les réponses HTML et JSON, enveloppe API.
 final class Response
 {
     public static function json(array $data, int $status = 200): void

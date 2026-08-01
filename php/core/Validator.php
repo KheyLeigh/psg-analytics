@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
-// php/core/Validator.php
-// Nettoie les entrées utilisateur (query string, paramètres de route) par liste blanche.
+// Validation par liste blanche des entrées.
 final class Validator
 {
     public static function int(mixed $v, int $min, int $max, int $default): int

@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
-// php/core/Database.php
-// Connexion PDO portable (SQLite en local, MySQL en production) en singleton.
+// Connexion PDO unique, portable MySQL/SQLite en singleton.
 final class Database
 {
     private static ?PDO $pdo = null;

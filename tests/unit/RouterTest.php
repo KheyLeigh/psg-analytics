@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/RouterTest.php
+// Vérifie le matching de routes statiques, paramétrées et inconnues.
 final class RouterTest extends TestCase
 {
     private function router(): Router

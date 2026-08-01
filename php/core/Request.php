@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
-// php/core/Request.php
-// Représente la requête HTTP entrante et expose ses éléments utiles au routage.
+// Encapsule la requête HTTP entrante : méthode, chemin, query.
 final class Request
 {
     public function method(): string

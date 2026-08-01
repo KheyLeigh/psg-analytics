@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/DatabaseTest.php
+// Vérifie la connexion PDO SQLite et l'activation des clés étrangères.
 final class DatabaseTest extends TestCase
 {
     public function testConnexionSqliteRetournePdo(): void

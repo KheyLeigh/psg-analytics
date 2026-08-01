@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
-// php/core/View.php
-// Rend une page PHP dans un layout et échappe les valeurs affichées.
+// Rend une vue dans un layout, avec échappement HTML.
 final class View
 {
     public static function render(string $page, array $data = [], string $layout = 'main'): string

@@ -279,6 +279,17 @@ Approche mobile d'abord, points de rupture à 640, 1024 et 1280 pixels. Navigati
 
 ## 8. Qualité et vérification
 
+### Principes d'ingénierie
+
+Ces principes priment sur la simple satisfaction du besoin. Une solution qui répond à la demande mais compromet l'architecture est rejetée au profit d'une solution plus élégante.
+
+- **Responsabilité unique.** Chaque fichier, chaque classe, chaque fonction fait une seule chose et la fait bien. Un fichier qui grossit signale une responsabilité mal découpée et doit être scindé.
+- **Aucune duplication.** Toute logique répétée est extraite. La règle DRY s'applique au code comme au SQL comme au CSS.
+- **Lisibilité d'abord.** Le code se lit comme un texte. Nommage explicite, fonctions courtes, intention claire. Un lecteur comprend une unité sans lire ses entrailles.
+- **Maintenabilité et évolutivité.** Les couches communiquent par des interfaces stables. On peut changer l'intérieur d'une unité sans casser ses consommateurs.
+- **Simplicité.** À résultat égal, la solution la plus simple gagne. Pas d'abstraction spéculative, pas de sur-ingénierie. On ne construit pas pour un besoin qui n'existe pas.
+- **Performance mesurée.** L'optimisation sert un besoin réel et vérifiable, jamais un réflexe. Index là où le tri et la jointure l'exigent, pas ailleurs.
+
 ### Conventions
 
 PSR-12, typage strict activé, commentaires en français expliquant l'intention et non la syntaxe. Docblocks sur toutes les méthodes publiques. Fonctions courtes et à responsabilité unique.
@@ -294,6 +305,34 @@ Runner de tests maison en PHP, sans dépendance. Couverture ciblée sur ce qui p
 ### Vérification avant livraison
 
 Le projet est lancé via le serveur PHP intégré, chaque page est ouverte et inspectée dans le navigateur, les erreurs console et réseau sont contrôlées, le rendu est vérifié en clair, en sombre et en mobile. Des captures réelles sont produites pour le README. Aucune fonctionnalité n'est déclarée terminée sans avoir été observée en fonctionnement.
+
+### Interdictions
+
+Règles dures, vérifiables à la lecture ou mécaniquement. Aucune exception sans justification écrite.
+
+- Pas de framework CSS (ni Bootstrap, ni Tailwind). Découle du choix zéro dépendance.
+- Pas de CSS en ligne dans le HTML. Tout passe par les feuilles de style et les jetons.
+- Pas de code dupliqué.
+- Pas de variable ni d'import inutilisés.
+- Pas de `console.log` ni de `var_dump` oubliés en dépôt.
+- Pas de commentaire qui paraphrase le code. Un commentaire explique un pourquoi, jamais un comment.
+- Pas de `TODO` ni de `FIXME` non résolus dans le code livré.
+- Pas de secret, de clé ou de configuration locale versionnés.
+
+### Définition de terminé
+
+Le projet, ou une fonctionnalité, n'est déclaré terminé que lorsque ces critères mesurables sont satisfaits et vérifiés :
+
+- Score Lighthouse supérieur à 95 sur Performance, Accessibilité et Bonnes pratiques.
+- Zéro erreur et zéro avertissement dans la console du navigateur.
+- Zéro requête réseau en échec.
+- Responsive vérifié sur mobile, tablette et bureau.
+- Mode clair et mode sombre vérifiés sur chaque page.
+- Installation reproductible en moins de cinq minutes à partir du README, base comprise.
+- Suite de tests au vert.
+- Aucune interdiction de la liste ci-dessus enfreinte.
+- Historique Git propre : commits atomiques, messages clairs, aucun fichier parasite.
+- Architecture, API et modèle de données documentés.
 
 ---
 

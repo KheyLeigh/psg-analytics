@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 // Accès aux matches : derniers matches, pagination filtrée, lecture unitaire.
-final class MatchRepository extends Repository
+// Non final : les tests de services la sous-classent en doublure (idiome du plan Phase 5).
+class MatchRepository extends Repository
 {
     public function find(int $id): ?MatchGame
     {
@@ -29,6 +30,51 @@ final class MatchRepository extends Repository
             $params
         );
         return ['items' => array_map(MatchGame::fromRow(...), $rows), 'total' => $total];
+    }
+
+    // Bilan Ligue 1 de PSG en une requête portable : V/N/D, buts, clean sheets,
+    // possession moyenne (NULL si non renseignée dans les données sources).
+    public function seasonRecord(int $psgTeamId): array
+    {
+        $row = $this->fetchOne(
+            "SELECT
+                SUM(CASE
+                    WHEN (m.home_team_id = :psg1 AND m.home_goals > m.away_goals)
+                      OR (m.away_team_id = :psg2 AND m.away_goals > m.home_goals) THEN 1 ELSE 0
+                END) wins,
+                SUM(CASE WHEN m.home_goals = m.away_goals THEN 1 ELSE 0 END) draws,
+                SUM(CASE
+                    WHEN (m.home_team_id = :psg3 AND m.home_goals < m.away_goals)
+                      OR (m.away_team_id = :psg4 AND m.away_goals < m.home_goals) THEN 1 ELSE 0
+                END) losses,
+                SUM(CASE WHEN m.home_team_id = :psg5 THEN m.home_goals ELSE m.away_goals END) goals_for,
+                SUM(CASE WHEN m.home_team_id = :psg6 THEN m.away_goals ELSE m.home_goals END) goals_against,
+                SUM(CASE
+                    WHEN (m.home_team_id = :psg7 AND m.away_goals = 0)
+                      OR (m.away_team_id = :psg8 AND m.home_goals = 0) THEN 1 ELSE 0
+                END) clean_sheets,
+                COALESCE(AVG(m.psg_possession), 0) avg_possession,
+                COUNT(*) played
+             FROM matches m
+             JOIN competitions c ON c.id = m.competition_id
+             WHERE c.name = 'Ligue 1' AND (m.home_team_id = :psg9 OR m.away_team_id = :psg10)",
+            [
+                'psg1' => $psgTeamId, 'psg2' => $psgTeamId, 'psg3' => $psgTeamId, 'psg4' => $psgTeamId,
+                'psg5' => $psgTeamId, 'psg6' => $psgTeamId, 'psg7' => $psgTeamId, 'psg8' => $psgTeamId,
+                'psg9' => $psgTeamId, 'psg10' => $psgTeamId,
+            ]
+        ) ?? [];
+
+        return [
+            'wins'           => (int) ($row['wins'] ?? 0),
+            'draws'          => (int) ($row['draws'] ?? 0),
+            'losses'         => (int) ($row['losses'] ?? 0),
+            'goals_for'      => (int) ($row['goals_for'] ?? 0),
+            'goals_against'  => (int) ($row['goals_against'] ?? 0),
+            'clean_sheets'   => (int) ($row['clean_sheets'] ?? 0),
+            'avg_possession' => (float) ($row['avg_possession'] ?? 0),
+            'played'         => (int) ($row['played'] ?? 0),
+        ];
     }
 
     private function buildFilters(?int $competitionId, ?string $result, int $psgTeamId): array

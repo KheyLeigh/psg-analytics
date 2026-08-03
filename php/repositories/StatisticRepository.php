@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 // Agrégats et détails de performance des joueurs (player_match_stats).
-final class StatisticRepository extends Repository
+// Non final : les tests de services la sous-classent en doublure (idiome du plan Phase 5).
+class StatisticRepository extends Repository
 {
     public function topScorers(int $limit, ?int $competitionId): array
     {

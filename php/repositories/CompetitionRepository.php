@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 // Accès aux compétitions et au bilan (V/N/D, buts) de PSG par compétition.
-final class CompetitionRepository extends Repository
+// Non final : les tests de services la sous-classent en doublure (idiome du plan Phase 5).
+class CompetitionRepository extends Repository
 {
     public function all(): array
     {

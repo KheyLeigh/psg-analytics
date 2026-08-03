@@ -75,9 +75,32 @@ function migrator_seed_players(PDO $pdo, int $seasonId): array
     foreach (require __DIR__ . '/verified/players.php' as [$num, $first, $last, $pos, $detailed, $nat, $captain]) {
         $stmt->execute([$seasonId, $num, $first, $last, $pos, $detailed, $nat, (int) $captain]);
         $id = (int) $pdo->lastInsertId();
-        $players[] = ['id' => $id, 'key' => migrator_player_key($first, $last), 'position' => $pos];
+        $players[] = ['id' => $id, 'shirt' => $num, 'key' => migrator_player_key($first, $last), 'position' => $pos];
     }
     return $players;
+}
+
+// Insère le bilan de saison vérifié (toutes compétitions) des joueurs de champ.
+// Les joueurs absents du fichier (gardiens) n'ont pas de ligne : donnée non
+// disponible, jamais fabriquée.
+function migrator_seed_player_season(PDO $pdo, array $players, array $ref): void
+{
+    $idByShirt = [];
+    foreach ($players as $p) {
+        $idByShirt[$p['shirt']] = $p['id'];
+    }
+    $sourceId = $ref['source_ids']['squad_screenshots'];
+    $seasonId = $ref['season_id'];
+    $stmt = $pdo->prepare(
+        'INSERT INTO player_season_stats (player_id, season_id, appearances, starts, goals, assists, yellow_cards, red_cards, source_id)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    );
+    foreach (require __DIR__ . '/verified/player_season.php' as [$shirt, $apps, $starts, $goals, $assists, $yellow, $red]) {
+        if (!isset($idByShirt[$shirt])) {
+            throw new RuntimeException("bilan saison : joueur au numéro {$shirt} introuvable");
+        }
+        $stmt->execute([$idByShirt[$shirt], $seasonId, $apps, $starts, $goals, $assists, $yellow, $red, $sourceId]);
+    }
 }
 
 // Insère les 34 matchs de Ligue 1 réels (source verified) et renvoie,

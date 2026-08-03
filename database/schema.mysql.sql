@@ -117,10 +117,28 @@ CREATE TABLE events (
     FOREIGN KEY (related_player_id) REFERENCES players(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE player_season_stats (
+    id           INT AUTO_INCREMENT PRIMARY KEY,
+    player_id    INT NOT NULL,
+    season_id    INT NOT NULL,
+    appearances  INT NOT NULL DEFAULT 0,
+    starts       INT NOT NULL DEFAULT 0,
+    goals        INT NOT NULL DEFAULT 0,
+    assists      INT NOT NULL DEFAULT 0,
+    yellow_cards INT NOT NULL DEFAULT 0,
+    red_cards    INT NOT NULL DEFAULT 0,
+    source_id    INT NOT NULL,
+    UNIQUE (player_id, season_id),
+    FOREIGN KEY (player_id) REFERENCES players(id),
+    FOREIGN KEY (season_id) REFERENCES seasons(id),
+    FOREIGN KEY (source_id) REFERENCES data_sources(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE INDEX idx_players_season ON players(season_id);
 CREATE INDEX idx_matches_date ON matches(played_at);
 CREATE INDEX idx_matches_competition ON matches(competition_id);
 CREATE INDEX idx_pms_player ON player_match_stats(player_id);
 CREATE INDEX idx_pms_match ON player_match_stats(match_id);
 CREATE INDEX idx_pms_goals ON player_match_stats(goals);
+CREATE INDEX idx_pss_player ON player_season_stats(player_id);
 CREATE INDEX idx_events_match ON events(match_id);

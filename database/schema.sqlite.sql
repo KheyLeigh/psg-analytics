@@ -102,10 +102,25 @@ CREATE TABLE events (
     description    TEXT
 );
 
+CREATE TABLE player_season_stats (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id    INTEGER NOT NULL REFERENCES players(id),
+    season_id    INTEGER NOT NULL REFERENCES seasons(id),
+    appearances  INTEGER NOT NULL DEFAULT 0,
+    starts       INTEGER NOT NULL DEFAULT 0,
+    goals        INTEGER NOT NULL DEFAULT 0,
+    assists      INTEGER NOT NULL DEFAULT 0,
+    yellow_cards INTEGER NOT NULL DEFAULT 0,
+    red_cards    INTEGER NOT NULL DEFAULT 0,
+    source_id    INTEGER NOT NULL REFERENCES data_sources(id),
+    UNIQUE (player_id, season_id)
+);
+
 CREATE INDEX idx_players_season ON players(season_id);
 CREATE INDEX idx_matches_date ON matches(played_at);
 CREATE INDEX idx_matches_competition ON matches(competition_id);
 CREATE INDEX idx_pms_player ON player_match_stats(player_id);
 CREATE INDEX idx_pms_match ON player_match_stats(match_id);
 CREATE INDEX idx_pms_goals ON player_match_stats(goals);
+CREATE INDEX idx_pss_player ON player_season_stats(player_id);
 CREATE INDEX idx_events_match ON events(match_id);

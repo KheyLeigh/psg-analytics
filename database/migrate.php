@@ -17,6 +17,7 @@ function run_migration(PDO $pdo): array
     $players = migrator_seed_players($pdo, $ref['season_id']);
     $matches = migrator_seed_matches($pdo, $ref);
     migrator_generate_player_stats($pdo, $matches, $players, $ref);
+    migrator_seed_player_season($pdo, $players, $ref);
 
     $report = migrator_compute_report($pdo, $ref);
     migrator_verify_identities($report);
@@ -24,7 +25,7 @@ function run_migration(PDO $pdo): array
 }
 
 // Mode CLI : recrée database/psg.sqlite depuis zéro et affiche le rapport.
-if (PHP_SAPI === 'cli' && realpath($argv[0]) === __FILE__) {
+if (PHP_SAPI === 'cli' && realpath($_SERVER['argv'][0] ?? '') === __FILE__) {
     $dbPath = __DIR__ . '/psg.sqlite';
     if (is_file($dbPath)) {
         unlink($dbPath);

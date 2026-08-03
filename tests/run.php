@@ -6,7 +6,7 @@ require __DIR__ . '/TestCase.php';
 require dirname(__DIR__) . '/php/config/config.php';
 require dirname(__DIR__) . '/php/config/database.php';
 spl_autoload_register(function (string $class): void {
-    foreach (['core', 'models', 'repositories', 'services'] as $dir) {
+    foreach (['core', 'models', 'repositories', 'services', 'controllers', 'controllers/Api'] as $dir) {
         $path = BASE_PATH . "/php/{$dir}/{$class}.php";
         if (is_file($path)) { require $path; return; }
     }

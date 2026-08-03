@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/SeedIntegrityTest.php
+// Contrôle d'intégrité des seeds : identités vérifiées après migration réelle.
 require_once dirname(__DIR__, 1) . '/../database/migrate.php'; // expose run_migration()
 
 final class SeedIntegrityTest extends TestCase
@@ -42,5 +42,39 @@ final class SeedIntegrityTest extends TestCase
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
         $indiv = (int) $pdo->query("SELECT SUM(goals) FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp}")->fetchColumn();
         $this->assertSame(74, $indiv, 'somme buts individuels L1 = 74');
+    }
+
+    /** Buts L1 par joueur, indexés par nom de famille (ou prénom si mononyme). */
+    private function goalsByPlayer(PDO $pdo): array
+    {
+        $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
+        $rows = $pdo->query("SELECT p.last_name ln, p.first_name fn, SUM(s.goals) g
+            FROM player_match_stats s
+            JOIN players p ON p.id = s.player_id
+            JOIN matches m ON m.id = s.match_id
+            WHERE m.competition_id = {$comp}
+            GROUP BY p.id")->fetchAll();
+        $goals = [];
+        foreach ($rows as $r) {
+            $key = $r['ln'] !== '' ? $r['ln'] : $r['fn'];
+            $goals[$key] = (int) $r['g'];
+        }
+        return $goals;
+    }
+
+    public function testTotauxButeursVerifiesExacts(): void
+    {
+        $goals = $this->goalsByPlayer($this->migratedPdo());
+        $this->assertSame(11, $goals['Barcola'] ?? 0, 'Barcola exactement 11 buts L1');
+        $this->assertSame(10, $goals['Dembélé'] ?? 0, 'Dembélé exactement 10');
+        $this->assertSame(8, $goals['Kvaratskhelia'] ?? 0, 'Kvaratskhelia exactement 8');
+        $this->assertSame(7, $goals['Doué'] ?? 0, 'Doué exactement 7');
+        $this->assertSame(6, $goals['Ramos'] ?? 0, 'Ramos exactement 6');
+    }
+
+    public function testAucunButeurNeDepasseBarcola(): void
+    {
+        $goals = $this->goalsByPlayer($this->migratedPdo());
+        $this->assertTrue(max($goals) <= 11, 'aucun buteur au-dessus de 11 (Barcola en tête)');
     }
 }

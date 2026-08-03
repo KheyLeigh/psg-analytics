@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// database/seeds/StatGenerator.php
+// Générateur de statistiques déterministe : à graine fixe, sortie reproductible.
 final class StatGenerator
 {
     public function __construct(int $seed = 2026)

@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 // Génération des statistiques individuelles estimées (source estimated) :
-// répartition des 74 buts L1 via StatGenerator, cartons vérifiés respectés
-// à l'unité près, puis calcul et vérification du bilan final.
+// buts L1 (ancrages vérifiés EXACTS + prior toutes comps pour le reste),
+// cartons vérifiés respectés à l'unité, cumul par (joueur, match) pour éviter
+// toute collision, puis calcul et vérification du bilan final.
 
-// Mélange déterministe (Fisher-Yates) reposant sur le flux mt_rand déjà
-// initialisé par StatGenerator, pour rester reproductible à graine fixe.
+// Mélange déterministe (Fisher-Yates) sur le flux mt_rand déjà initialisé par
+// StatGenerator, pour rester reproductible à graine fixe.
 function migrator_shuffle_tokens(array $items): array
 {
     for ($i = count($items) - 1; $i > 0; $i--) {
@@ -15,26 +16,83 @@ function migrator_shuffle_tokens(array $items): array
     return $items;
 }
 
-// Répartit les buts L1 sur les buteurs ancrés (spec) et affecte chaque
-// but à un match précis, en respectant le total marqué de ce match.
-function migrator_assign_goals(PDOStatement $stmt, StatGenerator $gen, array $matches, array $players, int $sourceId): void
+// Buts toutes compétitions des marqueurs hors ancrés (relevé app, point de vue
+// PSG). Sert de prior pour estimer leur part des buts L1 non vérifiés nominativement.
+function migrator_scorer_priors(): array
 {
-    $anchors = ['Barcola' => 11, 'Dembélé' => 10, 'Kvaratskhelia' => 8, 'Doué' => 7, 'Ramos' => 6];
-    $weights = [];
-    foreach ($players as $p) {
-        if (isset($anchors[$p['key']])) {
-            $weights[$p['id']] = $anchors[$p['key']];
+    return [
+        'Neves' => 7, 'Vitinha' => 7, 'Mayulu' => 6, 'Mendes' => 6, 'Lee' => 4,
+        'Zaïre-Emery' => 3, 'Hakimi' => 3, 'Mbaye' => 3, 'Pacho' => 2,
+        'Marquinhos' => 2, 'Beraldo' => 2, 'Ruiz' => 2, 'Zabarnyi' => 1,
+        'Ndjantou' => 1, 'Fernández' => 1,
+    ];
+}
+
+// Tire $count buts au prorata de $weights (échantillonnage pondéré déterministe,
+// sans plancher) : la somme rendue vaut exactement $count.
+function migrator_weighted_counts(int $count, array $weights): array
+{
+    $result = array_fill_keys(array_keys($weights), 0);
+    $ids = array_keys($weights);
+    $sum = array_sum($weights);
+    for ($i = 0; $i < $count; $i++) {
+        $pick = mt_rand(1, $sum);
+        $cursor = 0;
+        foreach ($ids as $id) {
+            $cursor += $weights[$id];
+            if ($pick <= $cursor) {
+                $result[$id]++;
+                break;
+            }
         }
     }
-    if (count($weights) !== count($anchors)) {
-        throw new RuntimeException('buteurs ancrés introuvables dans l\'effectif');
+    return $result;
+}
+
+// Totaux de buts L1 par joueur : ancrés à leur total vérifié EXACT (spec), buts
+// restants répartis sur les autres marqueurs au prorata de leurs buts toutes comps.
+function migrator_goal_totals(array $players, int $totalGoals): array
+{
+    $anchors = ['Barcola' => 11, 'Dembélé' => 10, 'Kvaratskhelia' => 8, 'Doué' => 7, 'Ramos' => 6];
+    $idByKey = [];
+    foreach ($players as $p) {
+        $idByKey[$p['key']] = $p['id'];
     }
 
-    $totalGoals = array_sum(array_column($matches, 'psg_goals'));
-    $distribution = $gen->distributeGoals($totalGoals, $weights);
+    $totals = [];
+    foreach ($anchors as $key => $goals) {
+        if (!isset($idByKey[$key])) {
+            throw new RuntimeException("buteur ancré introuvable : {$key}");
+        }
+        $totals[$idByKey[$key]] = $goals;
+    }
 
+    $remaining = $totalGoals - array_sum($anchors);
+    if ($remaining < 0) {
+        throw new RuntimeException('total buts L1 inférieur aux ancrages vérifiés');
+    }
+
+    $weights = [];
+    foreach (migrator_scorer_priors() as $key => $w) {
+        if (!isset($idByKey[$key])) {
+            throw new RuntimeException("marqueur pondéré introuvable : {$key}");
+        }
+        $weights[$idByKey[$key]] = $w;
+    }
+    foreach (migrator_weighted_counts($remaining, $weights) as $playerId => $count) {
+        if ($count > 0) {
+            $totals[$playerId] = ($totals[$playerId] ?? 0) + $count;
+        }
+    }
+    return $totals;
+}
+
+// Affecte les buts de chaque joueur à des matchs précis, en respectant le total
+// marqué par PSG dans chaque match. Alimente le cumul $agg par référence.
+function migrator_spread_goals(array &$agg, array $matches, array $goalTotals): void
+{
     $tokens = [];
-    foreach ($distribution as $playerId => $count) {
+    foreach ($goalTotals as $playerId => $count) {
         for ($i = 0; $i < $count; $i++) {
             $tokens[] = $playerId;
         }
@@ -47,16 +105,14 @@ function migrator_assign_goals(PDOStatement $stmt, StatGenerator $gen, array $ma
         $slice = array_slice($tokens, $cursor, $need);
         $cursor += $need;
         foreach (array_count_values($slice) as $playerId => $goals) {
-            $minutes = mt_rand(60, 90);
-            $rating = $gen->rating($goals, 0, $minutes);
-            $stmt->execute([(int) $playerId, $match['id'], $minutes, $goals, 0, 0, $rating, $sourceId]);
+            $agg[$playerId][$match['id']]['goals'] = ($agg[$playerId][$match['id']]['goals'] ?? 0) + $goals;
         }
     }
 }
 
-// Affecte à chaque joueur discipliné exactement ses cartons vérifiés,
-// répartis sur des matchs distincts choisis de façon déterministe.
-function migrator_assign_cards(PDOStatement $stmt, StatGenerator $gen, array $matches, array $players, int $sourceId): void
+// Affecte à chaque joueur discipliné ses cartons vérifiés, sur des matchs
+// distincts choisis de façon déterministe. Alimente le cumul $agg par référence.
+function migrator_spread_cards(array &$agg, array $matches, array $players): void
 {
     $discipline = require __DIR__ . '/verified/discipline_l1.php';
     $matchIds = array_column($matches, 'id');
@@ -73,15 +129,31 @@ function migrator_assign_cards(PDOStatement $stmt, StatGenerator $gen, array $ma
         }
         $chosen = array_slice(migrator_shuffle_tokens($matchIds), 0, $needed);
         foreach ($chosen as $i => $matchId) {
-            $isRed = $i >= $yellow;
-            $minutes = $isRed ? mt_rand(20, 75) : mt_rand(60, 90);
-            $rating = $gen->rating(0, 0, $minutes);
-            $stmt->execute([$p['id'], $matchId, $minutes, 0, $isRed ? 0 : 1, $isRed ? 1 : 0, $rating, $sourceId]);
+            $field = $i < $yellow ? 'yellow' : 'red';
+            $agg[$p['id']][$matchId][$field] = ($agg[$p['id']][$matchId][$field] ?? 0) + 1;
         }
     }
 }
 
-// Orchestre la génération des player_match_stats (buts puis cartons).
+// Insère une ligne player_match_stats par (joueur, match) à partir du cumul,
+// avec minutes (via StatGenerator) et note calculées. Un joueur qui marque ou
+// prend un carton est considéré titulaire.
+function migrator_insert_stats(PDOStatement $stmt, StatGenerator $gen, array $agg, int $sourceId): void
+{
+    foreach ($agg as $playerId => $byMatch) {
+        foreach ($byMatch as $matchId => $line) {
+            $goals = $line['goals'] ?? 0;
+            $yellow = $line['yellow'] ?? 0;
+            $red = $line['red'] ?? 0;
+            $minutes = $gen->minutesForMatch([$playerId => true])[$playerId];
+            $rating = $gen->rating($goals, 0, $minutes);
+            $stmt->execute([(int) $playerId, (int) $matchId, $minutes, $goals, $yellow, $red, $rating, $sourceId]);
+        }
+    }
+}
+
+// Orchestre la génération des player_match_stats : totaux de buts, affectation
+// aux matchs, cartons, puis insertion d'une ligne par (joueur, match).
 function migrator_generate_player_stats(PDO $pdo, array $matches, array $players, array $ref): void
 {
     $gen = new StatGenerator(2026);
@@ -90,8 +162,14 @@ function migrator_generate_player_stats(PDO $pdo, array $matches, array $players
         'INSERT INTO player_match_stats (player_id, match_id, is_starter, minutes, goals, yellow_cards, red_card, rating, source_id)
          VALUES (?, ?, 1, ?, ?, ?, ?, ?, ?)'
     );
-    migrator_assign_goals($stmt, $gen, $matches, $players, $sourceId);
-    migrator_assign_cards($stmt, $gen, $matches, $players, $sourceId);
+
+    $totalGoals = array_sum(array_column($matches, 'psg_goals'));
+    $goalTotals = migrator_goal_totals($players, $totalGoals);
+
+    $agg = [];
+    migrator_spread_goals($agg, $matches, $goalTotals);
+    migrator_spread_cards($agg, $matches, $players);
+    migrator_insert_stats($stmt, $gen, $agg, $sourceId);
 }
 
 // Calcule le bilan Ligue 1 (V/N/D, buts) et le recoupe avec les buts

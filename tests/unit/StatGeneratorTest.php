@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/StatGeneratorTest.php
+// Vérifie la conservation du total, le déterminisme et le respect des ancrages.
 final class StatGeneratorTest extends TestCase
 {
     public function testDistributionConserveLeTotal(): void

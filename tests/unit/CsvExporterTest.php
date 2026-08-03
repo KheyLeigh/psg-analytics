@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/CsvExporterTest.php
+// Vérifie la génération de l'en-tête, des lignes et l'échappement des guillemets.
 final class CsvExporterTest extends TestCase
 {
     public function testGenereEnTeteEtLignes(): void

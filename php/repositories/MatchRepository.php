@@ -32,9 +32,9 @@ class MatchRepository extends Repository
         return ['items' => array_map(MatchGame::fromRow(...), $rows), 'total' => $total];
     }
 
-    // Bilan Ligue 1 de PSG en une requête portable : V/N/D, buts, clean sheets,
-    // possession moyenne (NULL si non renseignée dans les données sources).
-    public function seasonRecord(int $psgTeamId): array
+    // Bilan de PSG pour une compétition donnée en une requête portable : V/N/D, buts,
+    // clean sheets, possession moyenne (NULL si non renseignée dans les données sources).
+    public function seasonRecord(int $psgTeamId, int $competitionId): array
     {
         $row = $this->fetchOne(
             "SELECT
@@ -56,12 +56,11 @@ class MatchRepository extends Repository
                 COALESCE(AVG(m.psg_possession), 0) avg_possession,
                 COUNT(*) played
              FROM matches m
-             JOIN competitions c ON c.id = m.competition_id
-             WHERE c.name = 'Ligue 1' AND (m.home_team_id = :psg9 OR m.away_team_id = :psg10)",
+             WHERE m.competition_id = :comp AND (m.home_team_id = :psg9 OR m.away_team_id = :psg10)",
             [
                 'psg1' => $psgTeamId, 'psg2' => $psgTeamId, 'psg3' => $psgTeamId, 'psg4' => $psgTeamId,
                 'psg5' => $psgTeamId, 'psg6' => $psgTeamId, 'psg7' => $psgTeamId, 'psg8' => $psgTeamId,
-                'psg9' => $psgTeamId, 'psg10' => $psgTeamId,
+                'psg9' => $psgTeamId, 'psg10' => $psgTeamId, 'comp' => $competitionId,
             ]
         ) ?? [];
 

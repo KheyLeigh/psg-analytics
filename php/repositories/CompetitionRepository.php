@@ -12,6 +12,13 @@ class CompetitionRepository extends Repository
         );
     }
 
+    // Identifiant de l'unique compétition de type "league" (Ligue 1), ou null si absente.
+    public function leagueId(): ?int
+    {
+        $row = $this->fetchOne("SELECT id FROM competitions WHERE type = 'league'");
+        return $row !== null ? (int) $row['id'] : null;
+    }
+
     public function standings(int $psgTeamId): array
     {
         $rows = $this->fetchAll(

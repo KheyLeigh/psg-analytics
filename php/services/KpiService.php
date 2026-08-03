@@ -13,7 +13,8 @@ final class KpiService
     public function dashboard(): array
     {
         $scorers = $this->stats->topScorers(1, null);
-        $record = $this->matches->seasonRecord($this->psgTeamId);
+        $leagueId = $this->comps->leagueId() ?? 0;
+        $record = $this->matches->seasonRecord($this->psgTeamId, $leagueId);
         $played = max(1, (int) $record['played']);
         $topScorer = $scorers[0] ?? null;
 

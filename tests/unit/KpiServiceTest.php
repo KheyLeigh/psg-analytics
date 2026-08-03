@@ -11,9 +11,11 @@ final class KpiServiceTest extends TestCase
             }
         };
         $matches = new class(new PDO('sqlite::memory:')) extends MatchRepository {
-            public function seasonRecord(int $psgTeamId): array { return ['wins'=>24,'draws'=>4,'losses'=>6,'goals_for'=>74,'goals_against'=>29,'clean_sheets'=>15,'avg_possession'=>63.2,'played'=>34]; }
+            public function seasonRecord(int $psgTeamId, int $competitionId): array { return ['wins'=>24,'draws'=>4,'losses'=>6,'goals_for'=>74,'goals_against'=>29,'clean_sheets'=>15,'avg_possession'=>63.2,'played'=>34]; }
         };
-        $comps = new class(new PDO('sqlite::memory:')) extends CompetitionRepository {};
+        $comps = new class(new PDO('sqlite::memory:')) extends CompetitionRepository {
+            public function leagueId(): ?int { return 1; }
+        };
         $kpi = new KpiService($stats, $matches, $comps, 1);
         $d = $kpi->dashboard();
         $this->assertSame('Bradley Barcola', $d['top_scorer']['name']);

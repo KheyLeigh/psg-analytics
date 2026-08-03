@@ -30,7 +30,7 @@ final class MatchRepositoryTest extends TestCase
     public function testSeasonRecordCalculeLeBilanLigue1(): void
     {
         $repo = new MatchRepository($this->pdo());
-        $record = $repo->seasonRecord(1);
+        $record = $repo->seasonRecord(1, 1);
 
         $this->assertSame(6, $record['played'], 'seule Ligue 1 est comptée');
         $this->assertSame(2, $record['wins']);
@@ -47,7 +47,7 @@ final class MatchRepositoryTest extends TestCase
         $pdo = $this->pdo();
         $pdo->exec('UPDATE matches SET psg_possession = NULL');
         $repo = new MatchRepository($pdo);
-        $record = $repo->seasonRecord(1);
+        $record = $repo->seasonRecord(1, 1);
 
         $this->assertSame(0.0, $record['avg_possession'], 'COALESCE ramène à 0 quand tout est NULL');
     }

@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// php/services/CsvExporter.php
+// Génère un export CSV (BOM UTF-8, séparateur point-virgule) depuis en-têtes et lignes.
 final class CsvExporter
 {
     public static function fromRows(array $headers, array $rows): string

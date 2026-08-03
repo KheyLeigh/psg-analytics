@@ -84,6 +84,27 @@ class StatisticRepository extends Repository
         }, $rows);
     }
 
+    // Buts marqués par joueur et par mois ; regroupement portable via SUBSTR
+    // (les 7 premiers caractères de played_at, format AAAA-MM-JJ, donnent le mois).
+    public function goalsByPlayerAndMonth(): array
+    {
+        $rows = $this->fetchAll(
+            "SELECT s.player_id, SUBSTR(m.played_at, 1, 7) month, SUM(s.goals) goals
+             FROM player_match_stats s
+             JOIN matches m ON m.id = s.match_id
+             GROUP BY s.player_id, SUBSTR(m.played_at, 1, 7)
+             HAVING SUM(s.goals) > 0
+             ORDER BY month, s.player_id"
+        );
+        return array_map(static function (array $r): array {
+            return [
+                'playerId' => (int) $r['player_id'],
+                'month'    => (string) $r['month'],
+                'goals'    => (int) $r['goals'],
+            ];
+        }, $rows);
+    }
+
     public function byMatch(int $matchId): array
     {
         $stats = $this->fetchAll('SELECT * FROM player_match_stats WHERE match_id = ? ORDER BY minutes DESC', [$matchId]);

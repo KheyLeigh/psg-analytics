@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 // Accès aux joueurs : lecture unitaire, liste complète, pagination filtrée.
-final class PlayerRepository extends Repository
+// Non final : les tests de services la sous-classent en doublure (idiome du plan Phase 5).
+class PlayerRepository extends Repository
 {
     private const SORTABLE = ['last_name', 'shirt_number', 'position', 'nationality'];
 

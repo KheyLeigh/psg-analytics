@@ -12,4 +12,12 @@ return [
     'GET /api/kpis' => ['StatsApiController', 'kpis'],
     'GET /api/distribution' => ['StatsApiController', 'distribution'],
     'GET /api/heatmap' => ['StatsApiController', 'heatmap'],
+
+    'GET /api/matches' => ['MatchApiController', 'index'],
+    'GET /api/matches/{id}' => ['MatchApiController', 'show'],
+
+    'GET /api/competitions' => ['CompetitionApiController', 'index'],
+
+    'GET /api/export/players.csv' => ['ExportApiController', 'playersCsv'],
+    'GET /api/export/report.pdf' => ['ExportApiController', 'reportPdf'],
 ];

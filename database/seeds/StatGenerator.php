@@ -9,24 +9,23 @@ final class StatGenerator
     }
 
     /**
-     * Répartit $total buts entiers sur des joueurs selon des poids,
-     * en garantissant que la somme finale égale exactement $total
-     * et que chaque poids fourni est un plancher (ancrage des buteurs connus).
-     * @param array<int,int> $weights player_id => poids/plancher
-     * @return array<int,int> player_id => buts
+     * Tire $count unités entières au prorata de $weights (échantillonnage
+     * pondéré déterministe, sans plancher ni plafond) : la somme rendue vaut
+     * exactement $count. Implémentation unique utilisée à la fois par la
+     * migration (répartition des buts non ancrés) et par les tests.
+     * Note : un éventuel plafond par joueur (ex. « aucun buteur ne dépasse
+     * 11 ») n'est pas imposé ici, c'est une invariance souple vérifiée en
+     * aval par les tests d'intégrité (SeedIntegrityTest).
+     * @param array<int,int> $weights player_id => poids
+     * @return array<int,int> player_id => quantité tirée
      */
-    public function distributeGoals(int $total, array $weights): array
+    public function distributeByWeight(int $count, array $weights): array
     {
-        $result = $weights;                 // les planchers vérifiés
-        $assigned = array_sum($weights);
-        $remaining = $total - $assigned;
-        if ($remaining <= 0) {
-            return $result;                 // déjà au total, rien à ajouter
-        }
+        $result = array_fill_keys(array_keys($weights), 0);
         $ids = array_keys($weights);
-        $sumWeights = array_sum($weights);
-        for ($i = 0; $i < $remaining; $i++) {
-            $pick = mt_rand(1, $sumWeights);
+        $sum = array_sum($weights);
+        for ($i = 0; $i < $count; $i++) {
+            $pick = mt_rand(1, $sum);
             $cursor = 0;
             foreach ($ids as $id) {
                 $cursor += $weights[$id];

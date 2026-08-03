@@ -16,70 +16,55 @@ function migrator_shuffle_tokens(array $items): array
     return $items;
 }
 
-// Buts toutes compétitions des marqueurs hors ancrés (relevé app, point de vue
-// PSG). Sert de prior pour estimer leur part des buts L1 non vérifiés nominativement.
-function migrator_scorer_priors(): array
+// Totaux de buts L1 par joueur : ancrés à leur total vérifié EXACT (source
+// unique scorers_l1.php), buts restants répartis sur les autres marqueurs au
+// prorata de leurs buts toutes comps (source unique player_season.php,
+// colonne goals). Aucune donnée vérifiée n'est dupliquée en dur ici.
+// Invariance souple : le tirage pondéré ne plafonne pas explicitement un
+// joueur (« aucun buteur ne dépasse 11 » est vérifié par SeedIntegrityTest,
+// pas imposé par l'algorithme).
+function migrator_goal_totals(array $players, int $totalGoals, StatGenerator $gen): array
 {
-    return [
-        'Neves' => 7, 'Vitinha' => 7, 'Mayulu' => 6, 'Mendes' => 6, 'Lee' => 4,
-        'Zaïre-Emery' => 3, 'Hakimi' => 3, 'Mbaye' => 3, 'Pacho' => 2,
-        'Marquinhos' => 2, 'Beraldo' => 2, 'Ruiz' => 2, 'Zabarnyi' => 1,
-        'Ndjantou' => 1, 'Fernández' => 1,
-    ];
-}
-
-// Tire $count buts au prorata de $weights (échantillonnage pondéré déterministe,
-// sans plancher) : la somme rendue vaut exactement $count.
-function migrator_weighted_counts(int $count, array $weights): array
-{
-    $result = array_fill_keys(array_keys($weights), 0);
-    $ids = array_keys($weights);
-    $sum = array_sum($weights);
-    for ($i = 0; $i < $count; $i++) {
-        $pick = mt_rand(1, $sum);
-        $cursor = 0;
-        foreach ($ids as $id) {
-            $cursor += $weights[$id];
-            if ($pick <= $cursor) {
-                $result[$id]++;
-                break;
-            }
-        }
-    }
-    return $result;
-}
-
-// Totaux de buts L1 par joueur : ancrés à leur total vérifié EXACT (spec), buts
-// restants répartis sur les autres marqueurs au prorata de leurs buts toutes comps.
-function migrator_goal_totals(array $players, int $totalGoals): array
-{
-    $anchors = ['Barcola' => 11, 'Dembélé' => 10, 'Kvaratskhelia' => 8, 'Doué' => 7, 'Ramos' => 6];
     $idByKey = [];
+    $idByShirt = [];
     foreach ($players as $p) {
         $idByKey[$p['key']] = $p['id'];
+        $idByShirt[$p['shirt']] = $p['id'];
     }
 
+    $anchors = (require __DIR__ . '/verified/scorers_l1.php')['goals'];
     $totals = [];
-    foreach ($anchors as $key => $goals) {
+    $anchorIds = [];
+    foreach ($anchors as $key => $data) {
         if (!isset($idByKey[$key])) {
             throw new RuntimeException("buteur ancré introuvable : {$key}");
         }
-        $totals[$idByKey[$key]] = $goals;
+        $id = $idByKey[$key];
+        $totals[$id] = $data['goals'];
+        $anchorIds[$id] = true;
     }
 
-    $remaining = $totalGoals - array_sum($anchors);
+    $remaining = $totalGoals - array_sum($totals);
     if ($remaining < 0) {
         throw new RuntimeException('total buts L1 inférieur aux ancrages vérifiés');
     }
 
+    // Poids des non-ancrés = buts toutes comps (player_season.php), seule
+    // source de vérité pour cette estimation ; les ancrés sont exclus car ils
+    // ont déjà leur total exact.
     $weights = [];
-    foreach (migrator_scorer_priors() as $key => $w) {
-        if (!isset($idByKey[$key])) {
-            throw new RuntimeException("marqueur pondéré introuvable : {$key}");
+    foreach (require __DIR__ . '/verified/player_season.php' as [$shirt, , , $goals]) {
+        if ($goals <= 0 || !isset($idByShirt[$shirt])) {
+            continue;
         }
-        $weights[$idByKey[$key]] = $w;
+        $id = $idByShirt[$shirt];
+        if (isset($anchorIds[$id])) {
+            continue;
+        }
+        $weights[$id] = $goals;
     }
-    foreach (migrator_weighted_counts($remaining, $weights) as $playerId => $count) {
+
+    foreach ($gen->distributeByWeight($remaining, $weights) as $playerId => $count) {
         if ($count > 0) {
             $totals[$playerId] = ($totals[$playerId] ?? 0) + $count;
         }
@@ -137,7 +122,9 @@ function migrator_spread_cards(array &$agg, array $matches, array $players): voi
 
 // Insère une ligne player_match_stats par (joueur, match) à partir du cumul,
 // avec minutes (via StatGenerator) et note calculées. Un joueur qui marque ou
-// prend un carton est considéré titulaire.
+// prend un carton est considéré titulaire, sauf s'il n'a qu'un rouge sans but :
+// dans ce cas il s'agit vraisemblablement d'une expulsion précoce, on lui
+// donne des minutes plus courtes plutôt que des minutes de titulaire complet.
 function migrator_insert_stats(PDOStatement $stmt, StatGenerator $gen, array $agg, int $sourceId): void
 {
     foreach ($agg as $playerId => $byMatch) {
@@ -145,7 +132,9 @@ function migrator_insert_stats(PDOStatement $stmt, StatGenerator $gen, array $ag
             $goals = $line['goals'] ?? 0;
             $yellow = $line['yellow'] ?? 0;
             $red = $line['red'] ?? 0;
-            $minutes = $gen->minutesForMatch([$playerId => true])[$playerId];
+            $minutes = ($red > 0 && $goals === 0)
+                ? mt_rand(20, 75)
+                : $gen->minutesForMatch([$playerId => true])[$playerId];
             $rating = $gen->rating($goals, 0, $minutes);
             $stmt->execute([(int) $playerId, (int) $matchId, $minutes, $goals, $yellow, $red, $rating, $sourceId]);
         }
@@ -164,7 +153,7 @@ function migrator_generate_player_stats(PDO $pdo, array $matches, array $players
     );
 
     $totalGoals = array_sum(array_column($matches, 'psg_goals'));
-    $goalTotals = migrator_goal_totals($players, $totalGoals);
+    $goalTotals = migrator_goal_totals($players, $totalGoals, $gen);
 
     $agg = [];
     migrator_spread_goals($agg, $matches, $goalTotals);

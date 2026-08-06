@@ -6,29 +6,37 @@ final class StatsApiController extends Controller
     public function __construct(
         private ?KpiService $kpi = null,
         private ?HeatmapService $heatmap = null,
+        private ?TeamRepository $teams = null,
     ) {
-        $this->kpi ??= new KpiService(
-            new StatisticRepository(),
-            new MatchRepository(),
-            new CompetitionRepository(),
-            PsgTeamResolver::id(),
-        );
         $this->heatmap ??= new HeatmapService(new StatisticRepository(), new PlayerRepository());
     }
 
     public function kpis(Request $r, array $params): void
     {
-        Response::json($this->buildKpis());
+        $this->json($this->buildKpis());
     }
 
     public function buildKpis(): array
     {
+        $this->kpi ??= $this->buildKpiService();
         return Response::apiEnvelope($this->kpi->dashboard());
+    }
+
+    // Construction paresseuse : ne résout l'identifiant PSG que si aucune KpiService n'est injectée.
+    private function buildKpiService(): KpiService
+    {
+        $this->teams ??= new TeamRepository();
+        return new KpiService(
+            new StatisticRepository(),
+            new MatchRepository(),
+            new CompetitionRepository(),
+            $this->teams->psgId(),
+        );
     }
 
     public function distribution(Request $r, array $params): void
     {
-        Response::json($this->buildDistribution());
+        $this->json($this->buildDistribution());
     }
 
     // Répartition des buts par période (mois) : agrégat de la matrice joueur x mois.
@@ -46,7 +54,7 @@ final class StatsApiController extends Controller
 
     public function heatmap(Request $r, array $params): void
     {
-        Response::json($this->buildHeatmap());
+        $this->json($this->buildHeatmap());
     }
 
     public function buildHeatmap(): array

@@ -5,15 +5,19 @@ final class MatchApiController extends Controller
 {
     private int $psgTeamId;
 
-    public function __construct(private ?MatchRepository $matches = null, ?int $psgTeamId = null)
-    {
+    public function __construct(
+        private ?MatchRepository $matches = null,
+        ?int $psgTeamId = null,
+        ?TeamRepository $teams = null,
+    ) {
         $this->matches ??= new MatchRepository();
-        $this->psgTeamId = $psgTeamId ?? PsgTeamResolver::id();
+        $teams ??= new TeamRepository();
+        $this->psgTeamId = $psgTeamId ?? $teams->psgId();
     }
 
     public function index(Request $r, array $params): void
     {
-        Response::json($this->buildIndex($_GET));
+        $this->json($this->buildIndex($_GET));
     }
 
     public function buildIndex(array $query): array
@@ -41,10 +45,10 @@ final class MatchApiController extends Controller
         $id = Validator::int($params['id'] ?? 0, 1, PHP_INT_MAX, 0);
         $env = $this->buildShow($id);
         if ($env === null) {
-            Response::json(['error' => 'match introuvable'], 404);
+            $this->json(['error' => 'match introuvable'], 404);
             return;
         }
-        Response::json($env);
+        $this->json($env);
     }
 
     public function buildShow(int $id): ?array

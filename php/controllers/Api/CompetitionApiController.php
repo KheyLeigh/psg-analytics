@@ -5,15 +5,19 @@ final class CompetitionApiController extends Controller
 {
     private int $psgTeamId;
 
-    public function __construct(private ?CompetitionRepository $competitions = null, ?int $psgTeamId = null)
-    {
+    public function __construct(
+        private ?CompetitionRepository $competitions = null,
+        ?int $psgTeamId = null,
+        ?TeamRepository $teams = null,
+    ) {
         $this->competitions ??= new CompetitionRepository();
-        $this->psgTeamId = $psgTeamId ?? PsgTeamResolver::id();
+        $teams ??= new TeamRepository();
+        $this->psgTeamId = $psgTeamId ?? $teams->psgId();
     }
 
     public function index(Request $r, array $params): void
     {
-        Response::json($this->buildIndex());
+        $this->json($this->buildIndex());
     }
 
     public function buildIndex(): array

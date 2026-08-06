@@ -45,10 +45,10 @@ final class PlayerApiController extends Controller
         $id = Validator::int($params['id'] ?? 0, 1, PHP_INT_MAX, 0);
         $env = $this->buildShow($id);
         if ($env === null) {
-            Response::json(['error' => 'joueur introuvable'], 404);
+            $this->json(['error' => 'joueur introuvable'], 404);
             return;
         }
-        Response::json($env);
+        $this->json($env);
     }
 
     public function buildShow(int $id): ?array
@@ -77,10 +77,10 @@ final class PlayerApiController extends Controller
         $id = Validator::int($params['id'] ?? 0, 1, PHP_INT_MAX, 0);
         $env = $this->buildTimeline($id);
         if ($env === null) {
-            Response::json(['error' => 'joueur introuvable'], 404);
+            $this->json(['error' => 'joueur introuvable'], 404);
             return;
         }
-        Response::json($env);
+        $this->json($env);
     }
 
     public function buildTimeline(int $id): ?array

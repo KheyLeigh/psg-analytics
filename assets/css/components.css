@@ -1,0 +1,286 @@
+/* assets/css/components.css */
+/* Composants réutilisables : cartes, KPI, badges de source, boutons, tableaux, tags de poste. */
+
+/* Surface commune : carte, KPI, fiche joueur partagent la même base visuelle. */
+.card, .kpi, .player-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.card {
+  padding: var(--space-6);
+}
+
+.card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.card__title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+/* Carte KPI : chiffre clé, libellé, badge de source optionnel. */
+.kpi {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.kpi__label {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.kpi__value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.kpi__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-1);
+}
+
+/* Badge de source : point + libellé, sobre, jamais criard. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.badge__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+}
+
+.badge--estimated .badge__dot {
+  background: var(--muted);
+}
+
+.badge--estimated {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Boutons. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--primary);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #FFFFFF;
+}
+
+.btn--primary:hover {
+  opacity: .92;
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.btn--ghost:hover {
+  border-color: var(--border);
+}
+
+/* Tableaux : lignes lisibles, en-têtes triables. */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.table th, .table td {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.table th {
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+.table th[aria-sort] {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table th[aria-sort]::after {
+  content: '\2195';
+  margin-left: var(--space-1);
+  color: var(--border);
+}
+
+.table th[aria-sort="ascending"]::after {
+  content: '\2191';
+  color: var(--accent);
+}
+
+.table th[aria-sort="descending"]::after {
+  content: '\2193';
+  color: var(--accent);
+}
+
+.table tbody tr:hover {
+  background: var(--bg);
+}
+
+/* Tags de poste : couleurs sobres, une teinte par ligne de jeu. */
+.tag {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  border: 1px solid transparent;
+}
+
+.tag--gk  { background: rgba(217,119,6,.1);  color: #B45309; border-color: rgba(217,119,6,.2); }
+.tag--def { background: rgba(37,99,235,.1);  color: #1D4ED8; border-color: rgba(37,99,235,.2); }
+.tag--mid { background: rgba(22,163,74,.1);   color: #15803D; border-color: rgba(22,163,74,.2); }
+.tag--fwd { background: rgba(220,38,38,.1);   color: #B91C1C; border-color: rgba(220,38,38,.2); }
+
+/* En thème sombre, teintes de tags éclaircies pour rester lisibles sur fond foncé. */
+:root[data-theme="dark"] .tag--gk  { color: #FBBF24; }
+:root[data-theme="dark"] .tag--def { color: #60A5FA; }
+:root[data-theme="dark"] .tag--mid { color: #4ADE80; }
+:root[data-theme="dark"] .tag--fwd { color: #F87171; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tag--gk  { color: #FBBF24; }
+  :root:not([data-theme="light"]) .tag--def { color: #60A5FA; }
+  :root:not([data-theme="light"]) .tag--mid { color: #4ADE80; }
+  :root:not([data-theme="light"]) .tag--fwd { color: #F87171; }
+}
+
+/* Fiche joueur compacte. */
+.player-card {
+  padding: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.player-card__number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+}
+
+.player-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.player-card__name {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.player-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+/* Ligne de match. */
+.match-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.match-row:last-child {
+  border-bottom: none;
+}
+
+.match-row__competition {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  width: 90px;
+  flex-shrink: 0;
+}
+
+.match-row__teams {
+  flex: 1;
+  font-weight: 500;
+}
+
+.match-row__score {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.match-row__result {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.match-row__result--w { background: var(--success); }
+.match-row__result--d { background: var(--muted); }
+.match-row__result--l { background: var(--danger); }

@@ -1,0 +1,37 @@
+/* assets/fonts/inter.css */
+/*
+ * PLACEHOLDER documenté : Inter n'est pas encore hébergée localement.
+ * Aucune requête réseau au runtime n'étant permise, on ne référence ni CDN
+ * ni woff2 manquant ici (un lien vers un fichier absent produirait un 404).
+ * `--font` (voir tokens.css) retombe déjà proprement sur system-ui/-apple-system.
+ *
+ * Pour activer Inter localement : déposer les fichiers .woff2 (licence OFL,
+ * voir OFL.txt dans ce dossier) dans assets/fonts/, puis décommenter les
+ * blocs @font-face ci-dessous en adaptant les chemins.
+ */
+
+/*
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/Inter-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/Inter-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/Inter-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+*/

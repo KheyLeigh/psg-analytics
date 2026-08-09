@@ -1,0 +1,100 @@
+/* assets/css/layout.css */
+/* Conteneur central et grilles utilitaires pour l'agencement des pages. */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.row--between {
+  justify-content: space-between;
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.grid--2 { grid-template-columns: repeat(2, 1fr); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 900px) {
+  .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
+  .container { padding: 0 var(--space-4); }
+}
+
+.section {
+  padding: var(--space-8) 0;
+}
+
+/* En-tête du site : marque, navigation, bascule de thème. */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  padding: var(--space-4) 0;
+}
+
+.brand {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+.brand__accent {
+  color: var(--accent);
+}
+
+.nav__list {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.nav__link {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.nav__link:hover {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* Pied de page : mentions discrètes. */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: var(--space-6) 0;
+  margin-top: var(--space-12);
+}
+
+.site-footer__text {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 600px) {
+  .site-header .row { flex-wrap: wrap; gap: var(--space-3); }
+  .site-footer .row { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+}

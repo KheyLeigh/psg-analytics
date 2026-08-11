@@ -36,12 +36,77 @@ final class SeedIntegrityTest extends TestCase
         $this->assertSame(24, $n, '24 joueurs');
     }
 
-    public function testButsIndividuelsEgalentButsCollectifsL1(): void
+    public function testButsIndividuelsL1Egalent73AvecUnCscAdverse(): void
     {
         $pdo = $this->migratedPdo();
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
         $indiv = (int) $pdo->query("SELECT SUM(goals) FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp}")->fetchColumn();
-        $this->assertSame(74, $indiv, 'somme buts individuels L1 = 74');
+        // 74 buts d'équipe - 73 buts individuels = 1 but contre son camp
+        // adverse, crédité à PSG mais jamais attribué à un joueur (FBref).
+        $this->assertSame(73, $indiv, 'somme buts individuels L1 = 73 (1 csc adverse non attribué)');
+    }
+
+    public function testAssistsIndividuellesL1Egalent55(): void
+    {
+        $pdo = $this->migratedPdo();
+        $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
+        $indiv = (int) $pdo->query("SELECT SUM(assists) FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp}")->fetchColumn();
+        $this->assertSame(55, $indiv, 'somme passes décisives L1 = 55');
+    }
+
+    public function testAssistsVitinhaEtDembeleExacts(): void
+    {
+        $pdo = $this->migratedPdo();
+        $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
+        $rows = $pdo->query("SELECT p.last_name ln, p.first_name fn, SUM(s.assists) a
+            FROM player_match_stats s
+            JOIN players p ON p.id = s.player_id
+            JOIN matches m ON m.id = s.match_id
+            WHERE m.competition_id = {$comp}
+            GROUP BY p.id")->fetchAll();
+        $assists = [];
+        foreach ($rows as $r) {
+            $key = $r['ln'] !== '' ? $r['ln'] : $r['fn'];
+            $assists[$key] = (int) $r['a'];
+        }
+        $this->assertSame(7, $assists['Vitinha'] ?? 0, 'Vitinha exactement 7 passes L1');
+        $this->assertSame(7, $assists['Dembélé'] ?? 0, 'Dembélé exactement 7 passes L1');
+    }
+
+    public function testCartonsRougesEtJaunesL1Exacts(): void
+    {
+        $pdo = $this->migratedPdo();
+        $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
+        $totalReds = (int) $pdo->query("SELECT SUM(red_card) FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp}")->fetchColumn();
+        $this->assertSame(2, $totalReds, 'total cartons rouges L1 = 2 (Hakimi, Ramos)');
+
+        $rows = $pdo->query("SELECT p.last_name ln, p.first_name fn, SUM(s.yellow_cards) y
+            FROM player_match_stats s
+            JOIN players p ON p.id = s.player_id
+            JOIN matches m ON m.id = s.match_id
+            WHERE m.competition_id = {$comp}
+            GROUP BY p.id")->fetchAll();
+        $yellows = [];
+        foreach ($rows as $r) {
+            $key = $r['ln'] !== '' ? $r['ln'] : $r['fn'];
+            $yellows[$key] = (int) $r['y'];
+        }
+        $this->assertSame(6, $yellows['Zabarnyi'] ?? 0, 'Zabarnyi exactement 6 jaunes L1');
+    }
+
+    public function testGenerationPlayerMatchStatsDeterministe(): void
+    {
+        $dump = static function (): array {
+            $pdo = new PDO('sqlite::memory:');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            run_migration($pdo);
+            return $pdo->query(
+                'SELECT player_id, match_id, is_starter, minutes, goals, assists, yellow_cards, red_card, rating
+                 FROM player_match_stats ORDER BY player_id, match_id'
+            )->fetchAll();
+        };
+        $this->assertSame($dump(), $dump(), 'deux migrations successives produisent des player_match_stats identiques');
     }
 
     /** Buts L1 par joueur, indexés par nom de famille (ou prénom si mononyme). */

@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
-// Génération des statistiques individuelles estimées (source estimated) :
-// buts L1 (ancrages vérifiés EXACTS + prior toutes comps pour le reste),
-// cartons vérifiés respectés à l'unité, cumul par (joueur, match) pour éviter
-// toute collision, puis calcul et vérification du bilan final.
+// Génération des statistiques individuelles Ligue 1 (source stat_generator
+// pour l'attribution match par match) : les totaux saison par joueur (buts,
+// passes, cartons, minutes) sont désormais EXACTS (source unique
+// verified/players_l1_fbref.php, FBref) ; seule leur répartition sur des
+// matchs précis reste déterministe/estimée, comme les minutes par match.
 
 // Mélange déterministe (Fisher-Yates) sur le flux mt_rand déjà initialisé par
 // StatGenerator, pour rester reproductible à graine fixe.
@@ -16,64 +17,29 @@ function migrator_shuffle_tokens(array $items): array
     return $items;
 }
 
-// Totaux de buts L1 par joueur : ancrés à leur total vérifié EXACT (source
-// unique scorers_l1.php), buts restants répartis sur les autres marqueurs au
-// prorata de leurs buts toutes comps (source unique player_season.php,
-// colonne goals). Aucune donnée vérifiée n'est dupliquée en dur ici.
-// Invariance souple : le tirage pondéré ne plafonne pas explicitement un
-// joueur (« aucun buteur ne dépasse 11 » est vérifié par SeedIntegrityTest,
-// pas imposé par l'algorithme).
-function migrator_goal_totals(array $players, int $totalGoals, StatGenerator $gen): array
+// Résout les totaux saison L1 vérifiés FBref (verified/players_l1_fbref.php)
+// vers les identifiants joueurs réels, indexés par player_id.
+function migrator_l1_totals(array $players): array
 {
     $idByKey = [];
-    $idByShirt = [];
     foreach ($players as $p) {
         $idByKey[$p['key']] = $p['id'];
-        $idByShirt[$p['shirt']] = $p['id'];
     }
-
-    $anchors = (require __DIR__ . '/verified/scorers_l1.php')['goals'];
     $totals = [];
-    $anchorIds = [];
-    foreach ($anchors as $key => $data) {
+    foreach (require __DIR__ . '/verified/players_l1_fbref.php' as $key => $data) {
         if (!isset($idByKey[$key])) {
-            throw new RuntimeException("buteur ancré introuvable : {$key}");
+            throw new RuntimeException("statistiques L1 fbref : joueur introuvable pour la clé {$key}");
         }
-        $id = $idByKey[$key];
-        $totals[$id] = $data['goals'];
-        $anchorIds[$id] = true;
-    }
-
-    $remaining = $totalGoals - array_sum($totals);
-    if ($remaining < 0) {
-        throw new RuntimeException('total buts L1 inférieur aux ancrages vérifiés');
-    }
-
-    // Poids des non-ancrés = buts toutes comps (player_season.php), seule
-    // source de vérité pour cette estimation ; les ancrés sont exclus car ils
-    // ont déjà leur total exact.
-    $weights = [];
-    foreach (require __DIR__ . '/verified/player_season.php' as [$shirt, , , $goals]) {
-        if ($goals <= 0 || !isset($idByShirt[$shirt])) {
-            continue;
-        }
-        $id = $idByShirt[$shirt];
-        if (isset($anchorIds[$id])) {
-            continue;
-        }
-        $weights[$id] = $goals;
-    }
-
-    foreach ($gen->distributeByWeight($remaining, $weights) as $playerId => $count) {
-        if ($count > 0) {
-            $totals[$playerId] = ($totals[$playerId] ?? 0) + $count;
-        }
+        $totals[$idByKey[$key]] = $data;
     }
     return $totals;
 }
 
-// Affecte les buts de chaque joueur à des matchs précis, en respectant le total
-// marqué par PSG dans chaque match. Alimente le cumul $agg par référence.
+// Affecte les buts exacts de chaque joueur à des matchs précis, en respectant
+// le total marqué par PSG dans chaque match. Le total buts joueurs (73) est
+// inférieur d'exactement 1 au total buts d'équipe (74) : le match où PSG a
+// marqué le plus de buts absorbe ce déficit d'une unité, sans qu'aucun
+// joueur ne se voie attribuer ce but contre son camp adverse.
 function migrator_spread_goals(array &$agg, array $matches, array $goalTotals): void
 {
     $tokens = [];
@@ -84,9 +50,18 @@ function migrator_spread_goals(array &$agg, array $matches, array $goalTotals): 
     }
     $tokens = migrator_shuffle_tokens($tokens);
 
+    $ownGoalMatchId = null;
+    $maxGoals = -1;
+    foreach ($matches as $match) {
+        if ($match['psg_goals'] > $maxGoals) {
+            $maxGoals = $match['psg_goals'];
+            $ownGoalMatchId = $match['id'];
+        }
+    }
+
     $cursor = 0;
     foreach ($matches as $match) {
-        $need = $match['psg_goals'];
+        $need = $match['id'] === $ownGoalMatchId ? $match['psg_goals'] - 1 : $match['psg_goals'];
         $slice = array_slice($tokens, $cursor, $need);
         $cursor += $need;
         foreach (array_count_values($slice) as $playerId => $goals) {
@@ -95,117 +70,146 @@ function migrator_spread_goals(array &$agg, array $matches, array $goalTotals): 
     }
 }
 
-// Affecte à chaque joueur discipliné ses cartons vérifiés, sur des matchs
-// distincts choisis de façon déterministe. Alimente le cumul $agg par référence.
-function migrator_spread_cards(array &$agg, array $matches, array $players): void
+// Affecte les passes décisives exactes de chaque joueur à des matchs distincts
+// choisis de façon déterministe (aucun total collectif de référence par match
+// n'est disponible pour les passes, contrairement aux buts).
+function migrator_spread_assists(array &$agg, array $matches, array $assistTotals): void
 {
-    $discipline = require __DIR__ . '/verified/discipline_l1.php';
     $matchIds = array_column($matches, 'id');
-
-    foreach ($players as $p) {
-        if (!isset($discipline[$p['key']])) {
+    foreach ($assistTotals as $playerId => $count) {
+        if ($count <= 0) {
             continue;
         }
-        $yellow = $discipline[$p['key']]['yellow'];
-        $red = $discipline[$p['key']]['red'];
+        if ($count > count($matchIds)) {
+            throw new RuntimeException("passes décisives incohérentes pour le joueur {$playerId}");
+        }
+        $chosen = array_slice(migrator_shuffle_tokens($matchIds), 0, $count);
+        foreach ($chosen as $matchId) {
+            $agg[$playerId][$matchId]['assists'] = ($agg[$playerId][$matchId]['assists'] ?? 0) + 1;
+        }
+    }
+}
+
+// Affecte à chaque joueur discipliné ses cartons L1 exacts (FBref), sur des
+// matchs distincts choisis de façon déterministe.
+function migrator_spread_cards(array &$agg, array $matches, array $totals): void
+{
+    $matchIds = array_column($matches, 'id');
+    foreach ($totals as $playerId => $data) {
+        $yellow = $data['yellow'];
+        $red = $data['red'];
         $needed = $yellow + $red;
+        if ($needed === 0) {
+            continue;
+        }
         if ($needed > count($matchIds)) {
-            throw new RuntimeException("discipline incohérente pour {$p['key']}");
+            throw new RuntimeException("discipline incohérente pour le joueur {$playerId}");
         }
         $chosen = array_slice(migrator_shuffle_tokens($matchIds), 0, $needed);
         foreach ($chosen as $i => $matchId) {
             $field = $i < $yellow ? 'yellow' : 'red';
-            $agg[$p['id']][$matchId][$field] = ($agg[$p['id']][$matchId][$field] ?? 0) + 1;
+            $agg[$playerId][$matchId][$field] = ($agg[$playerId][$matchId][$field] ?? 0) + 1;
         }
     }
 }
 
-// Insère une ligne player_match_stats par (joueur, match) à partir du cumul,
-// avec minutes (via StatGenerator) et note calculées. Un joueur qui marque ou
-// prend un carton est considéré titulaire, sauf s'il n'a qu'un rouge sans but :
-// dans ce cas il s'agit vraisemblablement d'une expulsion précoce, on lui
-// donne des minutes plus courtes plutôt que des minutes de titulaire complet.
-function migrator_insert_stats(PDOStatement $stmt, StatGenerator $gen, array $agg, int $sourceId): void
+// Complète, pour chaque joueur, le nombre d'apparitions jusqu'à son total
+// vérifié (mp) : les matchs déjà présents via but/passe/carton comptent comme
+// apparitions, les matchs manquants sont ajoutés sans événement (0 but, 0
+// passe, 0 carton) uniquement pour porter des minutes réalistes.
+function migrator_top_up_appearances(array &$agg, array $matches, array $totals): void
+{
+    $matchIds = array_column($matches, 'id');
+    foreach ($totals as $playerId => $data) {
+        $existing = array_keys($agg[$playerId] ?? []);
+        $need = $data['mp'] - count($existing);
+        if ($need <= 0) {
+            continue;
+        }
+        $available = array_values(array_diff($matchIds, $existing));
+        $add = array_slice(migrator_shuffle_tokens($available), 0, min($need, count($available)));
+        foreach ($add as $matchId) {
+            $agg[$playerId][$matchId] = $agg[$playerId][$matchId] ?? [];
+        }
+    }
+}
+
+// Répartit $totalMinutes sur $starts titularisations et $subs entrées en jeu
+// (poids indicatif 4:1, un titulaire jouant nettement plus qu'un remplaçant),
+// bornée à [1, 90] par apparition, avec ajustement du dernier élément pour
+// que la somme colle au total réel FBref (aux bornes près).
+function migrator_distribute_minutes(int $totalMinutes, int $starts, int $subs): array
+{
+    $n = $starts + $subs;
+    if ($n === 0) {
+        return [];
+    }
+    $weightSum = $starts * 4 + $subs;
+    $minutes = [];
+    for ($i = 0; $i < $starts; $i++) {
+        $minutes[] = max(1, min(90, intdiv($totalMinutes * 4, $weightSum)));
+    }
+    for ($i = 0; $i < $subs; $i++) {
+        $minutes[] = max(1, min(90, intdiv($totalMinutes * 1, $weightSum)));
+    }
+    $diff = $totalMinutes - array_sum($minutes);
+    $lastIdx = count($minutes) - 1;
+    $minutes[$lastIdx] = max(1, min(90, $minutes[$lastIdx] + $diff));
+    return $minutes;
+}
+
+// Insère une ligne player_match_stats par (joueur, match) à partir du cumul :
+// minutes réparties selon starts/subs réels, note calculée sur but+passe.
+function migrator_insert_stats(PDOStatement $stmt, StatGenerator $gen, array $agg, array $totals, int $sourceId): void
 {
     foreach ($agg as $playerId => $byMatch) {
-        foreach ($byMatch as $matchId => $line) {
+        $matchIds = array_keys($byMatch);
+        sort($matchIds);
+        $n = count($matchIds);
+        $starts = min($totals[$playerId]['starts'] ?? 0, $n);
+        $subs = $n - $starts;
+        $minutesList = migrator_distribute_minutes($totals[$playerId]['minutes'] ?? 0, $starts, $subs);
+
+        foreach ($matchIds as $i => $matchId) {
+            $line = $byMatch[$matchId];
             $goals = $line['goals'] ?? 0;
+            $assists = $line['assists'] ?? 0;
             $yellow = $line['yellow'] ?? 0;
             $red = $line['red'] ?? 0;
-            $minutes = ($red > 0 && $goals === 0)
-                ? mt_rand(20, 75)
-                : $gen->minutesForMatch([$playerId => true])[$playerId];
-            $rating = $gen->rating($goals, 0, $minutes);
-            $stmt->execute([(int) $playerId, (int) $matchId, $minutes, $goals, $yellow, $red, $rating, $sourceId]);
+            $isStarter = $i < $starts;
+            $minutes = $minutesList[$i];
+            $rating = $gen->rating($goals, $assists, $minutes);
+            $stmt->execute([
+                (int) $playerId, (int) $matchId, (int) $isStarter, $minutes,
+                $goals, $assists, $yellow, $red, $rating, $sourceId,
+            ]);
         }
     }
 }
 
-// Orchestre la génération des player_match_stats : totaux de buts, affectation
-// aux matchs, cartons, puis insertion d'une ligne par (joueur, match).
+// Orchestre la génération des player_match_stats : totaux exacts, affectation
+// des buts/passes/cartons aux matchs, complément d'apparitions, puis
+// insertion d'une ligne par (joueur, match).
 function migrator_generate_player_stats(PDO $pdo, array $matches, array $players, array $ref): void
 {
     $gen = new StatGenerator(2026);
     $sourceId = $ref['source_ids']['stat_generator'];
     $stmt = $pdo->prepare(
-        'INSERT INTO player_match_stats (player_id, match_id, is_starter, minutes, goals, yellow_cards, red_card, rating, source_id)
-         VALUES (?, ?, 1, ?, ?, ?, ?, ?, ?)'
+        'INSERT INTO player_match_stats (player_id, match_id, is_starter, minutes, goals, assists, yellow_cards, red_card, rating, source_id)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
 
-    $totalGoals = array_sum(array_column($matches, 'psg_goals'));
-    $goalTotals = migrator_goal_totals($players, $totalGoals, $gen);
+    $totals = migrator_l1_totals($players);
+    $goalTotals = array_map(static fn (array $t): int => $t['goals'], $totals);
+    $assistTotals = array_map(static fn (array $t): int => $t['assists'], $totals);
 
     $agg = [];
     migrator_spread_goals($agg, $matches, $goalTotals);
-    migrator_spread_cards($agg, $matches, $players);
-    migrator_insert_stats($stmt, $gen, $agg, $sourceId);
+    migrator_spread_assists($agg, $matches, $assistTotals);
+    migrator_spread_cards($agg, $matches, $totals);
+    migrator_top_up_appearances($agg, $matches, $totals);
+    migrator_insert_stats($stmt, $gen, $agg, $totals, $sourceId);
 }
 
-// Calcule le bilan Ligue 1 (V/N/D, buts) et le recoupe avec les buts
-// individuels affectés, pour vérification d'intégrité.
-function migrator_compute_report(PDO $pdo, array $ref): array
-{
-    $psgId = $ref['psg_id'];
-    $compId = $ref['competition_ids']['ligue1'];
-    $row = $pdo->query("SELECT
-        SUM(CASE WHEN (home_team_id={$psgId} AND home_goals>away_goals) OR (away_team_id={$psgId} AND away_goals>home_goals) THEN 1 ELSE 0 END) w,
-        SUM(CASE WHEN home_goals=away_goals THEN 1 ELSE 0 END) d,
-        SUM(CASE WHEN (home_team_id={$psgId} AND home_goals<away_goals) OR (away_team_id={$psgId} AND away_goals<home_goals) THEN 1 ELSE 0 END) l,
-        SUM(CASE WHEN home_team_id={$psgId} THEN home_goals ELSE away_goals END) gf,
-        SUM(CASE WHEN home_team_id={$psgId} THEN away_goals ELSE home_goals END) ga
-        FROM matches WHERE competition_id={$compId}")->fetch();
-    $individualGoals = (int) $pdo->query(
-        "SELECT SUM(goals) FROM player_match_stats s JOIN matches m ON m.id = s.match_id WHERE m.competition_id={$compId}"
-    )->fetchColumn();
-
-    return [
-        'matches' => (int) $pdo->query('SELECT COUNT(*) FROM matches')->fetchColumn(),
-        'players' => (int) $pdo->query('SELECT COUNT(*) FROM players')->fetchColumn(),
-        'l1_wins' => (int) $row['w'],
-        'l1_draws' => (int) $row['d'],
-        'l1_losses' => (int) $row['l'],
-        'l1_goals_for' => (int) $row['gf'],
-        'l1_goals_against' => (int) $row['ga'],
-        'l1_individual_goals' => $individualGoals,
-    ];
-}
-
-// Garde-fou : échoue explicitement si une identité vérifiée n'est pas
-// respectée (attrape une erreur de transcription des données réelles).
-function migrator_verify_identities(array $report): void
-{
-    $ok = $report['l1_wins'] === 24
-        && $report['l1_draws'] === 4
-        && $report['l1_losses'] === 6
-        && $report['l1_goals_for'] === 74
-        && $report['l1_goals_against'] === 29
-        && $report['l1_individual_goals'] === $report['l1_goals_for'];
-
-    if (!$ok) {
-        throw new RuntimeException(sprintf(
-            'Identité invalide : %dV %dN %dD (%d-%d), buts individuels %d',
-            $report['l1_wins'], $report['l1_draws'], $report['l1_losses'],
-            $report['l1_goals_for'], $report['l1_goals_against'], $report['l1_individual_goals']
-        ));
-    }
-}
+// migrator_compute_report() et migrator_verify_identities() vivent dans
+// Migrator.php (rapport final et garde-fou d'identité, pas génération).

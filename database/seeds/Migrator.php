@@ -155,3 +155,54 @@ function migrator_seed_other_matches(PDO $pdo, array $ref): void
         ]);
     }
 }
+
+// Calcule le bilan Ligue 1 (V/N/D, buts) et le recoupe avec les buts
+// individuels affectés, pour vérification d'intégrité.
+function migrator_compute_report(PDO $pdo, array $ref): array
+{
+    $psgId = $ref['psg_id'];
+    $compId = $ref['competition_ids']['ligue1'];
+    $row = $pdo->query("SELECT
+        SUM(CASE WHEN (home_team_id={$psgId} AND home_goals>away_goals) OR (away_team_id={$psgId} AND away_goals>home_goals) THEN 1 ELSE 0 END) w,
+        SUM(CASE WHEN home_goals=away_goals THEN 1 ELSE 0 END) d,
+        SUM(CASE WHEN (home_team_id={$psgId} AND home_goals<away_goals) OR (away_team_id={$psgId} AND away_goals<home_goals) THEN 1 ELSE 0 END) l,
+        SUM(CASE WHEN home_team_id={$psgId} THEN home_goals ELSE away_goals END) gf,
+        SUM(CASE WHEN home_team_id={$psgId} THEN away_goals ELSE home_goals END) ga
+        FROM matches WHERE competition_id={$compId}")->fetch();
+    $individualGoals = (int) $pdo->query(
+        "SELECT SUM(goals) FROM player_match_stats s JOIN matches m ON m.id = s.match_id WHERE m.competition_id={$compId}"
+    )->fetchColumn();
+
+    return [
+        'matches' => (int) $pdo->query('SELECT COUNT(*) FROM matches')->fetchColumn(),
+        'players' => (int) $pdo->query('SELECT COUNT(*) FROM players')->fetchColumn(),
+        'l1_wins' => (int) $row['w'],
+        'l1_draws' => (int) $row['d'],
+        'l1_losses' => (int) $row['l'],
+        'l1_goals_for' => (int) $row['gf'],
+        'l1_goals_against' => (int) $row['ga'],
+        'l1_individual_goals' => $individualGoals,
+    ];
+}
+
+// Garde-fou : échoue explicitement si une identité vérifiée n'est pas
+// respectée (attrape une erreur de transcription des données réelles).
+// l1_individual_goals = 73, pas 74 : le but d'équipe restant est le but
+// contre son camp adverse, jamais attribué à un joueur PSG (cf. verified/players_l1_fbref.php).
+function migrator_verify_identities(array $report): void
+{
+    $ok = $report['l1_wins'] === 24
+        && $report['l1_draws'] === 4
+        && $report['l1_losses'] === 6
+        && $report['l1_goals_for'] === 74
+        && $report['l1_goals_against'] === 29
+        && $report['l1_individual_goals'] === 73;
+
+    if (!$ok) {
+        throw new RuntimeException(sprintf(
+            'Identité invalide : %dV %dN %dD (%d-%d), buts individuels %d (attendu 73)',
+            $report['l1_wins'], $report['l1_draws'], $report['l1_losses'],
+            $report['l1_goals_for'], $report['l1_goals_against'], $report['l1_individual_goals']
+        ));
+    }
+}

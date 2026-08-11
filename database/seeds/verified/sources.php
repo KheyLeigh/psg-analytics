@@ -22,6 +22,16 @@ return [
             . 'affluence, tirs au but et prolongation pour chaque match de la saison, toutes compétitions confondues.',
     ],
     [
+        'key'          => 'fbref_players_l1',
+        'label'        => 'FBref — statistiques standard par joueur, Ligue 1 2025-26',
+        'url'          => 'https://fbref.com/en/squads/e2d8892c/2025-2026/dom_lig/Paris-Saint-Germain-Ligue-1-Stats',
+        'collected_at' => '2026-08-11',
+        'confidence'   => 'verified',
+        'note'         => 'Export CSV FBref (database/seeds/verified/fbref-players-l1-2025-26.csv) : matchs joués, '
+            . 'titularisations, minutes, buts, passes décisives, penalties et cartons par joueur, Ligue 1 uniquement. '
+            . 'Remplace les ancrages estimés de scorers_l1.php / discipline_l1.php (supprimés).',
+    ],
+    [
         'key'          => 'squad_screenshots',
         'label'        => "Captures d'écran application de suivi (onglet Équipe, fournies par Mathis)",
         'url'          => null,

@@ -77,4 +77,37 @@ final class SeedIntegrityTest extends TestCase
         $goals = $this->goalsByPlayer($this->migratedPdo());
         $this->assertTrue(max($goals) <= 11, 'aucun buteur au-dessus de 11 (Barcola en tête)');
     }
+
+    public function testPossessionMoyenneL1Realiste(): void
+    {
+        $pdo = $this->migratedPdo();
+        $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type = 'league'")->fetchColumn();
+        $avg = (float) $pdo->query("SELECT AVG(psg_possession) FROM matches WHERE competition_id = {$comp}")->fetchColumn();
+        $this->assertTrue($avg >= 66 && $avg <= 72, "possession moyenne L1 réaliste (obtenu {$avg})");
+    }
+
+    public function testAffluenceEtPossessionRenseigneesSurTousLesMatchsL1(): void
+    {
+        $pdo = $this->migratedPdo();
+        $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type = 'league'")->fetchColumn();
+        $rows = $pdo->query("SELECT attendance, psg_possession FROM matches WHERE competition_id = {$comp}")->fetchAll();
+        $this->assertSame(34, count($rows), '34 matchs de Ligue 1');
+        foreach ($rows as $row) {
+            $this->assertTrue((int) $row['attendance'] > 0, 'affluence non nulle et positive');
+            $poss = (float) $row['psg_possession'];
+            $this->assertTrue($poss >= 30 && $poss <= 95, "possession plausible (obtenu {$poss})");
+        }
+    }
+
+    public function testMatchweek21ContreMarseille(): void
+    {
+        $pdo = $this->migratedPdo();
+        $psg = (int) $pdo->query("SELECT id FROM teams WHERE is_psg = 1")->fetchColumn();
+        $row = $pdo->query("SELECT home_goals, away_goals, attendance, psg_possession
+            FROM matches WHERE round_label = 'J21' AND home_team_id = {$psg}")->fetch();
+        $this->assertSame(5, (int) $row['home_goals'], 'PSG marque 5 buts face à Marseille (J21)');
+        $this->assertSame(0, (int) $row['away_goals'], 'Marseille encaisse 5-0 (J21)');
+        $this->assertSame(47926, (int) $row['attendance'], 'affluence J21 vérifiée FBref');
+        $this->assertSame(58.0, (float) $row['psg_possession'], 'possession J21 vérifiée FBref');
+    }
 }

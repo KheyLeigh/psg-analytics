@@ -103,24 +103,24 @@ function migrator_seed_player_season(PDO $pdo, array $players, array $ref): void
     }
 }
 
-// Insère les 34 matchs de Ligue 1 réels (source verified) et renvoie,
+// Insère les 34 matchs de Ligue 1 réels (source fbref, verified) et renvoie,
 // pour chacun, les buts PSG servant à la répartition des buts individuels.
 function migrator_seed_matches(PDO $pdo, array $ref): array
 {
     $stmt = $pdo->prepare(
-        'INSERT INTO matches (season_id, competition_id, round_label, played_at, home_team_id, away_team_id, home_goals, away_goals, attendance, source_id)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        'INSERT INTO matches (season_id, competition_id, round_label, played_at, home_team_id, away_team_id, home_goals, away_goals, attendance, psg_possession, source_id)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
     $psgId = $ref['psg_id'];
     $compId = $ref['competition_ids']['ligue1'];
-    $sourceId = $ref['source_ids']['l1_screenshots'];
+    $sourceId = $ref['source_ids']['fbref'];
     $matches = [];
-    foreach (require __DIR__ . '/verified/matches_l1.php' as [$round, $date, $opponent, $isHome, $psgGoals, $advGoals, $attendance]) {
+    foreach (require __DIR__ . '/verified/matches_l1.php' as [$round, $date, $opponent, $isHome, $psgGoals, $advGoals, $attendance, $possession]) {
         $oppId = $ref['team_ids'][$opponent];
         [$homeId, $awayId, $homeGoals, $awayGoals] = $isHome
             ? [$psgId, $oppId, $psgGoals, $advGoals]
             : [$oppId, $psgId, $advGoals, $psgGoals];
-        $stmt->execute([$ref['season_id'], $compId, $round, $date, $homeId, $awayId, $homeGoals, $awayGoals, $attendance, $sourceId]);
+        $stmt->execute([$ref['season_id'], $compId, $round, $date, $homeId, $awayId, $homeGoals, $awayGoals, $attendance, $possession, $sourceId]);
         $matches[] = ['id' => (int) $pdo->lastInsertId(), 'psg_goals' => $psgGoals];
     }
     return $matches;

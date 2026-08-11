@@ -9,7 +9,17 @@ return [
         'url'          => null,
         'collected_at' => '2026-07-20',
         'confidence'   => 'verified',
-        'note'         => 'Bilan, scores, buteurs et discipline Ligue 1 2025-26, point de vue PSG.',
+        'note'         => 'Bilan, scores, buteurs et discipline Ligue 1 2025-26, point de vue PSG. '
+            . 'Score et bilan recoupés et confirmés par la source fbref (24V/4N/6D, 74-29).',
+    ],
+    [
+        'key'          => 'fbref',
+        'label'        => 'FBref — journal des matchs PSG 2025-26 (toutes compétitions)',
+        'url'          => 'https://fbref.com/en/squads/e2d8892c/2025-2026/matchlogs/all_comps/schedule/',
+        'collected_at' => '2026-08-11',
+        'confidence'   => 'verified',
+        'note'         => 'Export CSV FBref (database/seeds/verified/fbref-fixtures-2025-26.csv) : score, possession, '
+            . 'affluence, tirs au but et prolongation pour chaque match de la saison, toutes compétitions confondues.',
     ],
     [
         'key'          => 'squad_screenshots',

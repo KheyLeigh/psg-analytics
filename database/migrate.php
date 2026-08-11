@@ -16,6 +16,7 @@ function run_migration(PDO $pdo): array
     $ref = migrator_seed_reference($pdo);
     $players = migrator_seed_players($pdo, $ref['season_id']);
     $matches = migrator_seed_matches($pdo, $ref);
+    migrator_seed_other_matches($pdo, $ref);
     migrator_generate_player_stats($pdo, $matches, $players, $ref);
     migrator_seed_player_season($pdo, $players, $ref);
 

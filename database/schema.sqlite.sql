@@ -60,6 +60,7 @@ CREATE TABLE matches (
     went_to_extra INTEGER NOT NULL DEFAULT 0,
     penalty_shootout INTEGER NOT NULL DEFAULT 0,
     penalty_score TEXT,
+    venue         TEXT NOT NULL DEFAULT 'home' CHECK (venue IN ('home','away','neutral')),
     attendance    INTEGER,
     psg_possession REAL,
     psg_shots     INTEGER,

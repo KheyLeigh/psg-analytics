@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
-// PSG et les 17 adversaires de Ligue 1 2025-26 (double round-robin).
-// `name` reprend exactement la valeur `adversaire` utilisée dans
-// matches_l1.php pour permettre une résolution directe par nom.
+// PSG, les 17 adversaires de Ligue 1 2025-26 (double round-robin) et les
+// 12 adversaires additionnels rencontrés en coupes/Ligue des Champions
+// (source fbref, préfixe pays retiré). `name` reprend exactement la valeur
+// `adversaire` utilisée dans matches_l1.php / matches_other.php pour
+// permettre une résolution directe par nom.
 return [
     ['name' => 'Paris Saint-Germain', 'short_name' => 'PSG',  'country' => 'France', 'is_psg' => true],
     ['name' => 'Nantes',              'short_name' => 'FCN',  'country' => 'France', 'is_psg' => false],
@@ -22,4 +24,17 @@ return [
     ['name' => 'Rennes',              'short_name' => 'SRFC', 'country' => 'France', 'is_psg' => false],
     ['name' => 'Metz',                'short_name' => 'FCM',  'country' => 'France', 'is_psg' => false],
     ['name' => 'Paris FC',            'short_name' => 'PFC',  'country' => 'France', 'is_psg' => false],
+    // Adversaires additionnels (Supercoupe UEFA, Ligue des Champions, Coupe de France)
+    ['name' => 'Tottenham',              'short_name' => 'TOT', 'country' => 'Angleterre', 'is_psg' => false],
+    ['name' => 'Atalanta',               'short_name' => 'ATA', 'country' => 'Italie',     'is_psg' => false],
+    ['name' => 'Barcelona',              'short_name' => 'BAR', 'country' => 'Espagne',    'is_psg' => false],
+    ['name' => 'Leverkusen',             'short_name' => 'B04', 'country' => 'Allemagne',  'is_psg' => false],
+    ['name' => 'Bayern Munich',          'short_name' => 'BAY', 'country' => 'Allemagne',  'is_psg' => false],
+    ['name' => 'Athletic Club',          'short_name' => 'ATH', 'country' => 'Espagne',    'is_psg' => false],
+    ['name' => 'Vendée Fontenay Foot',   'short_name' => 'VFF', 'country' => 'France',     'is_psg' => false],
+    ['name' => 'Sporting CP',            'short_name' => 'SCP', 'country' => 'Portugal',   'is_psg' => false],
+    ['name' => 'Newcastle',              'short_name' => 'NEW', 'country' => 'Angleterre', 'is_psg' => false],
+    ['name' => 'Chelsea',                'short_name' => 'CHE', 'country' => 'Angleterre', 'is_psg' => false],
+    ['name' => 'Liverpool',              'short_name' => 'LIV', 'country' => 'Angleterre', 'is_psg' => false],
+    ['name' => 'Arsenal',                'short_name' => 'ARS', 'country' => 'Angleterre', 'is_psg' => false],
 ];

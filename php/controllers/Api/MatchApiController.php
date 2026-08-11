@@ -73,6 +73,8 @@ final class MatchApiController extends Controller
             'awayGoals' => $m->awayGoals,
             'result' => $m->result($this->psgTeamId),
             'possession' => $m->psgPossession,
+            'venue' => $m->venue,
+            'attendance' => $m->attendance,
         ];
     }
 }

@@ -64,6 +64,7 @@ CREATE TABLE matches (
     went_to_extra        TINYINT(1) NOT NULL DEFAULT 0,
     penalty_shootout     TINYINT(1) NOT NULL DEFAULT 0,
     penalty_score        VARCHAR(20),
+    venue                ENUM('home','away','neutral') NOT NULL DEFAULT 'home',
     attendance            INT,
     psg_possession       DECIMAL(4,1),
     psg_shots            INT,

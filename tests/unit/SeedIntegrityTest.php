@@ -110,4 +110,23 @@ final class SeedIntegrityTest extends TestCase
         $this->assertSame(47926, (int) $row['attendance'], 'affluence J21 vérifiée FBref');
         $this->assertSame(58.0, (float) $row['psg_possession'], 'possession J21 vérifiée FBref');
     }
+
+    public function testTotalMatchsToutesCompetitions(): void
+    {
+        $pdo = $this->migratedPdo();
+        $n = (int) $pdo->query('SELECT COUNT(*) FROM matches')->fetchColumn();
+        $this->assertSame(55, $n, '34 matchs L1 + 21 matchs hors L1 (Supercoupe, C1, Trophée, Coupe de France)');
+    }
+
+    public function testMatchsHorsL1OntUneCompetitionEtUnVenueValides(): void
+    {
+        $pdo = $this->migratedPdo();
+        $leagueComp = (int) $pdo->query("SELECT id FROM competitions WHERE type = 'league'")->fetchColumn();
+        $rows = $pdo->query("SELECT m.competition_id, m.venue FROM matches m WHERE m.competition_id != {$leagueComp}")->fetchAll();
+        $this->assertSame(21, count($rows), '21 matchs hors Ligue 1');
+        foreach ($rows as $row) {
+            $this->assertTrue((int) $row['competition_id'] > 0, 'competition_id valide');
+            $this->assertTrue(in_array($row['venue'], ['home', 'away', 'neutral'], true), 'venue valide');
+        }
+    }
 }

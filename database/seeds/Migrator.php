@@ -108,8 +108,8 @@ function migrator_seed_player_season(PDO $pdo, array $players, array $ref): void
 function migrator_seed_matches(PDO $pdo, array $ref): array
 {
     $stmt = $pdo->prepare(
-        'INSERT INTO matches (season_id, competition_id, round_label, played_at, home_team_id, away_team_id, home_goals, away_goals, attendance, psg_possession, source_id)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        'INSERT INTO matches (season_id, competition_id, round_label, played_at, home_team_id, away_team_id, home_goals, away_goals, venue, attendance, psg_possession, source_id)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
     $psgId = $ref['psg_id'];
     $compId = $ref['competition_ids']['ligue1'];
@@ -120,8 +120,38 @@ function migrator_seed_matches(PDO $pdo, array $ref): array
         [$homeId, $awayId, $homeGoals, $awayGoals] = $isHome
             ? [$psgId, $oppId, $psgGoals, $advGoals]
             : [$oppId, $psgId, $advGoals, $psgGoals];
-        $stmt->execute([$ref['season_id'], $compId, $round, $date, $homeId, $awayId, $homeGoals, $awayGoals, $attendance, $possession, $sourceId]);
+        $venue = $isHome ? 'home' : 'away';
+        $stmt->execute([$ref['season_id'], $compId, $round, $date, $homeId, $awayId, $homeGoals, $awayGoals, $venue, $attendance, $possession, $sourceId]);
         $matches[] = ['id' => (int) $pdo->lastInsertId(), 'psg_goals' => $psgGoals];
     }
     return $matches;
+}
+
+// Insère les matchs hors Ligue 1 (Supercoupe UEFA, Ligue des Champions,
+// Trophée des Champions, Coupe de France ; source fbref, verified). Aucun
+// but individuel n'est réparti pour ces matchs (pas de player_match_stats).
+function migrator_seed_other_matches(PDO $pdo, array $ref): void
+{
+    $stmt = $pdo->prepare(
+        'INSERT INTO matches (season_id, competition_id, round_label, played_at, home_team_id, away_team_id, home_goals, away_goals, went_to_extra, penalty_shootout, penalty_score, venue, attendance, psg_possession, source_id)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    );
+    $psgId = $ref['psg_id'];
+    $sourceId = $ref['source_ids']['fbref'];
+    foreach (require __DIR__ . '/verified/matches_other.php' as [
+        $compKey, $round, $date, $venue, $opponent, $psgGoals, $advGoals,
+        $possession, $attendance, $wentToExtra, $penaltyShootout, $penaltyScore,
+    ]) {
+        $compId = $ref['competition_ids'][$compKey];
+        $oppId = $ref['team_ids'][$opponent];
+        // Convention : PSG est toujours home_team_id pour les matchs sur terrain
+        // neutre, home/away sinon, conformément au champ `venue`.
+        [$homeId, $awayId, $homeGoals, $awayGoals] = $venue === 'away'
+            ? [$oppId, $psgId, $advGoals, $psgGoals]
+            : [$psgId, $oppId, $psgGoals, $advGoals];
+        $stmt->execute([
+            $ref['season_id'], $compId, $round, $date, $homeId, $awayId, $homeGoals, $awayGoals,
+            (int) $wentToExtra, (int) $penaltyShootout, $penaltyScore, $venue, $attendance, $possession, $sourceId,
+        ]);
+    }
 }

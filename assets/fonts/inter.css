@@ -1,37 +1,13 @@
-/* assets/fonts/inter.css */
 /*
- * PLACEHOLDER documenté : Inter n'est pas encore hébergée localement.
- * Aucune requête réseau au runtime n'étant permise, on ne référence ni CDN
- * ni woff2 manquant ici (un lien vers un fichier absent produirait un 404).
- * `--font` (voir tokens.css) retombe déjà proprement sur system-ui/-apple-system.
+ * Stratégie typographique "Matchday", servie entièrement par des piles système :
+ * aucune requête réseau, aucune woff2 (donc aucun 404 possible au runtime).
  *
- * Pour activer Inter localement : déposer les fichiers .woff2 (licence OFL,
- * voir OFL.txt dans ce dossier) dans assets/fonts/, puis décommenter les
- * blocs @font-face ci-dessous en adaptant les chemins.
+ *   --sans : texte courant en pile système (system-ui / -apple-system / Segoe UI...).
+ *   --num  : chiffres de statistiques en condensé système (Arial Narrow, Roboto
+ *            Condensed), pour le rendu "tableau de bord Matchday" du hero et des KPI.
+ *
+ * Les deux jetons sont définis dans tokens.css. Ce fichier reste référencé par le
+ * layout comme point d'ancrage documenté : le jour où une display condensée sous
+ * licence libre sera hébergée en local, déposer les .woff2 dans ce dossier (licence
+ * OFL, voir OFL.txt) et déclarer les @font-face ci-dessous, puis basculer --num.
  */
-
-/*
-@font-face {
-  font-family: 'Inter';
-  src: url('/assets/fonts/Inter-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('/assets/fonts/Inter-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('/assets/fonts/Inter-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-*/

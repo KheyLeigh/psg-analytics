@@ -5,6 +5,6 @@ final class StyleguideController extends Controller
 {
     public function index(Request $r, array $params): void
     {
-        $this->render('styleguide', ['title' => 'Styleguide — PSG Analytics']);
+        $this->render('styleguide', ['title' => 'Styleguide · PSG Analytics']);
     }
 }

@@ -1,5 +1,6 @@
-/* assets/css/base.css */
-/* Reset léger et styles de base : typographie, couleurs de fond, mouvement raisonné. */
+/* Reset léger et fondations : corps sur le canvas navy, mouvement raisonné,
+   utilitaire de bande Hechter (la rayure rouge bordée de blanc, signature du club). */
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -10,11 +11,11 @@ html, body {
 }
 
 body {
-  background: var(--bg);
-  color: var(--primary);
-  font-family: var(--font);
+  background: var(--navy-900);
+  color: var(--text);
+  font-family: var(--sans);
   font-size: var(--text-base);
-  line-height: 1.5;
+  line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -25,18 +26,15 @@ img, svg {
 }
 
 a {
-  color: var(--accent);
+  color: var(--text);
   text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 h1, h2, h3, h4 {
   margin: 0 0 var(--space-4);
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -.01em;
 }
 
 p {
@@ -54,10 +52,35 @@ button, input, select, textarea {
   color: inherit;
 }
 
-/* Transitions douces sur le changement de thème, sauf préférence contraire. */
+/* Focus visible net et sur mesure pour la navigation clavier. */
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* Bande Hechter : deux liserés blancs encadrant la rayure rouge. Sert de galon
+   sous le header comme de bande verticale du hero. */
+.hechter {
+  background: linear-gradient(90deg,
+    transparent 0 2px,
+    #fff 2px 4px,
+    var(--red) 4px 22px,
+    #fff 22px 24px,
+    transparent 24px);
+}
+
+/* Transitions douces au basculement de thème, sauf préférence contraire. */
 @media (prefers-reduced-motion: no-preference) {
-  body, .card, .btn, .badge {
-    transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+  body,
+  .site-header,
+  .card,
+  .panel,
+  .btn,
+  .trace,
+  .tag,
+  .theme-toggle,
+  .transp-btn {
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
   }
 }
 

@@ -17,6 +17,7 @@
   <?php require BASE_PATH . '/php/views/partials/header.php'; ?>
   <main class="container"><?= $content ?></main>
   <?php require BASE_PATH . '/php/views/partials/footer.php'; ?>
+  <div id="tip"></div>
   <script type="module" src="/assets/js/app.js"></script>
 </body>
 </html>

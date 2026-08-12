@@ -1,15 +1,22 @@
-/* assets/css/layout.css */
-/* Conteneur central et grilles utilitaires pour l'agencement des pages. */
-.container {
-  max-width: 1200px;
+/* Agencement : conteneur central, header collant, hero champion, titres de
+   section, grilles et pied de page. */
+
+/* Conteneur central : largeur maîtrisée, gouttières confortables. */
+.container,
+.wrap {
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 var(--space-8);
+}
+
+.section {
+  padding: var(--space-8) 0;
 }
 
 .stack {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-6);
 }
 
 .row {
@@ -22,9 +29,10 @@
   justify-content: space-between;
 }
 
+/* Grilles utilitaires. */
 .grid {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-5);
 }
 
 .grid--2 { grid-template-columns: repeat(2, 1fr); }
@@ -37,64 +45,188 @@
 
 @media (max-width: 600px) {
   .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
-  .container { padding: 0 var(--space-4); }
+  .container, .wrap { padding: 0 var(--space-4); }
 }
 
-.section {
-  padding: var(--space-8) 0;
-}
-
-/* En-tête du site : marque, navigation, bascule de thème. */
+/* En-tête collant : voile navy et flou d'arrière-plan pour rester lisible au scroll. */
 .site-header {
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
-  padding: var(--space-4) 0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--navy-900) 85%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
 }
 
+.site-header__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  height: 64px;
+}
+
+/* Galon Hechter sous le header : 3px de bande rayée. */
+.site-header__stripe {
+  height: 3px;
+}
+
+/* Marque : crest miniature à rayure Hechter puis "Analytics" en rouge identité. */
 .brand {
-  font-size: var(--text-lg);
-  font-weight: 700;
-  color: var(--primary);
-}
-
-.brand:hover {
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-weight: 800;
+  letter-spacing: -.01em;
+  font-size: var(--text-xl);
+  color: var(--text);
 }
 
 .brand__accent {
-  color: var(--accent);
+  color: var(--red);
 }
 
+.crest {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: var(--navy-700);
+  border: 1px solid var(--line-2);
+  position: relative;
+  overflow: hidden;
+  flex: none;
+}
+
+.crest::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  left: 12px;
+  width: 6px;
+  background: var(--red);
+  box-shadow: -2px 0 0 #fff, 4px 0 0 #fff;
+}
+
+/* Navigation principale. */
 .nav__list {
+  display: flex;
+  gap: var(--space-6);
+  margin-left: var(--space-2);
+}
+
+.nav__link {
+  color: var(--dim);
+  font-size: var(--text-base);
+  font-weight: 500;
+}
+
+.nav__link:hover,
+.nav__link.is-active {
+  color: var(--text);
+}
+
+.header-spacer {
+  flex: 1;
+}
+
+/* Hero champion : bande Hechter verticale, badge or, record en chiffres condensés. */
+.hero {
+  display: flex;
+  gap: var(--space-8);
+  align-items: stretch;
+  padding: var(--space-12) 0 var(--space-8);
+}
+
+.hero__stripe {
+  width: 24px;
+  border-radius: 4px;
+  flex: none;
+}
+
+.hero__kick {
+  color: var(--dim);
+  font-size: var(--text-sm);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 20px 0 8px;
+}
+
+.hero__record {
+  font-family: var(--num);
+  font-size: 122px;
+  line-height: .82;
+  font-weight: 700;
+  font-style: italic;
+  margin: 0;
+}
+
+.hero__record i {
+  color: var(--red);
+  font-style: italic;
+}
+
+.hero__subline {
+  color: var(--dim);
+  font-size: var(--text-lg);
+  margin: 14px 0 0;
+  max-width: 440px;
+}
+
+.hero__subline b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .hero__record { font-size: 84px; }
+}
+
+/* Titre de section : capitales espacées, discret mais structurant. */
+.sec-h {
+  font-size: var(--text-base);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--dim);
+  font-weight: 700;
+  margin: var(--space-8) 0 var(--space-4);
+}
+
+/* Pied de page : légende de traçabilité et signature du projet. */
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  max-width: 1180px;
+  margin: var(--space-6) auto 0;
+  padding: var(--space-6) var(--space-8) var(--space-12);
+  border-top: 1px solid var(--line);
+  color: var(--mute);
+  font-size: var(--text-sm);
+}
+
+.site-footer__legend {
   display: flex;
   gap: var(--space-6);
 }
 
-.nav__link {
-  color: var(--muted);
-  font-size: var(--text-sm);
-  font-weight: 500;
+.site-footer__legend .trace {
+  margin-top: 0;
 }
 
-.nav__link:hover {
-  color: var(--primary);
-  text-decoration: none;
+.site-footer a {
+  color: var(--dim);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-/* Pied de page : mentions discrètes. */
-.site-footer {
-  border-top: 1px solid var(--border);
-  padding: var(--space-6) 0;
-  margin-top: var(--space-12);
-}
-
-.site-footer__text {
-  margin: 0;
-  color: var(--muted);
-  font-size: var(--text-sm);
+.site-footer a:hover {
+  color: var(--text);
 }
 
 @media (max-width: 600px) {
-  .site-header .row { flex-wrap: wrap; gap: var(--space-3); }
-  .site-footer .row { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+  .site-header__bar { gap: var(--space-4); }
+  .nav__list { gap: var(--space-4); }
 }

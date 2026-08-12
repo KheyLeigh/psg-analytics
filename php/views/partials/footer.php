@@ -1,7 +1,9 @@
 <?php declare(strict_types=1); ?>
 <footer class="site-footer">
-  <div class="container row row--between">
-    <p class="site-footer__text">PSG Analytics — données saison 2025-26, à but d'analyse et de démonstration.</p>
-    <p class="site-footer__text">Sources vérifiées et estimées, voir <a href="/methodologie">méthodologie</a>.</p>
+  <span>Chaque chiffre remonte à sa source.</span>
+  <div class="site-footer__legend">
+    <span class="trace trace--ok"><span class="trace__dot" aria-hidden="true"></span>Donnée vérifiée</span>
+    <span class="trace trace--est"><span class="trace__dot" aria-hidden="true"></span>Donnée estimée</span>
   </div>
+  <span>Sources et méthode : voir <a href="/methodologie">méthodologie</a>.</span>
 </footer>

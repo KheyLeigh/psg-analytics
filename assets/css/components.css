@@ -1,19 +1,29 @@
-/* assets/css/components.css */
-/* Composants réutilisables : cartes, KPI, badges de source, boutons, tableaux, tags de poste. */
+/* Composants réutilisables "Matchday" : cartes et KPI, badges de traçabilité,
+   boutons, tableaux, tags de poste, fiches joueur, lignes de match, guide de forme,
+   badge champion, compteurs, mode transparence et tooltip de provenance. */
 
-/* Surface commune : carte, KPI, fiche joueur partagent la même base visuelle. */
-.card, .kpi, .player-card {
+/* Surface commune : carte plate bordée, radius franc, ombre selon le thème. */
+.card,
+.panel {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--card-shadow);
+  position: relative;
 }
 
 .card {
-  padding: var(--space-6);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
 }
 
-.card__header {
+.panel {
+  padding: 22px 24px;
+}
+
+.card__header,
+.panel__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21,126 +31,226 @@
   margin-bottom: var(--space-4);
 }
 
-.card__title {
+.card__title,
+.panel__title {
   margin: 0;
   font-size: var(--text-lg);
-  font-weight: 600;
-}
-
-/* Carte KPI : chiffre clé, libellé, badge de source optionnel. */
-.kpi {
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.kpi__label {
-  color: var(--muted);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-}
-
-.kpi__value {
-  font-size: var(--text-2xl);
   font-weight: 700;
-  line-height: 1.1;
 }
 
-.kpi__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: var(--space-1);
+.panel__more {
+  color: var(--dim);
+  font-size: var(--text-sm);
+  cursor: pointer;
 }
 
-/* Badge de source : point + libellé, sobre, jamais criard. */
-.badge {
+/* KPI : libellé sobre en capitales, valeur en chiffres condensés, badge en bas. */
+.card__label {
+  font-size: var(--text-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.card__value {
+  font-family: var(--num);
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 8px 0 auto;
+}
+
+/* Badge de traçabilité : la FORME porte le sens autant que la couleur (a11y).
+   Vérifié = point PLEIN vert. Estimé = anneau CREUX ambre, en italique. */
+.trace {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: 7px;
   font-size: var(--text-sm);
-  color: var(--muted);
+  margin-top: var(--space-4);
+  color: var(--dim);
 }
 
-.badge__dot {
-  width: 7px;
-  height: 7px;
+.trace__dot {
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: var(--success);
+  flex: none;
 }
 
-.badge--estimated .badge__dot {
-  background: var(--muted);
+.trace--ok .trace__dot {
+  background: var(--ok);
 }
 
-.badge--estimated {
-  color: var(--muted);
+.trace--est {
+  color: var(--est);
   font-style: italic;
 }
 
-/* Boutons. */
+.trace--est .trace__dot {
+  background: transparent;
+  border: 1.5px solid var(--est);
+}
+
+/* Boutons : contour discret par défaut, rouge pour l'action forte, or pour le sacre. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--primary);
-  border-radius: var(--radius);
-  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--text);
+  border-radius: var(--r-sm);
+  padding: 9px 15px;
   font-size: var(--text-sm);
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
 }
 
 .btn:hover {
-  border-color: var(--accent);
-  text-decoration: none;
+  border-color: color-mix(in srgb, var(--text) 35%, transparent);
 }
 
 .btn--primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #FFFFFF;
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
 }
 
 .btn--primary:hover {
-  opacity: .92;
+  filter: brightness(1.08);
+  border-color: var(--red);
+}
+
+.btn--gold {
+  background: var(--gold-soft);
+  border-color: color-mix(in srgb, var(--gold) 40%, transparent);
+  color: var(--gold);
 }
 
 .btn--ghost {
-  background: transparent;
   border-color: transparent;
+  color: var(--dim);
 }
 
 .btn--ghost:hover {
-  border-color: var(--border);
+  border-color: var(--line-2);
+  color: var(--text);
 }
 
-/* Tableaux : lignes lisibles, en-têtes triables. */
+/* Bouton Transparence : interrupteur qui vire à l'or quand le mode est actif. */
+.transp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--dim);
+  border-radius: var(--r-pill);
+  padding: 7px 13px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.transp-btn__sw {
+  width: 30px;
+  height: 17px;
+  border-radius: var(--r-pill);
+  background: var(--navy-700);
+  position: relative;
+  flex: none;
+}
+
+.transp-btn__sw::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--sw-knob);
+}
+
+body.transp .transp-btn {
+  color: var(--gold);
+  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+}
+
+body.transp .transp-btn__sw {
+  background: var(--gold);
+}
+
+body.transp .transp-btn__sw::after {
+  transform: translateX(13px);
+  background: #1a1200;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .transp-btn__sw,
+  .transp-btn__sw::after {
+    transition: background .25s, transform .25s;
+  }
+}
+
+/* Bouton thème : icône lune carrée. */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+  font-size: 15px;
+  display: inline-grid;
+  place-items: center;
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+}
+
+/* Badge champion : liseré or, réservé au titre. */
+.champ {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold-soft);
+  color: var(--gold);
+  border: 1px solid color-mix(in srgb, var(--gold) 32%, transparent);
+  padding: 6px 13px;
+  border-radius: var(--r-pill);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* Tableau triable : lignes lisibles, en-têtes en capitales, tri au clic. */
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--text-sm);
-}
-
-.table th, .table td {
-  text-align: left;
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--border);
+  font-size: var(--text-base);
 }
 
 .table th {
-  color: var(--muted);
-  font-weight: 600;
-  text-transform: uppercase;
+  text-align: left;
   font-size: 11px;
-  letter-spacing: .04em;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mute);
+  font-weight: 600;
+  padding: 0 10px 12px;
   white-space: nowrap;
+}
+
+.table td {
+  padding: 11px 10px;
+  border-top: 1px solid var(--line);
+  vertical-align: middle;
 }
 
 .table th[aria-sort] {
@@ -151,73 +261,130 @@
 .table th[aria-sort]::after {
   content: '\2195';
   margin-left: var(--space-1);
-  color: var(--border);
+  color: var(--line-2);
 }
 
 .table th[aria-sort="ascending"]::after {
   content: '\2191';
-  color: var(--accent);
+  color: var(--red);
 }
 
 .table th[aria-sort="descending"]::after {
   content: '\2193';
-  color: var(--accent);
+  color: var(--red);
 }
 
 .table tbody tr:hover {
-  background: var(--bg);
+  background: color-mix(in srgb, var(--text) 3%, transparent);
 }
 
-/* Tags de poste : couleurs sobres, une teinte par ligne de jeu. */
+.table .num {
+  font-family: var(--num);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  text-align: right;
+}
+
+/* Cellule joueur du tableau : maillot + nom + rôle. */
+.player-cell {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.player-cell__role {
+  color: var(--mute);
+  font-size: var(--text-xs);
+}
+
+/* Numéro de maillot : jeton condensé, reconnaissable d'un coup d'oeil. */
+.jersey {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--navy-700);
+  border: 1px solid var(--line-2);
+  font-family: var(--num);
+  font-weight: 700;
+  font-size: 17px;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.jersey--sm {
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+  border-radius: var(--r-sm);
+}
+
+/* Compteur horizontal : jauge rouge dont le remplissage suit --v (0 à 1). */
+.meter {
+  width: 104px;
+  height: 6px;
+  background: var(--navy-700);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+.meter__fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--red);
+  border-radius: var(--r-pill);
+  transform-origin: left;
+  transform: scaleX(var(--v, 1));
+}
+
+.meter-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.meter-row__num {
+  font-family: var(--num);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  min-width: 24px;
+  text-align: right;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .meter__fill {
+    transition: transform .8s cubic-bezier(.2, .7, .2, 1);
+  }
+}
+
+/* Tags de poste : une teinte par ligne de jeu, fond dérivé de la couleur.
+   GK = or, DF = bleu, MF = vert, FW = rouge. */
 .tag {
   display: inline-block;
-  padding: 2px var(--space-2);
-  border-radius: 999px;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
   font-size: 11px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .03em;
-  border: 1px solid transparent;
+  letter-spacing: .02em;
 }
 
-.tag--gk  { background: rgba(217,119,6,.1);  color: #B45309; border-color: rgba(217,119,6,.2); }
-.tag--def { background: rgba(37,99,235,.1);  color: #1D4ED8; border-color: rgba(37,99,235,.2); }
-.tag--mid { background: rgba(22,163,74,.1);   color: #15803D; border-color: rgba(22,163,74,.2); }
-.tag--fwd { background: rgba(220,38,38,.1);   color: #B91C1C; border-color: rgba(220,38,38,.2); }
+.tag--gk  { color: var(--gold); background: color-mix(in srgb, var(--gold) 15%, transparent); }
+.tag--def { color: var(--blue); background: color-mix(in srgb, var(--blue) 16%, transparent); }
+.tag--mid { color: var(--ok);   background: color-mix(in srgb, var(--ok) 15%, transparent); }
+.tag--fwd { color: var(--red);  background: color-mix(in srgb, var(--red) 15%, transparent); }
 
-/* En thème sombre, teintes de tags éclaircies pour rester lisibles sur fond foncé. */
-:root[data-theme="dark"] .tag--gk  { color: #FBBF24; }
-:root[data-theme="dark"] .tag--def { color: #60A5FA; }
-:root[data-theme="dark"] .tag--mid { color: #4ADE80; }
-:root[data-theme="dark"] .tag--fwd { color: #F87171; }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .tag--gk  { color: #FBBF24; }
-  :root:not([data-theme="light"]) .tag--def { color: #60A5FA; }
-  :root:not([data-theme="light"]) .tag--mid { color: #4ADE80; }
-  :root:not([data-theme="light"]) .tag--fwd { color: #F87171; }
-}
-
-/* Fiche joueur compacte. */
+/* Fiche joueur compacte : maillot, nom, poste, badge de traçabilité. */
 .player-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--card-shadow);
   padding: var(--space-4);
   display: flex;
   align-items: center;
   gap: var(--space-4);
-}
-
-.player-card__number {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: var(--text-sm);
-  flex-shrink: 0;
 }
 
 .player-card__body {
@@ -227,60 +394,155 @@
 
 .player-card__name {
   font-weight: 600;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .player-card__meta {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  color: var(--muted);
+  color: var(--mute);
   font-size: var(--text-sm);
 }
 
-/* Ligne de match. */
-.match-row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--border);
+.player-card__meta .trace {
+  margin-top: 0;
 }
 
-.match-row:last-child {
-  border-bottom: none;
+/* Ligne de match : compétition, affiche, score condensé, résultat V/N/D. */
+.match-row {
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 16px;
+  background: var(--surface);
+  box-shadow: var(--card-shadow);
 }
 
 .match-row__competition {
-  color: var(--muted);
-  font-size: var(--text-sm);
-  width: 90px;
-  flex-shrink: 0;
-}
-
-.match-row__teams {
-  flex: 1;
-  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-bottom: 12px;
 }
 
 .match-row__score {
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-4);
 }
 
-.match-row__result {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+.match-row__team {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.match-row__team--away {
+  text-align: right;
+  color: var(--dim);
+}
+
+.match-row__figures {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  color: #FFFFFF;
-  flex-shrink: 0;
+  gap: var(--space-3);
 }
 
-.match-row__result--w { background: var(--success); }
-.match-row__result--d { background: var(--muted); }
-.match-row__result--l { background: var(--danger); }
+.match-row__sc {
+  font-family: var(--num);
+  font-size: 34px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.match-row__sep {
+  color: var(--mute);
+  margin: 0 4px;
+}
+
+/* Guide de forme et pastille de résultat : V (victoire), N (nul), D (défaite). */
+.form {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.pill {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-sm);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: var(--text-sm);
+}
+
+.pill--w { color: var(--ok);   background: color-mix(in srgb, var(--ok) 16%, transparent); }
+.pill--n { color: var(--dim);  background: color-mix(in srgb, var(--dim) 16%, transparent); }
+.pill--l { color: var(--red);  background: var(--red-soft); }
+
+/* Mode transparence : quand body.transp est actif, toutes les données estimées
+   ressortent (contour ambre pointillé, halo sur les cartes concernées). */
+body.transp .card[data-est],
+body.transp [data-est] .card {
+  border-color: color-mix(in srgb, var(--est) 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--est) 25%, transparent) inset;
+}
+
+body.transp [data-est] {
+  outline: 1px dashed color-mix(in srgb, var(--est) 55%, transparent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+/* Tooltip de provenance : suit le curseur sur tout élément [data-tip]. */
+#tip {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  background: var(--pop-bg);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  font-size: 12.5px;
+  max-width: 230px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .5);
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+#tip.on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#tip .tt {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+#tip .tt .d {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+#tip.v .tt { color: var(--ok); }
+#tip.v .tt .d { background: var(--ok); }
+#tip.e .tt { color: var(--est); }
+#tip.e .tt .d { background: transparent; border: 1.5px solid var(--est); }
+
+#tip p {
+  color: var(--dim);
+  line-height: 1.4;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #tip {
+    transition: opacity .15s, transform .15s;
+  }
+}

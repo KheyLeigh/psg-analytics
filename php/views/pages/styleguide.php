@@ -45,17 +45,24 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
 ?>
 <div class="stack section">
   <div>
-    <h1>Styleguide Matchday</h1>
-    <p>Référence vivante des composants du design system en direction Matchday : hero champion, cartes KPI, badges de traçabilité, boutons, tags de poste, tableau de buteurs, guide de forme, fiches joueur et lignes de match. Le bouton Transparence du header fait ressortir les données estimées ; survolez les cartes marquées pour voir leur provenance. Utilisez le bouton lune pour basculer sombre et clair.</p>
+    <div class="sec-h" style="margin-top:0">Design system Matchday</div>
+    <p>Référence vivante des composants : hero champion, cartes KPI, badges de traçabilité, boutons, tags de poste, tableau de buteurs, guide de forme, fiches joueur et lignes de match. Le bouton Transparence du header fait ressortir les données estimées ; survolez les cartes marquées pour voir leur provenance. Utilisez le bouton lune pour basculer sombre et clair.</p>
   </div>
 
   <section class="hero">
     <div class="hero__stripe hechter" aria-hidden="true"></div>
-    <div>
+    <div class="hero__body">
       <span class="champ">&#9733; Champion de Ligue 1</span>
+      <h1 class="hero__title">Champions de France</h1>
       <div class="hero__kick">Paris Saint-Germain · Saison 2025-26</div>
-      <div class="hero__record">24<i>·</i>4<i>·</i>6</div>
-      <p class="hero__subline"><b>Meilleure attaque du championnat.</b> 74 buts marqués, 29 encaissés, +45 de différence sur 34 journées.</p>
+      <div class="hero__stats">
+        <div class="hero__stat"><span class="hero__stat-num">24</span><span class="hero__stat-label">Victoires</span></div>
+        <div class="hero__stat"><span class="hero__stat-num">4</span><span class="hero__stat-label">Nuls</span></div>
+        <div class="hero__stat"><span class="hero__stat-num">6</span><span class="hero__stat-label">Défaites</span></div>
+        <div class="hero__stat hero__stat--gold"><span class="hero__stat-num">76</span><span class="hero__stat-label">Points</span></div>
+        <div class="hero__stat"><span class="hero__stat-num">+45</span><span class="hero__stat-label">Différence</span></div>
+      </div>
+      <p class="hero__subline"><b>Meilleure attaque du championnat</b>, 74 buts en 34 journées.</p>
     </div>
   </section>
 

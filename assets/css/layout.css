@@ -129,7 +129,9 @@
   flex: 1;
 }
 
-/* Hero champion : bande Hechter verticale, badge or, record en chiffres condensés. */
+/* Hero champion : bande Hechter verticale, badge or, titre en display condensé
+   italique, puis un bandeau de stats étiquetées façon habillage télé (chaque
+   chiffre surmonte son libellé, le total de points en or car il scelle le titre). */
 .hero {
   display: flex;
   gap: var(--space-8);
@@ -143,34 +145,82 @@
   flex: none;
 }
 
+.hero__body {
+  min-width: 0;
+}
+
+/* Titre du hero : gros display condensé italique, uniforme (pas de mot accentué).
+   Sur le Dashboard (Phase 9) c'est le <h1> de la page. */
+.hero__title {
+  font-family: var(--num);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(56px, 8.5vw, 104px);
+  line-height: .84;
+  letter-spacing: -.01em;
+  color: var(--text);
+  text-wrap: balance;
+  margin: var(--space-4) 0 0;
+}
+
 .hero__kick {
   color: var(--dim);
   font-size: var(--text-sm);
-  letter-spacing: .24em;
+  letter-spacing: .2em;
   text-transform: uppercase;
   font-weight: 700;
-  margin: 20px 0 8px;
+  margin: 12px 0 0;
 }
 
-.hero__record {
+/* Bandeau de stats : chiffres condensés surmontant leur libellé, séparés par un
+   filet fin. Rend le bilan 24-4-6 lisible sans décodage. */
+.hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin: var(--space-6) 0 0;
+}
+
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 var(--space-6);
+}
+
+.hero__stat:first-child {
+  padding-left: 0;
+}
+
+.hero__stat + .hero__stat {
+  border-left: 1px solid var(--line);
+}
+
+.hero__stat-num {
   font-family: var(--num);
-  font-size: 122px;
-  line-height: .82;
   font-weight: 700;
-  font-style: italic;
-  margin: 0;
+  font-size: 46px;
+  line-height: 1;
+  color: var(--text);
 }
 
-.hero__record i {
-  color: var(--red);
-  font-style: italic;
+/* Le total de points scelle le titre : seule stat en or (or = champion). */
+.hero__stat--gold .hero__stat-num {
+  color: var(--gold);
+}
+
+.hero__stat-label {
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mute);
 }
 
 .hero__subline {
   color: var(--dim);
   font-size: var(--text-lg);
-  margin: 14px 0 0;
-  max-width: 440px;
+  margin: var(--space-5) 0 0;
+  max-width: 460px;
 }
 
 .hero__subline b {
@@ -179,7 +229,8 @@
 }
 
 @media (max-width: 600px) {
-  .hero__record { font-size: 84px; }
+  .hero__stat-num { font-size: 38px; }
+  .hero__stat { padding: 0 var(--space-4); }
 }
 
 /* Titre de section : capitales espacées, discret mais structurant. */

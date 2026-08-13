@@ -42,10 +42,13 @@
   --card-shadow: none;
   --sw-knob: #c3cbe0;
 
-  /* Familles typographiques : texte en pile système, chiffres en condensé système
-     (aucun téléchargement réseau, aucune woff2 absente). */
+  /* Familles typographiques : texte courant en pile système ; titre du hero en
+     Anton (display droit, esprit affiche) ; chiffres en Saira italique (condensé
+     façon numéro de maillot). Anton et Saira sont hébergés en local (voir fonts.css).
+     Les replis condensés système couvrent le temps de chargement et l'absence. */
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --num: 'Arial Narrow', 'Roboto Condensed', var(--sans);
+  --display: 'Anton', 'Arial Narrow', 'Roboto Condensed', var(--sans);
+  --num: 'Saira', 'Arial Narrow', 'Roboto Condensed', var(--sans);
 
   /* Rythme d'espacement partagé avec le reste du site. */
   --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;

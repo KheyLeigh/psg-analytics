@@ -54,6 +54,7 @@
 
 .card__value {
   font-family: var(--num);
+  font-style: italic;
   font-size: 50px;
   font-weight: 700;
   line-height: 1;
@@ -280,6 +281,7 @@ body.transp .transp-btn__sw::after {
 
 .table .num {
   font-family: var(--num);
+  font-style: italic;
   font-size: var(--text-2xl);
   font-weight: 700;
   text-align: right;
@@ -305,6 +307,7 @@ body.transp .transp-btn__sw::after {
   background: var(--navy-700);
   border: 1px solid var(--line-2);
   font-family: var(--num);
+  font-style: italic;
   font-weight: 700;
   font-size: 17px;
   display: grid;
@@ -347,6 +350,7 @@ body.transp .transp-btn__sw::after {
 
 .meter-row__num {
   font-family: var(--num);
+  font-style: italic;
   font-size: var(--text-2xl);
   font-weight: 700;
   min-width: 24px;
@@ -451,6 +455,7 @@ body.transp .transp-btn__sw::after {
 
 .match-row__sc {
   font-family: var(--num);
+  font-style: italic;
   font-size: 34px;
   font-weight: 700;
   white-space: nowrap;

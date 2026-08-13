@@ -129,108 +129,164 @@
   flex: 1;
 }
 
-/* Hero champion : bande Hechter verticale, badge or, titre en display condensé
-   italique, puis un bandeau de stats étiquetées façon habillage télé (chaque
-   chiffre surmonte son libellé, le total de points en or car il scelle le titre). */
+/* Hero champion "Matchday" : banderole Hechter comme ossature, eyebrow bleu, titre
+   en display condensé italique, puis une vitrine de trophées (un rectangle or par
+   compétition gagnée). Le trophée doré au centre est un placeholder qui pivote ; il
+   sera remplacé par un vrai modèle 3D par carte en étape de finition. */
 .hero {
   display: flex;
   gap: var(--space-8);
   align-items: stretch;
-  padding: var(--space-12) 0 var(--space-8);
+  padding: var(--space-8) 0;
 }
 
-.hero__stripe {
-  width: 24px;
-  border-radius: 4px;
+/* Banderole : rayure Hechter (rouge bordée blanc), pleine hauteur, porte l'année. */
+.hero__band {
+  width: 104px;
   flex: none;
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  background: linear-gradient(90deg, #fff 0 6px, var(--red) 6px 98px, #fff 98px 104px);
+  box-shadow: 0 18px 50px rgba(226, 0, 26, .22);
 }
 
-.hero__body {
-  min-width: 0;
+.hero__band-star {
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 20px;
 }
 
-/* Titre du hero : gros display condensé italique, uniforme (pas de mot accentué).
-   Sur le Dashboard (Phase 9) c'est le <h1> de la page. */
-.hero__title {
+.hero__band-year {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
   font-family: var(--num);
   font-style: italic;
   font-weight: 700;
-  font-size: clamp(56px, 8.5vw, 104px);
-  line-height: .84;
-  letter-spacing: -.01em;
-  color: var(--text);
-  text-wrap: balance;
-  margin: var(--space-4) 0 0;
+  font-size: 30px;
+  color: #fff;
+  letter-spacing: .04em;
 }
 
-.hero__kick {
-  color: var(--dim);
+.hero__body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Eyebrow en bleu secondaire (contexte, jamais l'identité rouge). */
+.hero__eyebrow {
+  color: var(--blue);
   font-size: var(--text-sm);
   letter-spacing: .2em;
   text-transform: uppercase;
   font-weight: 700;
-  margin: 12px 0 0;
 }
 
-/* Bandeau de stats : chiffres condensés surmontant leur libellé, séparés par un
-   filet fin. Rend le bilan 24-4-6 lisible sans décodage. */
-.hero__stats {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
+/* Titre : gros display condensé italique, uniforme. Sur le Dashboard c'est le <h1>. */
+.hero__title {
+  font-family: var(--num);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(52px, 6.6vw, 92px);
+  line-height: .84;
+  letter-spacing: -.015em;
+  color: var(--text);
+  text-wrap: balance;
+  margin: var(--space-3) 0 0;
+}
+
+/* Vitrine : un rectangle or par trophée gagné. */
+.hero__cabinet {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
   margin: var(--space-6) 0 0;
 }
 
-.hero__stat {
+.trophy {
+  position: relative;
+  border-radius: var(--r-lg);
+  padding: 18px 16px;
+  min-height: 230px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 0 var(--space-6);
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 12%, var(--surface)), var(--surface) 62%);
+  border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 10%, transparent) inset, 0 20px 40px rgba(0, 0, 0, .35);
 }
 
-.hero__stat:first-child {
-  padding-left: 0;
+.trophy__stage {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  perspective: 520px;
 }
 
-.hero__stat + .hero__stat {
-  border-left: 1px solid var(--line);
+/* Trophée placeholder qui pivote (remplacé par un modèle 3D en finition). */
+.trophy__spin {
+  width: 76px;
+  height: 96px;
+  filter: drop-shadow(0 8px 10px rgba(244, 201, 75, .25));
 }
 
-.hero__stat-num {
-  font-family: var(--num);
-  font-weight: 700;
-  font-size: 46px;
-  line-height: 1;
-  color: var(--text);
+@media (prefers-reduced-motion: no-preference) {
+  .trophy__spin {
+    animation: trophy-turn 5s ease-in-out infinite;
+  }
 }
 
-/* Le total de points scelle le titre : seule stat en or (or = champion). */
-.hero__stat--gold .hero__stat-num {
+/* Balancement 3D léger : l'objet tourne sans jamais passer par une tranche
+   invisible (le SVG plat est un placeholder ; le vrai modèle 3D fera un tour complet). */
+@keyframes trophy-turn {
+  0% { transform: rotateY(-32deg); }
+  50% { transform: rotateY(32deg); }
+  100% { transform: rotateY(-32deg); }
+}
+
+.trophy__name {
   color: var(--gold);
-}
-
-.hero__stat-label {
-  font-size: 11px;
-  letter-spacing: .1em;
+  font-size: 12.5px;
+  letter-spacing: .06em;
   text-transform: uppercase;
-  color: var(--mute);
+  font-weight: 700;
+  margin-top: 10px;
 }
 
-.hero__subline {
+.trophy__stat {
   color: var(--dim);
-  font-size: var(--text-lg);
-  margin: var(--space-5) 0 0;
-  max-width: 460px;
+  font-size: var(--text-sm);
+  margin-top: 3px;
 }
 
-.hero__subline b {
-  color: var(--text);
-  font-weight: 600;
+.hero__note {
+  color: var(--mute);
+  font-size: var(--text-sm);
+  font-style: italic;
+  margin: var(--space-4) 0 0;
 }
 
-@media (max-width: 600px) {
-  .hero__stat-num { font-size: 38px; }
-  .hero__stat { padding: 0 var(--space-4); }
+@media (max-width: 860px) {
+  .hero__cabinet { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .hero { gap: var(--space-4); }
+  .hero__band { width: 72px; }
+  .hero__band-year { font-size: 24px; }
+}
+
+@media (max-width: 480px) {
+  .hero__cabinet { grid-template-columns: 1fr; }
 }
 
 /* Titre de section : capitales espacées, discret mais structurant. */

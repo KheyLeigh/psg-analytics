@@ -5,21 +5,23 @@
 
 :root {
   /* Palette catégorielle pour les multi-secteurs (donut) et multi-séries.
-     Rouge identité, bleu comparaison, or champion, vert vérifié, plus une
-     cinquième teinte violette distincte et lisible dans les deux ambiances. */
+     Rouge identité, bleu comparaison, sarcelle, vert vérifié, violet. L'or en est
+     EXCLU : il reste réservé au champion (jalon de titre), jamais une catégorie.
+     Toutes les teintes restent lisibles en dark et en clair. */
   --chart-1: var(--red);
   --chart-2: var(--blue);
-  --chart-3: var(--gold);
+  --chart-3: #2fd4c6;
   --chart-4: var(--ok);
   --chart-5: #a77bff;
 }
 
 :root[data-theme="light"] {
-  /* Cinquième teinte assombrie pour tenir le contraste sur fond clair. */
+  /* Teintes assombries pour tenir le contraste sur fond clair. */
+  --chart-3: #0f9488;
   --chart-5: #7c4dd6;
 }
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) { --chart-5: #7c4dd6; }
+  :root:not([data-theme="dark"]) { --chart-3: #0f9488; --chart-5: #7c4dd6; }
 }
 
 /* Conteneur générique : le SVG épouse la largeur, la hauteur suit le viewBox. */
@@ -154,27 +156,19 @@
   font-size: 11px;
   fill: var(--dim);
 }
-.chart .heat-value {
-  font-family: var(--num);
-  font-style: italic;
-  font-size: 11px;
-}
 
-/* Apparition douce, désactivée si l'utilisateur limite les animations. */
+/* Apparition douce et cohérente sur tous les charts, désactivée si l'utilisateur
+   limite les animations. */
 @media (prefers-reduced-motion: no-preference) {
   .chart .bar,
   .chart .donut-slice,
-  .chart .heat-cell {
+  .chart .heat-cell,
+  .chart .line-path,
+  .chart .radar-serie-1,
+  .chart .radar-serie-2 {
     animation: chart-fade .45s ease both;
   }
-  .chart .line-path {
-    animation: chart-draw .7s ease both;
-  }
   @keyframes chart-fade {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  @keyframes chart-draw {
     from { opacity: 0; }
     to { opacity: 1; }
   }

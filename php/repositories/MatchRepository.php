@@ -124,8 +124,15 @@ class MatchRepository extends Repository
 
     // Derniers matchs enrichis (toutes compétitions) prêts pour le partial match_row :
     // nom de compétition, adversaire, domicile, buts et résultat du point de vue PSG.
+    // Filtré sur PSG (domicile OU extérieur) : la table ne contient aujourd'hui que des
+    // matchs PSG, mais rien ne défendait cette invariance côté requête sans cette clause.
     public function recentDetailed(int $psgTeamId, int $limit): array
     {
+        // LIMIT reste interpolé, comme recent()/paginate() dans ce fichier : fetchAll() lie
+        // tous les paramètres du tableau via PDOStatement::execute(), qui les traite en
+        // PDO::PARAM_STR et casserait LIMIT sur un pilote en préparation native. $limit est
+        // déjà typé int par la signature (strict_types=1) ; le cast explicite ci-dessous est
+        // une défense supplémentaire, sans rien changer au style existant du fichier.
         $rows = $this->fetchAll(
             "SELECT m.home_team_id, m.away_team_id, m.home_goals, m.away_goals,
                     c.name comp_name, ht.name home_name, at.name away_name
@@ -133,8 +140,10 @@ class MatchRepository extends Repository
              JOIN teams ht ON ht.id = m.home_team_id
              JOIN teams at ON at.id = m.away_team_id
              JOIN competitions c ON c.id = m.competition_id
+             WHERE (m.home_team_id = :psg1 OR m.away_team_id = :psg2)
              ORDER BY m.played_at DESC, m.id DESC
-             LIMIT {$limit}"
+             LIMIT " . (int) $limit,
+            ['psg1' => $psgTeamId, 'psg2' => $psgTeamId]
         );
         return array_map(static function (array $r) use ($psgTeamId): array {
             $home = (int) $r['home_team_id'] === $psgTeamId;

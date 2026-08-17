@@ -71,4 +71,71 @@ final class MatchRepositoryTest extends TestCase
         $this->assertSame('L', $series[3]['result'], 'défaite : résultat L');
         $this->assertSame(7, $series[3]['y'], 'la défaite n\'ajoute aucun point');
     }
+
+    // Fixture d'une saison Ligue 1 complète (34 journées) pour cumulativePoints() : la
+    // méthode réellement appelée par DashboardController (requête SQL + tri + filtre),
+    // pas seulement accumulatePoints() sur des données synthétiques.
+    private function pdoSaison(): PDO
+    {
+        $pdo = new PDO('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $pdo->exec(
+            'CREATE TABLE matches (
+                id INTEGER PRIMARY KEY, competition_id INT, home_team_id INT, away_team_id INT,
+                home_goals INT, away_goals INT, round_label TEXT, played_at TEXT
+            )'
+        );
+
+        // 34 journées, PSG (id 1) à domicile face à l'id 2 : 24 victoires, 4 nuls, 6 défaites,
+        // soit 24*3 + 4*1 = 76 points (référence du brief : "total attendu 76").
+        $results = [
+            'W', 'W', 'D', 'W', 'W', 'L', 'W', 'W', 'D', 'W', 'W', 'L',
+            'W', 'W', 'D', 'W', 'W', 'L', 'W', 'W', 'D', 'W', 'W', 'L',
+            'W', 'W', 'W', 'L', 'W', 'W', 'W', 'L', 'W', 'W',
+        ];
+        $stmt = $pdo->prepare(
+            'INSERT INTO matches (id, competition_id, home_team_id, away_team_id, home_goals, away_goals, round_label, played_at)
+             VALUES (:id, 1, 1, 2, :hg, :ag, :label, :date)'
+        );
+        foreach ($results as $i => $result) {
+            $matchday = $i + 1;
+            [$hg, $ag] = match ($result) {
+                'W' => [2, 0],
+                'D' => [1, 1],
+                'L' => [0, 2],
+            };
+            $stmt->execute([
+                'id'    => $matchday,
+                'hg'    => $hg,
+                'ag'    => $ag,
+                'label' => "J{$matchday}",
+                // Une journée par semaine, à partir du 13/08/2023 (calendrier Ligue 1 type).
+                'date'  => date('Y-m-d', strtotime('2023-08-13') + $i * 7 * 86400),
+            ]);
+        }
+
+        // Bruit : match Ligue 1 sans PSG (doit être exclu par le filtre équipe).
+        $pdo->exec(
+            "INSERT INTO matches (id, competition_id, home_team_id, away_team_id, home_goals, away_goals, round_label, played_at)
+             VALUES (100, 1, 3, 4, 1, 1, 'Bruit', '2023-09-10')"
+        );
+        // Bruit : match PSG en Coupe de France (doit être exclu par le filtre compétition).
+        $pdo->exec(
+            "INSERT INTO matches (id, competition_id, home_team_id, away_team_id, home_goals, away_goals, round_label, played_at)
+             VALUES (101, 2, 1, 5, 4, 0, 'Bruit', '2023-09-11')"
+        );
+        return $pdo;
+    }
+
+    public function testCumulativePointsTotaliseLaSaisonLigue1(): void
+    {
+        $repo = new MatchRepository($this->pdoSaison());
+        $series = $repo->cumulativePoints(1, 1);
+
+        $this->assertCount(34, $series, 'les 34 journées de Ligue 1, le bruit hors équipe/compétition est exclu');
+        $dernier = $series[count($series) - 1];
+        $this->assertSame(34, $dernier['x'], 'la dernière journée est bien la 34e');
+        $this->assertSame(76, $dernier['y'], 'total cumulé de la saison : 24V*3 + 4N*1 + 6D*0 = 76 pts');
+    }
 }

@@ -1,2 +1,121 @@
-/* Réservé aux styles propres à chaque page branchée sur l'API (accueil, dashboard,
-   joueurs, matchs). Volontairement vide : rempli en Phase 9. */
+/* Styles propres aux pages branchées sur l'API. Ici : le Dashboard "Matchday".
+   Tout dérive des jetons (thème dark et clair), rien n'est codé en dur. La page
+   reste lisible sans JavaScript ; les animations sont désactivées si l'utilisateur
+   limite les mouvements. */
+
+/* Fin galon Hechter en séparateur de section : un trait discret, jamais bruyant. */
+.dash-sep {
+  height: 3px;
+  border-radius: var(--r-pill);
+  opacity: .6;
+  margin: var(--space-2) 0;
+}
+
+/* Grille des graphiques : deux colonnes, les cartes larges occupent toute la ligne. */
+.dash-charts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+}
+
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.chart-card--wide {
+  grid-column: 1 / -1;
+}
+
+.chart-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.chart-card__title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.chart-card__sub {
+  margin: 4px 0 0;
+  color: var(--dim);
+  font-size: var(--text-sm);
+}
+
+.chart-card__sub .gold {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* Aire de tracé : hauteur minimale stable pour éviter le saut à l'hydratation,
+   et centrage du texte de repli tant que le graphique n'est pas rendu. */
+.chart-card__canvas {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+}
+
+.chart-fallback {
+  margin: 0;
+  color: var(--mute);
+  font-size: var(--text-sm);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Colonne de fin : derniers matchs et guide de forme respirent verticalement. */
+.dash-tail .stack {
+  gap: var(--space-4);
+}
+
+/* Le survol d'une barre ou d'un secteur met la série en valeur (a11y : l'info reste
+   portée par l'infobulle native <title>, jamais par la seule opacité). */
+.chart:hover .bar,
+.chart:hover .donut-slice,
+.chart:hover .heat-cell {
+  opacity: .5;
+}
+
+.chart .bar:hover,
+.chart .donut-slice:hover,
+.chart .heat-cell:hover {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .dash-charts {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Touches animées, désactivées sous prefers-reduced-motion. Aucune information ne
+   dépend d'elles : elles n'ajoutent que du rythme au premier rendu. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Guide de forme : les pastilles apparaissent en léger décalé (esprit tableau). */
+  .dash-form .pill {
+    animation: form-pop .42s cubic-bezier(.2, .7, .2, 1) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  @keyframes form-pop {
+    from { opacity: 0; transform: translateY(6px) scale(.9); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* Jalon champion : une pulsation d'or unique quand la courbe finit de se tracer. */
+  .chart .milestone-dot.is-lit {
+    animation: milestone-pulse 1.1s ease-out 1;
+  }
+
+  @keyframes milestone-pulse {
+    0% { stroke-width: 2; filter: none; }
+    40% { stroke-width: 7; filter: drop-shadow(0 0 6px var(--gold)); }
+    100% { stroke-width: 2; filter: none; }
+  }
+}

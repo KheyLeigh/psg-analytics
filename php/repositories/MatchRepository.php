@@ -76,6 +76,82 @@ class MatchRepository extends Repository
         ];
     }
 
+    // Série des points de championnat cumulés journée par journée, du point de vue
+    // PSG. La courbe de progression n'a pas d'endpoint : on l'ordonne ici (par date
+    // puis identifiant) et le cumul pur est délégué à accumulatePoints (testable).
+    public function cumulativePoints(int $psgTeamId, int $competitionId): array
+    {
+        $rows = $this->fetchAll(
+            'SELECT round_label, home_team_id, away_team_id, home_goals, away_goals
+             FROM matches
+             WHERE competition_id = :comp AND (home_team_id = :psg1 OR away_team_id = :psg2)
+             ORDER BY played_at ASC, id ASC',
+            ['comp' => $competitionId, 'psg1' => $psgTeamId, 'psg2' => $psgTeamId]
+        );
+        return self::accumulatePoints($rows, $psgTeamId);
+    }
+
+    // Cumul pur des points au fil des journées (V = 3, N = 1, D = 0), du point de vue
+    // PSG. Sans effet de bord ni accès base : l'appelant a déjà trié les rencontres.
+    public static function accumulatePoints(array $rows, int $psgTeamId): array
+    {
+        $total = 0;
+        $matchday = 0;
+        $series = [];
+        foreach ($rows as $row) {
+            $matchday++;
+            $home = (int) $row['home_team_id'] === $psgTeamId;
+            $for = $home ? (int) $row['home_goals'] : (int) $row['away_goals'];
+            $against = $home ? (int) $row['away_goals'] : (int) $row['home_goals'];
+            if ($for > $against) {
+                $total += 3;
+                $result = 'W';
+            } elseif ($for === $against) {
+                $total += 1;
+                $result = 'D';
+            } else {
+                $result = 'L';
+            }
+            $series[] = [
+                'x'      => $matchday,
+                'y'      => $total,
+                'result' => $result,
+                'label'  => (string) ($row['round_label'] ?? ('J' . $matchday)),
+            ];
+        }
+        return $series;
+    }
+
+    // Derniers matchs enrichis (toutes compétitions) prêts pour le partial match_row :
+    // nom de compétition, adversaire, domicile, buts et résultat du point de vue PSG.
+    public function recentDetailed(int $psgTeamId, int $limit): array
+    {
+        $rows = $this->fetchAll(
+            "SELECT m.home_team_id, m.away_team_id, m.home_goals, m.away_goals,
+                    c.name comp_name, ht.name home_name, at.name away_name
+             FROM matches m
+             JOIN teams ht ON ht.id = m.home_team_id
+             JOIN teams at ON at.id = m.away_team_id
+             JOIN competitions c ON c.id = m.competition_id
+             ORDER BY m.played_at DESC, m.id DESC
+             LIMIT {$limit}"
+        );
+        return array_map(static function (array $r) use ($psgTeamId): array {
+            $home = (int) $r['home_team_id'] === $psgTeamId;
+            $goalsFor = $home ? (int) $r['home_goals'] : (int) $r['away_goals'];
+            $goalsAgainst = $home ? (int) $r['away_goals'] : (int) $r['home_goals'];
+            $result = $goalsFor > $goalsAgainst ? 'W' : ($goalsFor === $goalsAgainst ? 'D' : 'L');
+            return [
+                'competition'  => (string) $r['comp_name'],
+                'opponent'     => $home ? (string) $r['away_name'] : (string) $r['home_name'],
+                'home'         => $home,
+                'goalsFor'     => $goalsFor,
+                'goalsAgainst' => $goalsAgainst,
+                'result'       => $result,
+            ];
+        }, $rows);
+    }
+
     private function buildFilters(?int $competitionId, ?string $result, int $psgTeamId): array
     {
         $conditions = [];

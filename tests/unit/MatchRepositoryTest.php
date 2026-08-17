@@ -51,4 +51,24 @@ final class MatchRepositoryTest extends TestCase
 
         $this->assertSame(0.0, $record['avg_possession'], 'COALESCE ramène à 0 quand tout est NULL');
     }
+
+    // Cumul pur : deux victoires, un nul, une défaite depuis le point de vue PSG (id 1).
+    // 3, 6, 7, 7 points ; le résultat suit le score et les journées sont numérotées.
+    public function testAccumulatePointsCumuleLesPointsParJournee(): void
+    {
+        $rows = [
+            ['round_label' => 'J1', 'home_team_id' => 1, 'away_team_id' => 2, 'home_goals' => 2, 'away_goals' => 0],
+            ['round_label' => 'J2', 'home_team_id' => 3, 'away_team_id' => 1, 'home_goals' => 0, 'away_goals' => 1],
+            ['round_label' => 'J3', 'home_team_id' => 1, 'away_team_id' => 4, 'home_goals' => 1, 'away_goals' => 1],
+            ['round_label' => 'J4', 'home_team_id' => 5, 'away_team_id' => 1, 'home_goals' => 3, 'away_goals' => 0],
+        ];
+        $series = MatchRepository::accumulatePoints($rows, 1);
+
+        $this->assertCount(4, $series);
+        $this->assertSame([1, 3, 'W', 'J1'], [$series[0]['x'], $series[0]['y'], $series[0]['result'], $series[0]['label']]);
+        $this->assertSame(6, $series[1]['y'], 'victoire à l\'extérieur : +3');
+        $this->assertSame(7, $series[2]['y'], 'match nul : +1');
+        $this->assertSame('L', $series[3]['result'], 'défaite : résultat L');
+        $this->assertSame(7, $series[3]['y'], 'la défaite n\'ajoute aucun point');
+    }
 }

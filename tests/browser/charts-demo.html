@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Démo : moteur de charts Matchday</title>
+  <link rel="stylesheet" href="../../assets/fonts/fonts.css">
+  <link rel="stylesheet" href="../../assets/css/tokens.css">
+  <link rel="stylesheet" href="../../assets/css/charts.css">
+  <style>
+    body {
+      margin: 0;
+      background: var(--navy-900);
+      color: var(--text);
+      font-family: var(--sans);
+      transition: background .2s ease, color .2s ease;
+    }
+    header {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 16px 24px; border-bottom: 1px solid var(--line);
+      position: sticky; top: 0; background: var(--navy-800); z-index: 2;
+    }
+    h1 { font-family: var(--display); font-size: 18px; margin: 0; letter-spacing: .3px; }
+    #theme-toggle {
+      font-family: var(--sans); font-size: 13px; cursor: pointer;
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--line-2); border-radius: var(--r-pill); padding: 8px 16px;
+    }
+    main {
+      max-width: 1100px; margin: 0 auto; padding: 24px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px;
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--r-lg); padding: 18px; box-shadow: var(--card-shadow);
+    }
+    .card h2 {
+      font-family: var(--display); font-size: 14px; margin: 0 0 4px; letter-spacing: .2px;
+    }
+    .card p.sub { color: var(--mute); font-size: 12px; margin: 0 0 14px; }
+    .full { grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Moteur de charts · Matchday</h1>
+    <button id="theme-toggle" type="button">Basculer clair / sombre</button>
+  </header>
+  <main>
+    <section class="card">
+      <h2>Buteurs Ligue 1</h2>
+      <p class="sub">Barres · série identité (rouge)</p>
+      <div id="c-bar"></div>
+    </section>
+    <section class="card full">
+      <h2>Points cumulés · 34 journées</h2>
+      <p class="sub">Courbe bleue de progression, jalon champion en or</p>
+      <div id="c-line"></div>
+    </section>
+    <section class="card">
+      <h2>Buts par période de jeu</h2>
+      <p class="sub">Donut · palette catégorielle</p>
+      <div id="c-donut"></div>
+    </section>
+    <section class="card">
+      <h2>Comparateur de joueurs</h2>
+      <p class="sub">Radar · rouge (Dembélé) contre bleu (Barcola)</p>
+      <div id="c-radar"></div>
+    </section>
+    <section class="card full">
+      <h2>Zones de jeu</h2>
+      <p class="sub">Carte de chaleur · intensité vers le rouge</p>
+      <div id="c-heat"></div>
+    </section>
+  </main>
+
+  <script type="module">
+    import * as bar from '../../assets/js/charts/bar.js';
+    import * as line from '../../assets/js/charts/line.js';
+    import * as donut from '../../assets/js/charts/donut.js';
+    import * as radar from '../../assets/js/charts/radar.js';
+    import * as heatmap from '../../assets/js/charts/heatmap.js';
+
+    // Buteurs L1 2025-26 (données d'exemple plausibles).
+    bar.render(document.getElementById('c-bar'), [
+      { label: 'Barcola', value: 11 },
+      { label: 'Dembélé', value: 10 },
+      { label: 'Kvara', value: 8 },
+      { label: 'Doué', value: 7 },
+      { label: 'Ramos', value: 6 },
+    ], { color: 'var(--red)', ariaLabel: 'Buteurs du PSG en Ligue 1 : Barcola 11, Dembélé 10, Kvaratskhelia 8, Doué 7, Ramos 6' });
+
+    // Points cumulés sur 34 journées, total 76 (champion).
+    const cumul = [
+      0, 3, 4, 7, 10, 13, 16, 17, 20, 23, 24, 27, 30, 33, 36, 37, 40,
+      43, 44, 47, 50, 53, 54, 57, 58, 61, 64, 65, 68, 70, 71, 73, 74, 76,
+    ].map((y, i) => ({ x: i, y }));
+    line.render(document.getElementById('c-line'), cumul, {
+      ariaLabel: 'Points cumulés du PSG sur 34 journées, total 76 points, champion',
+      milestone: { value: 76, label: '76 · Champion' },
+    });
+
+    // Répartition des buts par période de jeu.
+    donut.render(document.getElementById('c-donut'), [
+      { label: '0-15', value: 9, color: 'var(--chart-1)' },
+      { label: '16-30', value: 14, color: 'var(--chart-2)' },
+      { label: '31-45', value: 18, color: 'var(--chart-3)' },
+      { label: '46-60', value: 12, color: 'var(--chart-4)' },
+      { label: '61-90', value: 21, color: 'var(--chart-5)' },
+    ], { ariaLabel: 'Répartition des buts par période de jeu', centerLabel: '74', centerSub: 'buts' });
+
+    // Comparateur : deux joueurs, valeurs normalisées 0..1.
+    radar.render(document.getElementById('c-radar'), {
+      axes: ['Buts', 'Passes', 'Dribbles', 'Duels', 'Interceptions', 'Km'],
+      series: [
+        { name: 'Dembélé', values: [0.85, 0.70, 0.90, 0.55, 0.35, 0.80] },
+        { name: 'Barcola', values: [0.75, 0.80, 0.75, 0.45, 0.40, 0.88] },
+      ],
+    }, { ariaLabel: 'Radar comparatif Dembélé contre Barcola sur six indicateurs' });
+
+    // Zones de jeu : 3 tiers x 6 couloirs, intensité 0..1.
+    heatmap.render(document.getElementById('c-heat'), {
+      cols: 6,
+      rows: [
+        { label: 'Attaque', cells: [0.3, 0.5, 0.8, 0.9, 0.6, 0.4] },
+        { label: 'Milieu', cells: [0.4, 0.7, 0.9, 0.8, 0.7, 0.5] },
+        { label: 'Défense', cells: [0.2, 0.3, 0.5, 0.4, 0.3, 0.2] },
+      ],
+    }, {
+      ariaLabel: 'Carte de chaleur des zones de jeu, trois tiers sur six couloirs',
+      colLabels: ['G1', 'G2', 'G3', 'G4', 'G5', 'G6'],
+    });
+
+    // Bascule de thème locale (data-theme sur la racine), pour la vérification clair/sombre.
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const root = document.documentElement;
+      const now = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', now);
+    });
+  </script>
+</body>
+</html>

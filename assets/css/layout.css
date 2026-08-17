@@ -188,14 +188,14 @@
   font-weight: 700;
 }
 
-/* Titre : Anton (display droit, esprit affiche). Sur le Dashboard c'est le <h1>. */
+/* Titre : Archivo Black (grotesque noir, moderne). Sur le Dashboard c'est le <h1>. */
 .hero__title {
   font-family: var(--display);
   font-style: normal;
   font-weight: 400;
-  font-size: clamp(50px, 6.4vw, 88px);
-  line-height: .92;
-  letter-spacing: .005em;
+  font-size: clamp(42px, 5.4vw, 74px);
+  line-height: 1;
+  letter-spacing: -.015em;
   color: var(--text);
   text-wrap: balance;
   margin: var(--space-4) 0 0;

@@ -1,15 +1,15 @@
 /* Polices d'affichage "Matchday", hébergées en local (aucune requête réseau au
-   runtime). Anton pour le très gros titre du hero (droit, esprit affiche). Saira
-   italique pour les chiffres condensés façon numéro de maillot. Le texte courant
-   reste en pile système (voir --sans dans tokens.css). Licences OFL : OFL-Anton.txt,
-   OFL-Saira.txt. */
+   runtime). Archivo Black pour le très gros titre du hero (grotesque noir, moderne).
+   Saira italique pour les chiffres condensés façon numéro de maillot. Le texte
+   courant reste en pile système (voir --sans dans tokens.css). Licences OFL :
+   OFL-ArchivoBlack.txt, OFL-Saira.txt. */
 
 @font-face {
-  font-family: 'Anton';
+  font-family: 'Archivo Black';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/assets/fonts/anton.woff2') format('woff2');
+  src: url('/assets/fonts/archivo-black.woff2') format('woff2');
 }
 
 @font-face {

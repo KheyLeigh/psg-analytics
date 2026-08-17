@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/assets/css/charts.css">
   <link rel="stylesheet" href="/assets/css/pages.css">
 </head>
-<body>
+<body<?= isset($page) && $page !== '' ? ' data-page="' . View::e($page) . '"' : '' ?>>
   <?php require BASE_PATH . '/php/views/partials/header.php'; ?>
   <main class="container"><?= $content ?></main>
   <?php require BASE_PATH . '/php/views/partials/footer.php'; ?>

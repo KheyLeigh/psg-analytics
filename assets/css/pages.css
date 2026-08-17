@@ -119,3 +119,257 @@
     100% { stroke-width: 2; filter: none; }
   }
 }
+
+/* ============================================================================
+   Accueil "Matchday" : la couverture éditoriale. Styles propres à la landing,
+   dérivés des mêmes jetons que le reste du site (dark et clair), sans rien coder
+   en dur. La page a tout son sens sans JavaScript ; les touches animées sont
+   opt-in et se coupent sous prefers-reduced-motion.
+   ========================================================================== */
+
+/* Promesse de traçabilité : accroche large, lisible, avec la légende de source. */
+.home-promise__lede {
+  max-width: 62ch;
+  font-size: var(--text-xl);
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.home-promise__lede .ok { color: var(--ok); font-weight: 700; font-style: normal; }
+.home-promise__lede .est { color: var(--est); font-style: italic; }
+
+.home-promise__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-top: var(--space-4);
+}
+
+.home-promise__legend .trace { margin-top: 0; }
+
+.home-promise__more {
+  margin-top: var(--space-4);
+  color: var(--dim);
+  font-size: var(--text-sm);
+}
+
+.home-promise__more a {
+  color: var(--dim);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.home-promise__more a:hover { color: var(--text); }
+
+/* Mention interactive discrète, alignée sur le texte courant (pas un bouton visible). */
+.linklike {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: var(--gold);
+  cursor: pointer;
+  text-underline-offset: 2px;
+}
+
+.linklike:hover { text-decoration: underline; }
+
+/* Pull-quote "couverture de programme" : la phrase-accroche de saison, en display. */
+.home-quote {
+  margin: 0;
+  padding: var(--space-8) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.home-quote blockquote {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(26px, 3.6vw, 44px);
+  line-height: 1.06;
+  letter-spacing: -.01em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.home-quote figcaption {
+  margin-top: var(--space-4);
+  color: var(--mute);
+  font-size: var(--text-xs);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* Colonne de fin : derniers matchs et top buteurs respirent verticalement. */
+.home-tail .stack { gap: var(--space-4); }
+
+.home-form p {
+  margin: 0 0 var(--space-4);
+  color: var(--dim);
+  font-size: var(--text-sm);
+}
+
+/* Top buteurs compact : rang, nom, jauge rouge (part du meilleur total), buts. */
+.home-scorers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.home-scorer {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.home-scorer__rank {
+  font-family: var(--num);
+  font-style: italic;
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--mute);
+  min-width: 18px;
+}
+
+.home-scorer__name {
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-scorer__first {
+  color: var(--mute);
+  font-weight: 400;
+  font-size: var(--text-sm);
+}
+
+.home-scorer .meter { width: 100%; }
+
+.home-scorer__goals {
+  font-family: var(--num);
+  font-style: italic;
+  font-weight: 700;
+  font-size: var(--text-2xl);
+  min-width: 28px;
+  text-align: right;
+}
+
+.home-scorers__foot {
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.home-scorers__foot .trace { margin-top: 0; }
+
+/* Portes d'entrée : cartes de navigation vers les pages profondes, une phrase
+   chacune, avec une micro-interaction au survol (le liseré rouge se révèle, la
+   flèche avance). Rien d'essentiel ne dépend du mouvement : c'est du rythme. */
+.entry-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--card-shadow);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* Liseré identitaire révélé au survol (rouge = accent, jamais une surface pleine). */
+.entry-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--red);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.entry-card:hover,
+.entry-card:focus-visible {
+  border-color: var(--line-2);
+}
+
+.entry-card:hover::before,
+.entry-card:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.entry-card__kicker {
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--red);
+  font-weight: 700;
+}
+
+.entry-card__title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--text-2xl);
+  line-height: 1.05;
+  color: var(--text);
+}
+
+.entry-card__desc {
+  color: var(--dim);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  margin-top: 2px;
+}
+
+.entry-card__go {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  color: var(--dim);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.entry-card__arrow {
+  display: inline-block;
+  color: var(--red);
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .entry-card,
+  .entry-card::before,
+  .entry-card__arrow {
+    transition: transform .28s cubic-bezier(.2, .7, .2, 1),
+      border-color .28s, box-shadow .28s;
+  }
+
+  .entry-card:hover,
+  .entry-card:focus-visible {
+    transform: translateY(-3px);
+  }
+
+  .entry-card:hover .entry-card__arrow,
+  .entry-card:focus-visible .entry-card__arrow {
+    transform: translateX(4px);
+  }
+}
+
+@media (max-width: 900px) {
+  .home-entries { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .home-entries { grid-template-columns: 1fr; }
+}

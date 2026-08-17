@@ -13,6 +13,11 @@ initProvenance();
 // dédié uniquement si nécessaire. D'autres pages viendront s'ajouter au switch.
 async function route() {
   switch (document.body.dataset.page) {
+    case 'home': {
+      const { initHome } = await import('./pages/home.js');
+      initHome();
+      break;
+    }
     case 'dashboard': {
       const { initDashboard } = await import('./pages/dashboard.js');
       initDashboard();

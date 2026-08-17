@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tests unitaires : socle des charts</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; }
+    #report { font-size: 15px; line-height: 1.6; }
+    .pass { color: #0f9d6b; }
+    .fail { color: #e2001a; font-weight: 700; }
+    code { background: #f0f0f0; padding: 1px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Socle du moteur de charts</h1>
+  <p>Vérifications des fonctions pures de <code>scale.js</code> et de la fabrique SVG de <code>axis.js</code>. Ouvre la console : aucun <code>console.assert</code> ne doit échouer.</p>
+  <div id="report">Exécution en cours...</div>
+
+  <script type="module">
+    import { linearScale, bandScale, niceMax } from '../../assets/js/charts/scale.js';
+    import { svgEl } from '../../assets/js/charts/axis.js';
+
+    let passed = 0;
+    let failed = 0;
+    const lines = [];
+
+    // Enregistre un cas : compte le résultat et alimente le rapport visuel.
+    function check(label, condition) {
+      console.assert(condition, label);
+      if (condition) { passed++; } else { failed++; }
+      lines.push(`<div class="${condition ? 'pass' : 'fail'}">${condition ? 'OK' : 'ECHEC'} · ${label}</div>`);
+    }
+
+    const approx = (a, b) => Math.abs(a - b) < 1e-9;
+
+    // linearScale : projection proportionnelle et bornes.
+    check('linearScale(0,10,0,100)(5) === 50', linearScale(0, 10, 0, 100)(5) === 50);
+    check('linearScale(0,10,0,100)(0) === 0', linearScale(0, 10, 0, 100)(0) === 0);
+    check('linearScale(0,10,0,100)(10) === 100', linearScale(0, 10, 0, 100)(10) === 100);
+    check('linearScale inverse (y vers le bas) : (0,100,200,0)(50) === 100', linearScale(0, 100, 200, 0)(50) === 100);
+    check('linearScale domaine nul protégé : (5,5,0,100)(5) === 0', linearScale(5, 5, 0, 100)(5) === 0);
+
+    // niceMax : arrondis lisibles.
+    check('niceMax(74) === 80', niceMax(74) === 80);
+    check('niceMax(76) === 80', niceMax(76) === 80);
+    check('niceMax(3) === 5', niceMax(3) === 5);
+    check('niceMax(5) === 5', niceMax(5) === 5);
+    check('niceMax(11) === 20', niceMax(11) === 20);
+    check('niceMax(100) === 100', niceMax(100) === 100);
+    check('niceMax(230) === 300', niceMax(230) === 300);
+
+    // bandScale : pas régulier, largeur utile, positions croissantes.
+    const b = bandScale(['a', 'b', 'c', 'd'], 0, 400, 0.2);
+    check('bandScale step === 100', approx(b.step, 100));
+    check('bandScale bandwidth === 80', approx(b.bandwidth, 80));
+    check('bandScale pos(0) === 10', approx(b.pos(0), 10));
+    check('bandScale pos(1) === 110', approx(b.pos(1), 110));
+    check('bandScale pos(3) === 310', approx(b.pos(3), 310));
+    const b0 = bandScale([], 0, 400, 0.2);
+    check('bandScale liste vide : step === 400 (pas de division par zero)', approx(b0.step, 400));
+
+    // svgEl : namespace SVG, attributs, enfants texte.
+    const rect = svgEl('rect', { x: 1, y: 2, width: 3 });
+    check('svgEl cree un noeud dans le namespace SVG', rect.namespaceURI === 'http://www.w3.org/2000/svg');
+    check('svgEl pose les attributs', rect.getAttribute('width') === '3');
+    check('svgEl ignore les attributs null', svgEl('rect', { x: 1, fill: null }).hasAttribute('fill') === false);
+    const txt = svgEl('text', {}, 'Barcola');
+    check('svgEl insere un enfant texte', txt.textContent === 'Barcola');
+
+    const report = document.getElementById('report');
+    report.innerHTML = `<p><strong>${passed} reussis, ${failed} echoues.</strong></p>` + lines.join('');
+    console.log(`[charts.html] ${passed} reussis, ${failed} echoues.`);
+    if (failed === 0) { console.log('[charts.html] Console propre : tous les asserts passent.'); }
+  </script>
+</body>
+</html>

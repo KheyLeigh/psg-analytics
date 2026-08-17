@@ -1,2 +1,181 @@
-/* Réservé aux styles de graphiques et visualisations (radar, donut, courbe,
-   carte de chaleur). Volontairement vide : rempli en Phase 8 avec le moteur SVG. */
+/* Moteur de graphiques SVG, style "Matchday". Aucune couleur en dur pour le
+   contenu : tout dérive des jetons de tokens.css afin de rester lisible en dark
+   et en clair. Les rôles identitaires sont respectés (rouge = identité,
+   or = champion, bleu = comparaison). La grille et les libellés restent discrets. */
+
+:root {
+  /* Palette catégorielle pour les multi-secteurs (donut) et multi-séries.
+     Rouge identité, bleu comparaison, or champion, vert vérifié, plus une
+     cinquième teinte violette distincte et lisible dans les deux ambiances. */
+  --chart-1: var(--red);
+  --chart-2: var(--blue);
+  --chart-3: var(--gold);
+  --chart-4: var(--ok);
+  --chart-5: #a77bff;
+}
+
+:root[data-theme="light"] {
+  /* Cinquième teinte assombrie pour tenir le contraste sur fond clair. */
+  --chart-5: #7c4dd6;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) { --chart-5: #7c4dd6; }
+}
+
+/* Conteneur générique : le SVG épouse la largeur, la hauteur suit le viewBox. */
+.chart {
+  width: 100%;
+}
+.chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Axes, grille et libellés : la signature discrète du design system. */
+.chart .grid-line {
+  stroke: var(--line);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.chart .axis-baseline {
+  stroke: var(--line-2);
+  stroke-width: 1;
+}
+/* Valeurs numériques des graduations : chiffres Saira en italique, teinte discrète. */
+.chart .axis-value {
+  font-family: var(--num);
+  font-style: italic;
+  font-size: 12px;
+  fill: var(--mute);
+}
+/* Libellés catégoriels sous l'axe X : texte courant, teinte intermédiaire. */
+.chart .axis-label {
+  font-family: var(--sans);
+  font-size: 12px;
+  fill: var(--dim);
+}
+
+/* Barres : série identité en rouge par défaut, angles adoucis. */
+.chart .bar {
+  transition: opacity .2s ease;
+}
+.chart .bar-value {
+  font-family: var(--num);
+  font-style: italic;
+  font-size: 13px;
+  fill: var(--text);
+}
+
+/* Courbe cumulée : trait bleu de progression, aire très diluée, jalon or. */
+.chart .line-path {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.chart .line-area {
+  fill: color-mix(in srgb, var(--blue) 12%, transparent);
+  stroke: none;
+}
+.chart .line-point {
+  fill: var(--blue);
+}
+/* Jalon champion : marqueur et libellé en or, réservés au sacre. */
+.chart .milestone-dot {
+  fill: var(--gold);
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+.chart .milestone-label {
+  font-family: var(--num);
+  font-style: italic;
+  font-size: 13px;
+  fill: var(--gold);
+  font-weight: 600;
+}
+
+/* Donut : secteurs colorés par l'appelant, léger liseré pour détacher du fond. */
+.chart .donut-slice {
+  stroke: var(--surface);
+  stroke-width: 2;
+  transition: opacity .2s ease;
+}
+.chart .donut-center {
+  font-family: var(--num);
+  font-style: italic;
+  fill: var(--text);
+}
+.chart .donut-center-sub {
+  font-family: var(--sans);
+  font-size: 12px;
+  fill: var(--mute);
+}
+.chart .legend-item {
+  font-family: var(--sans);
+  font-size: 12px;
+  fill: var(--dim);
+}
+
+/* Radar : toile en grille discrète, série 1 identité (rouge), série 2 comparaison (bleu). */
+.chart .radar-web {
+  stroke: var(--line);
+  fill: none;
+}
+.chart .radar-spoke {
+  stroke: var(--line);
+}
+.chart .radar-axis-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  fill: var(--dim);
+}
+.chart .radar-serie-1 {
+  fill: color-mix(in srgb, var(--red) 18%, transparent);
+  stroke: var(--red);
+  stroke-width: 2;
+}
+.chart .radar-serie-2 {
+  fill: color-mix(in srgb, var(--blue) 16%, transparent);
+  stroke: var(--blue);
+  stroke-width: 2;
+}
+
+/* Heatmap : cellules du navy discret vers le rouge chaud, valeur = opacité. */
+.chart .heat-cell {
+  stroke: var(--surface);
+  stroke-width: 2;
+  transition: opacity .2s ease;
+}
+.chart .heat-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  fill: var(--dim);
+}
+.chart .heat-value {
+  font-family: var(--num);
+  font-style: italic;
+  font-size: 11px;
+}
+
+/* Apparition douce, désactivée si l'utilisateur limite les animations. */
+@media (prefers-reduced-motion: no-preference) {
+  .chart .bar,
+  .chart .donut-slice,
+  .chart .heat-cell {
+    animation: chart-fade .45s ease both;
+  }
+  .chart .line-path {
+    animation: chart-draw .7s ease both;
+  }
+  @keyframes chart-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes chart-draw {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}

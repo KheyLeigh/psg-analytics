@@ -50,7 +50,7 @@ $totalPages = (int) $meta['total_pages'];
     <p class="players-head__eyebrow">Paris Saint-Germain · Saison 2025-26 · Effectif</p>
     <h1 class="players-head__title">L'effectif, joueur par joueur</h1>
     <p class="players-head__lede">
-      Vingt-quatre joueurs, une seule source d'identité. Cherchez, triez, filtrez par poste,
+      <?= View::e($total) ?> <?= $total > 1 ? 'joueurs' : 'joueur' ?>, une seule source d'identité. Cherchez, triez, filtrez par poste,
       puis mettez deux profils face à face sur le radar de comparaison.
     </p>
   </header>
@@ -144,6 +144,12 @@ $totalPages = (int) $meta['total_pages'];
       </table>
     </div>
 
+    <!-- État "aucun résultat" : masqué tant que l'effectif (ou le résultat filtré/recherché)
+         n'est pas vide. search.js le pilote aussi côté client, cohérent avec #player-count. -->
+    <p class="roster-empty" id="roster-empty" aria-live="polite"<?= $shown > 0 ? ' hidden' : '' ?>>
+      <?= $total === 0 ? "Aucun joueur dans l'effectif pour le moment." : 'Aucun joueur ne correspond aux filtres actuels.' ?>
+    </p>
+
     <!-- Pagination SSR : liens précédent/suivant. Le module la reconstruit après un tri. -->
     <nav class="pager" aria-label="Pagination de l'effectif" id="roster-pager">
       <?php if ($curPage > 1): ?>
@@ -182,12 +188,12 @@ $totalPages = (int) $meta['total_pages'];
     </p>
 
     <div class="compare__slots">
-      <div class="cmp-slot cmp-slot--a" id="cmp-slot-a">
+      <div class="cmp-slot cmp-slot--a" id="cmp-slot-a" aria-label="Joueur A sélectionné">
         <span class="cmp-slot__tag" aria-hidden="true">A</span>
         <span class="cmp-slot__name">Choisir un joueur</span>
       </div>
       <span class="cmp-slot__vs" aria-hidden="true">contre</span>
-      <div class="cmp-slot cmp-slot--b" id="cmp-slot-b">
+      <div class="cmp-slot cmp-slot--b" id="cmp-slot-b" aria-label="Joueur B sélectionné">
         <span class="cmp-slot__tag" aria-hidden="true">B</span>
         <span class="cmp-slot__name">Choisir un joueur</span>
       </div>

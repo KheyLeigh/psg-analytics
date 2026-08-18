@@ -501,6 +501,17 @@
   overflow-x: auto;
 }
 
+/* État "aucun résultat" (recherche client sans correspondance, ou effectif vide
+   côté serveur) : même traitement visuel discret que le repli de graphique. */
+.roster-empty {
+  margin: 0;
+  padding: var(--space-4) 0;
+  color: var(--mute);
+  font-size: var(--text-sm);
+  font-style: italic;
+  text-align: center;
+}
+
 .roster.is-loading .roster-table tbody {
   opacity: .55;
 }

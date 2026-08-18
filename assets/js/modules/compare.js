@@ -19,6 +19,9 @@ const AXIS_LABELS = {
 
 const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Message de repli identique à celui rendu côté serveur (cohérence SSR/JS).
+const FALLBACK_MSG = 'Le radar de comparaison s\'affiche ici une fois deux joueurs sélectionnés (JavaScript activé).';
+
 function num(value) {
   const n = Number(value);
   return Number.isFinite(n) ? n : 0;
@@ -94,10 +97,12 @@ export function initCompare() {
   async function update() {
     if (!sel.a || !sel.b) {
       setHint('Sélectionnez deux joueurs pour afficher le radar.');
+      resetCanvas(FALLBACK_MSG);
       return;
     }
     if (sel.a.id === sel.b.id) {
       setHint('Choisissez deux joueurs différents.');
+      resetCanvas(FALLBACK_MSG);
       return;
     }
     setHint(`Comparaison : ${sel.a.name} (rouge) contre ${sel.b.name} (bleu).`);
@@ -106,12 +111,29 @@ export function initCompare() {
       draw((env && env.data) || {});
     } catch (err) {
       console.warn('Comparaison indisponible.', err);
+      // Échec réseau : jamais garder l'ancien radar affiché pour une paire qui ne
+      // correspond plus au message affiché.
+      setHint('La comparaison a échoué, réessayez.');
+      resetCanvas('Comparaison indisponible pour le moment. Réessayez dans un instant.');
     }
+  }
+
+  // Vide le conteneur du radar et affiche un message de repli à la place : appelé à
+  // chaque fois que la sélection ne correspond plus à un radar affichable (sélection
+  // incomplète, joueurs identiques, effacement, ou échec réseau).
+  function resetCanvas(message) {
+    canvas.classList.remove('is-in');
+    canvas.textContent = '';
+    const p = document.createElement('p');
+    p.className = 'chart-fallback';
+    p.textContent = message;
+    canvas.appendChild(p);
   }
 
   function draw(data) {
     const axes = Array.isArray(data.axes) ? data.axes : [];
     if (axes.length === 0 || !data.a || !data.b) {
+      resetCanvas('Comparaison indisponible pour le moment. Réessayez dans un instant.');
       return;
     }
     const labels = axes.map((key) => AXIS_LABELS[key] || key);

@@ -89,4 +89,27 @@ final class PlayerControllerTest extends TestCase
         $this->assertSame(['id', 'number', 'name', 'position', 'nationality'], array_keys($item));
         $this->assertSame('Bradley Barcola', $item['name']);
     }
+
+    public function testPageAuDelaDuTotalRameneeALaDernierePage(): void
+    {
+        $repo = $this->repo();
+        // 24 joueurs (doublure fixe) / 12 par page = 2 pages : une page 99 demandée doit
+        // être ramenée à la dernière page valide, pour des contrôles de pagination cohérents.
+        $data = (new PlayerController($repo))->buildViewData(['page' => '99', 'per_page' => '12']);
+        $this->assertSame(2, $data['meta']['total_pages']);
+        $this->assertSame(2, $data['meta']['page']);
+        // Le repository reçoit toujours la page brute demandée : le clamp n'affecte que
+        // les méta-données renvoyées à la vue, pas la requête envoyée en amont.
+        $this->assertSame(99, $repo->seen['page']);
+    }
+
+    public function testOrderForgeEnTableauNeDeclencheAucunWarning(): void
+    {
+        $repo = $this->repo();
+        // ?order[]=x : un paramètre tableau ne doit jamais atteindre strtoupper() (sinon
+        // warning "Array to string conversion") et doit retomber sur la valeur par défaut.
+        $data = (new PlayerController($repo))->buildViewData(['order' => ['x']]);
+        $this->assertSame('ASC', $data['order']);
+        $this->assertSame('ASC', $repo->seen['order']);
+    }
 }

@@ -38,7 +38,10 @@ final class PlayerController extends Controller
         $page = Validator::int($query['page'] ?? 1, 1, 9999, 1);
         $perPage = Validator::int($query['per_page'] ?? self::PER_PAGE, 1, 50, self::PER_PAGE);
         $sort = Validator::inList($query['sort'] ?? 'last_name', self::SORTABLE, 'last_name');
-        $order = Validator::inList(strtoupper((string) ($query['order'] ?? 'ASC')), ['ASC', 'DESC'], 'ASC');
+        // is_string() avant strtoupper() : un paramètre forgé en tableau (?order[]=x) ne
+        // doit jamais atteindre une fonction de chaîne (sinon warning "Array to string").
+        $orderRaw = $query['order'] ?? 'ASC';
+        $order = Validator::inList(is_string($orderRaw) ? strtoupper($orderRaw) : '', ['ASC', 'DESC'], 'ASC');
         $position = isset($query['position'])
             ? (Validator::inList($query['position'], self::POSITIONS, '') ?: null)
             : null;

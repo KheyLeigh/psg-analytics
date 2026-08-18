@@ -161,13 +161,14 @@
 
 .home-promise__more a:hover { color: var(--text); }
 
-/* Mention interactive discrète, alignée sur le texte courant (pas un bouton visible). */
+/* Mention interactive discrète, alignée sur le texte courant (pas un bouton visible).
+   Accent rouge (identité/lien), jamais l'or qui reste réservé au champion. */
 .linklike {
   border: 0;
   background: none;
   padding: 0;
   font: inherit;
-  color: var(--gold);
+  color: var(--red);
   cursor: pointer;
   text-underline-offset: 2px;
 }
@@ -366,10 +367,3 @@
   }
 }
 
-@media (max-width: 900px) {
-  .home-entries { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 600px) {
-  .home-entries { grid-template-columns: 1fr; }
-}

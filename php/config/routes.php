@@ -4,6 +4,7 @@ declare(strict_types=1);
 return [
     'GET /' => ['HomeController', 'index'],
     'GET /dashboard' => ['DashboardController', 'index'],
+    'GET /joueurs' => ['PlayerController', 'index'],
     'GET /styleguide' => ['StyleguideController', 'index'],
 
     'GET /api/players' => ['PlayerApiController', 'index'],

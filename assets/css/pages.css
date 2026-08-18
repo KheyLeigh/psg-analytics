@@ -367,3 +367,365 @@
   }
 }
 
+/* ============================================================================
+   Joueurs "Matchday" : le navigateur d'effectif. Barre de recherche et filtres,
+   tableau triable, comparateur radar. Tout dérive des jetons (dark et clair) ;
+   la page reste lisible sans JavaScript, les touches animées sont opt-in et se
+   coupent sous prefers-reduced-motion.
+   ========================================================================== */
+
+.players-head__eyebrow {
+  margin: 0;
+  color: var(--red);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.players-head__title {
+  margin: var(--space-2) 0 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(26px, 3.6vw, 42px);
+  line-height: 1.05;
+  letter-spacing: -.01em;
+}
+
+.players-head__lede {
+  margin: var(--space-4) 0 0;
+  max-width: 60ch;
+  color: var(--dim);
+  font-size: var(--text-lg);
+  line-height: 1.5;
+}
+
+/* Barre d'outils : recherche à gauche, filtre poste à droite, repliés en colonne
+   sur petit écran. */
+.players-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.search {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: min(340px, 100%);
+  flex: 1 1 260px;
+}
+
+.search__label {
+  font-size: var(--text-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mute);
+  font-weight: 600;
+}
+
+.search__input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+  color: var(--text);
+  box-shadow: var(--card-shadow);
+}
+
+.search__input::placeholder {
+  color: var(--mute);
+}
+
+.search__input:focus-visible {
+  border-color: var(--blue);
+}
+
+.search__count {
+  margin: 0;
+  color: var(--dim);
+  font-size: var(--text-sm);
+}
+
+/* Le compteur pulse brièvement quand le nombre de résultats change (jamais seul
+   porteur d'information : le texte annonce toujours le compte). */
+@media (prefers-reduced-motion: no-preference) {
+  .search__count.is-bump {
+    animation: count-bump .32s cubic-bezier(.2, .7, .2, 1);
+  }
+
+  @keyframes count-bump {
+    0% { transform: none; }
+    40% { transform: translateY(-2px); color: var(--text); }
+    100% { transform: none; }
+  }
+}
+
+/* Filtre par poste : segments liés (liens, donc navigables sans JS). */
+.pos-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  box-shadow: var(--card-shadow);
+}
+
+.pos-filter__item {
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  color: var(--dim);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pos-filter__item:hover {
+  color: var(--text);
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+.pos-filter__item.is-active {
+  color: #fff;
+  background: var(--red);
+}
+
+/* Défilement horizontal du tableau confiné à son conteneur : le corps de page ne
+   défile jamais horizontalement. */
+.table-scroll {
+  overflow-x: auto;
+}
+
+.roster.is-loading .roster-table tbody {
+  opacity: .55;
+}
+
+.roster-table .th-sort {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+}
+
+.roster-table__cmp-h {
+  text-align: right;
+}
+
+.roster-row__name {
+  font-weight: 600;
+}
+
+.roster-row__cmp {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Survol de ligne : le maillot est mis en avant (subtilité "Matchday"). L'info
+   reste portée par le contenu ; ce n'est qu'un rehaussement visuel. */
+.roster-row:hover .jersey {
+  border-color: var(--red);
+  color: var(--text);
+}
+
+/* Lignes sélectionnées pour la comparaison : liseré A (rouge) ou B (bleu). Le fond
+   teinté double l'indice porté par le bouton (aria-pressed), jamais la couleur seule. */
+.roster-row.is-a td:first-child,
+.roster-row.is-b td:first-child {
+  position: relative;
+}
+
+.roster-row.is-a td:first-child::before,
+.roster-row.is-b td:first-child::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.roster-row.is-a td:first-child::before { background: var(--red); }
+.roster-row.is-b td:first-child::before { background: var(--blue); }
+
+.roster-row.is-a td { background: color-mix(in srgb, var(--red) 8%, transparent); }
+.roster-row.is-b td { background: color-mix(in srgb, var(--blue) 9%, transparent); }
+
+.roster-row.is-a .jersey { border-color: var(--red); }
+.roster-row.is-b .jersey { border-color: var(--blue); }
+
+/* Bouton de sélection au comparateur : discret, prend la couleur du rôle une fois pris. */
+.cmp-pick {
+  padding: 6px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--dim);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cmp-pick:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.cmp-pick.is-a {
+  color: #fff;
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.cmp-pick.is-b {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+/* Pagination : deux boutons et un statut central annoncé (aria-live). */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.pager__btn {
+  padding: 8px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-pill);
+  color: var(--text);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.pager__btn:hover:not(.is-disabled) {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.pager__btn.is-disabled {
+  color: var(--mute);
+  border-color: var(--line);
+  cursor: default;
+}
+
+.pager__status {
+  color: var(--dim);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Comparateur : emplacements A/B, radar centré. */
+.compare__hint {
+  margin: 0 0 var(--space-5);
+  color: var(--dim);
+  font-size: var(--text-sm);
+}
+
+.compare__hint .ok { color: var(--red); font-weight: 700; }
+.compare__hint .blue { color: var(--blue); font-weight: 700; }
+
+.cmp-inline {
+  padding: 2px 8px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-pill);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--dim);
+}
+
+.compare__slots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.cmp-slot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1 1 200px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+}
+
+/* L'identité A/B est portée par le carré-tag coloré (rouge/bleu), pas par un bord
+   latéral. Une fois rempli, le slot s'éclaire d'un fin halo de sa couleur de rôle. */
+.cmp-slot--a.is-filled { border-color: color-mix(in srgb, var(--red) 45%, var(--line)); }
+.cmp-slot--b.is-filled { border-color: color-mix(in srgb, var(--blue) 45%, var(--line)); }
+
+.cmp-slot__tag {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  font-family: var(--num);
+  font-style: italic;
+  font-weight: 700;
+  color: #fff;
+  flex: none;
+}
+
+.cmp-slot--a .cmp-slot__tag { background: var(--red); }
+.cmp-slot--b .cmp-slot__tag { background: var(--blue); }
+
+.cmp-slot__name {
+  font-weight: 600;
+  color: var(--mute);
+}
+
+.cmp-slot.is-filled .cmp-slot__name {
+  color: var(--text);
+}
+
+.cmp-slot__vs {
+  color: var(--mute);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.cmp-clear {
+  margin-left: auto;
+}
+
+.compare__canvas {
+  min-height: 300px;
+  display: grid;
+  place-items: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .compare__canvas.is-in {
+    animation: compare-fade .4s ease both;
+  }
+
+  @keyframes compare-fade {
+    from { opacity: 0; transform: scale(.98); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+@media (max-width: 720px) {
+  .players-tools {
+    align-items: stretch;
+  }
+
+  .pos-filter {
+    justify-content: center;
+  }
+}
+

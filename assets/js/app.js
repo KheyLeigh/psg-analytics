@@ -23,6 +23,11 @@ async function route() {
       initDashboard();
       break;
     }
+    case 'players': {
+      const { initPlayers } = await import('./pages/players.js');
+      initPlayers();
+      break;
+    }
     default:
       break;
   }

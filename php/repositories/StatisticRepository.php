@@ -61,6 +61,32 @@ class StatisticRepository extends Repository
         ];
     }
 
+    // Maxima de l'effectif par axe du radar de profil : chaque axe est le meilleur
+    // total d'un joueur de l'équipe, ce qui permet de normaliser un profil (valeur du
+    // joueur / meilleur total de l'axe) pour une lecture de 0 à 1.
+    public function squadAxisMax(): array
+    {
+        $row = $this->fetchOne(
+            'SELECT MAX(g) goals, MAX(a) assists, MAX(mn) minutes, MAX(sh) shots,
+                    MAX(dw) duels_won, MAX(rt) rating
+             FROM (
+                 SELECT SUM(goals) g, SUM(assists) a, SUM(minutes) mn, SUM(shots) sh,
+                        SUM(duels_won) dw, AVG(rating) rt
+                 FROM player_match_stats
+                 GROUP BY player_id
+             ) t'
+        ) ?? [];
+
+        return [
+            'goals'    => (float) ($row['goals'] ?? 0),
+            'assists'  => (float) ($row['assists'] ?? 0),
+            'minutes'  => (float) ($row['minutes'] ?? 0),
+            'shots'    => (float) ($row['shots'] ?? 0),
+            'duelsWon' => (float) ($row['duels_won'] ?? 0),
+            'rating'   => (float) ($row['rating'] ?? 0),
+        ];
+    }
+
     public function timeline(int $playerId): array
     {
         $rows = $this->fetchAll(

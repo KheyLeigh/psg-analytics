@@ -112,4 +112,55 @@ final class PlayerControllerTest extends TestCase
         $this->assertSame('ASC', $data['order']);
         $this->assertSame('ASC', $repo->seen['order']);
     }
+
+    public function testFicheJoueurIntrouvableRenvoieNull(): void
+    {
+        $players = new class(new PDO('sqlite::memory:')) extends PlayerRepository {
+            public function find(int $id): ?Player { return null; }
+        };
+        $ctrl = new PlayerController($players, $this->statsDouble());
+        $this->assertSame(null, $ctrl->buildDetail(999));
+    }
+
+    public function testFicheJoueurNormaliseLeProfilContreLEffectif(): void
+    {
+        $players = new class(new PDO('sqlite::memory:')) extends PlayerRepository {
+            public function find(int $id): ?Player
+            {
+                return Player::fromRow([
+                    'id' => 29, 'season_id' => 1, 'shirt_number' => 29, 'first_name' => 'Bradley',
+                    'last_name' => 'Barcola', 'position' => 'FW', 'detailed_position' => 'LW',
+                    'foot' => 'right', 'nationality' => 'France', 'birth_date' => null,
+                    'height_cm' => 182, 'is_captain' => 0,
+                ]);
+            }
+        };
+        $data = (new PlayerController($players, $this->statsDouble()))->buildDetail(29);
+
+        $this->assertSame('Bradley Barcola', $data['player']['name']);
+        $this->assertSame(['Buts', 'Passes déc.', 'Minutes', 'Tirs', 'Duels gagnés', 'Note'], $data['profile']['axes']);
+        // Valeur du joueur / meilleur de l'effectif par axe : 11/22, 5/10, 2000/2000,
+        // 40/80, 30/60, 7.2/7.2 -> profil normalisé de 0 à 1.
+        $this->assertSame([0.5, 0.5, 1.0, 0.5, 0.5, 1.0], $data['profile']['values']);
+        $this->assertSame(1, count($data['timeline']));
+    }
+
+    // Doublure de StatisticRepository : totaux, maxima d'effectif et timeline cannés.
+    private function statsDouble(): StatisticRepository
+    {
+        return new class(new PDO('sqlite::memory:')) extends StatisticRepository {
+            public function seasonTotalsByPlayer(int $playerId): array
+            {
+                return ['goals' => 11, 'assists' => 5, 'minutes' => 2000, 'shots' => 40, 'duelsWon' => 30, 'rating' => 7.2];
+            }
+            public function squadAxisMax(): array
+            {
+                return ['goals' => 22.0, 'assists' => 10.0, 'minutes' => 2000.0, 'shots' => 80.0, 'duelsWon' => 60.0, 'rating' => 7.2];
+            }
+            public function timeline(int $playerId): array
+            {
+                return [['matchId' => 1, 'playedAt' => '2025-08-01', 'goals' => 1, 'assists' => 0, 'minutes' => 90, 'rating' => 7.0]];
+            }
+        };
+    }
 }

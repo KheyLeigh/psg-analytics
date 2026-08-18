@@ -990,3 +990,87 @@
 @media (max-width: 720px) {
   .md__stats { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ============================================================================
+   Méthodologie : sources, taux de vérification par table, exports. Dérive des mêmes
+   jetons (dark et clair). Le taux vérifié est porté par la jauge et le badge trace.
+   ========================================================================== */
+
+.mth-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(30px, 4.4vw, 52px);
+  line-height: 1;
+  letter-spacing: -.015em;
+  margin: 0;
+}
+
+.mth-lede {
+  max-width: 66ch;
+  font-size: var(--text-lg);
+  line-height: 1.5;
+  color: var(--text);
+  margin: var(--space-3) 0 0;
+}
+
+.mth-ok { color: var(--ok); font-weight: 700; }
+.mth-est { color: var(--est); font-style: italic; }
+
+.mth-cov .meter { width: 120px; }
+.mth-cov .trace { margin-top: 0; }
+
+.mth-note {
+  color: var(--dim);
+  font-size: var(--text-sm);
+  margin: var(--space-4) 0 0;
+  max-width: 70ch;
+}
+
+.mth-sources {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mth-source {
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--line);
+}
+
+.mth-source:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.mth-source__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.mth-source__label { font-weight: 700; }
+.mth-source__head .trace { margin-top: 0; }
+
+.mth-source__note {
+  color: var(--dim);
+  font-size: var(--text-sm);
+  margin: var(--space-2) 0 0;
+  max-width: 74ch;
+}
+
+.mth-source__meta {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+  color: var(--mute);
+  font-size: var(--text-xs);
+}
+
+.mth-source__meta a {
+  color: var(--dim);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mth-source__meta a:hover { color: var(--text); }

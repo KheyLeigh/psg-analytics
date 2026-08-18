@@ -8,6 +8,7 @@ return [
     'GET /joueurs/{id}' => ['PlayerController', 'show'],
     'GET /matchs' => ['MatchController', 'index'],
     'GET /matchs/{id}' => ['MatchController', 'show'],
+    'GET /methodologie' => ['MethodologyController', 'index'],
     'GET /styleguide' => ['StyleguideController', 'index'],
 
     'GET /api/players' => ['PlayerApiController', 'index'],

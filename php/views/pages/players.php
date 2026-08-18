@@ -126,7 +126,7 @@ $totalPages = (int) $meta['total_pages'];
                 <span class="jersey jersey--sm"><?= View::e($p['number'] ?? '·') ?></span>
               </td>
               <td>
-                <span class="roster-row__name"><?= View::e($p['name']) ?></span>
+                <a href="/joueurs/<?= View::e($p['id']) ?>" class="roster-row__name"><?= View::e($p['name']) ?></a>
               </td>
               <td>
                 <span class="tag <?= View::e($tagByPosition[$p['position']] ?? 'tag--mid') ?>"

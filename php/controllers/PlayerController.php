@@ -81,7 +81,9 @@ final class PlayerController extends Controller
 
         return [
             'title'    => $player->fullName() . ' · PSG Analytics',
-            'page'     => 'player-detail',
+            // data-page vaut le nom de la vue (player_detail) : View::render conserve le
+            // nom de template via extract(EXTR_SKIP). Le routeur app.js s'aligne dessus.
+            'page'     => 'player_detail',
             'player'   => [
                 'id'               => $player->id,
                 'number'           => $player->shirtNumber,

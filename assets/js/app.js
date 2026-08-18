@@ -28,6 +28,11 @@ async function route() {
       initPlayers();
       break;
     }
+    case 'player_detail': {
+      const { initPlayerDetail } = await import('./pages/player-detail.js');
+      initPlayerDetail();
+      break;
+    }
     default:
       break;
   }

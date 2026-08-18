@@ -740,3 +740,77 @@
   }
 }
 
+
+/* ============================================================================
+   Fiche joueur : identité en tête, saison en chiffres, profil et contribution.
+   Dérive des mêmes jetons (dark et clair). Le nom est en display (Archivo Black).
+   ========================================================================== */
+
+.pd__back {
+  color: var(--dim);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+
+.pd__back::before { content: "\2039  "; }
+.pd__back:hover { color: var(--text); }
+
+.pd__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.pd__jersey {
+  width: 64px;
+  height: 64px;
+  font-size: 30px;
+  border-radius: var(--r);
+  flex: none;
+}
+
+.pd__name {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(30px, 4.4vw, 52px);
+  line-height: 1;
+  letter-spacing: -.015em;
+  margin: 0;
+}
+
+.pd__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  color: var(--dim);
+  font-size: var(--text-sm);
+}
+
+.pd__meta .trace { margin-top: 0; }
+
+.pd__captain {
+  color: var(--red);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: var(--text-xs);
+}
+
+.pd__panel-sub {
+  margin: 0 0 var(--space-4);
+  color: var(--dim);
+  font-size: var(--text-sm);
+}
+
+.pd__chart {
+  min-height: 300px;
+  display: grid;
+  place-items: center;
+}
+
+@media (max-width: 600px) {
+  .pd__head { gap: var(--space-4); }
+  .pd__jersey { width: 52px; height: 52px; font-size: 24px; }
+}

@@ -6,6 +6,8 @@ return [
     'GET /dashboard' => ['DashboardController', 'index'],
     'GET /joueurs' => ['PlayerController', 'index'],
     'GET /joueurs/{id}' => ['PlayerController', 'show'],
+    'GET /matchs' => ['MatchController', 'index'],
+    'GET /matchs/{id}' => ['MatchController', 'show'],
     'GET /styleguide' => ['StyleguideController', 'index'],
 
     'GET /api/players' => ['PlayerApiController', 'index'],

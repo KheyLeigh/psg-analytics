@@ -254,7 +254,7 @@
 }
 
 .trophy__name {
-  color: var(--gold);
+  color: var(--gold-text);
   font-size: 12.5px;
   letter-spacing: .06em;
   text-transform: uppercase;

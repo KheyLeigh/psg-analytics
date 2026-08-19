@@ -135,7 +135,7 @@
   color: var(--text);
 }
 
-.home-promise__lede .ok { color: var(--ok); font-weight: 700; font-style: normal; }
+.home-promise__lede .ok { color: var(--ok-text); font-weight: 700; font-style: normal; }
 .home-promise__lede .est { color: var(--est); font-style: italic; }
 
 .home-promise__legend {
@@ -168,7 +168,7 @@
   background: none;
   padding: 0;
   font: inherit;
-  color: var(--red);
+  color: var(--red-text);
   cursor: pointer;
   text-underline-offset: 2px;
 }
@@ -315,7 +315,7 @@
   font-size: 11px;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--red-text);
   font-weight: 700;
 }
 
@@ -344,7 +344,7 @@
 
 .entry-card__arrow {
   display: inline-block;
-  color: var(--red);
+  color: var(--red-text);
   font-weight: 700;
 }
 
@@ -376,7 +376,7 @@
 
 .players-head__eyebrow {
   margin: 0;
-  color: var(--red);
+  color: var(--red-text);
   font-weight: 700;
   font-size: var(--text-xs);
   letter-spacing: .14em;
@@ -626,7 +626,7 @@
 
 .pager__btn:hover:not(.is-disabled) {
   border-color: var(--red);
-  color: var(--red);
+  color: var(--red-text);
 }
 
 .pager__btn.is-disabled {
@@ -648,7 +648,7 @@
   font-size: var(--text-sm);
 }
 
-.compare__hint .ok { color: var(--red); font-weight: 700; }
+.compare__hint .ok { color: var(--red-text); font-weight: 700; }
 .compare__hint .blue { color: var(--blue); font-weight: 700; }
 
 .cmp-inline {
@@ -698,7 +698,9 @@
 }
 
 .cmp-slot--a .cmp-slot__tag { background: var(--red); }
-.cmp-slot--b .cmp-slot__tag { background: var(--blue); }
+/* Bleu foncé pour que le "B" blanc tienne AA (le --blue vif du thème sombre est trop
+   clair pour du texte blanc). L'identité bleue du slot reste portée par la bordure. */
+.cmp-slot--b .cmp-slot__tag { background: color-mix(in srgb, var(--blue) 68%, #000); }
 
 .cmp-slot__name {
   font-weight: 600;
@@ -798,7 +800,7 @@
 .pd__meta .trace { margin-top: 0; }
 
 .pd__captain {
-  color: var(--red);
+  color: var(--red-text);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .06em;
@@ -1020,7 +1022,7 @@
   margin: var(--space-3) 0 0;
 }
 
-.mth-ok { color: var(--ok); font-weight: 700; }
+.mth-ok { color: var(--ok-text); font-weight: 700; }
 .mth-est { color: var(--est); font-style: italic; }
 
 .mth-cov .meter { width: 120px; }

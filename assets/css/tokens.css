@@ -27,6 +27,10 @@
   /* Rouge PSG : identité et accent uniquement, jamais une surface de fond. */
   --red: #e2001a;
   --red-soft: color-mix(in srgb, var(--red) 16%, transparent);
+  /* Rouge de TEXTE, distinct de l'accent identitaire : éclairci pour tenir AA
+     (>=4.5:1) en petit texte sur le canvas et les cartes sombres. L'accent --red
+     #e2001a reste réservé aux bordures, fonds et au grand texte de marque. */
+  --red-text: #ff5a63;
 
   /* Or champion : réservé au sacre et aux jalons de titre, jamais décoratif. */
   --gold: #f4c94b;
@@ -35,9 +39,17 @@
   /* Traçabilité : vert plein pour le vérifié, ambre pour l'estimé. */
   --ok: #37d19b;
   --est: #f4b53f;
+  /* Vert de TEXTE : le vert vif tient AA sur fond sombre, donc identique à --ok ici.
+     En thème clair il est assombri (voir plus bas). --ok reste la pastille de fond. */
+  --ok-text: #37d19b;
 
   /* Bleu secondaire : comparaisons et second joueur, jamais l'identité principale. */
   --blue: #5b8dff;
+  /* Variantes de TEXTE des couleurs de badge (texte coloré sur un fond teinté de la
+     meme teinte) : éclaircies/assombries pour tenir AA sur ces tints. Le gold vif
+     tient déjà sur fond sombre, donc identique a --gold ici. */
+  --blue-text: #7ba4ff;
+  --gold-text: #f4c94b;
 
   /* Popover de provenance et ombre des cartes : neutres selon le thème. */
   --pop-bg: #08101f;
@@ -87,8 +99,13 @@
 
   --gold: #8a6300;
   --ok: #0f9d6b;
+  --ok-text: #076440;
   --est: #8f5907;
   --blue: #2b5cd8;
+  /* Rouge de texte assombri pour AA sur fond clair (l'accent --red reste #e2001a). */
+  --red-text: #cc0016;
+  --blue-text: #2450bf;
+  --gold-text: #745300;
 
   --pop-bg: #ffffff;
   --card-shadow: 0 1px 2px rgba(12, 24, 48, .06), 0 10px 26px rgba(12, 24, 48, .05);

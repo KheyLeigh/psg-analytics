@@ -20,7 +20,9 @@
   /* Textes : du plus affirmé au plus discret. */
   --text: #eef2ff;
   --dim: #9fb0d8;
-  --mute: #6b7aa3;
+  /* #8794bd : éclairci depuis #6b7aa3 pour tenir AA (>=4.5:1) sur le canvas navy
+     comme sur les cartes surface, tout en restant plus discret que --dim. */
+  --mute: #8794bd;
 
   /* Rouge PSG : identité et accent uniquement, jamais une surface de fond. */
   --red: #e2001a;
@@ -79,12 +81,14 @@
 
   --text: #0c1830;
   --dim: #47597f;
-  --mute: #7a89a8;
+  /* #5c6a88 : assombri depuis #7a89a8 pour tenir AA (>=4.5:1) sur le canvas clair
+     comme sur les cartes, en restant plus doux que --dim. */
+  --mute: #5c6a88;
 
-  --gold: #9a6f0f;
+  --gold: #8a6300;
   --ok: #0f9d6b;
-  --est: #b06e0a;
-  --blue: #2f62e6;
+  --est: #8f5907;
+  --blue: #2b5cd8;
 
   --pop-bg: #ffffff;
   --card-shadow: 0 1px 2px rgba(12, 24, 48, .06), 0 10px 26px rgba(12, 24, 48, .05);
@@ -111,7 +115,7 @@
     --gold: #9a6f0f;
     --ok: #0f9d6b;
     --est: #b06e0a;
-    --blue: #2f62e6;
+    --blue: #2b5cd8;
 
     --pop-bg: #ffffff;
     --card-shadow: 0 1px 2px rgba(12, 24, 48, .06), 0 10px 26px rgba(12, 24, 48, .05);

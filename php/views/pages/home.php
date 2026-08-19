@@ -79,7 +79,7 @@ $formTitles = ['W' => 'Victoire', 'D' => 'Nul', 'L' => 'Défaite'];
 
   <section class="home-promise" aria-labelledby="home-promise-h">
     <div class="home-promise__text">
-      <div class="sec-h" id="home-promise-h" style="margin-top:0">La promesse</div>
+      <h2 class="sec-h" id="home-promise-h" style="margin-top:0">La promesse</h2>
       <p class="home-promise__lede">Chaque chiffre de ce site remonte à sa source. Une donnée <strong class="ok">vérifiée</strong> vient des feuilles de match officielles. Une donnée <em class="est">estimée</em> est reconstituée par notre générateur, et signalée comme telle.</p>
       <div class="home-promise__legend">
         <span class="trace trace--ok"><span class="trace__dot" aria-hidden="true"></span>Donnée vérifiée</span>
@@ -95,7 +95,7 @@ $formTitles = ['W' => 'Victoire', 'D' => 'Nul', 'L' => 'Défaite'];
   <div class="dash-sep hechter" aria-hidden="true"></div>
 
   <section aria-labelledby="home-key-h">
-    <div class="sec-h" id="home-key-h" style="margin-top:0">Chiffres clés de la saison</div>
+    <h2 class="sec-h" id="home-key-h" style="margin-top:0">Chiffres clés de la saison</h2>
     <div class="grid grid--4">
       <?php foreach ($headline as $kpi_card): extract($kpi_card, EXTR_OVERWRITE); ?>
         <?php require BASE_PATH . '/php/views/partials/kpi_card.php'; ?>
@@ -110,7 +110,7 @@ $formTitles = ['W' => 'Victoire', 'D' => 'Nul', 'L' => 'Défaite'];
 
   <div class="grid grid--2 home-tail">
     <section aria-labelledby="home-recent-h">
-      <div class="sec-h" id="home-recent-h" style="margin-top:0">Cinq derniers matchs</div>
+      <h2 class="sec-h" id="home-recent-h" style="margin-top:0">Cinq derniers matchs</h2>
       <div class="stack">
         <?php foreach ($recent as $m): extract($m, EXTR_OVERWRITE); $confidence = 'verified'; ?>
           <?php require BASE_PATH . '/php/views/partials/match_row.php'; ?>
@@ -127,7 +127,7 @@ $formTitles = ['W' => 'Victoire', 'D' => 'Nul', 'L' => 'Défaite'];
     </section>
 
     <section aria-labelledby="home-scorers-h">
-      <div class="sec-h" id="home-scorers-h" style="margin-top:0">Meilleurs buteurs · Ligue 1</div>
+      <h2 class="sec-h" id="home-scorers-h" style="margin-top:0">Meilleurs buteurs · Ligue 1</h2>
       <div class="panel">
         <ol class="home-scorers">
           <?php foreach ($topScorers as $i => $s): ?>
@@ -151,7 +151,7 @@ $formTitles = ['W' => 'Victoire', 'D' => 'Nul', 'L' => 'Défaite'];
   <div class="dash-sep hechter" aria-hidden="true"></div>
 
   <section aria-labelledby="home-entries-h">
-    <div class="sec-h" id="home-entries-h" style="margin-top:0">Entrer dans la saison</div>
+    <h2 class="sec-h" id="home-entries-h" style="margin-top:0">Entrer dans la saison</h2>
     <div class="grid grid--4 home-entries">
       <?php foreach ($entries as $e): ?>
         <a class="entry-card" href="<?= View::e($e['href']) ?>">

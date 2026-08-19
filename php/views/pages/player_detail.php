@@ -45,7 +45,7 @@ $payload = json_encode(
   </header>
 
   <section aria-labelledby="pd-season-h">
-    <div class="sec-h" id="pd-season-h">Saison en chiffres</div>
+    <h2 class="sec-h" id="pd-season-h">Saison en chiffres</h2>
     <div class="grid grid--4">
       <?php foreach ($kpis as $k): ?>
         <?php $label = $k['label']; $value = $k['value']; $confidence = 'verified'; $tip = null; ?>

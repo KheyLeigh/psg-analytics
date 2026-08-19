@@ -89,7 +89,7 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
   <div class="dash-sep hechter" aria-hidden="true"></div>
 
   <section aria-labelledby="dash-kpi-h">
-    <div class="sec-h" id="dash-kpi-h" style="margin-top:0">Indicateurs clés · Ligue 1</div>
+    <h2 class="sec-h" id="dash-kpi-h" style="margin-top:0">Indicateurs clés · Ligue 1</h2>
     <div class="grid grid--4">
       <?php foreach ($kpiCards as $kpi_card): extract($kpi_card, EXTR_OVERWRITE); ?>
         <?php require BASE_PATH . '/php/views/partials/kpi_card.php'; ?>
@@ -100,12 +100,12 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
   <div class="dash-sep hechter" aria-hidden="true"></div>
 
   <section aria-labelledby="dash-charts-h">
-    <div class="sec-h" id="dash-charts-h">Graphiques de la saison</div>
+    <h2 class="sec-h" id="dash-charts-h">Graphiques de la saison</h2>
     <div class="dash-charts">
       <figure class="panel chart-card chart-card--wide">
         <figcaption class="chart-card__head">
           <div>
-            <h2 class="chart-card__title">Course au titre</h2>
+            <h3 class="chart-card__title">Course au titre</h3>
             <p class="chart-card__sub">Points de Ligue 1 cumulés, journée par journée. Jalon <span class="gold">76 · champion</span> en or.</p>
           </div>
           <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
@@ -120,7 +120,7 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
         data-tip="Répartition reconstituée mois par mois par le générateur déterministe (StatGenerator), calibrée sur les totaux de buts vérifiés.">
         <figcaption class="chart-card__head">
           <div>
-            <h2 class="chart-card__title">Répartition des buts par mois</h2>
+            <h3 class="chart-card__title">Répartition des buts par mois</h3>
             <p class="chart-card__sub">Buts du PSG ventilés par période de la saison.</p>
           </div>
           <?php $confidence = 'estimated'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
@@ -133,7 +133,7 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
       <figure class="panel chart-card">
         <figcaption class="chart-card__head">
           <div>
-            <h2 class="chart-card__title">Top buteurs</h2>
+            <h3 class="chart-card__title">Top buteurs</h3>
             <p class="chart-card__sub">Meilleurs artificiers du PSG en Ligue 1 (totaux vérifiés).</p>
           </div>
           <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
@@ -152,7 +152,7 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
         data-tip="Buts par joueur et par mois reconstitués par le générateur déterministe (StatGenerator), calibrés sur les totaux vérifiés.">
         <figcaption class="chart-card__head">
           <div>
-            <h2 class="chart-card__title">Buts par joueur et par mois</h2>
+            <h3 class="chart-card__title">Buts par joueur et par mois</h3>
             <p class="chart-card__sub">Carte de chaleur des buteurs au fil de la saison.</p>
           </div>
           <?php $confidence = 'estimated'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
@@ -168,7 +168,7 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
 
   <div class="grid grid--2 dash-tail">
     <section aria-labelledby="dash-recent-h">
-      <div class="sec-h" id="dash-recent-h" style="margin-top:0">Cinq derniers matchs</div>
+      <h2 class="sec-h" id="dash-recent-h" style="margin-top:0">Cinq derniers matchs</h2>
       <div class="stack">
         <?php foreach ($recent as $m): extract($m, EXTR_OVERWRITE); $confidence = 'verified'; ?>
           <?php require BASE_PATH . '/php/views/partials/match_row.php'; ?>
@@ -177,7 +177,7 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
     </section>
 
     <section aria-labelledby="dash-form-h">
-      <div class="sec-h" id="dash-form-h" style="margin-top:0">Guide de forme</div>
+      <h2 class="sec-h" id="dash-form-h" style="margin-top:0">Guide de forme</h2>
       <div class="panel stack">
         <p>Cinq dernières rencontres, de la plus ancienne à la plus récente.</p>
         <div class="form dash-form">

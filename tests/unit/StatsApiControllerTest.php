@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/StatsApiControllerTest.php
+// Vérifie l'API Stats : indicateurs et graphiques (dont la heatmap).
 final class StatsApiControllerTest extends TestCase
 {
     private function heatmapService(): HeatmapService

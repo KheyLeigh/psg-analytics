@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/CompetitionApiControllerTest.php
+// Vérifie l'API Compétitions : fusion des compétitions et du bilan.
 final class CompetitionApiControllerTest extends TestCase
 {
     public function testBuildIndexFusionneCompetitionsEtBilan(): void

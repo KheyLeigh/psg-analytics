@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/PlayerApiControllerTest.php
+// Vérifie l'API Joueurs : liste blanche de tri, pagination et enveloppe data/meta.
 final class PlayerApiControllerTest extends TestCase
 {
     private function controller(): PlayerApiController

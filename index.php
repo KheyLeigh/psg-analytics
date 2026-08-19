@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// index.php — front controller
+// Front controller : point d'entrée unique, résout la route et rend la réponse.
 require __DIR__ . '/php/config/config.php';
 require __DIR__ . '/php/config/database.php';
 

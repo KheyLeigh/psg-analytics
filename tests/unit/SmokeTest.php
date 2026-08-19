@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/SmokeTest.php
+// Test de fumée : confirme que le runner exécute bien un cas.
 final class SmokeTest extends TestCase
 {
     public function testVraiEstVrai(): void

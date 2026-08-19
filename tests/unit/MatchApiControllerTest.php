@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/MatchApiControllerTest.php
+// Vérifie l'API Matchs : liste et fiche de match.
 final class MatchApiControllerTest extends TestCase
 {
     private function matchRow(int $id): array

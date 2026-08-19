@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/run.php
+// Lanceur de la suite de tests : autoloader, découverte des cas et exécution.
 require __DIR__ . '/TestCase.php';
 
 require dirname(__DIR__) . '/php/config/config.php';
@@ -34,7 +34,7 @@ foreach ($files as $file) {
             echo '.';
         } catch (Throwable $e) {
             echo 'F';
-            $failures[] = "{$class}::{$method} — {$e->getMessage()}";
+            $failures[] = "{$class}::{$method} : {$e->getMessage()}";
         }
     }
     $assertions += $instance->assertions();

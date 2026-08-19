@@ -44,7 +44,7 @@ if (PHP_SAPI === 'cli' && realpath($_SERVER['argv'][0] ?? '') === __FILE__) {
     }
 
     printf(
-        "matches: %d, players: %d, L1: %dV %dN %dD (%d-%d) — OK\n",
+        "matches: %d, players: %d, L1: %dV %dN %dD (%d-%d) OK\n",
         $report['matches'],
         $report['players'],
         $report['l1_wins'],

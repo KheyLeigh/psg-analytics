@@ -14,7 +14,7 @@ return [
     ],
     [
         'key'          => 'fbref',
-        'label'        => 'FBref — journal des matchs PSG 2025-26 (toutes compétitions)',
+        'label'        => 'FBref : journal des matchs PSG 2025-26 (toutes compétitions)',
         'url'          => 'https://fbref.com/en/squads/e2d8892c/2025-2026/matchlogs/all_comps/schedule/',
         'collected_at' => '2026-08-11',
         'confidence'   => 'verified',
@@ -23,7 +23,7 @@ return [
     ],
     [
         'key'          => 'fbref_players_l1',
-        'label'        => 'FBref — statistiques standard par joueur, Ligue 1 2025-26',
+        'label'        => 'FBref : statistiques standard par joueur, Ligue 1 2025-26',
         'url'          => 'https://fbref.com/en/squads/e2d8892c/2025-2026/dom_lig/Paris-Saint-Germain-Ligue-1-Stats',
         'collected_at' => '2026-08-11',
         'confidence'   => 'verified',

@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/TestCase.php
+// Socle de tests maison : assertions minimales, sans dépendance externe.
 abstract class TestCase
 {
     private int $ok = 0;

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-// tests/unit/HomeControllerTest.php
 // Vérifie l'assemblage des données de l'Accueil (buildViewData), isolé du rendu :
 // total de points lu du cumul, forme remise dans l'ordre chronologique, top buteurs
 // mis au format compact avec le meilleur total pour l'échelle des jauges.

@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// tests/unit/ExportApiControllerTest.php
+// Vérifie les exports : en-tête et échappement CSV, structure du PDF.
 final class ExportApiControllerTest extends TestCase
 {
     public function testCsvContientEnTete(): void

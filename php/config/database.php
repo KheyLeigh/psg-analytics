@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// php/config/database.php — SQLite par défaut pour lancement immédiat
+// Configuration PDO : SQLite par défaut pour un lancement immédiat, MySQL en prod.
 function db_config(): array
 {
     $driver = getenv('DB_DRIVER') ?: 'sqlite';

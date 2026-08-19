@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-// tests/unit/PlayerControllerTest.php
 // Vérifie l'assemblage de la page Joueurs (buildViewData), isolé du rendu : liste
 // blanche de tri/ordre/poste respectée côté serveur, pagination bornée, méta calculée,
 // et items réduits aux champs d'identité (mêmes champs que /api/players).

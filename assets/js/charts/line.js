@@ -1,7 +1,10 @@
 // Courbe cumulée (points de championnat au fil des journées). Trait bleu de
 // progression, aire diluée, et jalon champion en or sur le dernier point.
-// Signature : render(el, [{x, y}], {ariaLabel, milestone}).
+// Signature : render(el, [{x, y}], {ariaLabel, milestone, pointLabel}).
 // milestone (optionnel) : {value, label} met en avant un jalon (ex: 76 · Champion).
+// pointLabel (optionnel) : formate l'infobulle native de chaque point (défaut : points
+// de championnat). La courbe étant réutilisée hors championnat (ex: contribution d'un
+// joueur), l'unité ne doit pas être figée dans le moteur.
 
 import { linearScale, niceMax } from './scale.js';
 import { svgEl, renderYAxis } from './axis.js';
@@ -11,7 +14,11 @@ const H = 360;
 const M = { top: 24, right: 20, bottom: 36, left: 40 };
 
 export function render(container, data, options = {}) {
-  const { ariaLabel = 'Courbe cumulée', milestone = null } = options;
+  const {
+    ariaLabel = 'Courbe cumulée',
+    milestone = null,
+    pointLabel = (d) => `J${d.x} : ${d.y} pts`,
+  } = options;
   container.textContent = '';
   container.classList.add('chart');
 
@@ -49,7 +56,7 @@ export function render(container, data, options = {}) {
   // Points de données discrets avec infobulle native.
   data.forEach((d) => {
     const dot = svgEl('circle', { class: 'line-point', cx: x(d.x), cy: y(d.y), r: 2.5 });
-    dot.appendChild(svgEl('title', {}, `J${d.x} : ${d.y} pts`));
+    dot.appendChild(svgEl('title', {}, pointLabel(d)));
     svg.appendChild(dot);
   });
 

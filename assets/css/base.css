@@ -58,6 +58,20 @@ button, input, select, textarea {
   outline-offset: 2px;
 }
 
+/* Masque visuellement un contenu tout en le gardant lisible par les lecteurs
+   d'écran (légendes de tableau, libellés de contexte). */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Bande Hechter : deux liserés blancs encadrant la rayure rouge. Sert de galon
    sous le header comme de bande verticale du hero. */
 .hechter {

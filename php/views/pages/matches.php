@@ -7,9 +7,9 @@ declare(strict_types=1);
 // vérifiées (feuilles de match).
 
 $resultMeta = [
-    'W' => ['V', 'pill--w'],
-    'D' => ['N', 'pill--n'],
-    'L' => ['D', 'pill--l'],
+    'W' => ['V', 'pill--w', 'Victoire'],
+    'D' => ['N', 'pill--n', 'Match nul'],
+    'L' => ['D', 'pill--l', 'Défaite'],
 ];
 
 // Construit une URL de filtre en conservant l'autre critère et en repartant page 1.
@@ -56,6 +56,7 @@ $currentResult = $filters['result'];
   <?php else: ?>
     <section class="panel">
       <table class="table mt-table">
+        <caption class="visually-hidden">Les rencontres de la saison, avec date, compétition, adversaire, score et résultat.</caption>
         <thead>
           <tr>
             <th scope="col">Date</th>
@@ -66,7 +67,7 @@ $currentResult = $filters['result'];
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($matches as $m): [$letter, $pill] = $resultMeta[$m['result']] ?? ['N', 'pill--n']; ?>
+          <?php foreach ($matches as $m): [$letter, $pill, $resultLabel] = $resultMeta[$m['result']] ?? ['N', 'pill--n', 'Match nul']; ?>
             <tr class="mt-row" onclick="location='/matchs/<?= View::e($m['id']) ?>'">
               <td class="mt-date"><?= View::e($m['playedAt']) ?></td>
               <td><?= View::e($m['competition']) ?><?php if (!empty($m['round'])): ?> <span class="mt-round"><?= View::e($m['round']) ?></span><?php endif; ?></td>
@@ -74,10 +75,10 @@ $currentResult = $filters['result'];
                 <a href="/matchs/<?= View::e($m['id']) ?>"><?= View::e($m['home']) ?> <span class="mt-vs">contre</span> <?= View::e($m['away']) ?></a>
               </td>
               <td>
-                <span class="mt-score"><?= View::e($m['homeGoals']) ?><span class="mt-score__sep">·</span><?= View::e($m['awayGoals']) ?></span>
+                <span class="mt-score" aria-label="<?= View::e($m['homeGoals']) ?> à <?= View::e($m['awayGoals']) ?>"><?= View::e($m['homeGoals']) ?><span class="mt-score__sep" aria-hidden="true">·</span><?= View::e($m['awayGoals']) ?></span>
                 <?php if (!empty($m['penaltyShootout'])): ?><span class="mt-tab" title="Vainqueur aux tirs au but">t.a.b. <?= View::e($m['penaltyScore']) ?></span><?php endif; ?>
               </td>
-              <td><span class="pill <?= View::e($pill) ?>"><?= View::e($letter) ?></span></td>
+              <td><span class="pill <?= View::e($pill) ?>" title="<?= View::e($resultLabel) ?>" aria-label="<?= View::e($resultLabel) ?>"><?= View::e($letter) ?></span></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
@@ -95,9 +96,9 @@ $currentResult = $filters['result'];
               return '/matchs?' . http_build_query($params);
           };
         ?>
-        <a class="btn btn--ghost<?= $meta['page'] <= 1 ? ' is-disabled' : '' ?>" href="<?= View::e($pageHref($prev)) ?>">Précédent</a>
+        <a class="btn btn--ghost<?= $meta['page'] <= 1 ? ' is-disabled' : '' ?>"<?= $meta['page'] <= 1 ? ' aria-disabled="true" tabindex="-1"' : '' ?> href="<?= View::e($pageHref($prev)) ?>">Précédent</a>
         <span class="mt-pager__state">Page <?= View::e($meta['page']) ?> sur <?= View::e($meta['total_pages']) ?></span>
-        <a class="btn<?= $meta['page'] >= $meta['total_pages'] ? ' is-disabled' : '' ?>" href="<?= View::e($pageHref($next)) ?>">Suivant</a>
+        <a class="btn<?= $meta['page'] >= $meta['total_pages'] ? ' is-disabled' : '' ?>"<?= $meta['page'] >= $meta['total_pages'] ? ' aria-disabled="true" tabindex="-1"' : '' ?> href="<?= View::e($pageHref($next)) ?>">Suivant</a>
       </nav>
     <?php endif; ?>
   <?php endif; ?>

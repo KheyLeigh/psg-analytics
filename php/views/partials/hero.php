@@ -4,9 +4,9 @@ declare(strict_types=1);
 /**
  * Hero champion "Matchday" réutilisable (Dashboard et Styleguide) : banderole
  * Hechter comme ossature, eyebrow, titre (unique <h1> de la page) et vitrine de
- * trophées (un rectangle or par compétition gagnée). Les trophées restent des
- * placeholders qui pivotent, à remplacer par un vrai modèle 3D et un sourcing
- * vérifié en étape de finition (la note le rappelle).
+ * trophées (un rectangle or par compétition gagnée). Chaque carte affiche une coupe
+ * dorée en 3D (WebGL maison, voir assets/js/trophy3d.js) ; le SVG rendu ici reste le
+ * repli sans JavaScript ni WebGL. Coupes stylisées génériques (choix IP).
  *
  * @var string $heroEyebrow Contexte affiché au-dessus du titre
  * @var string $heroTitle   Titre principal, rendu comme unique <h1> de la page
@@ -14,6 +14,15 @@ declare(strict_types=1);
  * @var array<int,array{name:string,stat:string}> $trophies
  */
 $heroYear = $heroYear ?? '25·26';
+
+// Type de coupe 3D par compétition (mappe le nom vers le modèle WebGL de trophy3d.js).
+// Robuste a l'ordre des cartes ; repli 'ucl' si un nom inattendu apparait.
+$trophyKey = [
+    'Ligue des Champions'   => 'ucl',
+    'Ligue 1'               => 'l1',
+    'Coupe de France'       => 'cdf',
+    'Trophée des Champions' => 'tdc',
+];
 
 // Dégradé or défini une seule fois, réutilisé par chaque trophée de la vitrine.
 $trophyDefs = '<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">'
@@ -43,12 +52,12 @@ $trophySvg = '<svg viewBox="0 0 64 96" width="76" height="96" xmlns="http://www.
     <div class="hero__cabinet">
       <?php foreach ($trophies as $t): ?>
         <article class="trophy">
-          <div class="trophy__stage"><span class="trophy__spin"><?= $trophySvg ?></span></div>
+          <div class="trophy__stage" data-trophy="<?= View::e($trophyKey[$t['name']] ?? 'ucl') ?>"><span class="trophy__spin"><?= $trophySvg ?></span></div>
           <div class="trophy__name"><?= View::e($t['name']) ?></div>
           <div class="trophy__stat"><?= View::e($t['stat']) ?></div>
         </article>
       <?php endforeach; ?>
     </div>
-    <p class="hero__note">Trophées en placeholder qui pivote, à remplacer par un vrai modèle 3D par carte en étape de finition.</p>
+    <p class="hero__note">Coupes stylisées en 3D : une représentation générique, pas les trophées officiels.</p>
   </div>
 </section>

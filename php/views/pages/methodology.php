@@ -16,6 +16,7 @@ declare(strict_types=1);
 
   <section class="panel">
     <div class="panel__header"><h2 class="panel__title">Taux de vérification par table</h2></div>
+    <div class="table-scroll">
     <table class="table mth-cov">
       <thead>
         <tr>
@@ -41,6 +42,7 @@ declare(strict_types=1);
         <?php endforeach; ?>
       </tbody>
     </table>
+    </div>
     <p class="mth-note">L'attribution des buts, minutes et notes à chaque match (statistiques par match) est estimée : le générateur répartit les totaux de saison vérifiés, sans inventer de total. Les bilans de saison et les scores, eux, sont vérifiés.</p>
   </section>
 

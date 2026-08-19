@@ -55,6 +55,7 @@ $currentResult = $filters['result'];
     <p class="roster-empty">Aucune rencontre ne correspond à ces filtres.</p>
   <?php else: ?>
     <section class="panel">
+      <div class="table-scroll">
       <table class="table mt-table">
         <caption class="visually-hidden">Les rencontres de la saison, avec date, compétition, adversaire, score et résultat.</caption>
         <thead>
@@ -83,6 +84,7 @@ $currentResult = $filters['result'];
           <?php endforeach; ?>
         </tbody>
       </table>
+      </div>
     </section>
 
     <?php if ($meta['total_pages'] > 1): ?>

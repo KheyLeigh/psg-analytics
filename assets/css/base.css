@@ -52,6 +52,11 @@ button, input, select, textarea {
   color: inherit;
 }
 
+/* Supprime le délai de tap de 300ms sur mobile pour les éléments interactifs. */
+a, button, .chip, .mt-row {
+  touch-action: manipulation;
+}
+
 /* Focus visible net et sur mesure pour la navigation clavier. */
 :focus-visible {
   outline: 2px solid var(--blue);

@@ -496,9 +496,16 @@
 }
 
 /* Défilement horizontal du tableau confiné à son conteneur : le corps de page ne
-   défile jamais horizontalement. */
+   défile jamais horizontalement. Le min-width garde des colonnes lisibles sur mobile
+   (la table glisse au lieu de s'écraser), l'inertie tactile reste confinée. */
 .table-scroll {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.table-scroll .table {
+  min-width: 34rem;
 }
 
 /* État "aucun résultat" (recherche client sans correspondance, ou effectif vide

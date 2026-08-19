@@ -38,15 +38,15 @@ $currentResult = $filters['result'];
 
   <div class="mt-filters">
     <div class="mt-filter-group" role="group" aria-label="Filtrer par compétition">
-      <a href="<?= View::e($filterHref(null, $currentResult)) ?>" class="chip<?= $currentComp === null ? ' chip--on' : '' ?>">Toutes compétitions</a>
+      <a href="<?= View::e($filterHref(null, $currentResult)) ?>" class="chip<?= $currentComp === null ? ' chip--on' : '' ?>"<?= $currentComp === null ? ' aria-current="true"' : '' ?>>Toutes compétitions</a>
       <?php foreach ($competitions as $c): ?>
-        <a href="<?= View::e($filterHref($c['id'], $currentResult)) ?>" class="chip<?= $currentComp === $c['id'] ? ' chip--on' : '' ?>"><?= View::e($c['name']) ?></a>
+        <a href="<?= View::e($filterHref($c['id'], $currentResult)) ?>" class="chip<?= $currentComp === $c['id'] ? ' chip--on' : '' ?>"<?= $currentComp === $c['id'] ? ' aria-current="true"' : '' ?>><?= View::e($c['name']) ?></a>
       <?php endforeach; ?>
     </div>
     <div class="mt-filter-group" role="group" aria-label="Filtrer par résultat">
-      <a href="<?= View::e($filterHref($currentComp, null)) ?>" class="chip<?= $currentResult === null ? ' chip--on' : '' ?>">Tous résultats</a>
+      <a href="<?= View::e($filterHref($currentComp, null)) ?>" class="chip<?= $currentResult === null ? ' chip--on' : '' ?>"<?= $currentResult === null ? ' aria-current="true"' : '' ?>>Tous résultats</a>
       <?php foreach ($results as $code): [$letter] = $resultMeta[$code]; ?>
-        <a href="<?= View::e($filterHref($currentComp, $code)) ?>" class="chip<?= $currentResult === $code ? ' chip--on' : '' ?>"><?= View::e(['W' => 'Victoires', 'D' => 'Nuls', 'L' => 'Défaites'][$code]) ?></a>
+        <a href="<?= View::e($filterHref($currentComp, $code)) ?>" class="chip<?= $currentResult === $code ? ' chip--on' : '' ?>"<?= $currentResult === $code ? ' aria-current="true"' : '' ?>><?= View::e(['W' => 'Victoires', 'D' => 'Nuls', 'L' => 'Défaites'][$code]) ?></a>
       <?php endforeach; ?>
     </div>
   </div>
@@ -58,11 +58,11 @@ $currentResult = $filters['result'];
       <table class="table mt-table">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Compétition</th>
-            <th>Rencontre</th>
-            <th>Score</th>
-            <th>Résultat</th>
+            <th scope="col">Date</th>
+            <th scope="col">Compétition</th>
+            <th scope="col">Rencontre</th>
+            <th scope="col">Score</th>
+            <th scope="col">Résultat</th>
           </tr>
         </thead>
         <tbody>

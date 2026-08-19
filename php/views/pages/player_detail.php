@@ -44,15 +44,15 @@ $payload = json_encode(
     </div>
   </header>
 
-  <div>
-    <div class="sec-h">Saison en chiffres</div>
+  <section aria-labelledby="pd-season-h">
+    <div class="sec-h" id="pd-season-h">Saison en chiffres</div>
     <div class="grid grid--4">
       <?php foreach ($kpis as $k): ?>
         <?php $label = $k['label']; $value = $k['value']; $confidence = 'verified'; $tip = null; ?>
         <?php require BASE_PATH . '/php/views/partials/kpi_card.php'; ?>
       <?php endforeach; ?>
     </div>
-  </div>
+  </section>
 
   <div class="grid grid--2">
     <section class="panel pd__panel">

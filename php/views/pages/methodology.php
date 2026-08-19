@@ -19,10 +19,10 @@ declare(strict_types=1);
     <table class="table mth-cov">
       <thead>
         <tr>
-          <th>Donnée</th>
-          <th>Lignes</th>
-          <th>Vérifié</th>
-          <th>Fiabilité</th>
+          <th scope="col">Donnée</th>
+          <th scope="col">Lignes</th>
+          <th scope="col">Vérifié</th>
+          <th scope="col">Fiabilité</th>
         </tr>
       </thead>
       <tbody>

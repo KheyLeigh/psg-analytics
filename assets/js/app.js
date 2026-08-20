@@ -5,12 +5,16 @@ import { initTheme } from './modules/theme.js';
 import { initTransparency } from './modules/transparency.js';
 import { initProvenance } from './modules/provenance.js';
 import { initTrophies } from './trophy3d.js';
+import { initTrophyViewers } from './trophy-viewer.js';
 
 initTheme();
 initTransparency();
 initProvenance();
 // Coupes 3D du hero (Accueil, Dashboard, Styleguide). No-op si aucune n'est presente.
+// initTrophies : coupes stylisées WebGL maison (repli, cartes sans GLB).
+// initTrophyViewers : pilote les model-viewer des cartes avec GLB (pause au survol).
 initTrophies();
+initTrophyViewers();
 
 // Routeur de vue : chaque page porte data-page sur <body> et importe son module
 // dédié uniquement si nécessaire. D'autres pages viendront s'ajouter au switch.

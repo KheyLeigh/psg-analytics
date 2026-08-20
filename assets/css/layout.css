@@ -257,6 +257,22 @@
   filter: drop-shadow(0 10px 12px rgba(244, 201, 75, .22));
 }
 
+/* Coupe rendue par model-viewer (GLB + PBR + HDRI) : le visualiseur occupe tout le
+   plateau, fond transparent, aucune interaction ne vole le focus. */
+.trophy__stage.is-mv {
+  display: block;
+  perspective: none;
+}
+
+.trophy__mv {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  --poster-color: transparent;
+  --progress-bar-color: var(--gold);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .trophy__spin {
     animation: trophy-turn 5s ease-in-out infinite;

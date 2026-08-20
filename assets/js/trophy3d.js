@@ -477,7 +477,9 @@ function createTrophy(canvas, type) {
 }
 
 export function initTrophies() {
-  const stages = Array.from(document.querySelectorAll('.trophy__stage'));
+  // Les cartes rendues par model-viewer (GLB present) portent data-mv : on les ignore,
+  // le WebGL maison ne sert que de repli pour les cartes sans GLB.
+  const stages = Array.from(document.querySelectorAll('.trophy__stage:not([data-mv])'));
   if (stages.length === 0) {
     return;
   }

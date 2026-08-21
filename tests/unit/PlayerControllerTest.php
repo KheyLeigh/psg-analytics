@@ -137,7 +137,7 @@ final class PlayerControllerTest extends TestCase
         $data = (new PlayerController($players, $this->statsDouble()))->buildDetail(29);
 
         $this->assertSame('Bradley Barcola', $data['player']['name']);
-        $this->assertSame(['Buts', 'Passes déc.', 'Minutes', 'Tirs', 'Duels gagnés', 'Note'], $data['profile']['axes']);
+        $this->assertSame(['Buts', 'Passes déc.', 'Minutes', 'Tirs', 'Tacles gagnés', 'Note'], $data['profile']['axes']);
         // Valeur du joueur / meilleur de l'effectif par axe : 11/22, 5/10, 2000/2000,
         // 40/80, 30/60, 7.2/7.2 -> profil normalisé de 0 à 1.
         $this->assertSame([0.5, 0.5, 1.0, 0.5, 0.5, 1.0], $data['profile']['values']);

@@ -158,8 +158,45 @@ function migrator_distribute_minutes(int $totalMinutes, int $starts, int $subs):
     return $minutes;
 }
 
+// Répartit un total entier (tirs, tirs cadrés, tacles) sur des matchs selon des
+// poids (les minutes jouées), avec somme finale exactement égale au total réel
+// FBref : plancher proportionnel puis distribution du reste aux plus fortes parts
+// fractionnaires (plus grands restes). Déterministe, sans aléa.
+function migrator_distribute_count(int $total, array $weights): array
+{
+    $n = count($weights);
+    if ($n === 0 || $total <= 0) {
+        return array_fill(0, $n, 0);
+    }
+    $sum = array_sum($weights);
+    if ($sum <= 0) {
+        $base = intdiv($total, $n);
+        $out = array_fill(0, $n, $base);
+        for ($i = 0; $i < $total - $base * $n; $i++) {
+            $out[$i]++;
+        }
+        return $out;
+    }
+    $floors = [];
+    $frac = [];
+    $used = 0;
+    foreach ($weights as $i => $w) {
+        $exact = $total * $w / $sum;
+        $floors[$i] = (int) floor($exact);
+        $frac[$i] = $exact - $floors[$i];
+        $used += $floors[$i];
+    }
+    $order = array_keys($frac);
+    usort($order, static fn ($a, $b): int => $frac[$b] <=> $frac[$a]);
+    for ($i = 0; $i < $total - $used; $i++) {
+        $floors[$order[$i]]++;
+    }
+    return $floors;
+}
+
 // Insère une ligne player_match_stats par (joueur, match) à partir du cumul :
-// minutes réparties selon starts/subs réels, note calculée sur but+passe.
+// minutes réparties selon starts/subs réels, tirs/tirs cadrés/tacles répartis au
+// prorata des minutes (somme exacte = total FBref), note calculée sur but+passe.
 function migrator_insert_stats(PDOStatement $stmt, StatGenerator $gen, array $agg, array $totals, int $sourceId): void
 {
     foreach ($agg as $playerId => $byMatch) {
@@ -169,6 +206,10 @@ function migrator_insert_stats(PDOStatement $stmt, StatGenerator $gen, array $ag
         $starts = min($totals[$playerId]['starts'] ?? 0, $n);
         $subs = $n - $starts;
         $minutesList = migrator_distribute_minutes($totals[$playerId]['minutes'] ?? 0, $starts, $subs);
+
+        $shotsList = migrator_distribute_count((int) ($totals[$playerId]['shots'] ?? 0), $minutesList);
+        $sotList = migrator_distribute_count((int) ($totals[$playerId]['sot'] ?? 0), $minutesList);
+        $duelsList = migrator_distribute_count((int) ($totals[$playerId]['tackles'] ?? 0), $minutesList);
 
         foreach ($matchIds as $i => $matchId) {
             $line = $byMatch[$matchId];
@@ -181,7 +222,8 @@ function migrator_insert_stats(PDOStatement $stmt, StatGenerator $gen, array $ag
             $rating = $gen->rating($goals, $assists, $minutes);
             $stmt->execute([
                 (int) $playerId, (int) $matchId, (int) $isStarter, $minutes,
-                $goals, $assists, $yellow, $red, $rating, $sourceId,
+                $goals, $assists, $shotsList[$i], $sotList[$i], $duelsList[$i],
+                $yellow, $red, $rating, $sourceId,
             ]);
         }
     }
@@ -195,8 +237,8 @@ function migrator_generate_player_stats(PDO $pdo, array $matches, array $players
     $gen = new StatGenerator(2026);
     $sourceId = $ref['source_ids']['stat_generator'];
     $stmt = $pdo->prepare(
-        'INSERT INTO player_match_stats (player_id, match_id, is_starter, minutes, goals, assists, yellow_cards, red_card, rating, source_id)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        'INSERT INTO player_match_stats (player_id, match_id, is_starter, minutes, goals, assists, shots, shots_on_target, duels_won, yellow_cards, red_card, rating, source_id)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
 
     $totals = migrator_l1_totals($players);

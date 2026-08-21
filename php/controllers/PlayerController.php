@@ -26,7 +26,7 @@ final class PlayerController extends Controller
         'assists'  => 'Passes déc.',
         'minutes'  => 'Minutes',
         'shots'    => 'Tirs',
-        'duelsWon' => 'Duels gagnés',
+        'duelsWon' => 'Tacles gagnés',
         'rating'   => 'Note',
     ];
 

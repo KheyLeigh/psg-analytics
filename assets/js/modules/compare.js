@@ -13,7 +13,7 @@ const AXIS_LABELS = {
   assists: 'Passes déc.',
   minutes: 'Minutes',
   shots: 'Tirs',
-  duels_won: 'Duels gagnés',
+  duels_won: 'Tacles gagnés',
   rating: 'Note',
 };
 

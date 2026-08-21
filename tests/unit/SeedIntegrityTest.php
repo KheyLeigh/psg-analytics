@@ -54,6 +54,29 @@ final class SeedIntegrityTest extends TestCase
         $this->assertSame(55, $indiv, 'somme passes décisives L1 = 55');
     }
 
+    public function testTirsEtTaclesL1TotauxExacts(): void
+    {
+        $pdo = $this->migratedPdo();
+        $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
+        $row = $pdo->query("SELECT SUM(shots) sh, SUM(shots_on_target) sot, SUM(duels_won) dw
+            FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp}")->fetch(PDO::FETCH_ASSOC);
+        // Totaux vérifiés FBref (tables Shooting et Miscellaneous) : la répartition
+        // par match est estimée mais la somme reste exacte.
+        $this->assertSame(599, (int) $row['sh'], 'somme tirs L1 = 599 (FBref Shooting)');
+        $this->assertSame(225, (int) $row['sot'], 'somme tirs cadrés L1 = 225 (FBref Shooting)');
+        $this->assertSame(316, (int) $row['dw'], 'somme tacles gagnés L1 = 316 (FBref Miscellaneous)');
+
+        // Spot-check par joueur : les totaux saison collent exactement.
+        $shots = [];
+        foreach ($pdo->query("SELECT p.last_name ln, p.first_name fn, SUM(s.shots) sh
+            FROM player_match_stats s JOIN players p ON p.id=s.player_id JOIN matches m ON m.id=s.match_id
+            WHERE m.competition_id={$comp} GROUP BY p.id") as $r) {
+            $shots[$r['ln'] !== '' ? $r['ln'] : $r['fn']] = (int) $r['sh'];
+        }
+        $this->assertSame(66, $shots['Barcola'] ?? 0, 'Barcola exactement 66 tirs L1');
+        $this->assertSame(45, $shots['Dembélé'] ?? 0, 'Dembélé exactement 45 tirs L1');
+    }
+
     public function testAssistsVitinhaEtDembeleExacts(): void
     {
         $pdo = $this->migratedPdo();

@@ -170,13 +170,13 @@ $totalPages = (int) $meta['total_pages'];
 
   <div class="dash-sep hechter" aria-hidden="true"></div>
 
-  <!-- Comparateur : deux joueurs face à face sur un radar normalisé. Les totaux par
-       joueur sont reconstitués par le générateur déterministe (estimé), ce que le mode
-       Transparence fait ressortir ; l'identité (nom, numéro, poste) reste vérifiée. -->
+  <!-- Comparateur : deux joueurs face à face sur un radar normalisé. Les totaux saison
+       (buts, passes, minutes, tirs, tacles) sont vérifiés (FBref) ; seule la note est
+       estimée (calculée par le générateur), d'où le marqueur estimé sur le panneau. -->
   <section class="panel compare"
     aria-labelledby="compare-h"
     data-est data-src="e"
-    data-tip="Radar reconstitué : les totaux par joueur (buts, passes, minutes, tirs, duels, note) sont générés par le générateur déterministe, calibrés sur les totaux vérifiés. L'identité des joueurs reste vérifiée.">
+    data-tip="Radar normalisé : buts, passes, minutes, tirs et tacles sont des totaux saison vérifiés (FBref) ; seule la note est estimée (calculée par le générateur). Chaque axe est rapporté au meilleur de l'effectif.">
     <div class="panel__header">
       <h2 class="panel__title" id="compare-h">Face à face</h2>
       <?php $confidence = 'estimated'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>

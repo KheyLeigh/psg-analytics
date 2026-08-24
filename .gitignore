@@ -3,3 +3,4 @@ php/config/config.local.php
 .DS_Store
 *.log
 .impeccable/
+.claude/

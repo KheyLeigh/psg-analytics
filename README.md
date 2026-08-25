@@ -102,3 +102,9 @@ La suite couvre les contrôleurs, les repositories et les services (assemblage d
 ## Design system
 
 Direction artistique **Matchday**, sombre par défaut, avec une variante claire cohérente (bascule persistée). Bleu nuit profond comme toile, rouge PSG réservé à l'identité, or réservé au jalon de champion. Titres en Archivo Black, chiffres en Saira italique façon numéro de maillot. Le système de traçabilité vérifié / estimé est un composant de première classe, décliné sur toutes les pages.
+
+## Licence
+
+Le code de ce projet est publié sous licence [MIT](LICENSE).
+
+Les données de la saison proviennent de [FBref / Sports Reference](https://fbref.com) et sont utilisées à des fins pédagogiques non commerciales. Leurs sources exactes sont tracées dans `database/seeds/verified/sources.php` et restituées page par page dans l'application. Le Paris Saint-Germain, ses marques et ses logos appartiennent à leurs détenteurs respectifs : ce projet est un travail personnel d'apprentissage, sans aucun lien avec le club.

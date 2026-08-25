@@ -19,9 +19,9 @@ if (($totals['rating'] ?? null) !== null) {
     $kpis[] = ['label' => 'Note moy.', 'value' => number_format((float) $totals['rating'], 2, ',', ' ')];
 }
 
-// Données transmises au JS pour hydrater les deux graphiques (profil et contribution).
+// Données transmises au JS pour hydrater les graphiques (profil, contribution, tirs).
 $payload = json_encode(
-    ['profile' => $profile, 'timeline' => $timeline],
+    ['profile' => $profile, 'timeline' => $timeline, 'shotmap' => $shotmap ?? null],
     JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE
 );
 ?>
@@ -77,6 +77,26 @@ $payload = json_encode(
       </div>
     </section>
   </div>
+
+  <?php if (!empty($shotmap)): ?>
+    <section class="panel" aria-labelledby="pd-shots-h">
+      <div class="panel__header">
+        <h2 class="panel__title" id="pd-shots-h">Carte des tirs · <?= View::e(trim(($shotmap['competition'] ?? '') . ' ' . ($shotmap['season'] ?? ''))) ?></h2>
+        <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
+      </div>
+      <p class="pd__panel-sub">
+        <?= View::e((string) $shotmap['shots_total']) ?> tirs, <?= View::e((string) $shotmap['goals']) ?> buts,
+        <?= View::e(number_format((float) $shotmap['xg_total'], 2, ',', ' ')) ?> xG. Chaque tir a sa position réelle (source <?= View::e($shotmap['source']) ?>), taille selon le xG.
+      </p>
+      <div id="pd-shotmap" class="shotmap-wrap">
+        <p class="chart-fallback">La carte des tirs s'affiche ici (JavaScript activé).</p>
+      </div>
+      <div class="sm-legend">
+        <span class="sm-legend__item"><span class="sm-key sm-key--goal"></span>But</span>
+        <span class="sm-legend__item"><span class="sm-key"></span>Tir (taille = xG)</span>
+      </div>
+    </section>
+  <?php endif; ?>
 
   <script type="application/json" id="pd-data"><?= $payload ?></script>
 </div>

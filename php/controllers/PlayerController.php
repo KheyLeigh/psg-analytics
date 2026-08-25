@@ -84,6 +84,7 @@ final class PlayerController extends Controller
             // data-page vaut le nom de la vue (player_detail) : View::render conserve le
             // nom de template via extract(EXTR_SKIP). Le routeur app.js s'aligne dessus.
             'page'     => 'player_detail',
+            'shotmap'  => $this->shotmap($id, $player->fullName()),
             'player'   => [
                 'id'               => $player->id,
                 'number'           => $player->shirtNumber,
@@ -99,6 +100,32 @@ final class PlayerController extends Controller
             'totals'   => $totals,
             'profile'  => ['axes' => $axes, 'values' => $values],
             'timeline' => $this->stats->timeline($id),
+        ];
+    }
+
+    // Carte des tirs du joueur : tirs vérifiés avec coordonnées réelles (Understat),
+    // indexés par id joueur. Renvoie null si le joueur n'a pas de tirs référencés
+    // (gardiens, joueurs sans tir en L1) : la vue masque alors la section.
+    private function shotmap(int $id, string $fullName): ?array
+    {
+        $file = BASE_PATH . '/database/seeds/verified/understat-shots-2025.json';
+        if (!is_file($file)) {
+            return null;
+        }
+        $all = json_decode((string) file_get_contents($file), true);
+        $entry = $all['players'][(string) $id] ?? null;
+        if (!$entry || empty($entry['shots'])) {
+            return null;
+        }
+        return [
+            'player'      => $entry['name'] ?? $fullName,
+            'season'      => $all['season'] ?? '',
+            'competition' => $all['competition'] ?? '',
+            'source'      => $all['source'] ?? '',
+            'shots_total' => (int) ($entry['shots_total'] ?? count($entry['shots'])),
+            'goals'       => (int) ($entry['goals'] ?? 0),
+            'xg_total'    => (float) ($entry['xg_total'] ?? 0),
+            'shots'       => $entry['shots'],
         ];
     }
 

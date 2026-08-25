@@ -3,6 +3,7 @@
 // ces deux graphiques sont une amélioration progressive.
 import { render as renderRadar } from '../charts/radar.js';
 import { render as renderLine } from '../charts/line.js';
+import { render as renderShotmap } from '../charts/shotmap.js';
 
 export function initPlayerDetail() {
   const dataEl = document.querySelector('#pd-data');
@@ -65,5 +66,15 @@ export function initPlayerDetail() {
     });
   } else if (lineEl) {
     showEmpty(lineEl, 'Courbe indisponible : aucune statistique par match pour ce joueur.');
+  }
+
+  // Carte des tirs : positions réelles des tirs du joueur (source Understat).
+  const shotEl = document.querySelector('#pd-shotmap');
+  const shotmap = payload.shotmap;
+  if (shotEl && shotmap && Array.isArray(shotmap.shots) && shotmap.shots.length > 0) {
+    shotEl.textContent = '';
+    renderShotmap(shotEl, shotmap, {
+      ariaLabel: `Carte des tirs de ${name} en ${shotmap.competition || ''} ${shotmap.season || ''}.`,
+    });
   }
 }

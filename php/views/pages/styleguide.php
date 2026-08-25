@@ -168,9 +168,21 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
   </div>
 
   <?php
-    // Prototype shot map : tirs réels d'un joueur (positions x/y depuis Understat).
-    $smPath = BASE_PATH . '/database/seeds/verified/understat-barcola-shots-2025.json';
-    $sm = is_file($smPath) ? (json_decode((string) file_get_contents($smPath), true) ?: []) : [];
+    // Démo shot map : tirs réels d'un joueur (positions x/y depuis Understat), lus du
+    // jeu de données par joueur. Ici Barcola (id 22) à titre d'illustration du composant.
+    $smPath = BASE_PATH . '/database/seeds/verified/understat-shots-2025.json';
+    $smAll = is_file($smPath) ? (json_decode((string) file_get_contents($smPath), true) ?: []) : [];
+    $smP = $smAll['players']['22'] ?? [];
+    $sm = [
+        'player'      => $smP['name'] ?? '',
+        'competition' => $smAll['competition'] ?? '',
+        'season'      => $smAll['season'] ?? '',
+        'source'      => $smAll['source'] ?? '',
+        'shots_total' => $smP['shots_total'] ?? 0,
+        'goals'       => $smP['goals'] ?? 0,
+        'xg_total'    => $smP['xg_total'] ?? 0,
+        'shots'       => $smP['shots'] ?? [],
+    ];
     $smPayload = json_encode($sm, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
   ?>
   <div>

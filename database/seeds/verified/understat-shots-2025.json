@@ -1,0 +1,6166 @@
+{
+ "season": "2025-26",
+ "competition": "Ligue 1",
+ "source": "Understat",
+ "note": "Tirs verifies par joueur avec coordonnees x/y reelles (Understat). x: 0 = ligne de but propre, 1 = adverse ; y: 0 a 1 en largeur. res: goal/saved/miss/block/post. Cle = id joueur en base.",
+ "players": {
+  "4": {
+   "name": "Achraf Hakimi",
+   "shots_total": 27,
+   "goals": 2,
+   "xg_total": 2.8,
+   "shots": [
+    {
+     "x": 0.793,
+     "y": 0.284,
+     "xg": 0.0186,
+     "res": "miss",
+     "min": 36,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.706,
+     "y": 0.509,
+     "xg": 0.0201,
+     "res": "saved",
+     "min": 46,
+     "sit": "FromCorner",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.765,
+     "y": 0.65,
+     "xg": 0.0617,
+     "res": "miss",
+     "min": 12,
+     "sit": "DirectFreekick",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.822,
+     "y": 0.423,
+     "xg": 0.0472,
+     "res": "saved",
+     "min": 58,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.741,
+     "y": 0.361,
+     "xg": 0.0217,
+     "res": "block",
+     "min": 41,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.918,
+     "y": 0.457,
+     "xg": 0.4524,
+     "res": "miss",
+     "min": 82,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.904,
+     "y": 0.396,
+     "xg": 0.3011,
+     "res": "goal",
+     "min": 28,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.937,
+     "y": 0.421,
+     "xg": 0.514,
+     "res": "goal",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.782,
+     "y": 0.224,
+     "xg": 0.0132,
+     "res": "block",
+     "min": 20,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.774,
+     "y": 0.395,
+     "xg": 0.026,
+     "res": "block",
+     "min": 35,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.856,
+     "y": 0.356,
+     "xg": 0.0679,
+     "res": "block",
+     "min": 32,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.914,
+     "y": 0.313,
+     "xg": 0.0261,
+     "res": "saved",
+     "min": 42,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.859,
+     "y": 0.444,
+     "xg": 0.0963,
+     "res": "miss",
+     "min": 56,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.805,
+     "y": 0.293,
+     "xg": 0.0334,
+     "res": "block",
+     "min": 61,
+     "sit": "FromCorner",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.76,
+     "y": 0.356,
+     "xg": 0.0211,
+     "res": "miss",
+     "min": 19,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.736,
+     "y": 0.344,
+     "xg": 0.0457,
+     "res": "miss",
+     "min": 31,
+     "sit": "DirectFreekick",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.788,
+     "y": 0.344,
+     "xg": 0.0271,
+     "res": "block",
+     "min": 81,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.735,
+     "y": 0.38,
+     "xg": 0.0234,
+     "res": "post",
+     "min": 2,
+     "sit": "FromCorner",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.746,
+     "y": 0.344,
+     "xg": 0.0199,
+     "res": "saved",
+     "min": 44,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.954,
+     "y": 0.579,
+     "xg": 0.38,
+     "res": "saved",
+     "min": 5,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.771,
+     "y": 0.208,
+     "xg": 0.0144,
+     "res": "miss",
+     "min": 9,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.819,
+     "y": 0.454,
+     "xg": 0.0637,
+     "res": "miss",
+     "min": 20,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.725,
+     "y": 0.325,
+     "xg": 0.0168,
+     "res": "block",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.75,
+     "y": 0.483,
+     "xg": 0.0274,
+     "res": "miss",
+     "min": 54,
+     "sit": "FromCorner",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.963,
+     "y": 0.403,
+     "xg": 0.3058,
+     "res": "saved",
+     "min": 6,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.84,
+     "y": 0.429,
+     "xg": 0.0872,
+     "res": "miss",
+     "min": 10,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.752,
+     "y": 0.511,
+     "xg": 0.0696,
+     "res": "saved",
+     "min": 27,
+     "sit": "DirectFreekick",
+     "opp": "Angers",
+     "ha": "a"
+    }
+   ]
+  },
+  "5": {
+   "name": "Beraldo",
+   "shots_total": 14,
+   "goals": 2,
+   "xg_total": 1.36,
+   "shots": [
+    {
+     "x": 0.901,
+     "y": 0.469,
+     "xg": 0.0385,
+     "res": "miss",
+     "min": 20,
+     "sit": "SetPiece",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.924,
+     "y": 0.536,
+     "xg": 0.2981,
+     "res": "goal",
+     "min": 53,
+     "sit": "FromCorner",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.956,
+     "y": 0.577,
+     "xg": 0.0476,
+     "res": "miss",
+     "min": 56,
+     "sit": "FromCorner",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.787,
+     "y": 0.405,
+     "xg": 0.0296,
+     "res": "saved",
+     "min": 16,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.914,
+     "y": 0.526,
+     "xg": 0.0369,
+     "res": "miss",
+     "min": 62,
+     "sit": "FromCorner",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.93,
+     "y": 0.515,
+     "xg": 0.0824,
+     "res": "miss",
+     "min": 77,
+     "sit": "FromCorner",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.886,
+     "y": 0.54,
+     "xg": 0.0859,
+     "res": "block",
+     "min": 82,
+     "sit": "FromCorner",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.917,
+     "y": 0.534,
+     "xg": 0.0385,
+     "res": "miss",
+     "min": 89,
+     "sit": "FromCorner",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.738,
+     "y": 0.395,
+     "xg": 0.0127,
+     "res": "miss",
+     "min": 92,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.816,
+     "y": 0.44,
+     "xg": 0.0786,
+     "res": "saved",
+     "min": 50,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.958,
+     "y": 0.483,
+     "xg": 0.5018,
+     "res": "goal",
+     "min": 51,
+     "sit": "FromCorner",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.752,
+     "y": 0.605,
+     "xg": 0.019,
+     "res": "miss",
+     "min": 20,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.818,
+     "y": 0.548,
+     "xg": 0.0469,
+     "res": "block",
+     "min": 24,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.821,
+     "y": 0.403,
+     "xg": 0.0454,
+     "res": "block",
+     "min": 81,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    }
+   ]
+  },
+  "6": {
+   "name": "Marquinhos",
+   "shots_total": 3,
+   "goals": 0,
+   "xg_total": 0.06,
+   "shots": [
+    {
+     "x": 0.891,
+     "y": 0.522,
+     "xg": 0.0274,
+     "res": "miss",
+     "min": 74,
+     "sit": "SetPiece",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.931,
+     "y": 0.395,
+     "xg": 0.0155,
+     "res": "block",
+     "min": 9,
+     "sit": "FromCorner",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.887,
+     "y": 0.37,
+     "xg": 0.014,
+     "res": "block",
+     "min": 92,
+     "sit": "FromCorner",
+     "opp": "Paris FC",
+     "ha": "a"
+    }
+   ]
+  },
+  "7": {
+   "name": "Illia Zabarnyi",
+   "shots_total": 4,
+   "goals": 1,
+   "xg_total": 0.57,
+   "shots": [
+    {
+     "x": 0.964,
+     "y": 0.575,
+     "xg": 0.3527,
+     "res": "goal",
+     "min": 31,
+     "sit": "FromCorner",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.957,
+     "y": 0.551,
+     "xg": 0.0611,
+     "res": "block",
+     "min": 35,
+     "sit": "SetPiece",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.854,
+     "y": 0.485,
+     "xg": 0.0281,
+     "res": "saved",
+     "min": 21,
+     "sit": "SetPiece",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.954,
+     "y": 0.416,
+     "xg": 0.1295,
+     "res": "saved",
+     "min": 62,
+     "sit": "FromCorner",
+     "opp": "Toulouse",
+     "ha": "h"
+    }
+   ]
+  },
+  "8": {
+   "name": "Lucas Hernández",
+   "shots_total": 11,
+   "goals": 0,
+   "xg_total": 0.64,
+   "shots": [
+    {
+     "x": 0.893,
+     "y": 0.588,
+     "xg": 0.0349,
+     "res": "saved",
+     "min": 44,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.844,
+     "y": 0.681,
+     "xg": 0.0448,
+     "res": "block",
+     "min": 29,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.726,
+     "y": 0.725,
+     "xg": 0.0098,
+     "res": "miss",
+     "min": 51,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.841,
+     "y": 0.6,
+     "xg": 0.0408,
+     "res": "miss",
+     "min": 71,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.947,
+     "y": 0.589,
+     "xg": 0.0742,
+     "res": "saved",
+     "min": 47,
+     "sit": "FromCorner",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.936,
+     "y": 0.582,
+     "xg": 0.0271,
+     "res": "miss",
+     "min": 79,
+     "sit": "FromCorner",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.79,
+     "y": 0.72,
+     "xg": 0.0257,
+     "res": "block",
+     "min": 53,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.917,
+     "y": 0.522,
+     "xg": 0.0427,
+     "res": "post",
+     "min": 33,
+     "sit": "FromCorner",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.914,
+     "y": 0.609,
+     "xg": 0.0243,
+     "res": "block",
+     "min": 84,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.945,
+     "y": 0.576,
+     "xg": 0.3052,
+     "res": "post",
+     "min": 84,
+     "sit": "FromCorner",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.772,
+     "y": 0.756,
+     "xg": 0.0116,
+     "res": "saved",
+     "min": 6,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    }
+   ]
+  },
+  "9": {
+   "name": "Nuno Mendes",
+   "shots_total": 30,
+   "goals": 4,
+   "xg_total": 3.81,
+   "shots": [
+    {
+     "x": 0.865,
+     "y": 0.648,
+     "xg": 0.0649,
+     "res": "saved",
+     "min": 79,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.771,
+     "y": 0.276,
+     "xg": 0.0494,
+     "res": "block",
+     "min": 90,
+     "sit": "DirectFreekick",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.736,
+     "y": 0.386,
+     "xg": 0.0507,
+     "res": "goal",
+     "min": 65,
+     "sit": "DirectFreekick",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.763,
+     "y": 0.297,
+     "xg": 0.0502,
+     "res": "block",
+     "min": 22,
+     "sit": "DirectFreekick",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.727,
+     "y": 0.615,
+     "xg": 0.0151,
+     "res": "saved",
+     "min": 36,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.956,
+     "y": 0.504,
+     "xg": 0.6457,
+     "res": "goal",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.946,
+     "y": 0.6,
+     "xg": 0.087,
+     "res": "saved",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.799,
+     "y": 0.693,
+     "xg": 0.026,
+     "res": "saved",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.841,
+     "y": 0.655,
+     "xg": 0.0508,
+     "res": "block",
+     "min": 67,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.759,
+     "y": 0.627,
+     "xg": 0.0111,
+     "res": "block",
+     "min": 75,
+     "sit": "FromCorner",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.802,
+     "y": 0.69,
+     "xg": 0.0248,
+     "res": "saved",
+     "min": 3,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.964,
+     "y": 0.645,
+     "xg": 0.1131,
+     "res": "miss",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.728,
+     "y": 0.642,
+     "xg": 0.0223,
+     "res": "miss",
+     "min": 15,
+     "sit": "FromCorner",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.858,
+     "y": 0.2,
+     "xg": 0.0599,
+     "res": "block",
+     "min": 28,
+     "sit": "DirectFreekick",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.796,
+     "y": 0.627,
+     "xg": 0.0341,
+     "res": "miss",
+     "min": 46,
+     "sit": "FromCorner",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.918,
+     "y": 0.693,
+     "xg": 0.1299,
+     "res": "saved",
+     "min": 66,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.74,
+     "y": 0.617,
+     "xg": 0.0194,
+     "res": "miss",
+     "min": 24,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.864,
+     "y": 0.646,
+     "xg": 0.1033,
+     "res": "miss",
+     "min": 58,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.892,
+     "y": 0.636,
+     "xg": 0.1373,
+     "res": "block",
+     "min": 84,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.926,
+     "y": 0.593,
+     "xg": 0.2308,
+     "res": "goal",
+     "min": 80,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.771,
+     "y": 0.756,
+     "xg": 0.0117,
+     "res": "miss",
+     "min": 88,
+     "sit": "SetPiece",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.855,
+     "y": 0.652,
+     "xg": 0.074,
+     "res": "post",
+     "min": 89,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.89,
+     "y": 0.564,
+     "xg": 0.4232,
+     "res": "saved",
+     "min": 90,
+     "sit": "SetPiece",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.848,
+     "y": 0.522,
+     "xg": 0.0723,
+     "res": "block",
+     "min": 76,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.905,
+     "y": 0.515,
+     "xg": 0.3656,
+     "res": "saved",
+     "min": 65,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.875,
+     "y": 0.556,
+     "xg": 0.0202,
+     "res": "saved",
+     "min": 61,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.857,
+     "y": 0.565,
+     "xg": 0.0911,
+     "res": "miss",
+     "min": 64,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.833,
+     "y": 0.685,
+     "xg": 0.0249,
+     "res": "saved",
+     "min": 83,
+     "sit": "FromCorner",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.885,
+     "y": 0.5,
+     "xg": 0.7601,
+     "res": "goal",
+     "min": 41,
+     "sit": "Penalty",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.737,
+     "y": 0.694,
+     "xg": 0.0413,
+     "res": "saved",
+     "min": 71,
+     "sit": "DirectFreekick",
+     "opp": "Angers",
+     "ha": "a"
+    }
+   ]
+  },
+  "10": {
+   "name": "William Pacho",
+   "shots_total": 8,
+   "goals": 0,
+   "xg_total": 0.41,
+   "shots": [
+    {
+     "x": 0.731,
+     "y": 0.543,
+     "xg": 0.0176,
+     "res": "miss",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.924,
+     "y": 0.544,
+     "xg": 0.0491,
+     "res": "miss",
+     "min": 17,
+     "sit": "FromCorner",
+     "opp": "Lyon",
+     "ha": "a"
+    },
+    {
+     "x": 0.91,
+     "y": 0.38,
+     "xg": 0.0102,
+     "res": "block",
+     "min": 95,
+     "sit": "SetPiece",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.914,
+     "y": 0.55,
+     "xg": 0.0352,
+     "res": "miss",
+     "min": 48,
+     "sit": "FromCorner",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.921,
+     "y": 0.476,
+     "xg": 0.0635,
+     "res": "miss",
+     "min": 66,
+     "sit": "FromCorner",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.924,
+     "y": 0.474,
+     "xg": 0.0481,
+     "res": "miss",
+     "min": 15,
+     "sit": "FromCorner",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.949,
+     "y": 0.495,
+     "xg": 0.0862,
+     "res": "block",
+     "min": 63,
+     "sit": "FromCorner",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.914,
+     "y": 0.449,
+     "xg": 0.1019,
+     "res": "saved",
+     "min": 62,
+     "sit": "FromCorner",
+     "opp": "Toulouse",
+     "ha": "h"
+    }
+   ]
+  },
+  "11": {
+   "name": "Fabián",
+   "shots_total": 19,
+   "goals": 1,
+   "xg_total": 1.87,
+   "shots": [
+    {
+     "x": 0.77,
+     "y": 0.648,
+     "xg": 0.0204,
+     "res": "block",
+     "min": 55,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.896,
+     "y": 0.57,
+     "xg": 0.0886,
+     "res": "goal",
+     "min": 49,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.917,
+     "y": 0.534,
+     "xg": 0.3327,
+     "res": "miss",
+     "min": 77,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.806,
+     "y": 0.311,
+     "xg": 0.0291,
+     "res": "block",
+     "min": 85,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.86,
+     "y": 0.524,
+     "xg": 0.1272,
+     "res": "miss",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.893,
+     "y": 0.753,
+     "xg": 0.246,
+     "res": "saved",
+     "min": 21,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.941,
+     "y": 0.682,
+     "xg": 0.0095,
+     "res": "miss",
+     "min": 85,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.855,
+     "y": 0.718,
+     "xg": 0.033,
+     "res": "miss",
+     "min": 19,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.849,
+     "y": 0.61,
+     "xg": 0.0563,
+     "res": "miss",
+     "min": 73,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.865,
+     "y": 0.685,
+     "xg": 0.0537,
+     "res": "saved",
+     "min": 35,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.914,
+     "y": 0.472,
+     "xg": 0.4568,
+     "res": "miss",
+     "min": 46,
+     "sit": "FromCorner",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.787,
+     "y": 0.416,
+     "xg": 0.0494,
+     "res": "block",
+     "min": 18,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.816,
+     "y": 0.326,
+     "xg": 0.0227,
+     "res": "saved",
+     "min": 62,
+     "sit": "SetPiece",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.79,
+     "y": 0.454,
+     "xg": 0.0488,
+     "res": "block",
+     "min": 68,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.797,
+     "y": 0.663,
+     "xg": 0.0472,
+     "res": "block",
+     "min": 16,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.799,
+     "y": 0.511,
+     "xg": 0.0375,
+     "res": "miss",
+     "min": 43,
+     "sit": "FromCorner",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.871,
+     "y": 0.454,
+     "xg": 0.1162,
+     "res": "block",
+     "min": 24,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.728,
+     "y": 0.499,
+     "xg": 0.0187,
+     "res": "miss",
+     "min": 45,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.871,
+     "y": 0.61,
+     "xg": 0.0762,
+     "res": "miss",
+     "min": 89,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "a"
+    }
+   ]
+  },
+  "12": {
+   "name": "Vitinha",
+   "shots_total": 34,
+   "goals": 1,
+   "xg_total": 0.98,
+   "shots": [
+    {
+     "x": 0.709,
+     "y": 0.554,
+     "xg": 0.0157,
+     "res": "miss",
+     "min": 25,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.77,
+     "y": 0.548,
+     "xg": 0.0346,
+     "res": "goal",
+     "min": 66,
+     "sit": "FromCorner",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.788,
+     "y": 0.284,
+     "xg": 0.018,
+     "res": "miss",
+     "min": 41,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.87,
+     "y": 0.822,
+     "xg": 0.0556,
+     "res": "saved",
+     "min": 48,
+     "sit": "DirectFreekick",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.749,
+     "y": 0.454,
+     "xg": 0.0267,
+     "res": "block",
+     "min": 54,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.774,
+     "y": 0.569,
+     "xg": 0.0124,
+     "res": "miss",
+     "min": 79,
+     "sit": "FromCorner",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.754,
+     "y": 0.594,
+     "xg": 0.0373,
+     "res": "block",
+     "min": 45,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.78,
+     "y": 0.517,
+     "xg": 0.0505,
+     "res": "block",
+     "min": 49,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.826,
+     "y": 0.469,
+     "xg": 0.0785,
+     "res": "block",
+     "min": 51,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.79,
+     "y": 0.286,
+     "xg": 0.0204,
+     "res": "saved",
+     "min": 16,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.703,
+     "y": 0.593,
+     "xg": 0.0145,
+     "res": "saved",
+     "min": 71,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.629,
+     "y": 0.723,
+     "xg": 0.0094,
+     "res": "miss",
+     "min": 85,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.761,
+     "y": 0.709,
+     "xg": 0.0177,
+     "res": "saved",
+     "min": 86,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.739,
+     "y": 0.507,
+     "xg": 0.0245,
+     "res": "miss",
+     "min": 92,
+     "sit": "FromCorner",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.762,
+     "y": 0.624,
+     "xg": 0.0236,
+     "res": "saved",
+     "min": 56,
+     "sit": "FromCorner",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.74,
+     "y": 0.435,
+     "xg": 0.0193,
+     "res": "miss",
+     "min": 97,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.782,
+     "y": 0.404,
+     "xg": 0.0215,
+     "res": "miss",
+     "min": 35,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.717,
+     "y": 0.439,
+     "xg": 0.0177,
+     "res": "saved",
+     "min": 67,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.751,
+     "y": 0.521,
+     "xg": 0.0224,
+     "res": "block",
+     "min": 69,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.751,
+     "y": 0.555,
+     "xg": 0.0211,
+     "res": "miss",
+     "min": 48,
+     "sit": "FromCorner",
+     "opp": "Lyon",
+     "ha": "a"
+    },
+    {
+     "x": 0.735,
+     "y": 0.611,
+     "xg": 0.0219,
+     "res": "block",
+     "min": 45,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.82,
+     "y": 0.495,
+     "xg": 0.044,
+     "res": "saved",
+     "min": 25,
+     "sit": "FromCorner",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.786,
+     "y": 0.523,
+     "xg": 0.0369,
+     "res": "block",
+     "min": 52,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.848,
+     "y": 0.349,
+     "xg": 0.0444,
+     "res": "saved",
+     "min": 92,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.73,
+     "y": 0.586,
+     "xg": 0.0162,
+     "res": "miss",
+     "min": 8,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.874,
+     "y": 0.862,
+     "xg": 0.045,
+     "res": "block",
+     "min": 69,
+     "sit": "DirectFreekick",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.75,
+     "y": 0.401,
+     "xg": 0.0195,
+     "res": "miss",
+     "min": 2,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.838,
+     "y": 0.274,
+     "xg": 0.0308,
+     "res": "saved",
+     "min": 91,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.813,
+     "y": 0.466,
+     "xg": 0.0589,
+     "res": "block",
+     "min": 7,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.729,
+     "y": 0.466,
+     "xg": 0.0172,
+     "res": "miss",
+     "min": 25,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.768,
+     "y": 0.318,
+     "xg": 0.0144,
+     "res": "miss",
+     "min": 84,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.777,
+     "y": 0.352,
+     "xg": 0.0295,
+     "res": "block",
+     "min": 26,
+     "sit": "FromCorner",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.756,
+     "y": 0.576,
+     "xg": 0.0208,
+     "res": "miss",
+     "min": 14,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "a"
+    },
+    {
+     "x": 0.823,
+     "y": 0.169,
+     "xg": 0.0425,
+     "res": "miss",
+     "min": 31,
+     "sit": "DirectFreekick",
+     "opp": "Paris FC",
+     "ha": "a"
+    }
+   ]
+  },
+  "13": {
+   "name": "Lee Kang-In",
+   "shots_total": 37,
+   "goals": 3,
+   "xg_total": 3.16,
+   "shots": [
+    {
+     "x": 0.871,
+     "y": 0.531,
+     "xg": 0.1136,
+     "res": "block",
+     "min": 36,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.746,
+     "y": 0.651,
+     "xg": 0.0196,
+     "res": "block",
+     "min": 54,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.853,
+     "y": 0.521,
+     "xg": 0.1107,
+     "res": "block",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.741,
+     "y": 0.482,
+     "xg": 0.061,
+     "res": "block",
+     "min": 18,
+     "sit": "DirectFreekick",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.683,
+     "y": 0.4,
+     "xg": 0.0132,
+     "res": "saved",
+     "min": 54,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.709,
+     "y": 0.404,
+     "xg": 0.0164,
+     "res": "miss",
+     "min": 71,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.729,
+     "y": 0.397,
+     "xg": 0.0205,
+     "res": "saved",
+     "min": 31,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.742,
+     "y": 0.487,
+     "xg": 0.0221,
+     "res": "saved",
+     "min": 47,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.763,
+     "y": 0.415,
+     "xg": 0.0246,
+     "res": "block",
+     "min": 55,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.739,
+     "y": 0.475,
+     "xg": 0.027,
+     "res": "miss",
+     "min": 77,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.846,
+     "y": 0.454,
+     "xg": 0.1682,
+     "res": "saved",
+     "min": 79,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.837,
+     "y": 0.363,
+     "xg": 0.0692,
+     "res": "block",
+     "min": 23,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.811,
+     "y": 0.487,
+     "xg": 0.0544,
+     "res": "post",
+     "min": 71,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.735,
+     "y": 0.244,
+     "xg": 0.012,
+     "res": "block",
+     "min": 22,
+     "sit": "FromCorner",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.694,
+     "y": 0.408,
+     "xg": 0.0223,
+     "res": "miss",
+     "min": 62,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.878,
+     "y": 0.404,
+     "xg": 0.0742,
+     "res": "block",
+     "min": 64,
+     "sit": "FromCorner",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.921,
+     "y": 0.276,
+     "xg": 0.0202,
+     "res": "block",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.788,
+     "y": 0.315,
+     "xg": 0.0243,
+     "res": "saved",
+     "min": 61,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "a"
+    },
+    {
+     "x": 0.753,
+     "y": 0.421,
+     "xg": 0.0238,
+     "res": "saved",
+     "min": 11,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.919,
+     "y": 0.356,
+     "xg": 0.2775,
+     "res": "goal",
+     "min": 28,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.887,
+     "y": 0.298,
+     "xg": 0.0397,
+     "res": "miss",
+     "min": 31,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.884,
+     "y": 0.382,
+     "xg": 0.0869,
+     "res": "miss",
+     "min": 34,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.893,
+     "y": 0.593,
+     "xg": 0.1176,
+     "res": "miss",
+     "min": 42,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.85,
+     "y": 0.628,
+     "xg": 0.0832,
+     "res": "miss",
+     "min": 45,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.705,
+     "y": 0.496,
+     "xg": 0.0416,
+     "res": "miss",
+     "min": 26,
+     "sit": "DirectFreekick",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.903,
+     "y": 0.322,
+     "xg": 0.0647,
+     "res": "miss",
+     "min": 35,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.869,
+     "y": 0.319,
+     "xg": 0.0597,
+     "res": "saved",
+     "min": 53,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.792,
+     "y": 0.37,
+     "xg": 0.0303,
+     "res": "saved",
+     "min": 63,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.862,
+     "y": 0.336,
+     "xg": 0.075,
+     "res": "goal",
+     "min": 73,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.773,
+     "y": 0.412,
+     "xg": 0.0279,
+     "res": "saved",
+     "min": 94,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.842,
+     "y": 0.342,
+     "xg": 0.0448,
+     "res": "saved",
+     "min": 23,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.902,
+     "y": 0.413,
+     "xg": 0.5601,
+     "res": "miss",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.97,
+     "y": 0.423,
+     "xg": 0.5274,
+     "res": "goal",
+     "min": 7,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.815,
+     "y": 0.252,
+     "xg": 0.026,
+     "res": "miss",
+     "min": 45,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.816,
+     "y": 0.517,
+     "xg": 0.0655,
+     "res": "saved",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.855,
+     "y": 0.458,
+     "xg": 0.1111,
+     "res": "block",
+     "min": 70,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.784,
+     "y": 0.278,
+     "xg": 0.0219,
+     "res": "saved",
+     "min": 19,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    }
+   ]
+  },
+  "14": {
+   "name": "Senny Mayulu",
+   "shots_total": 35,
+   "goals": 4,
+   "xg_total": 4.82,
+   "shots": [
+    {
+     "x": 0.748,
+     "y": 0.618,
+     "xg": 0.0238,
+     "res": "block",
+     "min": 80,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.871,
+     "y": 0.712,
+     "xg": 0.064,
+     "res": "block",
+     "min": 89,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.795,
+     "y": 0.554,
+     "xg": 0.0435,
+     "res": "block",
+     "min": 35,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.852,
+     "y": 0.514,
+     "xg": 0.1102,
+     "res": "miss",
+     "min": 24,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.927,
+     "y": 0.34,
+     "xg": 0.2886,
+     "res": "saved",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.952,
+     "y": 0.397,
+     "xg": 0.1752,
+     "res": "goal",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.922,
+     "y": 0.405,
+     "xg": 0.4191,
+     "res": "saved",
+     "min": 23,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.793,
+     "y": 0.381,
+     "xg": 0.0311,
+     "res": "block",
+     "min": 46,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.877,
+     "y": 0.303,
+     "xg": 0.0482,
+     "res": "block",
+     "min": 8,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.84,
+     "y": 0.331,
+     "xg": 0.0737,
+     "res": "miss",
+     "min": 45,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.789,
+     "y": 0.575,
+     "xg": 0.0356,
+     "res": "miss",
+     "min": 57,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.951,
+     "y": 0.509,
+     "xg": 0.588,
+     "res": "miss",
+     "min": 10,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "a"
+    },
+    {
+     "x": 0.795,
+     "y": 0.409,
+     "xg": 0.0467,
+     "res": "miss",
+     "min": 46,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.905,
+     "y": 0.417,
+     "xg": 0.056,
+     "res": "miss",
+     "min": 54,
+     "sit": "FromCorner",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.928,
+     "y": 0.499,
+     "xg": 0.5853,
+     "res": "goal",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.908,
+     "y": 0.703,
+     "xg": 0.0731,
+     "res": "post",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.974,
+     "y": 0.339,
+     "xg": 0.0724,
+     "res": "saved",
+     "min": 30,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.808,
+     "y": 0.508,
+     "xg": 0.0576,
+     "res": "miss",
+     "min": 40,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.733,
+     "y": 0.347,
+     "xg": 0.0227,
+     "res": "miss",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.812,
+     "y": 0.515,
+     "xg": 0.0533,
+     "res": "saved",
+     "min": 74,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.878,
+     "y": 0.586,
+     "xg": 0.046,
+     "res": "miss",
+     "min": 15,
+     "sit": "FromCorner",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.955,
+     "y": 0.615,
+     "xg": 0.3725,
+     "res": "goal",
+     "min": 21,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.967,
+     "y": 0.675,
+     "xg": 0.0836,
+     "res": "miss",
+     "min": 58,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.931,
+     "y": 0.493,
+     "xg": 0.3882,
+     "res": "miss",
+     "min": 25,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.785,
+     "y": 0.501,
+     "xg": 0.0545,
+     "res": "miss",
+     "min": 66,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.762,
+     "y": 0.27,
+     "xg": 0.0169,
+     "res": "miss",
+     "min": 82,
+     "sit": "FromCorner",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.841,
+     "y": 0.5,
+     "xg": 0.3623,
+     "res": "goal",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.858,
+     "y": 0.363,
+     "xg": 0.0363,
+     "res": "miss",
+     "min": 19,
+     "sit": "FromCorner",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.85,
+     "y": 0.403,
+     "xg": 0.0263,
+     "res": "saved",
+     "min": 33,
+     "sit": "FromCorner",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.818,
+     "y": 0.462,
+     "xg": 0.0406,
+     "res": "miss",
+     "min": 52,
+     "sit": "FromCorner",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.97,
+     "y": 0.617,
+     "xg": 0.3354,
+     "res": "post",
+     "min": 87,
+     "sit": "SetPiece",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.881,
+     "y": 0.348,
+     "xg": 0.0801,
+     "res": "block",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.812,
+     "y": 0.372,
+     "xg": 0.0382,
+     "res": "saved",
+     "min": 58,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.821,
+     "y": 0.348,
+     "xg": 0.0376,
+     "res": "saved",
+     "min": 67,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.759,
+     "y": 0.376,
+     "xg": 0.0311,
+     "res": "miss",
+     "min": 86,
+     "sit": "FromCorner",
+     "opp": "Brest",
+     "ha": "h"
+    }
+   ]
+  },
+  "15": {
+   "name": "Dro Fernández",
+   "shots_total": 9,
+   "goals": 1,
+   "xg_total": 1.2,
+   "shots": [
+    {
+     "x": 0.954,
+     "y": 0.579,
+     "xg": 0.4673,
+     "res": "saved",
+     "min": 20,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.879,
+     "y": 0.666,
+     "xg": 0.0593,
+     "res": "miss",
+     "min": 21,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.85,
+     "y": 0.518,
+     "xg": 0.3111,
+     "res": "goal",
+     "min": 80,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.769,
+     "y": 0.595,
+     "xg": 0.0191,
+     "res": "miss",
+     "min": 89,
+     "sit": "FromCorner",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.93,
+     "y": 0.679,
+     "xg": 0.0655,
+     "res": "saved",
+     "min": 14,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.865,
+     "y": 0.499,
+     "xg": 0.0866,
+     "res": "miss",
+     "min": 20,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.905,
+     "y": 0.421,
+     "xg": 0.0864,
+     "res": "block",
+     "min": 31,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.745,
+     "y": 0.455,
+     "xg": 0.0194,
+     "res": "miss",
+     "min": 6,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "a"
+    },
+    {
+     "x": 0.867,
+     "y": 0.358,
+     "xg": 0.0848,
+     "res": "block",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "a"
+    }
+   ]
+  },
+  "16": {
+   "name": "Warren Zaïre-Emery",
+   "shots_total": 19,
+   "goals": 3,
+   "xg_total": 2.07,
+   "shots": [
+    {
+     "x": 0.893,
+     "y": 0.307,
+     "xg": 0.0963,
+     "res": "miss",
+     "min": 68,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.836,
+     "y": 0.36,
+     "xg": 0.0478,
+     "res": "saved",
+     "min": 4,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.784,
+     "y": 0.423,
+     "xg": 0.0354,
+     "res": "block",
+     "min": 61,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.907,
+     "y": 0.489,
+     "xg": 0.0858,
+     "res": "miss",
+     "min": 23,
+     "sit": "FromCorner",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.776,
+     "y": 0.687,
+     "xg": 0.0263,
+     "res": "saved",
+     "min": 35,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.767,
+     "y": 0.304,
+     "xg": 0.0195,
+     "res": "block",
+     "min": 56,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.869,
+     "y": 0.342,
+     "xg": 0.0543,
+     "res": "block",
+     "min": 17,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.729,
+     "y": 0.407,
+     "xg": 0.0159,
+     "res": "saved",
+     "min": 56,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.956,
+     "y": 0.33,
+     "xg": 0.2851,
+     "res": "goal",
+     "min": 25,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "a"
+    },
+    {
+     "x": 0.803,
+     "y": 0.312,
+     "xg": 0.0769,
+     "res": "miss",
+     "min": 75,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.768,
+     "y": 0.409,
+     "xg": 0.0146,
+     "res": "block",
+     "min": 46,
+     "sit": "FromCorner",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.787,
+     "y": 0.317,
+     "xg": 0.0168,
+     "res": "block",
+     "min": 64,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.769,
+     "y": 0.438,
+     "xg": 0.0283,
+     "res": "miss",
+     "min": 46,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.926,
+     "y": 0.539,
+     "xg": 0.102,
+     "res": "block",
+     "min": 64,
+     "sit": "FromCorner",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.942,
+     "y": 0.395,
+     "xg": 0.414,
+     "res": "saved",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.902,
+     "y": 0.472,
+     "xg": 0.1064,
+     "res": "miss",
+     "min": 29,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.812,
+     "y": 0.437,
+     "xg": 0.0526,
+     "res": "block",
+     "min": 8,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.912,
+     "y": 0.496,
+     "xg": 0.5705,
+     "res": "goal",
+     "min": 84,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.756,
+     "y": 0.415,
+     "xg": 0.021,
+     "res": "goal",
+     "min": 61,
+     "sit": "SetPiece",
+     "opp": "Lorient",
+     "ha": "h"
+    }
+   ]
+  },
+  "17": {
+   "name": "João Neves",
+   "shots_total": 27,
+   "goals": 5,
+   "xg_total": 3.16,
+   "shots": [
+    {
+     "x": 0.749,
+     "y": 0.464,
+     "xg": 0.0221,
+     "res": "miss",
+     "min": 37,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.952,
+     "y": 0.462,
+     "xg": 0.1297,
+     "res": "miss",
+     "min": 57,
+     "sit": "FromCorner",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.93,
+     "y": 0.493,
+     "xg": 0.1356,
+     "res": "goal",
+     "min": 6,
+     "sit": "SetPiece",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.905,
+     "y": 0.42,
+     "xg": 0.02,
+     "res": "miss",
+     "min": 10,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.867,
+     "y": 0.413,
+     "xg": 0.0625,
+     "res": "goal",
+     "min": 13,
+     "sit": "FromCorner",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.802,
+     "y": 0.523,
+     "xg": 0.0492,
+     "res": "goal",
+     "min": 77,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.773,
+     "y": 0.337,
+     "xg": 0.0202,
+     "res": "block",
+     "min": 4,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.726,
+     "y": 0.369,
+     "xg": 0.0164,
+     "res": "miss",
+     "min": 52,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.745,
+     "y": 0.505,
+     "xg": 0.0212,
+     "res": "miss",
+     "min": 75,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "a"
+    },
+    {
+     "x": 0.934,
+     "y": 0.556,
+     "xg": 0.3323,
+     "res": "goal",
+     "min": 94,
+     "sit": "FromCorner",
+     "opp": "Lyon",
+     "ha": "a"
+    },
+    {
+     "x": 0.907,
+     "y": 0.528,
+     "xg": 0.1021,
+     "res": "block",
+     "min": 35,
+     "sit": "FromCorner",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.914,
+     "y": 0.532,
+     "xg": 0.4667,
+     "res": "goal",
+     "min": 64,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.916,
+     "y": 0.567,
+     "xg": 0.0434,
+     "res": "miss",
+     "min": 80,
+     "sit": "FromCorner",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.806,
+     "y": 0.484,
+     "xg": 0.1436,
+     "res": "miss",
+     "min": 81,
+     "sit": "DirectFreekick",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.93,
+     "y": 0.466,
+     "xg": 0.1148,
+     "res": "miss",
+     "min": 96,
+     "sit": "FromCorner",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.868,
+     "y": 0.51,
+     "xg": 0.0455,
+     "res": "miss",
+     "min": 50,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.918,
+     "y": 0.402,
+     "xg": 0.0403,
+     "res": "block",
+     "min": 42,
+     "sit": "FromCorner",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.88,
+     "y": 0.423,
+     "xg": 0.1065,
+     "res": "block",
+     "min": 4,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.875,
+     "y": 0.583,
+     "xg": 0.0944,
+     "res": "saved",
+     "min": 49,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.892,
+     "y": 0.515,
+     "xg": 0.1053,
+     "res": "block",
+     "min": 31,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.982,
+     "y": 0.558,
+     "xg": 0.6325,
+     "res": "miss",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.839,
+     "y": 0.568,
+     "xg": 0.0778,
+     "res": "block",
+     "min": 62,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.803,
+     "y": 0.66,
+     "xg": 0.0875,
+     "res": "block",
+     "min": 87,
+     "sit": "DirectFreekick",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.85,
+     "y": 0.47,
+     "xg": 0.0798,
+     "res": "miss",
+     "min": 75,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.908,
+     "y": 0.385,
+     "xg": 0.1034,
+     "res": "block",
+     "min": 81,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.85,
+     "y": 0.262,
+     "xg": 0.0295,
+     "res": "miss",
+     "min": 13,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "a"
+    },
+    {
+     "x": 0.909,
+     "y": 0.67,
+     "xg": 0.0783,
+     "res": "miss",
+     "min": 82,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "a"
+    }
+   ]
+  },
+  "18": {
+   "name": "Khvicha Kvaratskhelia",
+   "shots_total": 65,
+   "goals": 8,
+   "xg_total": 7.98,
+   "shots": [
+    {
+     "x": 0.76,
+     "y": 0.64,
+     "xg": 0.0272,
+     "res": "saved",
+     "min": 83,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.866,
+     "y": 0.73,
+     "xg": 0.027,
+     "res": "miss",
+     "min": 30,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.928,
+     "y": 0.565,
+     "xg": 0.0996,
+     "res": "block",
+     "min": 58,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.721,
+     "y": 0.702,
+     "xg": 0.0355,
+     "res": "miss",
+     "min": 79,
+     "sit": "DirectFreekick",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.906,
+     "y": 0.69,
+     "xg": 0.0559,
+     "res": "miss",
+     "min": 3,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.917,
+     "y": 0.324,
+     "xg": 0.0576,
+     "res": "saved",
+     "min": 31,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.812,
+     "y": 0.294,
+     "xg": 0.0243,
+     "res": "block",
+     "min": 76,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.816,
+     "y": 0.308,
+     "xg": 0.0308,
+     "res": "miss",
+     "min": 83,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.869,
+     "y": 0.369,
+     "xg": 0.0619,
+     "res": "miss",
+     "min": 94,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.75,
+     "y": 0.366,
+     "xg": 0.0173,
+     "res": "saved",
+     "min": 95,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.927,
+     "y": 0.56,
+     "xg": 0.4573,
+     "res": "saved",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.92,
+     "y": 0.304,
+     "xg": 0.0469,
+     "res": "saved",
+     "min": 64,
+     "sit": "FromCorner",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.939,
+     "y": 0.634,
+     "xg": 0.1269,
+     "res": "block",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.773,
+     "y": 0.775,
+     "xg": 0.0166,
+     "res": "saved",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.894,
+     "y": 0.259,
+     "xg": 0.0301,
+     "res": "block",
+     "min": 17,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.917,
+     "y": 0.46,
+     "xg": 0.0585,
+     "res": "miss",
+     "min": 60,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.843,
+     "y": 0.536,
+     "xg": 0.3459,
+     "res": "goal",
+     "min": 32,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "a"
+    },
+    {
+     "x": 0.845,
+     "y": 0.758,
+     "xg": 0.0318,
+     "res": "block",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "a"
+    },
+    {
+     "x": 0.874,
+     "y": 0.646,
+     "xg": 0.099,
+     "res": "miss",
+     "min": 74,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.837,
+     "y": 0.583,
+     "xg": 0.0957,
+     "res": "block",
+     "min": 76,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.858,
+     "y": 0.262,
+     "xg": 0.0311,
+     "res": "block",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.791,
+     "y": 0.486,
+     "xg": 0.0604,
+     "res": "saved",
+     "min": 91,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.849,
+     "y": 0.742,
+     "xg": 0.0422,
+     "res": "miss",
+     "min": 91,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.851,
+     "y": 0.711,
+     "xg": 0.0314,
+     "res": "block",
+     "min": 24,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.861,
+     "y": 0.734,
+     "xg": 0.0313,
+     "res": "saved",
+     "min": 34,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.951,
+     "y": 0.612,
+     "xg": 0.3323,
+     "res": "saved",
+     "min": 53,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.847,
+     "y": 0.48,
+     "xg": 0.0959,
+     "res": "goal",
+     "min": 27,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.708,
+     "y": 0.456,
+     "xg": 0.0158,
+     "res": "saved",
+     "min": 50,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.913,
+     "y": 0.648,
+     "xg": 0.1321,
+     "res": "miss",
+     "min": 58,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.874,
+     "y": 0.488,
+     "xg": 0.4678,
+     "res": "goal",
+     "min": 66,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.866,
+     "y": 0.409,
+     "xg": 0.0958,
+     "res": "saved",
+     "min": 80,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.896,
+     "y": 0.491,
+     "xg": 0.2022,
+     "res": "block",
+     "min": 7,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.983,
+     "y": 0.593,
+     "xg": 0.0761,
+     "res": "saved",
+     "min": 35,
+     "sit": "SetPiece",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.849,
+     "y": 0.583,
+     "xg": 0.0623,
+     "res": "block",
+     "min": 46,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.766,
+     "y": 0.57,
+     "xg": 0.0269,
+     "res": "block",
+     "min": 53,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.881,
+     "y": 0.372,
+     "xg": 0.1043,
+     "res": "goal",
+     "min": 65,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.958,
+     "y": 0.505,
+     "xg": 0.5963,
+     "res": "post",
+     "min": 88,
+     "sit": "SetPiece",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.854,
+     "y": 0.584,
+     "xg": 0.0917,
+     "res": "block",
+     "min": 31,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.949,
+     "y": 0.526,
+     "xg": 0.132,
+     "res": "block",
+     "min": 1,
+     "sit": "FromCorner",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.875,
+     "y": 0.74,
+     "xg": 0.0317,
+     "res": "miss",
+     "min": 13,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.841,
+     "y": 0.617,
+     "xg": 0.0902,
+     "res": "miss",
+     "min": 46,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.917,
+     "y": 0.311,
+     "xg": 0.0753,
+     "res": "post",
+     "min": 49,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.744,
+     "y": 0.664,
+     "xg": 0.0233,
+     "res": "saved",
+     "min": 58,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.844,
+     "y": 0.317,
+     "xg": 0.0281,
+     "res": "block",
+     "min": 66,
+     "sit": "FromCorner",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.908,
+     "y": 0.335,
+     "xg": 0.0775,
+     "res": "miss",
+     "min": 69,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.951,
+     "y": 0.7,
+     "xg": 0.0761,
+     "res": "block",
+     "min": 23,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.899,
+     "y": 0.318,
+     "xg": 0.0716,
+     "res": "miss",
+     "min": 49,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.909,
+     "y": 0.671,
+     "xg": 0.1199,
+     "res": "saved",
+     "min": 11,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.934,
+     "y": 0.642,
+     "xg": 0.1113,
+     "res": "saved",
+     "min": 18,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.893,
+     "y": 0.53,
+     "xg": 0.2984,
+     "res": "block",
+     "min": 36,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.783,
+     "y": 0.651,
+     "xg": 0.0464,
+     "res": "saved",
+     "min": 2,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.926,
+     "y": 0.413,
+     "xg": 0.0198,
+     "res": "block",
+     "min": 32,
+     "sit": "FromCorner",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.833,
+     "y": 0.274,
+     "xg": 0.0337,
+     "res": "block",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.903,
+     "y": 0.305,
+     "xg": 0.0722,
+     "res": "miss",
+     "min": 50,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.918,
+     "y": 0.455,
+     "xg": 0.0349,
+     "res": "miss",
+     "min": 53,
+     "sit": "FromCorner",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.79,
+     "y": 0.758,
+     "xg": 0.0226,
+     "res": "miss",
+     "min": 65,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.926,
+     "y": 0.671,
+     "xg": 0.2436,
+     "res": "saved",
+     "min": 62,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.858,
+     "y": 0.534,
+     "xg": 0.017,
+     "res": "miss",
+     "min": 63,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.921,
+     "y": 0.595,
+     "xg": 0.1595,
+     "res": "block",
+     "min": 81,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.815,
+     "y": 0.736,
+     "xg": 0.0156,
+     "res": "goal",
+     "min": 93,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.885,
+     "y": 0.5,
+     "xg": 0.7601,
+     "res": "goal",
+     "min": 12,
+     "sit": "Penalty",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.91,
+     "y": 0.545,
+     "xg": 0.6997,
+     "res": "goal",
+     "min": 49,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.943,
+     "y": 0.55,
+     "xg": 0.1218,
+     "res": "saved",
+     "min": 60,
+     "sit": "FromCorner",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.837,
+     "y": 0.721,
+     "xg": 0.0384,
+     "res": "block",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.895,
+     "y": 0.462,
+     "xg": 0.3159,
+     "res": "goal",
+     "min": 28,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "a"
+    }
+   ]
+  },
+  "19": {
+   "name": "Gonçalo Ramos",
+   "shots_total": 58,
+   "goals": 6,
+   "xg_total": 9.37,
+   "shots": [
+    {
+     "x": 0.948,
+     "y": 0.486,
+     "xg": 0.0787,
+     "res": "miss",
+     "min": 15,
+     "sit": "FromCorner",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.89,
+     "y": 0.452,
+     "xg": 0.0332,
+     "res": "miss",
+     "min": 20,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.967,
+     "y": 0.715,
+     "xg": 0.0417,
+     "res": "miss",
+     "min": 41,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.878,
+     "y": 0.331,
+     "xg": 0.0675,
+     "res": "block",
+     "min": 64,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.898,
+     "y": 0.615,
+     "xg": 0.29,
+     "res": "block",
+     "min": 75,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.813,
+     "y": 0.63,
+     "xg": 0.0553,
+     "res": "saved",
+     "min": 74,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.864,
+     "y": 0.546,
+     "xg": 0.1303,
+     "res": "saved",
+     "min": 79,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.926,
+     "y": 0.403,
+     "xg": 0.1064,
+     "res": "saved",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.892,
+     "y": 0.436,
+     "xg": 0.138,
+     "res": "saved",
+     "min": 86,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.919,
+     "y": 0.512,
+     "xg": 0.324,
+     "res": "miss",
+     "min": 64,
+     "sit": "FromCorner",
+     "opp": "Marseille",
+     "ha": "a"
+    },
+    {
+     "x": 0.968,
+     "y": 0.289,
+     "xg": 0.0531,
+     "res": "saved",
+     "min": 5,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.803,
+     "y": 0.534,
+     "xg": 0.0639,
+     "res": "block",
+     "min": 53,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.957,
+     "y": 0.432,
+     "xg": 0.1187,
+     "res": "miss",
+     "min": 80,
+     "sit": "FromCorner",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.837,
+     "y": 0.693,
+     "xg": 0.0149,
+     "res": "miss",
+     "min": 94,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.851,
+     "y": 0.507,
+     "xg": 0.0908,
+     "res": "saved",
+     "min": 52,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.885,
+     "y": 0.5,
+     "xg": 0.7601,
+     "res": "goal",
+     "min": 57,
+     "sit": "Penalty",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.897,
+     "y": 0.688,
+     "xg": 0.0819,
+     "res": "block",
+     "min": 60,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.915,
+     "y": 0.389,
+     "xg": 0.3596,
+     "res": "saved",
+     "min": 71,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.903,
+     "y": 0.511,
+     "xg": 0.0439,
+     "res": "miss",
+     "min": 77,
+     "sit": "SetPiece",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.865,
+     "y": 0.488,
+     "xg": 0.0357,
+     "res": "saved",
+     "min": 79,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.874,
+     "y": 0.445,
+     "xg": 0.1088,
+     "res": "miss",
+     "min": 79,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.953,
+     "y": 0.51,
+     "xg": 0.4656,
+     "res": "goal",
+     "min": 93,
+     "sit": "FromCorner",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.926,
+     "y": 0.513,
+     "xg": 0.0774,
+     "res": "saved",
+     "min": 93,
+     "sit": "FromCorner",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.902,
+     "y": 0.394,
+     "xg": 0.0242,
+     "res": "miss",
+     "min": 27,
+     "sit": "FromCorner",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.969,
+     "y": 0.552,
+     "xg": 0.4253,
+     "res": "miss",
+     "min": 35,
+     "sit": "FromCorner",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.82,
+     "y": 0.478,
+     "xg": 0.0723,
+     "res": "saved",
+     "min": 43,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.727,
+     "y": 0.469,
+     "xg": 0.0264,
+     "res": "block",
+     "min": 58,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.971,
+     "y": 0.605,
+     "xg": 0.1238,
+     "res": "saved",
+     "min": 59,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.917,
+     "y": 0.485,
+     "xg": 0.511,
+     "res": "miss",
+     "min": 62,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.722,
+     "y": 0.476,
+     "xg": 0.0298,
+     "res": "goal",
+     "min": 90,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.927,
+     "y": 0.595,
+     "xg": 0.0771,
+     "res": "saved",
+     "min": 16,
+     "sit": "SetPiece",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.92,
+     "y": 0.526,
+     "xg": 0.1017,
+     "res": "goal",
+     "min": 30,
+     "sit": "FromCorner",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.881,
+     "y": 0.31,
+     "xg": 0.1299,
+     "res": "saved",
+     "min": 51,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.852,
+     "y": 0.484,
+     "xg": 0.1052,
+     "res": "block",
+     "min": 52,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.942,
+     "y": 0.521,
+     "xg": 0.2542,
+     "res": "saved",
+     "min": 29,
+     "sit": "FromCorner",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.803,
+     "y": 0.744,
+     "xg": 0.0192,
+     "res": "miss",
+     "min": 57,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.957,
+     "y": 0.652,
+     "xg": 0.0858,
+     "res": "block",
+     "min": 84,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.924,
+     "y": 0.49,
+     "xg": 0.385,
+     "res": "miss",
+     "min": 85,
+     "sit": "FromCorner",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.901,
+     "y": 0.544,
+     "xg": 0.1178,
+     "res": "saved",
+     "min": 76,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.959,
+     "y": 0.515,
+     "xg": 0.6629,
+     "res": "saved",
+     "min": 76,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.889,
+     "y": 0.503,
+     "xg": 0.0456,
+     "res": "miss",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.961,
+     "y": 0.618,
+     "xg": 0.0307,
+     "res": "miss",
+     "min": 92,
+     "sit": "FromCorner",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.858,
+     "y": 0.468,
+     "xg": 0.1239,
+     "res": "block",
+     "min": 8,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.704,
+     "y": 0.398,
+     "xg": 0.0139,
+     "res": "block",
+     "min": 61,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.912,
+     "y": 0.65,
+     "xg": 0.1281,
+     "res": "goal",
+     "min": 76,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.918,
+     "y": 0.49,
+     "xg": 0.1328,
+     "res": "block",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.942,
+     "y": 0.586,
+     "xg": 0.0339,
+     "res": "miss",
+     "min": 83,
+     "sit": "FromCorner",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.765,
+     "y": 0.648,
+     "xg": 0.0291,
+     "res": "goal",
+     "min": 91,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.929,
+     "y": 0.464,
+     "xg": 0.0875,
+     "res": "block",
+     "min": 27,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.903,
+     "y": 0.519,
+     "xg": 0.029,
+     "res": "saved",
+     "min": 27,
+     "sit": "FromCorner",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.885,
+     "y": 0.5,
+     "xg": 0.7601,
+     "res": "saved",
+     "min": 32,
+     "sit": "Penalty",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.931,
+     "y": 0.472,
+     "xg": 0.4014,
+     "res": "miss",
+     "min": 45,
+     "sit": "SetPiece",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.905,
+     "y": 0.573,
+     "xg": 0.1413,
+     "res": "miss",
+     "min": 61,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.959,
+     "y": 0.666,
+     "xg": 0.1148,
+     "res": "saved",
+     "min": 67,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.929,
+     "y": 0.505,
+     "xg": 0.1197,
+     "res": "miss",
+     "min": 72,
+     "sit": "FromCorner",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.821,
+     "y": 0.481,
+     "xg": 0.0727,
+     "res": "block",
+     "min": 42,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.962,
+     "y": 0.564,
+     "xg": 0.3938,
+     "res": "miss",
+     "min": 52,
+     "sit": "FromCorner",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.786,
+     "y": 0.223,
+     "xg": 0.0173,
+     "res": "block",
+     "min": 82,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "a"
+    }
+   ]
+  },
+  "20": {
+   "name": "Ousmane Dembélé",
+   "shots_total": 45,
+   "goals": 10,
+   "xg_total": 6.61,
+   "shots": [
+    {
+     "x": 0.936,
+     "y": 0.297,
+     "xg": 0.0722,
+     "res": "miss",
+     "min": 93,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.885,
+     "y": 0.5,
+     "xg": 0.7601,
+     "res": "miss",
+     "min": 26,
+     "sit": "Penalty",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.902,
+     "y": 0.272,
+     "xg": 0.0384,
+     "res": "miss",
+     "min": 40,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.763,
+     "y": 0.419,
+     "xg": 0.025,
+     "res": "miss",
+     "min": 44,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.894,
+     "y": 0.504,
+     "xg": 0.0884,
+     "res": "miss",
+     "min": 6,
+     "sit": "SetPiece",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.885,
+     "y": 0.5,
+     "xg": 0.7601,
+     "res": "goal",
+     "min": 30,
+     "sit": "Penalty",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.885,
+     "y": 0.5,
+     "xg": 0.7601,
+     "res": "goal",
+     "min": 50,
+     "sit": "Penalty",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.79,
+     "y": 0.313,
+     "xg": 0.0335,
+     "res": "miss",
+     "min": 68,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.781,
+     "y": 0.594,
+     "xg": 0.0457,
+     "res": "miss",
+     "min": 75,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.759,
+     "y": 0.369,
+     "xg": 0.022,
+     "res": "miss",
+     "min": 77,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.957,
+     "y": 0.601,
+     "xg": 0.0872,
+     "res": "miss",
+     "min": 75,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.864,
+     "y": 0.274,
+     "xg": 0.0339,
+     "res": "saved",
+     "min": 92,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.837,
+     "y": 0.596,
+     "xg": 0.0887,
+     "res": "saved",
+     "min": 64,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.818,
+     "y": 0.295,
+     "xg": 0.0283,
+     "res": "block",
+     "min": 22,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.79,
+     "y": 0.305,
+     "xg": 0.0232,
+     "res": "miss",
+     "min": 31,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.844,
+     "y": 0.301,
+     "xg": 0.0334,
+     "res": "goal",
+     "min": 52,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.775,
+     "y": 0.49,
+     "xg": 0.0327,
+     "res": "goal",
+     "min": 12,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.857,
+     "y": 0.534,
+     "xg": 0.1479,
+     "res": "goal",
+     "min": 63,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.961,
+     "y": 0.709,
+     "xg": 0.042,
+     "res": "saved",
+     "min": 72,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.849,
+     "y": 0.341,
+     "xg": 0.0466,
+     "res": "block",
+     "min": 64,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.889,
+     "y": 0.423,
+     "xg": 0.3603,
+     "res": "goal",
+     "min": 11,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.951,
+     "y": 0.346,
+     "xg": 0.3016,
+     "res": "goal",
+     "min": 36,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.893,
+     "y": 0.262,
+     "xg": 0.0585,
+     "res": "miss",
+     "min": 42,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.812,
+     "y": 0.31,
+     "xg": 0.0258,
+     "res": "saved",
+     "min": 31,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.864,
+     "y": 0.442,
+     "xg": 0.0616,
+     "res": "miss",
+     "min": 49,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.872,
+     "y": 0.708,
+     "xg": 0.0428,
+     "res": "block",
+     "min": 62,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.957,
+     "y": 0.459,
+     "xg": 0.6072,
+     "res": "goal",
+     "min": 70,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.801,
+     "y": 0.378,
+     "xg": 0.034,
+     "res": "miss",
+     "min": 69,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.849,
+     "y": 0.273,
+     "xg": 0.0294,
+     "res": "saved",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.93,
+     "y": 0.289,
+     "xg": 0.0357,
+     "res": "miss",
+     "min": 79,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.802,
+     "y": 0.233,
+     "xg": 0.0181,
+     "res": "miss",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.826,
+     "y": 0.521,
+     "xg": 0.0754,
+     "res": "saved",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.788,
+     "y": 0.374,
+     "xg": 0.0858,
+     "res": "block",
+     "min": 92,
+     "sit": "DirectFreekick",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.732,
+     "y": 0.489,
+     "xg": 0.088,
+     "res": "miss",
+     "min": 13,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.836,
+     "y": 0.36,
+     "xg": 0.0466,
+     "res": "goal",
+     "min": 22,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.978,
+     "y": 0.516,
+     "xg": 0.9106,
+     "res": "goal",
+     "min": 32,
+     "sit": "FromCorner",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.746,
+     "y": 0.352,
+     "xg": 0.0183,
+     "res": "post",
+     "min": 74,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.847,
+     "y": 0.286,
+     "xg": 0.0332,
+     "res": "block",
+     "min": 76,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.983,
+     "y": 0.432,
+     "xg": 0.1159,
+     "res": "miss",
+     "min": 77,
+     "sit": "FromCorner",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.951,
+     "y": 0.658,
+     "xg": 0.1212,
+     "res": "saved",
+     "min": 16,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.847,
+     "y": 0.297,
+     "xg": 0.043,
+     "res": "block",
+     "min": 18,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.876,
+     "y": 0.667,
+     "xg": 0.0794,
+     "res": "miss",
+     "min": 40,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.902,
+     "y": 0.649,
+     "xg": 0.0976,
+     "res": "block",
+     "min": 59,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.908,
+     "y": 0.336,
+     "xg": 0.0847,
+     "res": "saved",
+     "min": 43,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "a"
+    },
+    {
+     "x": 0.892,
+     "y": 0.3,
+     "xg": 0.0611,
+     "res": "miss",
+     "min": 55,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "a"
+    }
+   ]
+  },
+  "21": {
+   "name": "Désiré Doué",
+   "shots_total": 55,
+   "goals": 7,
+   "xg_total": 8.19,
+   "shots": [
+    {
+     "x": 0.749,
+     "y": 0.511,
+     "xg": 0.0671,
+     "res": "miss",
+     "min": 31,
+     "sit": "DirectFreekick",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.803,
+     "y": 0.736,
+     "xg": 0.0178,
+     "res": "miss",
+     "min": 32,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.774,
+     "y": 0.354,
+     "xg": 0.0327,
+     "res": "block",
+     "min": 18,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.96,
+     "y": 0.304,
+     "xg": 0.0789,
+     "res": "post",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.771,
+     "y": 0.612,
+     "xg": 0.0268,
+     "res": "saved",
+     "min": 2,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.777,
+     "y": 0.58,
+     "xg": 0.0866,
+     "res": "block",
+     "min": 34,
+     "sit": "DirectFreekick",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.786,
+     "y": 0.778,
+     "xg": 0.0269,
+     "res": "miss",
+     "min": 71,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.902,
+     "y": 0.375,
+     "xg": 0.458,
+     "res": "post",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.889,
+     "y": 0.605,
+     "xg": 0.2887,
+     "res": "goal",
+     "min": 95,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.814,
+     "y": 0.534,
+     "xg": 0.3371,
+     "res": "goal",
+     "min": 62,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.789,
+     "y": 0.63,
+     "xg": 0.0324,
+     "res": "saved",
+     "min": 70,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.842,
+     "y": 0.717,
+     "xg": 0.0308,
+     "res": "miss",
+     "min": 39,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.841,
+     "y": 0.658,
+     "xg": 0.0369,
+     "res": "block",
+     "min": 42,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.888,
+     "y": 0.577,
+     "xg": 0.3639,
+     "res": "goal",
+     "min": 44,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.903,
+     "y": 0.201,
+     "xg": 0.0349,
+     "res": "saved",
+     "min": 46,
+     "sit": "FromCorner",
+     "opp": "Paris FC",
+     "ha": "h"
+    },
+    {
+     "x": 0.852,
+     "y": 0.538,
+     "xg": 0.1075,
+     "res": "saved",
+     "min": 28,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.756,
+     "y": 0.587,
+     "xg": 0.0427,
+     "res": "saved",
+     "min": 55,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.745,
+     "y": 0.567,
+     "xg": 0.0246,
+     "res": "miss",
+     "min": 69,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.898,
+     "y": 0.348,
+     "xg": 0.0861,
+     "res": "saved",
+     "min": 79,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.861,
+     "y": 0.681,
+     "xg": 0.0465,
+     "res": "miss",
+     "min": 55,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "a"
+    },
+    {
+     "x": 0.861,
+     "y": 0.321,
+     "xg": 0.0455,
+     "res": "block",
+     "min": 1,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.842,
+     "y": 0.55,
+     "xg": 0.1266,
+     "res": "block",
+     "min": 24,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.903,
+     "y": 0.327,
+     "xg": 0.0811,
+     "res": "saved",
+     "min": 31,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.92,
+     "y": 0.405,
+     "xg": 0.4718,
+     "res": "post",
+     "min": 49,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.973,
+     "y": 0.419,
+     "xg": 0.5765,
+     "res": "miss",
+     "min": 53,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.799,
+     "y": 0.357,
+     "xg": 0.0441,
+     "res": "miss",
+     "min": 60,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.8,
+     "y": 0.352,
+     "xg": 0.2189,
+     "res": "saved",
+     "min": 11,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.874,
+     "y": 0.343,
+     "xg": 0.0541,
+     "res": "block",
+     "min": 23,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.96,
+     "y": 0.534,
+     "xg": 0.5967,
+     "res": "miss",
+     "min": 23,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.901,
+     "y": 0.409,
+     "xg": 0.0791,
+     "res": "miss",
+     "min": 56,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.855,
+     "y": 0.403,
+     "xg": 0.3092,
+     "res": "goal",
+     "min": 2,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.781,
+     "y": 0.483,
+     "xg": 0.0425,
+     "res": "block",
+     "min": 67,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.885,
+     "y": 0.5,
+     "xg": 0.7601,
+     "res": "saved",
+     "min": 78,
+     "sit": "Penalty",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.83,
+     "y": 0.458,
+     "xg": 0.0895,
+     "res": "saved",
+     "min": 84,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.841,
+     "y": 0.741,
+     "xg": 0.0555,
+     "res": "block",
+     "min": 27,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.915,
+     "y": 0.654,
+     "xg": 0.065,
+     "res": "miss",
+     "min": 37,
+     "sit": "FromCorner",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.939,
+     "y": 0.581,
+     "xg": 0.0799,
+     "res": "miss",
+     "min": 37,
+     "sit": "FromCorner",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.905,
+     "y": 0.504,
+     "xg": 0.4936,
+     "res": "goal",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.877,
+     "y": 0.467,
+     "xg": 0.3801,
+     "res": "saved",
+     "min": 62,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.886,
+     "y": 0.507,
+     "xg": 0.5443,
+     "res": "miss",
+     "min": 69,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "a"
+    },
+    {
+     "x": 0.741,
+     "y": 0.644,
+     "xg": 0.019,
+     "res": "block",
+     "min": 2,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.805,
+     "y": 0.38,
+     "xg": 0.0524,
+     "res": "miss",
+     "min": 36,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "h"
+    },
+    {
+     "x": 0.805,
+     "y": 0.323,
+     "xg": 0.0216,
+     "res": "block",
+     "min": 46,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.881,
+     "y": 0.523,
+     "xg": 0.1057,
+     "res": "miss",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.855,
+     "y": 0.294,
+     "xg": 0.0684,
+     "res": "goal",
+     "min": 36,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.875,
+     "y": 0.542,
+     "xg": 0.1445,
+     "res": "miss",
+     "min": 27,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.797,
+     "y": 0.709,
+     "xg": 0.0235,
+     "res": "block",
+     "min": 45,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.733,
+     "y": 0.712,
+     "xg": 0.0379,
+     "res": "miss",
+     "min": 50,
+     "sit": "DirectFreekick",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.878,
+     "y": 0.685,
+     "xg": 0.0554,
+     "res": "saved",
+     "min": 53,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.756,
+     "y": 0.446,
+     "xg": 0.0704,
+     "res": "block",
+     "min": 56,
+     "sit": "DirectFreekick",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.823,
+     "y": 0.634,
+     "xg": 0.0414,
+     "res": "block",
+     "min": 64,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.867,
+     "y": 0.34,
+     "xg": 0.0593,
+     "res": "block",
+     "min": 71,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.806,
+     "y": 0.511,
+     "xg": 0.0506,
+     "res": "goal",
+     "min": 81,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "h"
+    },
+    {
+     "x": 0.821,
+     "y": 0.522,
+     "xg": 0.086,
+     "res": "block",
+     "min": 12,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "a"
+    },
+    {
+     "x": 0.886,
+     "y": 0.342,
+     "xg": 0.0112,
+     "res": "block",
+     "min": 49,
+     "sit": "FromCorner",
+     "opp": "Lens",
+     "ha": "a"
+    }
+   ]
+  },
+  "22": {
+   "name": "Bradley Barcola",
+   "shots_total": 66,
+   "goals": 11,
+   "xg_total": 11.66,
+   "shots": [
+    {
+     "x": 0.915,
+     "y": 0.738,
+     "xg": 0.0385,
+     "res": "miss",
+     "min": 4,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.865,
+     "y": 0.676,
+     "xg": 0.0437,
+     "res": "saved",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.797,
+     "y": 0.738,
+     "xg": 0.0213,
+     "res": "block",
+     "min": 41,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.892,
+     "y": 0.675,
+     "xg": 0.071,
+     "res": "block",
+     "min": 63,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.903,
+     "y": 0.352,
+     "xg": 0.333,
+     "res": "miss",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "a"
+    },
+    {
+     "x": 0.808,
+     "y": 0.548,
+     "xg": 0.0692,
+     "res": "miss",
+     "min": 65,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "h"
+    },
+    {
+     "x": 0.968,
+     "y": 0.607,
+     "xg": 0.333,
+     "res": "goal",
+     "min": 8,
+     "sit": "OpenPlay",
+     "opp": "Toulouse",
+     "ha": "a"
+    },
+    {
+     "x": 0.816,
+     "y": 0.674,
+     "xg": 0.0329,
+     "res": "goal",
+     "min": 14,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.74,
+     "y": 0.549,
+     "xg": 0.0287,
+     "res": "goal",
+     "min": 50,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.843,
+     "y": 0.439,
+     "xg": 0.505,
+     "res": "saved",
+     "min": 46,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.96,
+     "y": 0.532,
+     "xg": 0.3951,
+     "res": "miss",
+     "min": 79,
+     "sit": "FromCorner",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.895,
+     "y": 0.654,
+     "xg": 0.4912,
+     "res": "miss",
+     "min": 42,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.931,
+     "y": 0.494,
+     "xg": 0.0552,
+     "res": "saved",
+     "min": 44,
+     "sit": "FromCorner",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.83,
+     "y": 0.673,
+     "xg": 0.0369,
+     "res": "miss",
+     "min": 48,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.834,
+     "y": 0.601,
+     "xg": 0.058,
+     "res": "block",
+     "min": 55,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.874,
+     "y": 0.668,
+     "xg": 0.0586,
+     "res": "saved",
+     "min": 55,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "a"
+    },
+    {
+     "x": 0.934,
+     "y": 0.544,
+     "xg": 0.5649,
+     "res": "goal",
+     "min": 5,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.738,
+     "y": 0.54,
+     "xg": 0.0256,
+     "res": "saved",
+     "min": 22,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.808,
+     "y": 0.51,
+     "xg": 0.0698,
+     "res": "saved",
+     "min": 72,
+     "sit": "OpenPlay",
+     "opp": "Brest",
+     "ha": "a"
+    },
+    {
+     "x": 0.877,
+     "y": 0.502,
+     "xg": 0.0937,
+     "res": "saved",
+     "min": 70,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.901,
+     "y": 0.45,
+     "xg": 0.0963,
+     "res": "miss",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.71,
+     "y": 0.679,
+     "xg": 0.0117,
+     "res": "saved",
+     "min": 13,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.897,
+     "y": 0.47,
+     "xg": 0.4281,
+     "res": "saved",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.772,
+     "y": 0.434,
+     "xg": 0.0257,
+     "res": "block",
+     "min": 46,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.923,
+     "y": 0.482,
+     "xg": 0.0674,
+     "res": "miss",
+     "min": 64,
+     "sit": "OpenPlay",
+     "opp": "Nice",
+     "ha": "h"
+    },
+    {
+     "x": 0.842,
+     "y": 0.555,
+     "xg": 0.3206,
+     "res": "saved",
+     "min": 64,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.91,
+     "y": 0.544,
+     "xg": 0.1434,
+     "res": "block",
+     "min": 64,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.949,
+     "y": 0.382,
+     "xg": 0.0328,
+     "res": "miss",
+     "min": 80,
+     "sit": "FromCorner",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.872,
+     "y": 0.458,
+     "xg": 0.456,
+     "res": "goal",
+     "min": 86,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.851,
+     "y": 0.559,
+     "xg": 0.0915,
+     "res": "block",
+     "min": 18,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.809,
+     "y": 0.513,
+     "xg": 0.0571,
+     "res": "block",
+     "min": 24,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.942,
+     "y": 0.331,
+     "xg": 0.1037,
+     "res": "saved",
+     "min": 57,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.852,
+     "y": 0.654,
+     "xg": 0.0728,
+     "res": "saved",
+     "min": 71,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.774,
+     "y": 0.634,
+     "xg": 0.0467,
+     "res": "miss",
+     "min": 77,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.905,
+     "y": 0.45,
+     "xg": 0.4425,
+     "res": "goal",
+     "min": 92,
+     "sit": "OpenPlay",
+     "opp": "Lille",
+     "ha": "h"
+    },
+    {
+     "x": 0.973,
+     "y": 0.668,
+     "xg": 0.2983,
+     "res": "saved",
+     "min": 1,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.825,
+     "y": 0.607,
+     "xg": 0.1515,
+     "res": "saved",
+     "min": 1,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.759,
+     "y": 0.57,
+     "xg": 0.0627,
+     "res": "miss",
+     "min": 50,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.952,
+     "y": 0.333,
+     "xg": 0.3187,
+     "res": "miss",
+     "min": 62,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.813,
+     "y": 0.468,
+     "xg": 0.4651,
+     "res": "goal",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.844,
+     "y": 0.607,
+     "xg": 0.0582,
+     "res": "miss",
+     "min": 7,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.949,
+     "y": 0.689,
+     "xg": 0.0668,
+     "res": "post",
+     "min": 56,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.97,
+     "y": 0.613,
+     "xg": 0.5137,
+     "res": "miss",
+     "min": 63,
+     "sit": "OpenPlay",
+     "opp": "Marseille",
+     "ha": "h"
+    },
+    {
+     "x": 0.916,
+     "y": 0.588,
+     "xg": 0.4668,
+     "res": "block",
+     "min": 78,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.971,
+     "y": 0.595,
+     "xg": 0.098,
+     "res": "saved",
+     "min": 91,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "a"
+    },
+    {
+     "x": 0.772,
+     "y": 0.69,
+     "xg": 0.0262,
+     "res": "block",
+     "min": 6,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.836,
+     "y": 0.696,
+     "xg": 0.0437,
+     "res": "miss",
+     "min": 34,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.969,
+     "y": 0.46,
+     "xg": 0.5245,
+     "res": "goal",
+     "min": 47,
+     "sit": "FromCorner",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.959,
+     "y": 0.661,
+     "xg": 0.0934,
+     "res": "block",
+     "min": 12,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.918,
+     "y": 0.492,
+     "xg": 0.352,
+     "res": "goal",
+     "min": 36,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.914,
+     "y": 0.481,
+     "xg": 0.3693,
+     "res": "miss",
+     "min": 50,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.793,
+     "y": 0.549,
+     "xg": 0.0428,
+     "res": "block",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.89,
+     "y": 0.612,
+     "xg": 0.0475,
+     "res": "miss",
+     "min": 68,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.867,
+     "y": 0.694,
+     "xg": 0.051,
+     "res": "goal",
+     "min": 70,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.842,
+     "y": 0.66,
+     "xg": 0.0493,
+     "res": "block",
+     "min": 89,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "h"
+    },
+    {
+     "x": 0.951,
+     "y": 0.579,
+     "xg": 0.431,
+     "res": "block",
+     "min": 27,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.847,
+     "y": 0.391,
+     "xg": 0.0613,
+     "res": "block",
+     "min": 61,
+     "sit": "OpenPlay",
+     "opp": "Lyon",
+     "ha": "h"
+    },
+    {
+     "x": 0.89,
+     "y": 0.323,
+     "xg": 0.1102,
+     "res": "saved",
+     "min": 86,
+     "sit": "OpenPlay",
+     "opp": "Nantes",
+     "ha": "h"
+    },
+    {
+     "x": 0.855,
+     "y": 0.624,
+     "xg": 0.0867,
+     "res": "block",
+     "min": 29,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.863,
+     "y": 0.613,
+     "xg": 0.2754,
+     "res": "block",
+     "min": 42,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.843,
+     "y": 0.721,
+     "xg": 0.0304,
+     "res": "miss",
+     "min": 23,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.772,
+     "y": 0.711,
+     "xg": 0.0222,
+     "res": "block",
+     "min": 85,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.847,
+     "y": 0.507,
+     "xg": 0.1256,
+     "res": "block",
+     "min": 89,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.912,
+     "y": 0.62,
+     "xg": 0.1183,
+     "res": "block",
+     "min": 31,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "a"
+    },
+    {
+     "x": 0.89,
+     "y": 0.331,
+     "xg": 0.0599,
+     "res": "saved",
+     "min": 1,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "a"
+    },
+    {
+     "x": 0.937,
+     "y": 0.438,
+     "xg": 0.5138,
+     "res": "goal",
+     "min": 49,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "a"
+    }
+   ]
+  },
+  "23": {
+   "name": "Quentin Ndjantou",
+   "shots_total": 9,
+   "goals": 1,
+   "xg_total": 1.47,
+   "shots": [
+    {
+     "x": 0.716,
+     "y": 0.485,
+     "xg": 0.0295,
+     "res": "miss",
+     "min": 73,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.914,
+     "y": 0.611,
+     "xg": 0.1365,
+     "res": "saved",
+     "min": 87,
+     "sit": "OpenPlay",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.813,
+     "y": 0.684,
+     "xg": 0.0238,
+     "res": "block",
+     "min": 71,
+     "sit": "FromCorner",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.724,
+     "y": 0.657,
+     "xg": 0.0131,
+     "res": "miss",
+     "min": 74,
+     "sit": "OpenPlay",
+     "opp": "Strasbourg",
+     "ha": "h"
+    },
+    {
+     "x": 0.835,
+     "y": 0.657,
+     "xg": 0.0632,
+     "res": "miss",
+     "min": 66,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.858,
+     "y": 0.363,
+     "xg": 0.1111,
+     "res": "block",
+     "min": 84,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.925,
+     "y": 0.381,
+     "xg": 0.332,
+     "res": "miss",
+     "min": 84,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.95,
+     "y": 0.476,
+     "xg": 0.6639,
+     "res": "goal",
+     "min": 38,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.955,
+     "y": 0.342,
+     "xg": 0.094,
+     "res": "saved",
+     "min": 45,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    }
+   ]
+  },
+  "24": {
+   "name": "Ibrahim Mbaye",
+   "shots_total": 24,
+   "goals": 3,
+   "xg_total": 3.43,
+   "shots": [
+    {
+     "x": 0.943,
+     "y": 0.316,
+     "xg": 0.254,
+     "res": "saved",
+     "min": 29,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.788,
+     "y": 0.333,
+     "xg": 0.0241,
+     "res": "miss",
+     "min": 88,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.868,
+     "y": 0.289,
+     "xg": 0.0557,
+     "res": "miss",
+     "min": 91,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "h"
+    },
+    {
+     "x": 0.872,
+     "y": 0.355,
+     "xg": 0.0408,
+     "res": "block",
+     "min": 78,
+     "sit": "FromCorner",
+     "opp": "Auxerre",
+     "ha": "h"
+    },
+    {
+     "x": 0.864,
+     "y": 0.68,
+     "xg": 0.0468,
+     "res": "saved",
+     "min": 42,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "a"
+    },
+    {
+     "x": 0.802,
+     "y": 0.67,
+     "xg": 0.0288,
+     "res": "saved",
+     "min": 18,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.89,
+     "y": 0.648,
+     "xg": 0.0654,
+     "res": "miss",
+     "min": 19,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.862,
+     "y": 0.561,
+     "xg": 0.0737,
+     "res": "miss",
+     "min": 23,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.884,
+     "y": 0.534,
+     "xg": 0.3877,
+     "res": "miss",
+     "min": 42,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.865,
+     "y": 0.717,
+     "xg": 0.043,
+     "res": "saved",
+     "min": 51,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "h"
+    },
+    {
+     "x": 0.841,
+     "y": 0.67,
+     "xg": 0.0431,
+     "res": "block",
+     "min": 86,
+     "sit": "OpenPlay",
+     "opp": "Monaco",
+     "ha": "a"
+    },
+    {
+     "x": 0.774,
+     "y": 0.634,
+     "xg": 0.0314,
+     "res": "goal",
+     "min": 87,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.911,
+     "y": 0.49,
+     "xg": 0.1467,
+     "res": "block",
+     "min": 89,
+     "sit": "OpenPlay",
+     "opp": "Rennes",
+     "ha": "h"
+    },
+    {
+     "x": 0.909,
+     "y": 0.276,
+     "xg": 0.0979,
+     "res": "post",
+     "min": 70,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "a"
+    },
+    {
+     "x": 0.893,
+     "y": 0.464,
+     "xg": 0.0874,
+     "res": "saved",
+     "min": 35,
+     "sit": "SetPiece",
+     "opp": "Auxerre",
+     "ha": "a"
+    },
+    {
+     "x": 0.747,
+     "y": 0.356,
+     "xg": 0.0303,
+     "res": "miss",
+     "min": 62,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.93,
+     "y": 0.349,
+     "xg": 0.1075,
+     "res": "block",
+     "min": 89,
+     "sit": "OpenPlay",
+     "opp": "Metz",
+     "ha": "h"
+    },
+    {
+     "x": 0.955,
+     "y": 0.432,
+     "xg": 0.6667,
+     "res": "saved",
+     "min": 77,
+     "sit": "OpenPlay",
+     "opp": "Le Havre",
+     "ha": "a"
+    },
+    {
+     "x": 0.896,
+     "y": 0.648,
+     "xg": 0.0985,
+     "res": "saved",
+     "min": 83,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.85,
+     "y": 0.526,
+     "xg": 0.1195,
+     "res": "miss",
+     "min": 89,
+     "sit": "OpenPlay",
+     "opp": "Angers",
+     "ha": "a"
+    },
+    {
+     "x": 0.965,
+     "y": 0.48,
+     "xg": 0.6894,
+     "res": "goal",
+     "min": 5,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.946,
+     "y": 0.624,
+     "xg": 0.1163,
+     "res": "block",
+     "min": 56,
+     "sit": "OpenPlay",
+     "opp": "Lorient",
+     "ha": "h"
+    },
+    {
+     "x": 0.855,
+     "y": 0.458,
+     "xg": 0.133,
+     "res": "goal",
+     "min": 92,
+     "sit": "OpenPlay",
+     "opp": "Lens",
+     "ha": "a"
+    },
+    {
+     "x": 0.848,
+     "y": 0.693,
+     "xg": 0.0411,
+     "res": "block",
+     "min": 84,
+     "sit": "OpenPlay",
+     "opp": "Paris FC",
+     "ha": "a"
+    }
+   ]
+  }
+ }
+}

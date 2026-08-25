@@ -40,6 +40,11 @@ async function route() {
       initPlayerDetail();
       break;
     }
+    case 'styleguide': {
+      const { initStyleguide } = await import('./pages/styleguide.js');
+      initStyleguide();
+      break;
+    }
     default:
       break;
   }

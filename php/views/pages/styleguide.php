@@ -166,4 +166,33 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
       <?php endforeach; ?>
     </div>
   </div>
+
+  <?php
+    // Prototype shot map : tirs réels d'un joueur (positions x/y depuis Understat).
+    $smPath = BASE_PATH . '/database/seeds/verified/understat-barcola-shots-2025.json';
+    $sm = is_file($smPath) ? (json_decode((string) file_get_contents($smPath), true) ?: []) : [];
+    $smPayload = json_encode($sm, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+  ?>
+  <div>
+    <div class="sec-h">Shot map (prototype)</div>
+    <section class="panel stack">
+      <div class="panel__header">
+        <h2 class="panel__title">Tirs de <?= View::e($sm['player'] ?? '') ?> · <?= View::e($sm['competition'] ?? '') ?> <?= View::e($sm['season'] ?? '') ?></h2>
+        <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
+      </div>
+      <p class="pd__panel-sub">
+        <?= View::e((string) ($sm['shots_total'] ?? 0)) ?> tirs, <?= View::e((string) ($sm['goals'] ?? 0)) ?> buts,
+        <?= View::e(number_format((float) ($sm['xg_total'] ?? 0), 2, ',', ' ')) ?> xG cumulé.
+        Chaque tir a sa position réelle (source <?= View::e($sm['source'] ?? '') ?>), taille du marqueur selon le xG.
+      </p>
+      <div id="shotmap" class="shotmap-wrap">
+        <p class="chart-fallback">La carte des tirs s'affiche ici (JavaScript activé).</p>
+      </div>
+      <div class="sm-legend">
+        <span class="sm-legend__item"><span class="sm-key sm-key--goal"></span>But</span>
+        <span class="sm-legend__item"><span class="sm-key"></span>Tir (taille = xG)</span>
+      </div>
+      <script type="application/json" id="shotmap-data"><?= $smPayload ?></script>
+    </section>
+  </div>
 </div>

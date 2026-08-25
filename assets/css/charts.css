@@ -173,3 +173,59 @@
     to { opacity: 1; }
   }
 }
+
+/* Shot map (prototype) : demi-terrain vu du dessus, tirs positionnes par x/y. Teintes
+   du design system (pas de vert criard), buts en rouge identite, autres tirs en bleu. */
+.shotmap-wrap {
+  max-width: 460px;
+  margin: 0 auto;
+}
+.shotmap {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.sm-pitch {
+  fill: color-mix(in srgb, var(--navy-900) 55%, var(--surface));
+}
+.sm-line {
+  stroke: color-mix(in srgb, var(--text) 24%, transparent);
+  stroke-width: 2;
+}
+.sm-goal {
+  fill: color-mix(in srgb, var(--text) 24%, transparent);
+  stroke: none;
+}
+.sm-shot {
+  fill: color-mix(in srgb, var(--blue) 32%, transparent);
+  stroke: var(--blue);
+  stroke-width: 1.2;
+}
+.sm-shot--goal {
+  fill: var(--red);
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+.sm-legend {
+  display: flex;
+  gap: var(--space-6);
+  justify-content: center;
+  color: var(--dim);
+  font-size: var(--text-sm);
+}
+.sm-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.sm-key {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1.5px solid var(--blue);
+  background: color-mix(in srgb, var(--blue) 32%, transparent);
+}
+.sm-key--goal {
+  border-color: #fff;
+  background: var(--red);
+}

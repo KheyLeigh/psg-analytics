@@ -4,3 +4,6 @@ php/config/config.local.php
 *.log
 .impeccable/
 .claude/
+
+# Accès serveur : ne jamais publier
+deploy.sh

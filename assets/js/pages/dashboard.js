@@ -123,7 +123,11 @@ async function hydrateHeatmap() {
     const rows = rawRows
       .map((row) => {
         const cells = months.map((m) => Number(row.cells[m]) || 0);
-        return { label: row.player.name, cells, total: cells.reduce((s, v) => s + v, 0) };
+        // Libellé court (nom de famille) pour tenir dans la gouttière de la heatmap :
+        // les noms complets (ex: Khvicha Kvaratskhelia) débordaient du cadre.
+        const fullName = row.player.name || '';
+        const label = fullName.split(' ').filter(Boolean).pop() || fullName;
+        return { label, cells, total: cells.reduce((s, v) => s + v, 0) };
       })
       .sort((a, b) => b.total - a.total)
       .slice(0, 8);

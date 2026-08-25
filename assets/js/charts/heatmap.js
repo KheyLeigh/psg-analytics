@@ -6,7 +6,7 @@ import { svgEl } from './axis.js';
 
 const W = 640;
 const H = 300;
-const M = { top: 24, right: 16, bottom: 28, left: 92 };
+const M = { top: 24, right: 16, bottom: 28, left: 104 };
 const GAP = 4;
 
 export function render(container, data, options = {}) {

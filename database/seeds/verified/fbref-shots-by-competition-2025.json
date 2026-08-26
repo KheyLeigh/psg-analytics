@@ -1,0 +1,528 @@
+{
+    "season": "2025-26",
+    "source": "FBref",
+    "competition": "Toutes compétitions",
+    "competitions": [
+        "Ligue 1",
+        "Ligue des champions",
+        "Coupe de France",
+        "Supercoupe UEFA",
+        "Trophée des Champions"
+    ],
+    "players": {
+        "4": {
+            "name": "Achraf Hakimi",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 27,
+                    "goals": 2
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 19,
+                    "goals": 1
+                },
+                {
+                    "competition": "Supercoupe UEFA",
+                    "shots": 1,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 47,
+                "goals": 3
+            }
+        },
+        "5": {
+            "name": "Lucas Beraldo",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 14,
+                    "goals": 2
+                }
+            ],
+            "total": {
+                "shots": 14,
+                "goals": 2
+            }
+        },
+        "6": {
+            "name": "Marquinhos",
+            "byCompetition": [
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 7,
+                    "goals": 2
+                },
+                {
+                    "competition": "Ligue 1",
+                    "shots": 3,
+                    "goals": 0
+                },
+                {
+                    "competition": "Trophée des Champions",
+                    "shots": 1,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 11,
+                "goals": 2
+            }
+        },
+        "7": {
+            "name": "Illia Zabarnyi",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 4,
+                    "goals": 1
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 1,
+                    "goals": 0
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 1,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 6,
+                "goals": 1
+            }
+        },
+        "8": {
+            "name": "Lucas Hernández",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 11,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 11,
+                "goals": 0
+            }
+        },
+        "9": {
+            "name": "Nuno Mendes",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 30,
+                    "goals": 4
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 17,
+                    "goals": 2
+                },
+                {
+                    "competition": "Trophée des Champions",
+                    "shots": 4,
+                    "goals": 0
+                },
+                {
+                    "competition": "Supercoupe UEFA",
+                    "shots": 1,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 52,
+                "goals": 6
+            }
+        },
+        "10": {
+            "name": "Willian Pacho",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 8,
+                    "goals": 0
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 4,
+                    "goals": 2
+                }
+            ],
+            "total": {
+                "shots": 12,
+                "goals": 2
+            }
+        },
+        "11": {
+            "name": "Fabián Ruiz Peña",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 19,
+                    "goals": 1
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 17,
+                    "goals": 1
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 2,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 38,
+                "goals": 2
+            }
+        },
+        "12": {
+            "name": "Vitinha",
+            "byCompetition": [
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 43,
+                    "goals": 6
+                },
+                {
+                    "competition": "Ligue 1",
+                    "shots": 34,
+                    "goals": 1
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 4,
+                    "goals": 0
+                },
+                {
+                    "competition": "Supercoupe UEFA",
+                    "shots": 1,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 82,
+                "goals": 7
+            }
+        },
+        "13": {
+            "name": "Lee Kang-in",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 37,
+                    "goals": 3
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 9,
+                    "goals": 0
+                },
+                {
+                    "competition": "Supercoupe UEFA",
+                    "shots": 2,
+                    "goals": 1
+                }
+            ],
+            "total": {
+                "shots": 48,
+                "goals": 4
+            }
+        },
+        "14": {
+            "name": "Senny Mayulu",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 35,
+                    "goals": 4
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 19,
+                    "goals": 2
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 1,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 55,
+                "goals": 6
+            }
+        },
+        "15": {
+            "name": "Dro Fernández",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 9,
+                    "goals": 1
+                }
+            ],
+            "total": {
+                "shots": 9,
+                "goals": 1
+            }
+        },
+        "16": {
+            "name": "Warren Zaïre-Emery",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 19,
+                    "goals": 3
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 14,
+                    "goals": 0
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 2,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 35,
+                "goals": 3
+            }
+        },
+        "17": {
+            "name": "João Neves",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 27,
+                    "goals": 5
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 17,
+                    "goals": 2
+                },
+                {
+                    "competition": "Trophée des Champions",
+                    "shots": 2,
+                    "goals": 0
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 1,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 47,
+                "goals": 7
+            }
+        },
+        "18": {
+            "name": "Khvicha Kvaratskhelia",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 65,
+                    "goals": 8
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 50,
+                    "goals": 10
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 3,
+                    "goals": 0
+                },
+                {
+                    "competition": "Trophée des Champions",
+                    "shots": 2,
+                    "goals": 0
+                },
+                {
+                    "competition": "Supercoupe UEFA",
+                    "shots": 1,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 121,
+                "goals": 18
+            }
+        },
+        "19": {
+            "name": "Gonçalo Ramos",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 58,
+                    "goals": 6
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 10,
+                    "goals": 2
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 8,
+                    "goals": 2
+                },
+                {
+                    "competition": "Supercoupe UEFA",
+                    "shots": 1,
+                    "goals": 1
+                },
+                {
+                    "competition": "Trophée des Champions",
+                    "shots": 1,
+                    "goals": 1
+                }
+            ],
+            "total": {
+                "shots": 78,
+                "goals": 12
+            }
+        },
+        "20": {
+            "name": "Ousmane Dembélé",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 45,
+                    "goals": 10
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 34,
+                    "goals": 8
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 4,
+                    "goals": 1
+                },
+                {
+                    "competition": "Supercoupe UEFA",
+                    "shots": 3,
+                    "goals": 0
+                },
+                {
+                    "competition": "Trophée des Champions",
+                    "shots": 3,
+                    "goals": 1
+                }
+            ],
+            "total": {
+                "shots": 89,
+                "goals": 20
+            }
+        },
+        "21": {
+            "name": "Désiré Doué",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 55,
+                    "goals": 7
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 28,
+                    "goals": 5
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 6,
+                    "goals": 1
+                },
+                {
+                    "competition": "Trophée des Champions",
+                    "shots": 4,
+                    "goals": 0
+                },
+                {
+                    "competition": "Supercoupe UEFA",
+                    "shots": 2,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 95,
+                "goals": 13
+            }
+        },
+        "22": {
+            "name": "Bradley Barcola",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 66,
+                    "goals": 11
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 25,
+                    "goals": 2
+                },
+                {
+                    "competition": "Coupe de France",
+                    "shots": 3,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 94,
+                "goals": 13
+            }
+        },
+        "23": {
+            "name": "Quentin Ndjantou",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 9,
+                    "goals": 1
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 2,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 11,
+                "goals": 1
+            }
+        },
+        "24": {
+            "name": "Ibrahim Mbaye",
+            "byCompetition": [
+                {
+                    "competition": "Ligue 1",
+                    "shots": 24,
+                    "goals": 3
+                },
+                {
+                    "competition": "Ligue des champions",
+                    "shots": 4,
+                    "goals": 0
+                }
+            ],
+            "total": {
+                "shots": 28,
+                "goals": 3
+            }
+        }
+    }
+}

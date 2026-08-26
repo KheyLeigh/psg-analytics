@@ -97,6 +97,42 @@ $payload = json_encode(
         <span class="sm-legend__item"><span class="sm-key sm-key--goal"></span>But</span>
         <span class="sm-legend__item"><span class="sm-key"></span>Tir (taille = xG)</span>
       </div>
+
+      <?php if (!empty($shotsByComp)): ?>
+        <div class="sm-comp">
+          <h3 class="sm-comp__title">Tirs par compétition</h3>
+          <p class="pd__panel-sub">La carte ci-dessus couvre la Ligue 1 (positions réelles). Understat ne fournit pas de coordonnées pour les autres compétitions : elles sont ici en volume (tirs et buts, source FBref).</p>
+          <div class="table-scroll">
+            <table class="table sm-comp__table">
+              <thead>
+                <tr>
+                  <th scope="col">Compétition</th>
+                  <th scope="col" class="sm-comp__num">Tirs</th>
+                  <th scope="col" class="sm-comp__num">Buts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($shotsByComp['rows'] as $r): ?>
+                  <tr>
+                    <td><?= View::e($r['competition']) ?></td>
+                    <td class="sm-comp__num"><?= View::e((string) $r['shots']) ?></td>
+                    <td class="sm-comp__num"><?= View::e((string) $r['goals']) ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+              <?php if (count($shotsByComp['rows']) > 1): ?>
+                <tfoot>
+                  <tr>
+                    <th scope="row">Toutes compétitions</th>
+                    <td class="sm-comp__num"><?= View::e((string) $shotsByComp['total']['shots']) ?></td>
+                    <td class="sm-comp__num"><?= View::e((string) $shotsByComp['total']['goals']) ?></td>
+                  </tr>
+                </tfoot>
+              <?php endif; ?>
+            </table>
+          </div>
+        </div>
+      <?php endif; ?>
     </section>
   <?php endif; ?>
 

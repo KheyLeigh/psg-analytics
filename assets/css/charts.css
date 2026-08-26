@@ -229,3 +229,38 @@
   border-color: #fff;
   background: var(--red);
 }
+
+/* Tirs par compétition : tableau compact sous la carte L1 (positions Understat),
+   pour les volumes des autres compétitions faute de coordonnées ailleurs. */
+.sm-comp {
+  max-width: 460px;
+  margin: var(--space-6) auto 0;
+}
+.sm-comp__title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin: 0 0 var(--space-2);
+}
+/* Annule le min-width des grands tableaux (roster) : 3 colonnes courtes ici, donc
+   pas de défilement horizontal. Sélecteur plus spécifique que `.table-scroll .table`
+   (pages.css) pour gagner malgré l'ordre de chargement. */
+.sm-comp .table-scroll .table {
+  min-width: 0;
+}
+.sm-comp__table .sm-comp__num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  width: 4.5rem;
+}
+.sm-comp__table tfoot th,
+.sm-comp__table tfoot td {
+  padding: 12px 10px;
+  border-top: 1.5px solid var(--line-2);
+  font-weight: 700;
+  color: var(--text);
+}
+.sm-comp__table tfoot th {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: var(--text-base);
+}

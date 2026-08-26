@@ -85,6 +85,7 @@ final class PlayerController extends Controller
             // nom de template via extract(EXTR_SKIP). Le routeur app.js s'aligne dessus.
             'page'     => 'player_detail',
             'shotmap'  => $this->shotmap($id, $player->fullName()),
+            'shotsByComp' => $this->shotsByCompetition($id),
             'player'   => [
                 'id'               => $player->id,
                 'number'           => $player->shirtNumber,
@@ -126,6 +127,29 @@ final class PlayerController extends Controller
             'goals'       => (int) ($entry['goals'] ?? 0),
             'xg_total'    => (float) ($entry['xg_total'] ?? 0),
             'shots'       => $entry['shots'],
+        ];
+    }
+
+    // Tirs par compétition (FBref) : complète la carte des tirs (Ligue 1 seule, faute
+    // de coordonnées ailleurs) par les totaux tirs/buts de chaque compétition jouée.
+    // Renvoie null si le joueur n'a aucun tir référencé (gardiens) : la vue masque alors
+    // le bloc. Indexé par id joueur, comme understat-shots-2025.json.
+    private function shotsByCompetition(int $id): ?array
+    {
+        $file = BASE_PATH . '/database/seeds/verified/fbref-shots-by-competition-2025.json';
+        if (!is_file($file)) {
+            return null;
+        }
+        $all = json_decode((string) file_get_contents($file), true);
+        $entry = $all['players'][(string) $id] ?? null;
+        if (!$entry || empty($entry['byCompetition'])) {
+            return null;
+        }
+        return [
+            'season' => $all['season'] ?? '',
+            'source' => $all['source'] ?? '',
+            'rows'   => $entry['byCompetition'],
+            'total'  => $entry['total'] ?? ['shots' => 0, 'goals' => 0],
         ];
     }
 

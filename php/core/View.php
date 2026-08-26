@@ -25,4 +25,13 @@ final class View
     {
         return htmlspecialchars((string) $v, ENT_QUOTES, 'UTF-8');
     }
+
+    // Ajoute une version (mtime du fichier) à l'URL d'un asset, pour casser le cache
+    // du navigateur dès que le fichier change. $path commence par /assets/... ; si le
+    // fichier est introuvable, on renvoie le chemin brut sans version.
+    public static function asset(string $path): string
+    {
+        $file = BASE_PATH . $path;
+        return is_file($file) ? $path . '?v=' . filemtime($file) : $path;
+    }
 }

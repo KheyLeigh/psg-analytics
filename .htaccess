@@ -2,3 +2,19 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
+
+# Cache : forcer la revalidation des assets pour ne jamais servir de version perimee
+# apres un deploiement. Indispensable pour les modules ES (le versionnage par URL ne se
+# propage pas aux imports). Le navigateur revalide via ETag/Last-Modified : 304 si
+# inchange, 200 frais si le fichier a change.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|mjs|woff2?|svg|png|jpe?g|gif|webp|ico|glb|hdr)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+    Header unset Expires
+  </FilesMatch>
+</IfModule>
+
+# Coupe le cache long par defaut (mod_expires) qui empeche la revalidation.
+<IfModule mod_expires.c>
+  ExpiresActive Off
+</IfModule>

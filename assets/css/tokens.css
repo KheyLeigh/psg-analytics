@@ -102,8 +102,9 @@
   --ok-text: #076440;
   --est: #8f5907;
   --blue: #2b5cd8;
-  /* Rouge de texte assombri pour AA sur fond clair (l'accent --red reste #e2001a). */
-  --red-text: #cc0016;
+  /* Rouge de texte assombri pour AA sur fond clair, y compris sur les tuiles
+     teintées (.tag--fwd, .pill--l). L'accent d'identité --red reste #e2001a. */
+  --red-text: #a30011;
   --blue-text: #2450bf;
   --gold-text: #745300;
 
@@ -127,12 +128,19 @@
 
     --text: #0c1830;
     --dim: #47597f;
-    --mute: #7a89a8;
+    --mute: #5c6a88;
 
     --gold: #9a6f0f;
     --ok: #0f9d6b;
     --est: #b06e0a;
     --blue: #2b5cd8;
+
+    /* Tokens de texte assombris : sans eux, le fallback OS-clair héritait des
+       valeurs vives du dark sur fond blanc (contraste < AA). */
+    --ok-text: #076440;
+    --red-text: #a30011;
+    --blue-text: #2450bf;
+    --gold-text: #745300;
 
     --pop-bg: #ffffff;
     --card-shadow: 0 1px 2px rgba(12, 24, 48, .06), 0 10px 26px rgba(12, 24, 48, .05);

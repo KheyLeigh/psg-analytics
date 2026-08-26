@@ -37,7 +37,7 @@ final class StatisticRepositoryTest extends TestCase
             'CREATE TABLE player_match_stats (
                 id INTEGER PRIMARY KEY, player_id INT, match_id INT, is_starter INT, minutes INT,
                 goals INT, assists INT, shots INT, shots_on_target INT, passes INT, pass_accuracy REAL,
-                duels_won INT, yellow_cards INT, red_card INT, saves INT, goals_conceded INT,
+                duels_won INT, interceptions INT, yellow_cards INT, red_card INT, saves INT, goals_conceded INT,
                 rating REAL, xg REAL, xag REAL, source_id INT
             )'
         );
@@ -54,8 +54,8 @@ final class StatisticRepositoryTest extends TestCase
         // pour prouver que byMatch ne les confond pas (pas de SELECT s.*, p.*).
         $pdo->exec(
             'INSERT INTO player_match_stats VALUES
-            (100,1,10,1,90,2,1,4,2,38,80.5,5,0,0,0,0,7.5,0.6,0.3,1),
-            (101,2,10,1,70,0,2,1,0,20,70.0,3,1,0,0,0,6.8,0.1,0.4,1)'
+            (100,1,10,1,90,2,1,4,2,38,80.5,5,4,0,0,0,0,7.5,0.6,0.3,1),
+            (101,2,10,1,70,0,2,1,0,20,70.0,3,2,1,0,0,0,6.8,0.1,0.4,1)'
         );
 
         $repo = new StatisticRepository($pdo);
@@ -87,7 +87,7 @@ final class StatisticRepositoryTest extends TestCase
         // assists (3) et passes (45) sont volontairement distincts pour détecter une confusion.
         $pdo->exec(
             "INSERT INTO player_match_stats VALUES
-            (200,1,20,1,90,1,3,4,2,45,80.0,5,0,0,0,0,7.2,0.5,0.4,1)"
+            (200,1,20,1,90,1,3,4,2,45,80.0,5,3,0,0,0,0,7.2,0.5,0.4,1)"
         );
 
         $repo = new StatisticRepository($pdo);

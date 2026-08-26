@@ -58,13 +58,14 @@ final class SeedIntegrityTest extends TestCase
     {
         $pdo = $this->migratedPdo();
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
-        $row = $pdo->query("SELECT SUM(shots) sh, SUM(shots_on_target) sot, SUM(duels_won) dw
+        $row = $pdo->query("SELECT SUM(shots) sh, SUM(shots_on_target) sot, SUM(duels_won) dw, SUM(interceptions) intc
             FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp}")->fetch(PDO::FETCH_ASSOC);
         // Totaux vérifiés FBref (tables Shooting et Miscellaneous) : la répartition
         // par match est estimée mais la somme reste exacte.
         $this->assertSame(599, (int) $row['sh'], 'somme tirs L1 = 599 (FBref Shooting)');
         $this->assertSame(225, (int) $row['sot'], 'somme tirs cadrés L1 = 225 (FBref Shooting)');
         $this->assertSame(316, (int) $row['dw'], 'somme tacles gagnés L1 = 316 (FBref Miscellaneous)');
+        $this->assertSame(244, (int) $row['intc'], 'somme interceptions L1 = 244 (FBref Miscellaneous)');
 
         // Spot-check par joueur : les totaux saison collent exactement.
         $shots = [];

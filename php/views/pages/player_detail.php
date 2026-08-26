@@ -14,6 +14,8 @@ $kpis = [
     ['label' => 'Passes déc.', 'value' => $totals['assists']],
     ['label' => 'Matchs', 'value' => $totals['matches']],
     ['label' => 'Minutes', 'value' => $totals['minutes']],
+    ['label' => 'Tacles gagnés', 'value' => $totals['duelsWon']],
+    ['label' => 'Interceptions', 'value' => $totals['interceptions']],
 ];
 if (($totals['rating'] ?? null) !== null) {
     $kpis[] = ['label' => 'Note moy.', 'value' => number_format((float) $totals['rating'], 2, ',', ' ')];

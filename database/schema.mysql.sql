@@ -90,6 +90,7 @@ CREATE TABLE player_match_stats (
     passes           INT NOT NULL DEFAULT 0,
     pass_accuracy    DECIMAL(5,2),
     duels_won        INT NOT NULL DEFAULT 0,
+    interceptions    INT NOT NULL DEFAULT 0,
     yellow_cards     INT NOT NULL DEFAULT 0,
     red_card         TINYINT(1) NOT NULL DEFAULT 0,
     saves            INT NOT NULL DEFAULT 0,

@@ -34,7 +34,8 @@ class StatisticRepository extends Repository
         $row = $this->fetchOne(
             'SELECT COUNT(*) matches, SUM(minutes) minutes, SUM(goals) goals, SUM(assists) assists,
                     SUM(shots) shots, SUM(shots_on_target) shots_on_target, SUM(passes) passes,
-                    SUM(duels_won) duels_won, SUM(yellow_cards) yellow_cards, SUM(red_card) red_cards,
+                    SUM(duels_won) duels_won, SUM(interceptions) interceptions,
+                    SUM(yellow_cards) yellow_cards, SUM(red_card) red_cards,
                     SUM(saves) saves, SUM(goals_conceded) goals_conceded, SUM(xg) xg, SUM(xag) xag,
                     AVG(rating) rating
              FROM player_match_stats
@@ -51,6 +52,7 @@ class StatisticRepository extends Repository
             'shotsOnTarget'  => (int) ($row['shots_on_target'] ?? 0),
             'passes'         => (int) ($row['passes'] ?? 0),
             'duelsWon'       => (int) ($row['duels_won'] ?? 0),
+            'interceptions'  => (int) ($row['interceptions'] ?? 0),
             'yellowCards'    => (int) ($row['yellow_cards'] ?? 0),
             'redCards'       => (int) ($row['red_cards'] ?? 0),
             'saves'          => (int) ($row['saves'] ?? 0),

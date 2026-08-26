@@ -82,6 +82,7 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
       ['name' => 'Ligue 1', 'stat' => $totalPoints . ' pts · ' . $record['wins'] . '-' . $record['draws'] . '-' . $record['losses']],
       ['name' => 'Coupe de France', 'stat' => 'doublé national'],
       ['name' => 'Trophée des Champions', 'stat' => 'supercoupe de France'],
+      ['name' => 'Coupe Intercontinentale', 'stat' => '2-1 tab · Flamengo'],
   ];
   require BASE_PATH . '/php/views/partials/hero.php';
   ?>

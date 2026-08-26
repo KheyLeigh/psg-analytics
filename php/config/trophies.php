@@ -10,4 +10,5 @@ return [
     'l1'  => ['cameraOrbit' => '0deg 80deg 100%', 'exposure' => '1.05'],
     'cdf' => ['cameraOrbit' => '0deg 78deg 100%', 'exposure' => '1.0'],
     'tdc' => ['cameraOrbit' => '0deg 80deg 100%', 'exposure' => '1.0'],
+    'ic'  => ['cameraOrbit' => '0deg 80deg 100%', 'exposure' => '1.0'],
 ];

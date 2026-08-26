@@ -13,6 +13,7 @@ $trophies = [
     ['name' => 'Ligue 1', 'stat' => '76 points · 24-4-6'],
     ['name' => 'Coupe de France', 'stat' => 'doublé national'],
     ['name' => 'Trophée des Champions', 'stat' => 'supercoupe de France'],
+    ['name' => 'Coupe Intercontinentale', 'stat' => '2-1 tab · Flamengo'],
 ];
 
 $kpis = [
@@ -59,7 +60,7 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
   </div>
 
   <?php
-  $heroEyebrow = 'Paris Saint-Germain · Saison à quatre trophées';
+  $heroEyebrow = 'Paris Saint-Germain · Saison à cinq trophées';
   $heroTitle = "Les titres, chiffres à l'appui";
   $heroYear = '25·26';
   require BASE_PATH . '/php/views/partials/hero.php';

@@ -16,6 +16,7 @@ $trophies = [
     ['name' => 'Ligue 1', 'stat' => $totalPoints . ' pts · ' . $record['wins'] . '-' . $record['draws'] . '-' . $record['losses']],
     ['name' => 'Coupe de France', 'stat' => 'doublé national'],
     ['name' => 'Trophée des Champions', 'stat' => 'supercoupe de France'],
+    ['name' => 'Coupe Intercontinentale', 'stat' => '2-1 tab · Flamengo'],
 ];
 
 // Chiffres phares de la saison : quelques totaux vérifiés en très gros, badges à
@@ -70,7 +71,7 @@ $formTitles = ['W' => 'Victoire', 'D' => 'Nul', 'L' => 'Défaite'];
 <div class="stack section">
   <?php
   $heroEyebrow = 'Paris Saint-Germain · Saison 2025-26';
-  $heroTitle = 'Une saison, quatre trophées';
+  $heroTitle = 'Une saison, cinq trophées';
   $heroYear = '25·26';
   require BASE_PATH . '/php/views/partials/hero.php';
   ?>

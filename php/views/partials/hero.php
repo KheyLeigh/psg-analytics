@@ -19,10 +19,11 @@ $heroYear = $heroYear ?? '25·26';
 // Type de coupe 3D par compétition (mappe le nom vers le modèle WebGL de trophy3d.js).
 // Robuste a l'ordre des cartes ; repli 'ucl' si un nom inattendu apparait.
 $trophyKey = [
-    'Ligue des Champions'   => 'ucl',
-    'Ligue 1'               => 'l1',
-    'Coupe de France'       => 'cdf',
-    'Trophée des Champions' => 'tdc',
+    'Ligue des Champions'     => 'ucl',
+    'Ligue 1'                 => 'l1',
+    'Coupe de France'         => 'cdf',
+    'Trophée des Champions'   => 'tdc',
+    'Coupe Intercontinentale' => 'ic',
 ];
 
 // Rendu 3D par asset : si un GLB existe pour une compétition, la carte le rend en PBR

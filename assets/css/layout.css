@@ -204,7 +204,7 @@
 /* Vitrine : un rectangle or par trophée gagné. */
 .hero__cabinet {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: var(--space-4);
   margin: var(--space-6) 0 0;
 }

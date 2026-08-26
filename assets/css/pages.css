@@ -535,6 +535,38 @@
 
 .roster-row__name {
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  color: var(--text);
+}
+
+/* Chevron d'accent, visible au repos : signale que le nom est un lien vers la fiche
+   du joueur (plus de stats). Distingue l'action "ouvrir la fiche" de la sélection au
+   comparateur (clic sur le reste de la ligne / bouton Comparer). */
+.roster-row__name::after {
+  content: "\203A";
+  color: var(--red);
+  font-weight: 800;
+  font-size: 1.15em;
+  line-height: 1;
+  transition: transform .15s ease;
+}
+
+.roster-row__name:hover,
+.roster-row__name:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+}
+
+.roster-row__name:hover::after {
+  transform: translateX(2px);
+}
+
+.roster-row:hover td {
+  background: color-mix(in srgb, var(--text) 5%, transparent);
 }
 
 .roster-row__cmp {

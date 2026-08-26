@@ -90,6 +90,10 @@ $trophySvg = '<svg viewBox="0 0 64 96" width="76" height="96" xmlns="http://www.
     <?php if ($anyGlb): ?>
       <script type="module" src="/assets/js/vendor/model-viewer.min.js"></script>
     <?php endif; ?>
-    <p class="hero__note">Coupes stylisées en 3D : une représentation générique, pas les trophées officiels.</p>
+    <?php if ($anyGlb): ?>
+      <p class="hero__note">Modèles 3D réalisés par des créateurs tiers (licence CC-BY, crédits en <a href="/methodologie">Méthodologie</a>) ; pas des assets officiels. Une compétition reste en coupe stylisée générique faute de modèle disponible.</p>
+    <?php else: ?>
+      <p class="hero__note">Coupes stylisées en 3D : une représentation générique, pas les trophées officiels.</p>
+    <?php endif; ?>
   </div>
 </section>

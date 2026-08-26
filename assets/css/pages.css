@@ -760,6 +760,61 @@
   place-items: center;
 }
 
+/* Face à face chiffré sous le radar : valeurs brutes A (rouge) / B (bleu) par axe,
+   barre de proportion A vs B au centre, meneur mis en avant dans sa couleur de rôle. */
+.cmp-stats {
+  list-style: none;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.cmp-stats:empty {
+  display: none;
+}
+.cmp-stats__row {
+  display: grid;
+  grid-template-columns: 4rem 1fr 4rem;
+  align-items: center;
+  gap: var(--space-4);
+}
+.cmp-stats__val {
+  font-family: var(--num);
+  font-style: italic;
+  font-weight: 700;
+  font-size: var(--text-xl);
+  line-height: 1;
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+}
+.cmp-stats__val--a { text-align: right; }
+.cmp-stats__val--b { text-align: left; }
+.cmp-stats__val--a.is-lead { color: var(--red-text); }
+.cmp-stats__val--b.is-lead { color: var(--blue-text); }
+.cmp-stats__mid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.cmp-stats__label {
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.cmp-stats__bar {
+  display: flex;
+  height: 6px;
+  border-radius: var(--r-pill);
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.cmp-stats__bar-a { background: var(--red); }
+.cmp-stats__bar-b { background: var(--blue); }
+
 @media (prefers-reduced-motion: no-preference) {
   .compare__canvas.is-in {
     animation: compare-fade .4s ease both;

@@ -27,8 +27,21 @@ function num(value) {
   return Number.isFinite(n) ? n : 0;
 }
 
+// Formate une valeur brute selon l'axe : note à deux décimales (virgule FR),
+// minutes avec séparateur de milliers FR, le reste en entier.
+function fmtValue(key, value) {
+  if (key === 'rating') {
+    return value.toFixed(2).replace('.', ',');
+  }
+  if (key === 'minutes') {
+    return Math.round(value).toLocaleString('fr-FR');
+  }
+  return String(Math.round(value));
+}
+
 export function initCompare() {
   const canvas = document.querySelector('#compare-radar');
+  const stats = document.querySelector('#compare-stats');
   const slotA = document.querySelector('#cmp-slot-a');
   const slotB = document.querySelector('#cmp-slot-b');
   const hint = document.querySelector('#compare-hint');
@@ -128,6 +141,57 @@ export function initCompare() {
     p.className = 'chart-fallback';
     p.textContent = message;
     canvas.appendChild(p);
+    if (stats) {
+      stats.textContent = '';
+    }
+  }
+
+  // Face à face chiffré : une ligne par axe, valeur brute de A (rouge) et de B (bleu),
+  // barre de proportion A/B au centre, meneur mis en avant. Complète le radar (forme)
+  // par l'écart exact, plus parlant. Construit en DOM (pas d'innerHTML).
+  function renderStats(data, axes, labels) {
+    if (!stats) {
+      return;
+    }
+    stats.textContent = '';
+    axes.forEach((key, i) => {
+      const va = num(data.a.totals ? data.a.totals[key] : 0);
+      const vb = num(data.b.totals ? data.b.totals[key] : 0);
+      const total = va + vb;
+      const pctA = total > 0 ? (va / total) * 100 : 0;
+      const pctB = total > 0 ? (vb / total) * 100 : 0;
+
+      const valA = document.createElement('span');
+      valA.className = 'cmp-stats__val cmp-stats__val--a' + (va > vb ? ' is-lead' : '');
+      valA.textContent = fmtValue(key, va);
+
+      const label = document.createElement('span');
+      label.className = 'cmp-stats__label';
+      label.textContent = labels[i];
+
+      const barA = document.createElement('span');
+      barA.className = 'cmp-stats__bar-a';
+      barA.style.width = pctA.toFixed(1) + '%';
+      const barB = document.createElement('span');
+      barB.className = 'cmp-stats__bar-b';
+      barB.style.width = pctB.toFixed(1) + '%';
+      const bar = document.createElement('div');
+      bar.className = 'cmp-stats__bar';
+      bar.append(barA, barB);
+
+      const mid = document.createElement('div');
+      mid.className = 'cmp-stats__mid';
+      mid.append(label, bar);
+
+      const valB = document.createElement('span');
+      valB.className = 'cmp-stats__val cmp-stats__val--b' + (vb > va ? ' is-lead' : '');
+      valB.textContent = fmtValue(key, vb);
+
+      const row = document.createElement('li');
+      row.className = 'cmp-stats__row';
+      row.append(valA, mid, valB);
+      stats.appendChild(row);
+    });
   }
 
   function draw(data) {
@@ -148,6 +212,7 @@ export function initCompare() {
       canvas.classList.add('is-in');
     }
     radar.render(canvas, { axes: labels, series }, { ariaLabel });
+    renderStats(data, axes, labels);
   }
 
   function setHint(text) {

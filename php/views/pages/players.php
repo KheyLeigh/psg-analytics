@@ -203,6 +203,11 @@ $totalPages = (int) $meta['total_pages'];
     <div class="compare__canvas" id="compare-radar">
       <p class="chart-fallback">Le radar de comparaison s'affiche ici une fois deux joueurs sélectionnés (JavaScript activé).</p>
     </div>
+
+    <!-- Face à face chiffré : mêmes axes que le radar, mais en valeurs brutes (totaux
+         saison), pour lire l'écart exact. Rempli par compare.js quand deux joueurs sont
+         sélectionnés ; vide et masqué sinon. -->
+    <ul class="cmp-stats" id="compare-stats" aria-label="Comparaison chiffrée des deux joueurs"></ul>
   </section>
 
 </div>

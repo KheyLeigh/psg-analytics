@@ -76,7 +76,7 @@ $trophySvg = '<svg viewBox="0 0 64 96" width="76" height="96" xmlns="http://www.
                 shadow-intensity="0.5" shadow-softness="1"
                 auto-rotate auto-rotate-delay="0" rotation-per-second="16deg"
                 interaction-prompt="none" camera-controls disable-zoom disable-tap
-                touch-action="pan-y" loading="lazy" reveal="auto"
+                touch-action="pan-y" loading="eager" reveal="auto"
                 aria-hidden="true" alt=""></model-viewer>
               <span class="trophy__spin trophy__spin--fallback" hidden><?= $trophySvg ?></span>
             </div>

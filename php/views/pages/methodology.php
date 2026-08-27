@@ -67,7 +67,7 @@ declare(strict_types=1);
 
   <section class="panel">
     <div class="panel__header"><h2 class="panel__title">Modèles 3D des trophées</h2></div>
-    <p class="mth-note">Les coupes du hero ne sont pas des assets officiels : ce sont des reproductions réalisées par des créateurs indépendants, publiées sous licence Creative Commons Attribution (CC-BY 4.0), qui autorise leur usage ici à condition de créditer l'auteur.</p>
+    <p class="mth-note">Les coupes du hero ne sont pas des assets officiels. Trois sont des reproductions réalisées par des créateurs indépendants, publiées sous licence Creative Commons Attribution (CC-BY 4.0), qui autorise leur usage ici à condition de créditer l'auteur. Les deux autres (aucun modèle libre existant pour ces compétitions) sont reconstruites par IA à partir d'une photo ou d'une illustration libre de droits, sans garantie de fidélité au design officiel.</p>
     <ul class="mth-sources">
       <li class="mth-source">
         <div class="mth-source__head"><span class="mth-source__label">Ligue des Champions</span></div>
@@ -86,7 +86,13 @@ declare(strict_types=1);
       </li>
       <li class="mth-source">
         <div class="mth-source__head"><span class="mth-source__label">Trophée des Champions</span></div>
-        <p class="mth-source__note">Aucun modèle libre trouvé pour cette compétition : la carte reste en coupe stylisée générique, réalisée en interne.</p>
+        <p class="mth-source__note">Aucun modèle 3D libre trouvé pour cette compétition. Reconstruit par IA (Meshy) à partir d'une photo du trophée, licence CC-BY 2.0.</p>
+        <div class="mth-source__meta"><a href="https://commons.wikimedia.org/wiki/File:Troph%C3%A9e_des_champions.jpeg" rel="noopener noreferrer" target="_blank">source en ligne</a></div>
+      </li>
+      <li class="mth-source">
+        <div class="mth-source__head"><span class="mth-source__label">Coupe Intercontinentale</span></div>
+        <p class="mth-source__note">Aucun modèle 3D libre trouvé (compétition créée en 2024). Reconstruit par IA (Meshy) à partir d'une illustration du domaine public.</p>
+        <div class="mth-source__meta"><a href="https://commons.wikimedia.org/wiki/File:Challenger_Cup_FIFA.png" rel="noopener noreferrer" target="_blank">source en ligne</a></div>
       </li>
     </ul>
   </section>

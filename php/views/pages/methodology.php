@@ -67,26 +67,23 @@ declare(strict_types=1);
 
   <section class="panel">
     <div class="panel__header"><h2 class="panel__title">Modèles 3D des trophées</h2></div>
-    <p class="mth-note">Les coupes du hero ne sont pas des assets officiels. Trois sont des reproductions réalisées par des créateurs indépendants, publiées sous licence Creative Commons Attribution (CC-BY 4.0), qui autorise leur usage ici à condition de créditer l'auteur. Les deux autres (aucun modèle libre existant pour ces compétitions) sont reconstruites par IA à partir d'une photo ou d'une illustration libre de droits, sans garantie de fidélité au design officiel.</p>
+    <p class="mth-note">Les coupes du hero ne sont pas des assets officiels : les cinq sont reconstruites par IA (Meshy) à partir d'une photo ou d'une illustration du trophée réel, sans garantie de fidélité totale au design officiel. Aucun modèle 3D existant, libre de droits, n'a été trouvé pour ces cinq compétitions.</p>
     <ul class="mth-sources">
       <li class="mth-source">
         <div class="mth-source__head"><span class="mth-source__label">Ligue des Champions</span></div>
-        <p class="mth-source__note">Modèle par Willy.Menendez, licence CC-BY 4.0.</p>
-        <div class="mth-source__meta"><a href="https://sketchfab.com/3d-models/86-champions-league-trophy-obj-b527493e6cad4ca697c8a53b47398a7e" rel="noopener noreferrer" target="_blank">source en ligne</a></div>
+        <p class="mth-source__note">Reconstruit par IA (Meshy) à partir d'une image de référence.</p>
       </li>
       <li class="mth-source">
         <div class="mth-source__head"><span class="mth-source__label">Ligue 1</span></div>
-        <p class="mth-source__note">Modèle par democraz20, licence CC-BY 4.0.</p>
-        <div class="mth-source__meta"><a href="https://sketchfab.com/3d-models/french-ligue-1-trophy-b969933c11a74f4c9b0cda4d6ea6ee43" rel="noopener noreferrer" target="_blank">source en ligne</a></div>
+        <p class="mth-source__note">Reconstruit par IA (Meshy) à partir d'une image de référence.</p>
       </li>
       <li class="mth-source">
         <div class="mth-source__head"><span class="mth-source__label">Coupe de France</span></div>
-        <p class="mth-source__note">Modèle par zkx.model, licence CC-BY 4.0.</p>
-        <div class="mth-source__meta"><a href="https://sketchfab.com/3d-models/coupe-de-france-714ed40111c34ec0a0efb9fc15ad8cd2" rel="noopener noreferrer" target="_blank">source en ligne</a></div>
+        <p class="mth-source__note">Reconstruit par IA (Meshy) à partir d'une image de référence.</p>
       </li>
       <li class="mth-source">
         <div class="mth-source__head"><span class="mth-source__label">Trophée des Champions</span></div>
-        <p class="mth-source__note">Aucun modèle 3D libre trouvé pour cette compétition. Reconstruit par IA (Meshy) à partir d'une photo du trophée, licence CC-BY 2.0.</p>
+        <p class="mth-source__note">Reconstruit par IA (Meshy) à partir d'une photo du trophée, licence CC-BY 2.0.</p>
         <div class="mth-source__meta"><a href="https://commons.wikimedia.org/wiki/File:Troph%C3%A9e_des_champions.jpeg" rel="noopener noreferrer" target="_blank">source en ligne</a></div>
       </li>
       <li class="mth-source">

@@ -35,4 +35,34 @@ final class MigratorLoopTest extends TestCase
         )->fetchColumn();
         $this->assertSame(24, $n, 'les 24 joueurs sont bien rattachés à la saison 2025-26');
     }
+
+    public function testDeuxiemeSaisonCoexisteSansAlererLaPremiere(): void
+    {
+        $pdo = new PDO('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $reports = run_migration($pdo);
+
+        $this->assertTrue(array_key_exists('2026-27', $reports), 'la clé 2026-27 est présente');
+        $this->assertSame(0, $reports['2026-27']['matches'], 'aucun match encore pour 2026-27');
+        $this->assertSame(0, $reports['2026-27']['players'], 'aucun joueur encore pour 2026-27');
+
+        // 2025-26 reste strictement identique, quelle que soit la présence de 2026-27.
+        $this->assertSame(55, $reports['2025-26']['matches']);
+        $this->assertSame(24, $reports['2025-26']['players']);
+    }
+
+    public function testUneSeuleSaisonEstCourante(): void
+    {
+        $pdo = new PDO('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        run_migration($pdo);
+
+        $n = (int) $pdo->query('SELECT COUNT(*) FROM seasons WHERE is_current = 1')->fetchColumn();
+        $this->assertSame(1, $n, 'exactement une saison courante');
+
+        $label = $pdo->query('SELECT label FROM seasons WHERE is_current = 1')->fetchColumn();
+        $this->assertSame('2026-27', $label, '2026-27 est la saison courante');
+    }
 }

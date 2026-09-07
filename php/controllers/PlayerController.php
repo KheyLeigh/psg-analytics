@@ -33,14 +33,18 @@ final class PlayerController extends Controller
     public function __construct(
         private ?PlayerRepository $players = null,
         private ?StatisticRepository $stats = null,
+        private ?SeasonRepository $seasons = null,
     ) {
         $this->players ??= new PlayerRepository();
         $this->stats ??= new StatisticRepository();
+        $this->seasons ??= new SeasonRepository();
     }
 
     public function index(Request $r, array $params): void
     {
-        $this->render('players', $this->buildViewData($_GET));
+        $slug = Validator::string($r->query('saison', ''), 16);
+        $season = $this->seasons->resolve($slug !== '' ? $slug : null);
+        $this->render('players', $this->buildViewData($_GET, $season));
     }
 
     public function show(Request $r, array $params): void
@@ -68,7 +72,7 @@ final class PlayerController extends Controller
         }
 
         $totals = $this->stats->seasonTotalsByPlayer($id);
-        $max = $this->stats->squadAxisMax();
+        $max = $this->stats->squadAxisMax($player->seasonId);
 
         $axes = [];
         $values = [];
@@ -86,6 +90,7 @@ final class PlayerController extends Controller
             'page'     => 'player_detail',
             'shotmap'  => $this->shotmap($id, $player->fullName()),
             'shotsByComp' => $this->shotsByCompetition($id),
+            'seasons'  => $this->players->seasonsForPerson($player->personId),
             'player'   => [
                 'id'               => $player->id,
                 'number'           => $player->shirtNumber,
@@ -156,7 +161,7 @@ final class PlayerController extends Controller
     // Assemble les données de la page à partir des paramètres de requête, validés par
     // liste blanche. Isolé de index() (aucun rendu ni effet de bord) pour rester
     // testable, à l'image des contrôleurs d'API du projet.
-    public function buildViewData(array $query): array
+    public function buildViewData(array $query, Season $season): array
     {
         $page = Validator::int($query['page'] ?? 1, 1, 9999, 1);
         $perPage = Validator::int($query['per_page'] ?? self::PER_PAGE, 1, 50, self::PER_PAGE);
@@ -169,7 +174,7 @@ final class PlayerController extends Controller
             ? (Validator::inList($query['position'], self::POSITIONS, '') ?: null)
             : null;
 
-        $res = $this->players->paginate($page, $perPage, $sort, $order, $position);
+        $res = $this->players->paginate($season->id, $page, $perPage, $sort, $order, $position);
         // Mêmes champs d'identité que /api/players : id, numéro, nom, poste, nationalité.
         $items = array_map(static fn (Player $p): array => [
             'id' => $p->id,
@@ -201,6 +206,6 @@ final class PlayerController extends Controller
             'order'     => $order,
             'position'  => $position,
             'positions' => self::POSITIONS,
-        ];
+        ] + $this->seasons->navData($season);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 // Vérifie l'assemblage des données de l'Accueil (buildViewData), isolé du rendu :
 // total de points lu du cumul, forme remise dans l'ordre chronologique, top buteurs
-// mis au format compact avec le meilleur total pour l'échelle des jauges.
+// mis au format compact, et navigation de saison exposée pour le header.
 final class HomeControllerTest extends TestCase
 {
     private function makePlayer(int $id, string $first, string $last): Player
@@ -46,7 +46,6 @@ final class HomeControllerTest extends TestCase
             }
             public function recentDetailed(int $seasonId, int $psgTeamId, int $limit): array
             {
-                // Du plus récent au plus ancien, comme la vraie requête (ORDER BY DESC).
                 return [
                     ['competition' => 'Ligue 1', 'opponent' => 'Nice', 'home' => true, 'goalsFor' => 3, 'goalsAgainst' => 0, 'result' => 'W'],
                     ['competition' => 'Ligue 1', 'opponent' => 'Lens', 'home' => false, 'goalsFor' => 1, 'goalsAgainst' => 1, 'result' => 'D'],
@@ -59,37 +58,51 @@ final class HomeControllerTest extends TestCase
             public function leagueId(): ?int { return 1; }
         };
 
-        // TeamRepository est final (pas de doublure par héritage) : on l'adosse à un
-        // PDO en mémoire portant une table teams minimale pour résoudre psgId().
         $pdo = new PDO('sqlite::memory:');
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         $pdo->exec('CREATE TABLE teams (id INTEGER PRIMARY KEY, is_psg INTEGER)');
         $pdo->exec('INSERT INTO teams (id, is_psg) VALUES (1, 1)');
         $teams = new TeamRepository($pdo);
 
-        return new HomeController($stats, $matches, $comps, $teams);
+        $seasonsPdo = new PDO('sqlite::memory:');
+        $seasonsPdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $seasonsPdo->exec('CREATE TABLE seasons (id INTEGER PRIMARY KEY, label TEXT, start_date TEXT, end_date TEXT, is_current INT)');
+        $seasonsPdo->exec("INSERT INTO seasons VALUES (1,'2025-26','2025-07-01','2026-06-30',1)");
+        $seasons = new SeasonRepository($seasonsPdo);
+
+        return new HomeController($stats, $matches, $comps, $teams, $seasons);
+    }
+
+    private function saison(): Season
+    {
+        return new Season(1, '2025-26', '2025-07-01', '2026-06-30', true);
     }
 
     public function testTotalPointsVientDuCumul(): void
     {
-        $data = $this->controller()->buildViewData();
+        $data = $this->controller()->buildViewData($this->saison());
         $this->assertSame(76, $data['totalPoints']);
         $this->assertSame('home', $data['page']);
     }
 
     public function testFormeRemiseDansLordreChronologique(): void
     {
-        $data = $this->controller()->buildViewData();
-        // recentDetailed renvoie du plus récent au plus ancien : la forme est inversée.
+        $data = $this->controller()->buildViewData($this->saison());
         $this->assertSame(['W', 'D', 'W'], $data['form']);
     }
 
     public function testTopButeursCompactsAvecMeilleurTotal(): void
     {
-        $data = $this->controller()->buildViewData();
+        $data = $this->controller()->buildViewData($this->saison());
         $this->assertSame(21, $data['topGoals']);
         $this->assertSame('Dembélé', $data['topScorers'][0]['name']);
         $this->assertSame('Bradley', $data['topScorers'][1]['first']);
         $this->assertSame(13, $data['topScorers'][1]['goals']);
+    }
+
+    public function testExposeLaNavigationDeSaison(): void
+    {
+        $data = $this->controller()->buildViewData($this->saison());
+        $this->assertSame('2025-26', $data['selectedSeason']);
     }
 }

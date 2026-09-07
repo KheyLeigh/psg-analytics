@@ -24,7 +24,7 @@ final class MatchControllerTest extends TestCase
             public array $seen = [];
             public array $rows = [];
             public ?array $findRow = null;
-            public function paginate(int $page, int $perPage, ?int $competitionId, ?string $result, int $psgTeamId): array
+            public function paginate(int $seasonId, int $page, int $perPage, ?int $competitionId, ?string $result, int $psgTeamId): array
             {
                 $this->seen = compact('page', 'perPage', 'competitionId', 'result', 'psgTeamId');
                 return ['items' => array_map(static fn (array $r): MatchGame => MatchGame::fromRow($r), $this->rows), 'total' => count($this->rows)];

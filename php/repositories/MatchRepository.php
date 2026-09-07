@@ -18,10 +18,10 @@ class MatchRepository extends Repository
         );
     }
 
-    public function paginate(int $page, int $perPage, ?int $competitionId, ?string $result, int $psgTeamId): array
+    public function paginate(int $seasonId, int $page, int $perPage, ?int $competitionId, ?string $result, int $psgTeamId): array
     {
-        [$conditions, $params] = $this->buildFilters($competitionId, $result, $psgTeamId);
-        $where = $conditions !== [] ? 'WHERE ' . implode(' AND ', $conditions) : '';
+        [$conditions, $params] = $this->buildFilters($seasonId, $competitionId, $result, $psgTeamId);
+        $where = 'WHERE ' . implode(' AND ', $conditions);
 
         $total = (int) $this->fetchOne("SELECT COUNT(*) c FROM matches {$where}", $params)['c'];
         $offset = ($page - 1) * $perPage;
@@ -32,9 +32,9 @@ class MatchRepository extends Repository
         return ['items' => array_map(MatchGame::fromRow(...), $rows), 'total' => $total];
     }
 
-    // Bilan de PSG pour une compétition donnée en une requête portable : V/N/D, buts,
-    // clean sheets, possession moyenne (NULL si non renseignée dans les données sources).
-    public function seasonRecord(int $psgTeamId, int $competitionId): array
+    // Bilan de PSG pour une saison et une compétition données, en une requête
+    // portable : V/N/D, buts, clean sheets, possession moyenne.
+    public function seasonRecord(int $seasonId, int $psgTeamId, int $competitionId): array
     {
         $row = $this->fetchOne(
             "SELECT
@@ -56,11 +56,11 @@ class MatchRepository extends Repository
                 COALESCE(AVG(m.psg_possession), 0) avg_possession,
                 COUNT(*) played
              FROM matches m
-             WHERE m.competition_id = :comp AND (m.home_team_id = :psg9 OR m.away_team_id = :psg10)",
+             WHERE m.season_id = :season AND m.competition_id = :comp AND (m.home_team_id = :psg9 OR m.away_team_id = :psg10)",
             [
                 'psg1' => $psgTeamId, 'psg2' => $psgTeamId, 'psg3' => $psgTeamId, 'psg4' => $psgTeamId,
                 'psg5' => $psgTeamId, 'psg6' => $psgTeamId, 'psg7' => $psgTeamId, 'psg8' => $psgTeamId,
-                'psg9' => $psgTeamId, 'psg10' => $psgTeamId, 'comp' => $competitionId,
+                'psg9' => $psgTeamId, 'psg10' => $psgTeamId, 'comp' => $competitionId, 'season' => $seasonId,
             ]
         ) ?? [];
 
@@ -79,14 +79,14 @@ class MatchRepository extends Repository
     // Série des points de championnat cumulés journée par journée, du point de vue
     // PSG. La courbe de progression n'a pas d'endpoint : on l'ordonne ici (par date
     // puis identifiant) et le cumul pur est délégué à accumulatePoints (testable).
-    public function cumulativePoints(int $psgTeamId, int $competitionId): array
+    public function cumulativePoints(int $seasonId, int $psgTeamId, int $competitionId): array
     {
         $rows = $this->fetchAll(
             'SELECT round_label, home_team_id, away_team_id, home_goals, away_goals
              FROM matches
-             WHERE competition_id = :comp AND (home_team_id = :psg1 OR away_team_id = :psg2)
+             WHERE season_id = :season AND competition_id = :comp AND (home_team_id = :psg1 OR away_team_id = :psg2)
              ORDER BY played_at ASC, id ASC',
-            ['comp' => $competitionId, 'psg1' => $psgTeamId, 'psg2' => $psgTeamId]
+            ['season' => $seasonId, 'comp' => $competitionId, 'psg1' => $psgTeamId, 'psg2' => $psgTeamId]
         );
         return self::accumulatePoints($rows, $psgTeamId);
     }
@@ -126,13 +126,8 @@ class MatchRepository extends Repository
     // nom de compétition, adversaire, domicile, buts et résultat du point de vue PSG.
     // Filtré sur PSG (domicile OU extérieur) : la table ne contient aujourd'hui que des
     // matchs PSG, mais rien ne défendait cette invariance côté requête sans cette clause.
-    public function recentDetailed(int $psgTeamId, int $limit): array
+    public function recentDetailed(int $seasonId, int $psgTeamId, int $limit): array
     {
-        // LIMIT reste interpolé, comme recent()/paginate() dans ce fichier : fetchAll() lie
-        // tous les paramètres du tableau via PDOStatement::execute(), qui les traite en
-        // PDO::PARAM_STR et casserait LIMIT sur un pilote en préparation native. $limit est
-        // déjà typé int par la signature (strict_types=1) ; le cast explicite ci-dessous est
-        // une défense supplémentaire, sans rien changer au style existant du fichier.
         $rows = $this->fetchAll(
             "SELECT m.home_team_id, m.away_team_id, m.home_goals, m.away_goals,
                     c.name comp_name, ht.name home_name, at.name away_name
@@ -140,10 +135,10 @@ class MatchRepository extends Repository
              JOIN teams ht ON ht.id = m.home_team_id
              JOIN teams at ON at.id = m.away_team_id
              JOIN competitions c ON c.id = m.competition_id
-             WHERE (m.home_team_id = :psg1 OR m.away_team_id = :psg2)
+             WHERE m.season_id = :season AND (m.home_team_id = :psg1 OR m.away_team_id = :psg2)
              ORDER BY m.played_at DESC, m.id DESC
              LIMIT " . (int) $limit,
-            ['psg1' => $psgTeamId, 'psg2' => $psgTeamId]
+            ['season' => $seasonId, 'psg1' => $psgTeamId, 'psg2' => $psgTeamId]
         );
         return array_map(static function (array $r) use ($psgTeamId): array {
             $home = (int) $r['home_team_id'] === $psgTeamId;
@@ -161,10 +156,10 @@ class MatchRepository extends Repository
         }, $rows);
     }
 
-    private function buildFilters(?int $competitionId, ?string $result, int $psgTeamId): array
+    private function buildFilters(int $seasonId, ?int $competitionId, ?string $result, int $psgTeamId): array
     {
-        $conditions = [];
-        $params = [];
+        $conditions = ['season_id = :season'];
+        $params = ['season' => $seasonId];
         if ($competitionId !== null) {
             $conditions[] = 'competition_id = :competition';
             $params['competition'] = $competitionId;

@@ -17,7 +17,7 @@ final class MatchApiControllerTest extends TestCase
     public function testBuildIndexEnveloppeLaPagination(): void
     {
         $repo = new class(new PDO('sqlite::memory:')) extends MatchRepository {
-            public function paginate(int $page, int $perPage, ?int $c, ?string $r, int $psg): array {
+            public function paginate(int $seasonId, int $page, int $perPage, ?int $c, ?string $r, int $psg): array {
                 return ['items' => [MatchGame::fromRow(['id'=>1,'season_id'=>1,'competition_id'=>1,'round_label'=>'J1','played_at'=>'2025-08-16','home_team_id'=>1,'away_team_id'=>2,'home_goals'=>2,'away_goals'=>1,'went_to_extra'=>0,'penalty_shootout'=>0,'penalty_score'=>null,'attendance'=>45000,'psg_possession'=>61.5,'psg_shots'=>14,'psg_shots_on_target'=>6,'source_id'=>1])], 'total' => 34];
             }
         };

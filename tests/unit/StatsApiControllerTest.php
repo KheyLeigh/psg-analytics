@@ -35,7 +35,7 @@ final class StatsApiControllerTest extends TestCase
             }
         };
         $matches = new class(new PDO('sqlite::memory:')) extends MatchRepository {
-            public function seasonRecord(int $psgTeamId, int $competitionId): array {
+            public function seasonRecord(int $seasonId, int $psgTeamId, int $competitionId): array {
                 return ['wins'=>24,'draws'=>4,'losses'=>6,'goals_for'=>74,'goals_against'=>29,'clean_sheets'=>15,'avg_possession'=>63.2,'played'=>34];
             }
         };

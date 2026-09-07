@@ -17,16 +17,16 @@ function migrator_shuffle_tokens(array $items): array
     return $items;
 }
 
-// Résout les totaux saison L1 vérifiés FBref (verified/players_l1_fbref.php)
+// Résout les totaux saison L1 vérifiés FBref (verified/{clé}/players_l1_fbref.php)
 // vers les identifiants joueurs réels, indexés par player_id.
-function migrator_l1_totals(array $players): array
+function migrator_l1_totals(array $players, string $file): array
 {
     $idByKey = [];
     foreach ($players as $p) {
         $idByKey[$p['key']] = $p['id'];
     }
     $totals = [];
-    foreach (require __DIR__ . '/verified/2025-26/players_l1_fbref.php' as $key => $data) {
+    foreach (require $file as $key => $data) {
         if (!isset($idByKey[$key])) {
             throw new RuntimeException("statistiques L1 fbref : joueur introuvable pour la clé {$key}");
         }
@@ -232,9 +232,16 @@ function migrator_insert_stats(PDOStatement $stmt, StatGenerator $gen, array $ag
 
 // Orchestre la génération des player_match_stats : totaux exacts, affectation
 // des buts/passes/cartons aux matchs, complément d'apparitions, puis
-// insertion d'une ligne par (joueur, match).
-function migrator_generate_player_stats(PDO $pdo, array $matches, array $players, array $ref): void
+// insertion d'une ligne par (joueur, match). Ne génère rien si la saison n'a
+// pas encore de totaux vérifiés (players_l1_fbref.php absent) ou pas de matchs :
+// aucune statistique individuelle n'est jamais fabriquée sans total vérifié.
+function migrator_generate_player_stats(PDO $pdo, array $matches, array $players, array $ref, string $seasonKey): void
 {
+    $totalsFile = __DIR__ . "/verified/{$seasonKey}/players_l1_fbref.php";
+    if (!is_file($totalsFile) || $matches === [] || $players === []) {
+        return;
+    }
+
     $gen = new StatGenerator(2026);
     $sourceId = $ref['source_ids']['stat_generator'];
     $stmt = $pdo->prepare(
@@ -242,7 +249,7 @@ function migrator_generate_player_stats(PDO $pdo, array $matches, array $players
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
 
-    $totals = migrator_l1_totals($players);
+    $totals = migrator_l1_totals($players, $totalsFile);
     $goalTotals = array_map(static fn (array $t): int => $t['goals'], $totals);
     $assistTotals = array_map(static fn (array $t): int => $t['assists'], $totals);
 
@@ -254,5 +261,6 @@ function migrator_generate_player_stats(PDO $pdo, array $matches, array $players
     migrator_insert_stats($stmt, $gen, $agg, $totals, $sourceId);
 }
 
-// migrator_compute_report() et migrator_verify_identities() vivent dans
-// Migrator.php (rapport final et garde-fou d'identité, pas génération).
+// migrator_compute_report(), migrator_verify_generic() et
+// migrator_verify_fixed_totals() vivent dans Migrator.php (rapport final et
+// garde-fous d'intégrité, pas génération).

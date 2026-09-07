@@ -1,0 +1,38 @@
+<?php
+declare(strict_types=1);
+require_once dirname(__DIR__, 1) . '/../database/migrate.php';
+
+// Vérifie que run_migration() traite chaque saison déclarée et renvoie un
+// rapport indexé par clé de saison, sans mélanger les identifiants entre saisons.
+final class MigratorLoopTest extends TestCase
+{
+    private function migratedPdo(): PDO
+    {
+        $pdo = new PDO('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        run_migration($pdo);
+        return $pdo;
+    }
+
+    public function testRunMigrationRenvoieUnRapportParCleDeSaison(): void
+    {
+        $pdo = new PDO('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $reports = run_migration($pdo);
+
+        $this->assertTrue(array_key_exists('2025-26', $reports), 'la clé 2025-26 est présente');
+        $this->assertSame(55, $reports['2025-26']['matches']);
+        $this->assertSame(24, $reports['2025-26']['players']);
+    }
+
+    public function testChaqueJoueurAUnSeasonIdCoherentAvecSaSaison(): void
+    {
+        $pdo = $this->migratedPdo();
+        $n = (int) $pdo->query(
+            'SELECT COUNT(*) FROM players p JOIN seasons s ON s.id = p.season_id WHERE s.label = "2025-26"'
+        )->fetchColumn();
+        $this->assertSame(24, $n, 'les 24 joueurs sont bien rattachés à la saison 2025-26');
+    }
+}

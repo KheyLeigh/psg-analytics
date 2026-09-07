@@ -9,23 +9,19 @@ require_once __DIR__ . '/seeds/StatGenerator.php';
 require_once __DIR__ . '/seeds/Migrator.php';
 require_once __DIR__ . '/seeds/MigratorStats.php';
 
-// Point d'entrée réutilisable par les tests et par le mode CLI.
+// Point d'entrée réutilisable par les tests et par le mode CLI. Renvoie un
+// rapport indexé par clé de saison (ex. '2025-26' => [...]).
 function run_migration(PDO $pdo): array
 {
     migrator_apply_schema($pdo);
-    $ref = migrator_seed_reference($pdo);
-    $players = migrator_seed_players($pdo, $ref['season_id']);
-    $matches = migrator_seed_matches($pdo, $ref);
-    migrator_seed_other_matches($pdo, $ref);
-    migrator_generate_player_stats($pdo, $matches, $players, $ref);
-    migrator_seed_player_season($pdo, $players, $ref);
+    $catalog = migrator_seed_catalog($pdo);
+    $seasons = migrator_seed_seasons($pdo);
 
-    $psgId = $ref['psg_id'];
-    $leagueCompId = $ref['competition_ids']['ligue1'];
-    $report = migrator_compute_report($pdo, $ref['season_id'], $psgId, $leagueCompId);
-    migrator_verify_generic($pdo, $ref['season_id']);
-    migrator_verify_fixed_totals('2025-26', $report);
-    return $report;
+    $reports = [];
+    foreach ($seasons as $season) {
+        $reports[$season['key']] = migrator_seed_season($pdo, $season, $catalog);
+    }
+    return $reports;
 }
 
 // Mode CLI : recrée database/psg.sqlite depuis zéro et affiche le rapport.
@@ -40,20 +36,23 @@ if (PHP_SAPI === 'cli' && realpath($_SERVER['argv'][0] ?? '') === __FILE__) {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
     try {
-        $report = run_migration($pdo);
+        $reports = run_migration($pdo);
     } catch (RuntimeException $e) {
         fwrite(STDERR, "ÉCHEC migration : {$e->getMessage()}\n");
         exit(1);
     }
 
-    printf(
-        "matches: %d, players: %d, L1: %dV %dN %dD (%d-%d) OK\n",
-        $report['matches'],
-        $report['players'],
-        $report['l1_wins'],
-        $report['l1_draws'],
-        $report['l1_losses'],
-        $report['l1_goals_for'],
-        $report['l1_goals_against']
-    );
+    foreach ($reports as $seasonKey => $report) {
+        printf(
+            "%s : matches %d, players %d, L1 %dV %dN %dD (%d-%d)\n",
+            $seasonKey,
+            $report['matches'],
+            $report['players'],
+            $report['l1_wins'],
+            $report['l1_draws'],
+            $report['l1_losses'],
+            $report['l1_goals_for'],
+            $report['l1_goals_against']
+        );
+    }
 }

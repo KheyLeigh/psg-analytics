@@ -20,15 +20,10 @@ function migrator_player_key(string $firstName, string $lastName): string
     return $lastName !== '' ? $lastName : $firstName;
 }
 
-// Insère saison, équipes, compétitions et sources ; renvoie les identifiants
-// nécessaires aux étapes suivantes.
-function migrator_seed_reference(PDO $pdo): array
+// Insère teams, competitions et sources (catalogues partagés entre saisons) ;
+// renvoie les identifiants nécessaires au peuplement de chaque saison.
+function migrator_seed_catalog(PDO $pdo): array
 {
-    $season = (require __DIR__ . '/verified/seasons.php')[0];
-    $stmt = $pdo->prepare('INSERT INTO seasons (label, start_date, end_date, is_current) VALUES (?, ?, ?, ?)');
-    $stmt->execute([$season['label'], $season['start_date'], $season['end_date'], (int) $season['is_current']]);
-    $seasonId = (int) $pdo->lastInsertId();
-
     $teamIds = [];
     $psgId = null;
     $stmt = $pdo->prepare('INSERT INTO teams (name, short_name, country, is_psg) VALUES (?, ?, ?, ?)');
@@ -56,7 +51,6 @@ function migrator_seed_reference(PDO $pdo): array
     }
 
     return [
-        'season_id' => $seasonId,
         'team_ids' => $teamIds,
         'psg_id' => $psgId,
         'competition_ids' => $competitionIds,
@@ -64,16 +58,49 @@ function migrator_seed_reference(PDO $pdo): array
     ];
 }
 
+// Insère chaque saison déclarée dans verified/seasons.php ; renvoie la liste dans
+// l'ordre du fichier, avec l'id inséré et la clé (nom du sous-dossier verified/{clé}/).
+function migrator_seed_seasons(PDO $pdo): array
+{
+    $stmt = $pdo->prepare('INSERT INTO seasons (label, start_date, end_date, is_current) VALUES (?, ?, ?, ?)');
+    $seasons = [];
+    foreach (require __DIR__ . '/verified/seasons.php' as $season) {
+        $stmt->execute([$season['label'], $season['start_date'], $season['end_date'], (int) $season['is_current']]);
+        $seasons[] = ['id' => (int) $pdo->lastInsertId(), 'key' => $season['key'], 'is_current' => $season['is_current']];
+    }
+    return $seasons;
+}
+
+// Peuple une saison (joueurs, matchs, statistiques) à partir de verified/{clé}/ et
+// calcule son rapport, garde-fous compris.
+function migrator_seed_season(PDO $pdo, array $season, array $catalog): array
+{
+    $seasonId = $season['id'];
+    $seasonKey = $season['key'];
+    $ref = $catalog + ['season_id' => $seasonId];
+
+    $players = migrator_seed_players($pdo, $seasonId, $seasonKey);
+    $matches = migrator_seed_matches($pdo, $ref, $seasonKey);
+    migrator_seed_other_matches($pdo, $ref, $seasonKey);
+    migrator_generate_player_stats($pdo, $matches, $players, $ref, $seasonKey);
+    migrator_seed_player_season($pdo, $players, $ref, $seasonKey);
+
+    $report = migrator_compute_report($pdo, $seasonId, $catalog['psg_id'], $catalog['competition_ids']['ligue1']);
+    migrator_verify_generic($pdo, $seasonId);
+    migrator_verify_fixed_totals($seasonKey, $report);
+    return $report;
+}
+
 // Insère les 24 joueurs, résout leur people.id par nom/prénom (crée si absent),
 // et renvoie leur identifiant, clé de résolution et poste.
-function migrator_seed_players(PDO $pdo, int $seasonId): array
+function migrator_seed_players(PDO $pdo, int $seasonId, string $seasonKey): array
 {
     $stmt = $pdo->prepare(
         'INSERT INTO players (season_id, person_id, shirt_number, first_name, last_name, position, detailed_position, nationality, is_captain)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
     $players = [];
-    foreach (require __DIR__ . '/verified/2025-26/players.php' as [$num, $first, $last, $pos, $detailed, $nat, $captain]) {
+    foreach (require __DIR__ . "/verified/{$seasonKey}/players.php" as [$num, $first, $last, $pos, $detailed, $nat, $captain]) {
         $personId = migrator_resolve_person($pdo, $first, $last);
         $stmt->execute([$seasonId, $personId, $num, $first, $last, $pos, $detailed, $nat, (int) $captain]);
         $id = (int) $pdo->lastInsertId();
@@ -100,8 +127,12 @@ function migrator_resolve_person(PDO $pdo, string $firstName, string $lastName):
 // Insère le bilan de saison vérifié (toutes compétitions) des joueurs de champ.
 // Les joueurs absents du fichier (gardiens) n'ont pas de ligne : donnée non
 // disponible, jamais fabriquée.
-function migrator_seed_player_season(PDO $pdo, array $players, array $ref): void
+function migrator_seed_player_season(PDO $pdo, array $players, array $ref, string $seasonKey): void
 {
+    $file = __DIR__ . "/verified/{$seasonKey}/player_season.php";
+    if (!is_file($file)) {
+        return;
+    }
     $idByShirt = [];
     foreach ($players as $p) {
         $idByShirt[$p['shirt']] = $p['id'];
@@ -112,7 +143,7 @@ function migrator_seed_player_season(PDO $pdo, array $players, array $ref): void
         'INSERT INTO player_season_stats (player_id, season_id, appearances, starts, goals, assists, yellow_cards, red_cards, source_id)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
-    foreach (require __DIR__ . '/verified/2025-26/player_season.php' as [$shirt, $apps, $starts, $goals, $assists, $yellow, $red]) {
+    foreach (require $file as [$shirt, $apps, $starts, $goals, $assists, $yellow, $red]) {
         if (!isset($idByShirt[$shirt])) {
             throw new RuntimeException("bilan saison : joueur au numéro {$shirt} introuvable");
         }
@@ -122,7 +153,7 @@ function migrator_seed_player_season(PDO $pdo, array $players, array $ref): void
 
 // Insère les 34 matchs de Ligue 1 réels (source fbref, verified) et renvoie,
 // pour chacun, les buts PSG servant à la répartition des buts individuels.
-function migrator_seed_matches(PDO $pdo, array $ref): array
+function migrator_seed_matches(PDO $pdo, array $ref, string $seasonKey): array
 {
     $stmt = $pdo->prepare(
         'INSERT INTO matches (season_id, competition_id, round_label, played_at, home_team_id, away_team_id, home_goals, away_goals, venue, attendance, psg_possession, source_id)
@@ -132,7 +163,7 @@ function migrator_seed_matches(PDO $pdo, array $ref): array
     $compId = $ref['competition_ids']['ligue1'];
     $sourceId = $ref['source_ids']['fbref'];
     $matches = [];
-    foreach (require __DIR__ . '/verified/2025-26/matches_l1.php' as [$round, $date, $opponent, $isHome, $psgGoals, $advGoals, $attendance, $possession]) {
+    foreach (require __DIR__ . "/verified/{$seasonKey}/matches_l1.php" as [$round, $date, $opponent, $isHome, $psgGoals, $advGoals, $attendance, $possession]) {
         $oppId = $ref['team_ids'][$opponent];
         [$homeId, $awayId, $homeGoals, $awayGoals] = $isHome
             ? [$psgId, $oppId, $psgGoals, $advGoals]
@@ -147,7 +178,7 @@ function migrator_seed_matches(PDO $pdo, array $ref): array
 // Insère les matchs hors Ligue 1 (Supercoupe UEFA, Ligue des Champions,
 // Trophée des Champions, Coupe de France ; source fbref, verified). Aucun
 // but individuel n'est réparti pour ces matchs (pas de player_match_stats).
-function migrator_seed_other_matches(PDO $pdo, array $ref): void
+function migrator_seed_other_matches(PDO $pdo, array $ref, string $seasonKey): void
 {
     $stmt = $pdo->prepare(
         'INSERT INTO matches (season_id, competition_id, round_label, played_at, home_team_id, away_team_id, home_goals, away_goals, went_to_extra, penalty_shootout, penalty_score, venue, attendance, psg_possession, source_id)
@@ -155,7 +186,7 @@ function migrator_seed_other_matches(PDO $pdo, array $ref): void
     );
     $psgId = $ref['psg_id'];
     $sourceId = $ref['source_ids']['fbref'];
-    foreach (require __DIR__ . '/verified/2025-26/matches_other.php' as [
+    foreach (require __DIR__ . "/verified/{$seasonKey}/matches_other.php" as [
         $compKey, $round, $date, $venue, $opponent, $psgGoals, $advGoals,
         $possession, $attendance, $wentToExtra, $penaltyShootout, $penaltyScore,
     ]) {

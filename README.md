@@ -1,6 +1,6 @@
 # PSG Analytics
 
-Tableau de bord de la saison 2025-2026 du Paris Saint-Germain : dashboard, effectif, matchs et fiches joueurs, adossés à des données réelles et tracées.
+Tableau de bord des saisons du Paris Saint-Germain : dashboard, effectif, matchs et fiches joueurs, adossés à des données réelles et tracées. La saison 2025-26 (terminée, cinq trophées) et la saison 2026-27 (en cours) coexistent, sélectionnables depuis le header.
 
 La signature du projet est la **traçabilité**. Chaque chiffre affiché porte sa provenance : une donnée **vérifiée** (pastille pleine verte) vient d'une source de référence recoupée ; une donnée **estimée** (anneau creux ambre) est une reconstitution déterministe assumée comme telle. Un mode Transparence met en évidence toutes les données estimées d'un coup d'œil. L'information est portée par la forme autant que par la couleur, pour rester lisible sans distinction chromatique.
 
@@ -16,11 +16,10 @@ Zéro dépendance, zéro étape de build. Tout est écrit à la main pour rester
 
 ## Données
 
-La base est peuplée à partir de sources vérifiées (`database/seeds/verified/`), principalement des exports FBref de la saison 2025-2026 :
+La base est peuplée à partir de sources vérifiées, organisées par saison (`database/seeds/verified/{saison}/`), principalement des exports FBref :
 
-- **55 matchs** toutes compétitions (Ligue 1, Ligue des Champions, Coupe de France, Trophée des Champions, Supercoupe), avec score, possession, affluence et lieu réels.
-- **Statistiques par joueur en Ligue 1** exactes (buts, passes décisives, minutes, titularisations, cartons).
-- **Bilans joueurs toutes compétitions** pour l'effectif de champ.
+- **Saison 2025-26** (terminée) : 55 matchs toutes compétitions, statistiques par joueur en Ligue 1 exactes, bilans joueurs toutes compétitions.
+- **Saison 2026-27** (en cours) : structure prête, contenu sportif à cadrer et remplir séparément à mesure que la saison avance.
 
 L'attribution match par match des statistiques individuelles est **estimée** de façon déterministe (les totaux de saison, eux, sont vérifiés). La migration échoue si les identités vérifiées de la saison de Ligue 1 ne sont pas respectées par les données réellement insérées (24 victoires, 4 nuls, 6 défaites, 74 buts pour, 29 contre), ce qui garantit qu'aucune dérive silencieuse ne s'installe.
 
@@ -38,10 +37,11 @@ php -S 127.0.0.1:8077
 
 Puis ouvrir http://127.0.0.1:8077.
 
-La migration affiche un récapitulatif de contrôle, par exemple :
+La migration affiche un récapitulatif de contrôle par saison, par exemple :
 
 ```
-matches: 55, players: 24, L1: 24V 4N 6D (74-29) OK
+2025-26 : matches 55, players 24, L1 24V 4N 6D (74-29)
+2026-27 : matches 0, players 0, L1 0V 0N 0D (0-0)
 ```
 
 ## Pages
@@ -56,6 +56,8 @@ matches: 55, players: 24, L1: 24V 4N 6D (74-29) OK
 | `/matchs/{id}` | Fiche match : score, statistiques vérifiées, résultat aux tirs au but le cas échéant. |
 | `/methodologie` | Taux de vérification par table, liste des sources et exports. |
 | `/styleguide` | Laboratoire du design system (composants, thèmes, traçabilité). |
+
+Toutes les pages ci-dessus acceptent un paramètre `?saison=2025-26` (ou toute autre saison connue) pour changer la saison affichée ; absent, la saison courante s'applique. Un sélecteur dans le header permet de basculer sans connaître l'URL.
 
 ## API REST
 
@@ -86,8 +88,8 @@ assets/
   js/                     Amélioration progressive et moteur de graphiques SVG
   fonts/                  Archivo Black et Saira (woff2 locaux)
 database/
-  migrate.php             Recrée le schéma et peuple la base
-  seeds/                  Générateurs et données, dont seeds/verified/ (sources de vérité)
+  migrate.php             Recrée le schéma et peuple chaque saison déclarée
+  seeds/                  Générateurs et données, dont seeds/verified/{saison}/ (sources de vérité par saison)
 tests/                    Suite de tests maison (unitaires et navigateur)
 ```
 

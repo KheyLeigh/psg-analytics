@@ -9,21 +9,25 @@ final class CompetitionApiController extends Controller
         private ?CompetitionRepository $competitions = null,
         ?int $psgTeamId = null,
         ?TeamRepository $teams = null,
+        private ?SeasonRepository $seasons = null,
     ) {
         $this->competitions ??= new CompetitionRepository();
         $teams ??= new TeamRepository();
         $this->psgTeamId = $psgTeamId ?? $teams->psgId();
+        $this->seasons ??= new SeasonRepository();
     }
 
     public function index(Request $r, array $params): void
     {
-        $this->json($this->buildIndex());
+        $slug = Validator::string($r->query('saison', ''), 16);
+        $season = $this->seasons->resolve($slug !== '' ? $slug : null);
+        $this->json($this->buildIndex($season));
     }
 
-    public function buildIndex(): array
+    public function buildIndex(Season $season): array
     {
         $standingsByCompetition = [];
-        foreach ($this->competitions->standings($this->psgTeamId) as $standing) {
+        foreach ($this->competitions->standings($season->id, $this->psgTeamId) as $standing) {
             $standingsByCompetition[$standing['competitionId']] = $standing;
         }
 

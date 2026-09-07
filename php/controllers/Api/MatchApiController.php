@@ -9,18 +9,22 @@ final class MatchApiController extends Controller
         private ?MatchRepository $matches = null,
         ?int $psgTeamId = null,
         ?TeamRepository $teams = null,
+        private ?SeasonRepository $seasons = null,
     ) {
         $this->matches ??= new MatchRepository();
         $teams ??= new TeamRepository();
         $this->psgTeamId = $psgTeamId ?? $teams->psgId();
+        $this->seasons ??= new SeasonRepository();
     }
 
     public function index(Request $r, array $params): void
     {
-        $this->json($this->buildIndex($_GET));
+        $slug = Validator::string($r->query('saison', ''), 16);
+        $season = $this->seasons->resolve($slug !== '' ? $slug : null);
+        $this->json($this->buildIndex($_GET, $season));
     }
 
-    public function buildIndex(array $query): array
+    public function buildIndex(array $query, Season $season): array
     {
         $page = Validator::int($query['page'] ?? 1, 1, 9999, 1);
         $perPage = Validator::int($query['per_page'] ?? 20, 1, 50, 20);
@@ -31,7 +35,7 @@ final class MatchApiController extends Controller
             ? Validator::inList($query['result'], ['W', 'D', 'L'], '') ?: null
             : null;
 
-        $res = $this->matches->paginate($page, $perPage, $competitionId, $result, $this->psgTeamId);
+        $res = $this->matches->paginate($season->id, $page, $perPage, $competitionId, $result, $this->psgTeamId);
         $items = array_map(fn(MatchGame $m) => $this->summarize($m), $res['items']);
 
         return Response::apiEnvelope($items, [

@@ -14,6 +14,11 @@ final class MatchApiControllerTest extends TestCase
         ];
     }
 
+    private function saison(): Season
+    {
+        return new Season(1, '2025-26', '2025-07-01', '2026-06-30', true);
+    }
+
     public function testBuildIndexEnveloppeLaPagination(): void
     {
         $repo = new class(new PDO('sqlite::memory:')) extends MatchRepository {
@@ -22,7 +27,7 @@ final class MatchApiControllerTest extends TestCase
             }
         };
         $controller = new MatchApiController($repo, 1);
-        $env = $controller->buildIndex(['per_page' => '10']);
+        $env = $controller->buildIndex(['per_page' => '10'], $this->saison());
         $this->assertSame(34, $env['meta']['total']);
         $this->assertSame('W', $env['data'][0]['result']);
     }

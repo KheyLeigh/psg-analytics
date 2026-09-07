@@ -7,18 +7,22 @@ final class PlayerApiController extends Controller
         private ?PlayerRepository $players = null,
         private ?StatisticRepository $stats = null,
         private ?ComparisonService $comparison = null,
+        private ?SeasonRepository $seasons = null,
     ) {
         $this->players ??= new PlayerRepository();
         $this->stats ??= new StatisticRepository();
         $this->comparison ??= new ComparisonService($this->stats, $this->players);
+        $this->seasons ??= new SeasonRepository();
     }
 
     public function index(Request $r, array $params): void
     {
-        $this->json($this->buildIndex($_GET));
+        $slug = Validator::string($r->query('saison', ''), 16);
+        $season = $this->seasons->resolve($slug !== '' ? $slug : null);
+        $this->json($this->buildIndex($_GET, $season));
     }
 
-    public function buildIndex(array $query): array
+    public function buildIndex(array $query, Season $season): array
     {
         $page = Validator::int($query['page'] ?? 1, 1, 9999, 1);
         $perPage = Validator::int($query['per_page'] ?? 20, 1, 50, 20);
@@ -28,7 +32,7 @@ final class PlayerApiController extends Controller
             ? Validator::inList($query['position'], ['GK', 'DF', 'MF', 'FW'], '') ?: null
             : null;
 
-        $res = $this->players->paginate($page, $perPage, $sort, $order, $position);
+        $res = $this->players->paginate($season->id, $page, $perPage, $sort, $order, $position);
         $items = array_map(static fn(Player $p) => [
             'id' => $p->id, 'number' => $p->shirtNumber, 'name' => $p->fullName(),
             'position' => $p->position, 'nationality' => $p->nationality,

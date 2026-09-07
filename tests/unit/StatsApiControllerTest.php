@@ -45,10 +45,15 @@ final class StatsApiControllerTest extends TestCase
         return new KpiService($stats, $matches, $comps, 1, 1);
     }
 
+    private function saison(): Season
+    {
+        return new Season(1, '2025-26', '2025-07-01', '2026-06-30', true);
+    }
+
     public function testBuildKpisEnveloppeLeDashboard(): void
     {
         $controller = new StatsApiController($this->kpiService());
-        $env = $controller->buildKpis();
+        $env = $controller->buildKpis($this->saison());
         $this->assertSame('Bradley Barcola', $env['data']['top_scorer']['name']);
         $this->assertSame(24, $env['data']['wins']);
     }
@@ -56,7 +61,7 @@ final class StatsApiControllerTest extends TestCase
     public function testBuildDistributionAgregeParMois(): void
     {
         $controller = new StatsApiController($this->kpiService(), $this->heatmapService());
-        $env = $controller->buildDistribution();
+        $env = $controller->buildDistribution($this->saison());
         $this->assertSame(5, $env['data']['by_month']['2025-08']);
         $this->assertSame(1, $env['data']['by_month']['2025-09']);
     }
@@ -64,7 +69,7 @@ final class StatsApiControllerTest extends TestCase
     public function testBuildHeatmapRetourneLesMoisEtLignes(): void
     {
         $controller = new StatsApiController($this->kpiService(), $this->heatmapService());
-        $env = $controller->buildHeatmap();
+        $env = $controller->buildHeatmap($this->saison());
         $this->assertSame(['2025-08', '2025-09'], $env['data']['months']);
         $this->assertSame(2, count($env['data']['rows']));
     }

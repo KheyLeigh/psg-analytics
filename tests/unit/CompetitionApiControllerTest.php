@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// Vérifie l'API Compétitions : fusion des compétitions et du bilan.
+// Vérifie l'API Compétitions : fusion des compétitions et du bilan, pour la saison demandée.
 final class CompetitionApiControllerTest extends TestCase
 {
     public function testBuildIndexFusionneCompetitionsEtBilan(): void
@@ -19,7 +19,8 @@ final class CompetitionApiControllerTest extends TestCase
             }
         };
         $controller = new CompetitionApiController($repo, 1);
-        $env = $controller->buildIndex();
+        $season = new Season(1, '2025-26', '2025-07-01', '2026-06-30', true);
+        $env = $controller->buildIndex($season);
         $this->assertSame(24, $env['data'][0]['wins']);
         $this->assertSame(0, $env['data'][1]['wins']);
     }

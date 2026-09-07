@@ -3,10 +3,15 @@ declare(strict_types=1);
 // Vérifie l'API Joueurs : liste blanche de tri, pagination et enveloppe data/meta.
 final class PlayerApiControllerTest extends TestCase
 {
+    private function saison(): Season
+    {
+        return new Season(1, '2025-26', '2025-07-01', '2026-06-30', true);
+    }
+
     private function controller(): PlayerApiController
     {
         $repo = new class(new PDO('sqlite::memory:')) extends PlayerRepository {
-            public function paginate(int $seasonId, int $page,int $perPage,string $sort,string $order,?string $pos): array {
+            public function paginate(int $seasonId, int $page, int $perPage, string $sort, string $order, ?string $pos): array {
                 return ['items' => [], 'total' => 24];
             }
         };
@@ -15,7 +20,7 @@ final class PlayerApiControllerTest extends TestCase
 
     public function testEnveloppeContientMeta(): void
     {
-        $env = $this->controller()->buildIndex(['page' => '1', 'per_page' => '20']);
+        $env = $this->controller()->buildIndex(['page' => '1', 'per_page' => '20'], $this->saison());
         $this->assertSame(24, $env['meta']['total']);
         $this->assertSame(1, $env['meta']['page']);
         $this->assertSame(2, $env['meta']['total_pages']);
@@ -23,7 +28,7 @@ final class PlayerApiControllerTest extends TestCase
 
     public function testPerPagePlafonneA50(): void
     {
-        $env = $this->controller()->buildIndex(['per_page' => '9999']);
+        $env = $this->controller()->buildIndex(['per_page' => '9999'], $this->saison());
         $this->assertSame(50, $env['meta']['per_page']);
     }
 

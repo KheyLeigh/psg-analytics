@@ -5,7 +5,8 @@ CREATE TABLE seasons (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     label       TEXT NOT NULL,
     start_date  TEXT NOT NULL,
-    end_date    TEXT NOT NULL
+    end_date    TEXT NOT NULL,
+    is_current  INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE teams (

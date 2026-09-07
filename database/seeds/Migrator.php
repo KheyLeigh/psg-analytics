@@ -25,8 +25,8 @@ function migrator_player_key(string $firstName, string $lastName): string
 function migrator_seed_reference(PDO $pdo): array
 {
     $season = (require __DIR__ . '/verified/seasons.php')[0];
-    $stmt = $pdo->prepare('INSERT INTO seasons (label, start_date, end_date) VALUES (?, ?, ?)');
-    $stmt->execute([$season['label'], $season['start_date'], $season['end_date']]);
+    $stmt = $pdo->prepare('INSERT INTO seasons (label, start_date, end_date, is_current) VALUES (?, ?, ?, ?)');
+    $stmt->execute([$season['label'], $season['start_date'], $season['end_date'], (int) $season['is_current']]);
     $seasonId = (int) $pdo->lastInsertId();
 
     $teamIds = [];

@@ -8,7 +8,8 @@ CREATE TABLE seasons (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     label       VARCHAR(100) NOT NULL,
     start_date  DATE NOT NULL,
-    end_date    DATE NOT NULL
+    end_date    DATE NOT NULL,
+    is_current  TINYINT(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE teams (

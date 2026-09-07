@@ -6,7 +6,7 @@ final class PlayerApiControllerTest extends TestCase
     private function controller(): PlayerApiController
     {
         $repo = new class(new PDO('sqlite::memory:')) extends PlayerRepository {
-            public function paginate(int $page,int $perPage,string $sort,string $order,?string $pos): array {
+            public function paginate(int $seasonId, int $page,int $perPage,string $sort,string $order,?string $pos): array {
                 return ['items' => [], 'total' => 24];
             }
         };

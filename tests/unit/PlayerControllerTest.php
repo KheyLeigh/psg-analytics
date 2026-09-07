@@ -11,9 +11,9 @@ final class PlayerControllerTest extends TestCase
     {
         return new class(new PDO('sqlite::memory:')) extends PlayerRepository {
             public array $seen = [];
-            public function paginate(int $page, int $perPage, string $sort, string $order, ?string $position): array
+            public function paginate(int $seasonId, int $page, int $perPage, string $sort, string $order, ?string $position): array
             {
-                $this->seen = compact('page', 'perPage', 'sort', 'order', 'position');
+                $this->seen = compact('seasonId', 'page', 'perPage', 'sort', 'order', 'position');
                 $player = Player::fromRow([
                     'id' => 22, 'season_id' => 1, 'person_id' => 22, 'shirt_number' => 29, 'first_name' => 'Bradley',
                     'last_name' => 'Barcola', 'position' => 'FW', 'detailed_position' => 'LW',

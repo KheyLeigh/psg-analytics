@@ -26,7 +26,7 @@ final class MatchControllerTest extends TestCase
             public ?array $findRow = null;
             public function paginate(int $seasonId, int $page, int $perPage, ?int $competitionId, ?string $result, int $psgTeamId): array
             {
-                $this->seen = compact('page', 'perPage', 'competitionId', 'result', 'psgTeamId');
+                $this->seen = compact('seasonId', 'page', 'perPage', 'competitionId', 'result', 'psgTeamId');
                 return ['items' => array_map(static fn (array $r): MatchGame => MatchGame::fromRow($r), $this->rows), 'total' => count($this->rows)];
             }
             public function find(int $id): ?MatchGame
@@ -34,6 +34,20 @@ final class MatchControllerTest extends TestCase
                 return $this->findRow !== null ? MatchGame::fromRow($this->findRow) : null;
             }
         };
+    }
+
+    private function seasonsDouble(): SeasonRepository
+    {
+        $pdo = new PDO('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $pdo->exec('CREATE TABLE seasons (id INTEGER PRIMARY KEY, label TEXT, start_date TEXT, end_date TEXT, is_current INT)');
+        $pdo->exec("INSERT INTO seasons VALUES (1,'2025-26','2025-07-01','2026-06-30',1)");
+        return new SeasonRepository($pdo);
+    }
+
+    private function saison(): Season
+    {
+        return new Season(1, '2025-26', '2025-07-01', '2026-06-30', true);
     }
 
     private function teamsDouble(): TeamRepository
@@ -60,13 +74,14 @@ final class MatchControllerTest extends TestCase
     {
         $matches = $this->matchesDouble();
         $matches->rows = [$this->matchRow()];
-        $ctrl = new MatchController($matches, $this->teamsDouble(), $this->competitionsDouble(), 1);
+        $ctrl = new MatchController($matches, $this->teamsDouble(), $this->competitionsDouble(), 1, $this->seasonsDouble());
 
-        $data = $ctrl->buildIndex(['result' => 'X', 'competition_id' => '2']);
+        $data = $ctrl->buildIndex(['result' => 'X', 'competition_id' => '2'], $this->saison());
 
         // 'X' hors liste blanche W/D/L : le repository reçoit null, pas la valeur brute.
         $this->assertSame(null, $matches->seen['result']);
         $this->assertSame(2, $matches->seen['competitionId']);
+        $this->assertSame(1, $matches->seen['seasonId']);
 
         $item = $data['matches'][0];
         $this->assertSame('PSG', $item['home']);
@@ -74,6 +89,7 @@ final class MatchControllerTest extends TestCase
         $this->assertSame('Ligue des Champions', $item['competition']);
         $this->assertSame(true, $item['penaltyShootout']);
         $this->assertSame('4-3', $item['penaltyScore']);
+        $this->assertSame('2025-26', $data['selectedSeason']);
     }
 
     public function testFicheMatchIntrouvableRenvoieNull(): void

@@ -20,20 +20,25 @@ final class MatchController extends Controller
         private ?TeamRepository $teams = null,
         private ?CompetitionRepository $competitions = null,
         ?int $psgId = null,
+        private ?SeasonRepository $seasons = null,
     ) {
         $this->matches ??= new MatchRepository();
         $this->teams ??= new TeamRepository();
         $this->competitions ??= new CompetitionRepository();
         $this->psgId = $psgId ?? $this->teams->psgId();
+        $this->seasons ??= new SeasonRepository();
     }
 
     public function index(Request $r, array $params): void
     {
-        $this->render('matches', $this->buildIndex($_GET));
+        $slug = Validator::string($r->query('saison', ''), 16);
+        $season = $this->seasons->resolve($slug !== '' ? $slug : null);
+        $this->render('matches', $this->buildIndex($_GET, $season));
     }
 
-    // Assemble la liste filtrée et paginée, isolée du rendu pour rester testable.
-    public function buildIndex(array $query): array
+    // Assemble la liste filtrée et paginée pour une saison donnée, isolée du rendu
+    // pour rester testable.
+    public function buildIndex(array $query, Season $season): array
     {
         $page = Validator::int($query['page'] ?? 1, 1, 9999, 1);
         $competitionId = isset($query['competition_id'])
@@ -43,7 +48,7 @@ final class MatchController extends Controller
             ? (Validator::inList($query['result'], self::RESULTS, '') ?: null)
             : null;
 
-        $res = $this->matches->paginate($page, self::PER_PAGE, $competitionId, $result, $this->psgId);
+        $res = $this->matches->paginate($season->id, $page, self::PER_PAGE, $competitionId, $result, $this->psgId);
 
         $names = $this->teams->namesById();
         $competitions = $this->competitions->all();
@@ -72,7 +77,7 @@ final class MatchController extends Controller
                 'total'       => $total,
                 'total_pages' => $totalPages,
             ],
-        ];
+        ] + $this->seasons->navData($season);
     }
 
     public function show(Request $r, array $params): void

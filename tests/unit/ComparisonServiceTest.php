@@ -14,7 +14,7 @@ final class ComparisonServiceTest extends TestCase
         };
         $players = new class(new PDO('sqlite::memory:')) extends PlayerRepository {
             public function find(int $id): ?Player {
-                return Player::fromRow(['id'=>$id,'season_id'=>1,'shirt_number'=>$id,'first_name'=>'J','last_name'=>"n{$id}",'position'=>'FW','detailed_position'=>'CF','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>180,'is_captain'=>0]);
+                return Player::fromRow(['id'=>$id,'season_id'=>1,'person_id'=>$id,'shirt_number'=>$id,'first_name'=>'J','last_name'=>"n{$id}",'position'=>'FW','detailed_position'=>'CF','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>180,'is_captain'=>0]);
             }
         };
         $svc = new ComparisonService($stats, $players);
@@ -35,7 +35,7 @@ final class ComparisonServiceTest extends TestCase
         };
         $players = new class(new PDO('sqlite::memory:')) extends PlayerRepository {
             public function find(int $id): ?Player {
-                return Player::fromRow(['id'=>$id,'season_id'=>1,'shirt_number'=>$id,'first_name'=>'J','last_name'=>"n{$id}",'position'=>'FW','detailed_position'=>'CF','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>180,'is_captain'=>0]);
+                return Player::fromRow(['id'=>$id,'season_id'=>1,'person_id'=>$id,'shirt_number'=>$id,'first_name'=>'J','last_name'=>"n{$id}",'position'=>'FW','detailed_position'=>'CF','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>180,'is_captain'=>0]);
             }
         };
         $svc = new ComparisonService($stats, $players);

@@ -6,7 +6,7 @@ final class PlayerModelTest extends TestCase
     public function testFullNameEtInitiales(): void
     {
         $p = Player::fromRow([
-            'id' => 10, 'season_id' => 1, 'shirt_number' => 10,
+            'id' => 10, 'season_id' => 1, 'person_id' => 10, 'shirt_number' => 10,
             'first_name' => 'Ousmane', 'last_name' => 'Dembélé',
             'position' => 'FW', 'detailed_position' => 'CF', 'foot' => 'both',
             'nationality' => 'France', 'birth_date' => '1997-05-15',
@@ -29,5 +29,16 @@ final class PlayerModelTest extends TestCase
         $this->assertSame('W', $m->result(1));
         $this->assertSame(1, $m->psgGoals(1));
         $this->assertSame(0, $m->opponentGoals(1));
+    }
+
+    public function testFromRowExposePersonId(): void
+    {
+        $p = Player::fromRow([
+            'id' => 1, 'season_id' => 1, 'person_id' => 42, 'shirt_number' => 29,
+            'first_name' => 'Bradley', 'last_name' => 'Barcola', 'position' => 'FW',
+            'detailed_position' => 'LW', 'foot' => 'right', 'nationality' => 'France',
+            'birth_date' => null, 'height_cm' => 182, 'is_captain' => 0,
+        ]);
+        $this->assertSame(42, $p->personId);
     }
 }

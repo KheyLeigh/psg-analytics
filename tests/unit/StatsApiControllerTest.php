@@ -17,7 +17,7 @@ final class StatsApiControllerTest extends TestCase
         $players = new class(new PDO('sqlite::memory:')) extends PlayerRepository {
             public function find(int $id): ?Player {
                 return Player::fromRow([
-                    'id' => $id, 'season_id' => 1, 'shirt_number' => $id, 'first_name' => 'Prenom',
+                    'id' => $id, 'season_id' => 1, 'person_id' => $id, 'shirt_number' => $id, 'first_name' => 'Prenom',
                     'last_name' => "Joueur{$id}", 'position' => 'FW', 'detailed_position' => 'ST',
                     'foot' => 'right', 'nationality' => 'France', 'birth_date' => null,
                     'height_cm' => 180, 'is_captain' => 0,
@@ -31,7 +31,7 @@ final class StatsApiControllerTest extends TestCase
     {
         $stats = new class(new PDO('sqlite::memory:')) extends StatisticRepository {
             public function topScorers(int $limit, ?int $competitionId): array {
-                return [['player' => Player::fromRow(['id'=>29,'season_id'=>1,'shirt_number'=>29,'first_name'=>'Bradley','last_name'=>'Barcola','position'=>'FW','detailed_position'=>'LW','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>182,'is_captain'=>0]), 'goals'=>11, 'assists'=>4, 'minutes'=>2400]];
+                return [['player' => Player::fromRow(['id'=>29,'season_id'=>1,'person_id'=>29,'shirt_number'=>29,'first_name'=>'Bradley','last_name'=>'Barcola','position'=>'FW','detailed_position'=>'LW','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>182,'is_captain'=>0]), 'goals'=>11, 'assists'=>4, 'minutes'=>2400]];
             }
         };
         $matches = new class(new PDO('sqlite::memory:')) extends MatchRepository {

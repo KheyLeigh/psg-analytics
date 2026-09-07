@@ -15,7 +15,7 @@ final class PlayerControllerTest extends TestCase
             {
                 $this->seen = compact('page', 'perPage', 'sort', 'order', 'position');
                 $player = Player::fromRow([
-                    'id' => 22, 'season_id' => 1, 'shirt_number' => 29, 'first_name' => 'Bradley',
+                    'id' => 22, 'season_id' => 1, 'person_id' => 22, 'shirt_number' => 29, 'first_name' => 'Bradley',
                     'last_name' => 'Barcola', 'position' => 'FW', 'detailed_position' => 'LW',
                     'foot' => 'right', 'nationality' => 'France', 'birth_date' => null,
                     'height_cm' => 182, 'is_captain' => 0,
@@ -127,7 +127,7 @@ final class PlayerControllerTest extends TestCase
             public function find(int $id): ?Player
             {
                 return Player::fromRow([
-                    'id' => 29, 'season_id' => 1, 'shirt_number' => 29, 'first_name' => 'Bradley',
+                    'id' => 29, 'season_id' => 1, 'person_id' => 29, 'shirt_number' => 29, 'first_name' => 'Bradley',
                     'last_name' => 'Barcola', 'position' => 'FW', 'detailed_position' => 'LW',
                     'foot' => 'right', 'nationality' => 'France', 'birth_date' => null,
                     'height_cm' => 182, 'is_captain' => 0,

@@ -33,9 +33,16 @@ CREATE TABLE data_sources (
     note         TEXT
 );
 
+CREATE TABLE people (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name  TEXT NOT NULL,
+    last_name   TEXT NOT NULL
+);
+
 CREATE TABLE players (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
     season_id    INTEGER NOT NULL REFERENCES seasons(id),
+    person_id    INTEGER NOT NULL REFERENCES people(id),
     shirt_number INTEGER,
     first_name   TEXT NOT NULL,
     last_name    TEXT NOT NULL,

@@ -7,7 +7,7 @@ final class ExportApiControllerTest extends TestCase
     {
         $stats = new class(new PDO('sqlite::memory:')) extends StatisticRepository {
             public function topScorers(int $limit, ?int $c): array {
-                return [['player'=>Player::fromRow(['id'=>29,'season_id'=>1,'shirt_number'=>29,'first_name'=>'Bradley','last_name'=>'Barcola','position'=>'FW','detailed_position'=>'LW','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>182,'is_captain'=>0]),'goals'=>11,'assists'=>4,'minutes'=>2400]];
+                return [['player'=>Player::fromRow(['id'=>29,'season_id'=>1,'person_id'=>29,'shirt_number'=>29,'first_name'=>'Bradley','last_name'=>'Barcola','position'=>'FW','detailed_position'=>'LW','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>182,'is_captain'=>0]),'goals'=>11,'assists'=>4,'minutes'=>2400]];
             }
         };
         $csv = (new ExportApiController($stats))->buildCsv();
@@ -19,7 +19,7 @@ final class ExportApiControllerTest extends TestCase
     {
         $stats = new class(new PDO('sqlite::memory:')) extends StatisticRepository {
             public function topScorers(int $limit, ?int $c): array {
-                return [['player'=>Player::fromRow(['id'=>29,'season_id'=>1,'shirt_number'=>29,'first_name'=>'Bradley','last_name'=>'Barcola','position'=>'FW','detailed_position'=>'LW','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>182,'is_captain'=>0]),'goals'=>11,'assists'=>4,'minutes'=>2400]];
+                return [['player'=>Player::fromRow(['id'=>29,'season_id'=>1,'person_id'=>29,'shirt_number'=>29,'first_name'=>'Bradley','last_name'=>'Barcola','position'=>'FW','detailed_position'=>'LW','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>182,'is_captain'=>0]),'goals'=>11,'assists'=>4,'minutes'=>2400]];
             }
         };
         $pdf = (new ExportApiController($stats))->buildPdf();

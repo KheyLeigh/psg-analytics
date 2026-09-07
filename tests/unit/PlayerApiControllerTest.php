@@ -30,7 +30,7 @@ final class PlayerApiControllerTest extends TestCase
     private function playerRow(int $id, string $lastName): array
     {
         return [
-            'id' => $id, 'season_id' => 1, 'shirt_number' => $id, 'first_name' => 'Prenom',
+            'id' => $id, 'season_id' => 1, 'person_id' => $id, 'shirt_number' => $id, 'first_name' => 'Prenom',
             'last_name' => $lastName, 'position' => 'FW', 'detailed_position' => 'ST',
             'foot' => 'right', 'nationality' => 'France', 'birth_date' => null,
             'height_cm' => 180, 'is_captain' => 0,

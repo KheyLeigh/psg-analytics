@@ -36,9 +36,16 @@ CREATE TABLE data_sources (
     note         TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE people (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    first_name  VARCHAR(100) NOT NULL,
+    last_name   VARCHAR(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE players (
     id                INT AUTO_INCREMENT PRIMARY KEY,
     season_id         INT NOT NULL,
+    person_id         INT NOT NULL,
     shirt_number      INT,
     first_name        VARCHAR(100) NOT NULL,
     last_name         VARCHAR(100) NOT NULL,
@@ -49,7 +56,8 @@ CREATE TABLE players (
     birth_date        DATE,
     height_cm         INT,
     is_captain        TINYINT(1) NOT NULL DEFAULT 0,
-    FOREIGN KEY (season_id) REFERENCES seasons(id)
+    FOREIGN KEY (season_id) REFERENCES seasons(id),
+    FOREIGN KEY (person_id) REFERENCES people(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE matches (

@@ -64,20 +64,37 @@ function migrator_seed_reference(PDO $pdo): array
     ];
 }
 
-// Insère les 24 joueurs et renvoie leur identifiant, clé de résolution et poste.
+// Insère les 24 joueurs, résout leur people.id par nom/prénom (crée si absent),
+// et renvoie leur identifiant, clé de résolution et poste.
 function migrator_seed_players(PDO $pdo, int $seasonId): array
 {
     $stmt = $pdo->prepare(
-        'INSERT INTO players (season_id, shirt_number, first_name, last_name, position, detailed_position, nationality, is_captain)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+        'INSERT INTO players (season_id, person_id, shirt_number, first_name, last_name, position, detailed_position, nationality, is_captain)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
     $players = [];
     foreach (require __DIR__ . '/verified/players.php' as [$num, $first, $last, $pos, $detailed, $nat, $captain]) {
-        $stmt->execute([$seasonId, $num, $first, $last, $pos, $detailed, $nat, (int) $captain]);
+        $personId = migrator_resolve_person($pdo, $first, $last);
+        $stmt->execute([$seasonId, $personId, $num, $first, $last, $pos, $detailed, $nat, (int) $captain]);
         $id = (int) $pdo->lastInsertId();
         $players[] = ['id' => $id, 'shirt' => $num, 'key' => migrator_player_key($first, $last), 'position' => $pos];
     }
     return $players;
+}
+
+// Retrouve la people.id d'un joueur par nom/prénom exact, ou en crée une nouvelle.
+// C'est cette résolution qui relie les lignes players de plusieurs saisons entre elles.
+function migrator_resolve_person(PDO $pdo, string $firstName, string $lastName): int
+{
+    $stmt = $pdo->prepare('SELECT id FROM people WHERE first_name = ? AND last_name = ?');
+    $stmt->execute([$firstName, $lastName]);
+    $id = $stmt->fetchColumn();
+    if ($id !== false) {
+        return (int) $id;
+    }
+    $insert = $pdo->prepare('INSERT INTO people (first_name, last_name) VALUES (?, ?)');
+    $insert->execute([$firstName, $lastName]);
+    return (int) $pdo->lastInsertId();
 }
 
 // Insère le bilan de saison vérifié (toutes compétitions) des joueurs de champ.

@@ -10,7 +10,7 @@ final class HomeControllerTest extends TestCase
     private function makePlayer(int $id, string $first, string $last): Player
     {
         return Player::fromRow([
-            'id' => $id, 'season_id' => 1, 'shirt_number' => $id, 'first_name' => $first,
+            'id' => $id, 'season_id' => 1, 'person_id' => $id, 'shirt_number' => $id, 'first_name' => $first,
             'last_name' => $last, 'position' => 'FW', 'detailed_position' => 'ST',
             'foot' => 'right', 'nationality' => 'France', 'birth_date' => null,
             'height_cm' => 180, 'is_captain' => 0,

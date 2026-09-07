@@ -6,6 +6,7 @@ final class Player
     public function __construct(
         public readonly int $id,
         public readonly int $seasonId,
+        public readonly int $personId,
         public readonly ?int $shirtNumber,
         public readonly string $firstName,
         public readonly string $lastName,
@@ -21,7 +22,7 @@ final class Player
     public static function fromRow(array $r): self
     {
         return new self(
-            (int) $r['id'], (int) $r['season_id'],
+            (int) $r['id'], (int) $r['season_id'], (int) $r['person_id'],
             $r['shirt_number'] !== null ? (int) $r['shirt_number'] : null,
             (string) $r['first_name'], (string) $r['last_name'],
             (string) $r['position'], $r['detailed_position'] ?? null, $r['foot'] ?? null,

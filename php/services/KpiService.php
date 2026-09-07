@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
-// Agrège les indicateurs clés du tableau de bord depuis les repositories, sans constante en dur.
+// Agrège les indicateurs clés du tableau de bord depuis les repositories, pour une
+// saison donnée, sans constante en dur.
 final class KpiService
 {
     public function __construct(
@@ -8,13 +9,14 @@ final class KpiService
         private MatchRepository $matches,
         private CompetitionRepository $comps,
         private int $psgTeamId,
+        private int $seasonId,
     ) {}
 
     public function dashboard(): array
     {
-        $scorers = $this->stats->topScorers(1, null);
+        $scorers = $this->stats->topScorers($this->seasonId, 1, null);
         $leagueId = $this->comps->leagueId() ?? 0;
-        $record = $this->matches->seasonRecord($this->psgTeamId, $leagueId);
+        $record = $this->matches->seasonRecord($this->seasonId, $this->psgTeamId, $leagueId);
         $played = max(1, (int) $record['played']);
         $topScorer = $scorers[0] ?? null;
 
@@ -32,7 +34,7 @@ final class KpiService
 
     private function topAssister(): ?array
     {
-        $rows = $this->stats->topScorers(50, null);
+        $rows = $this->stats->topScorers($this->seasonId, 50, null);
         usort($rows, static fn($a, $b) => $b['assists'] <=> $a['assists']);
         $best = $rows[0] ?? null;
         return $best ? ['name' => $best['player']->fullName(), 'assists' => $best['assists']] : null;

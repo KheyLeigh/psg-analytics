@@ -42,7 +42,7 @@ final class StatsApiControllerTest extends TestCase
         $comps = new class(new PDO('sqlite::memory:')) extends CompetitionRepository {
             public function leagueId(): ?int { return 1; }
         };
-        return new KpiService($stats, $matches, $comps, 1);
+        return new KpiService($stats, $matches, $comps, 1, 1);
     }
 
     public function testBuildKpisEnveloppeLeDashboard(): void

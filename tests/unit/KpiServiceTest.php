@@ -16,7 +16,7 @@ final class KpiServiceTest extends TestCase
         $comps = new class(new PDO('sqlite::memory:')) extends CompetitionRepository {
             public function leagueId(): ?int { return 1; }
         };
-        $kpi = new KpiService($stats, $matches, $comps, 1);
+        $kpi = new KpiService($stats, $matches, $comps, 1, 1);
         $d = $kpi->dashboard();
         $this->assertSame('Bradley Barcola', $d['top_scorer']['name']);
         $this->assertSame(24, $d['wins']);

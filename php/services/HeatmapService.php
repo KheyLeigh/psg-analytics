@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
-// Construit une matrice buts marqués x (joueur, mois) pour affichage en heatmap.
+// Construit une matrice buts marqués x (joueur, mois) pour affichage en heatmap,
+// pour une saison donnée.
 final class HeatmapService
 {
     public function __construct(
@@ -8,11 +9,11 @@ final class HeatmapService
         private PlayerRepository $players,
     ) {}
 
-    public function goalsByPlayerAndMonth(): array
+    public function goalsByPlayerAndMonth(int $seasonId): array
     {
         $months = [];
         $cellsByPlayer = [];
-        foreach ($this->stats->goalsByPlayerAndMonth() as $row) {
+        foreach ($this->stats->goalsByPlayerAndMonth($seasonId) as $row) {
             if (!in_array($row['month'], $months, true)) {
                 $months[] = $row['month'];
             }

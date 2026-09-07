@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
-// Classements de joueurs sur des métriques vérifiées, saison complète toutes compétitions.
+// Classements de joueurs sur des métriques vérifiées, saison complète toutes
+// compétitions, pour une saison donnée.
 final class RankingService
 {
     // Liste blanche : seules ces métriques peuvent être triées (jamais de tri sur clé brute).
@@ -11,14 +12,14 @@ final class RankingService
         private PlayerRepository $players,
     ) {}
 
-    public function byMetric(string $metric, int $limit): array
+    public function byMetric(int $seasonId, string $metric, int $limit): array
     {
         if (!in_array($metric, self::METRICS, true)) {
             throw new InvalidArgumentException("métrique de classement inconnue : {$metric}");
         }
 
         $rows = [];
-        foreach ($this->seasonStats->all() as $playerId => $bilan) {
+        foreach ($this->seasonStats->all($seasonId) as $playerId => $bilan) {
             $player = $this->players->find($playerId);
             if ($player === null) {
                 continue;

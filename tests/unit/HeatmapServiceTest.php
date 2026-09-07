@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
-// Vérifie la matrice buts par joueur et par mois (regroupement portable via SUBSTR).
+// Vérifie la matrice buts par joueur et par mois (regroupement portable via SUBSTR),
+// pour la saison 2025-26 issue d'une migration réelle.
 require_once dirname(__DIR__, 1) . '/../database/migrate.php';
 
 final class HeatmapServiceTest extends TestCase
@@ -17,9 +18,10 @@ final class HeatmapServiceTest extends TestCase
     public function testMatriceMoisTrieeEtSommeEgaleAuTotalDesButsIndividuels(): void
     {
         $pdo = $this->migratedPdo();
+        $seasonId = (int) $pdo->query("SELECT id FROM seasons WHERE label = '2025-26'")->fetchColumn();
         $svc = new HeatmapService(new StatisticRepository($pdo), new PlayerRepository($pdo));
 
-        $matrix = $svc->goalsByPlayerAndMonth();
+        $matrix = $svc->goalsByPlayerAndMonth($seasonId);
 
         $this->assertTrue(count($matrix['months']) > 1, 'la saison s\'étale sur plusieurs mois');
         $sorted = $matrix['months'];
@@ -33,7 +35,9 @@ final class HeatmapServiceTest extends TestCase
                 $this->assertTrue(array_key_exists($month, $row['cells']), 'chaque ligne couvre tous les mois (0 par défaut)');
             }
         }
-        $totalReel = (int) $pdo->query('SELECT SUM(goals) FROM player_match_stats')->fetchColumn();
-        $this->assertSame($totalReel, $total, 'la somme de la matrice égale le total des buts individuels');
+        $totalReel = (int) $pdo->query(
+            "SELECT SUM(s.goals) FROM player_match_stats s JOIN matches m ON m.id = s.match_id WHERE m.season_id = {$seasonId}"
+        )->fetchColumn();
+        $this->assertSame($totalReel, $total, 'la somme de la matrice égale le total des buts individuels de la saison 2025-26');
     }
 }

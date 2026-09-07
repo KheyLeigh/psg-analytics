@@ -9,11 +9,11 @@ final class PlayerSeasonStatsRepository extends Repository
         return $row ? PlayerSeasonStats::fromRow($row) : null;
     }
 
-    /** @return array<int,PlayerSeasonStats> indexé par player_id, du plus prolifique au moins */
-    public function all(): array
+    /** @return array<int,PlayerSeasonStats> indexé par player_id, du plus prolifique au moins, pour une saison donnée */
+    public function all(int $seasonId): array
     {
         $bilans = [];
-        foreach ($this->fetchAll('SELECT * FROM player_season_stats ORDER BY goals DESC, assists DESC') as $row) {
+        foreach ($this->fetchAll('SELECT * FROM player_season_stats WHERE season_id = ? ORDER BY goals DESC, assists DESC', [$seasonId]) as $row) {
             $bilans[(int) $row['player_id']] = PlayerSeasonStats::fromRow($row);
         }
         return $bilans;

@@ -15,7 +15,7 @@ final class MethodologyControllerTest extends TestCase
                     ['label' => 'StatGenerator', 'confidence' => 'estimated', 'url' => null, 'note' => 'Attribution', 'collectedAt' => '2026-07-20'],
                 ];
             }
-            public function coverageByTable(): array
+            public function coverageByTable(int $seasonId): array
             {
                 return [
                     ['label' => 'Matchs', 'total' => 55, 'verified' => 55, 'pct' => 100],

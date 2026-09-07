@@ -12,7 +12,7 @@ final class CompetitionApiControllerTest extends TestCase
                     Competition::fromRow(['id' => 2, 'name' => 'Ligue des champions', 'type' => 'cup', 'scope' => 'europe']),
                 ];
             }
-            public function standings(int $psgTeamId): array {
+            public function standings(int $seasonId, int $psgTeamId): array {
                 return [
                     ['competitionId' => 1, 'competitionName' => 'Ligue 1', 'wins' => 24, 'draws' => 4, 'losses' => 6, 'goalsFor' => 74, 'goalsAgainst' => 29],
                 ];

@@ -19,7 +19,7 @@ class CompetitionRepository extends Repository
         return $row !== null ? (int) $row['id'] : null;
     }
 
-    public function standings(int $psgTeamId): array
+    public function standings(int $seasonId, int $psgTeamId): array
     {
         $rows = $this->fetchAll(
             "SELECT c.id competition_id, c.name competition_name,
@@ -36,11 +36,12 @@ class CompetitionRepository extends Repository
                     SUM(CASE WHEN m.home_team_id = :psg6 THEN m.away_goals ELSE m.home_goals END) goals_against
              FROM matches m
              JOIN competitions c ON c.id = m.competition_id
+             WHERE m.season_id = :season
              GROUP BY c.id, c.name
              ORDER BY c.name",
             [
                 'psg1' => $psgTeamId, 'psg2' => $psgTeamId, 'psg3' => $psgTeamId,
-                'psg4' => $psgTeamId, 'psg5' => $psgTeamId, 'psg6' => $psgTeamId,
+                'psg4' => $psgTeamId, 'psg5' => $psgTeamId, 'psg6' => $psgTeamId, 'season' => $seasonId,
             ]
         );
 

@@ -26,17 +26,26 @@ class SourceRepository extends Repository
         ], $this->fetchAll('SELECT label, confidence, url, note, collected_at FROM data_sources ORDER BY id'));
     }
 
-    // Taux de vérification par table : part des lignes reliées à une source vérifiée.
-    public function coverageByTable(): array
+    // Taux de vérification par table, pour une saison donnée : part des lignes
+    // reliées à une source vérifiée. matches et player_season_stats portent
+    // season_id directement ; player_match_stats est filtrée via une jointure matches.
+    public function coverageByTable(int $seasonId): array
     {
+        $queries = [
+            'matches'             => "SELECT COUNT(*) total, SUM(CASE WHEN d.confidence = 'verified' THEN 1 ELSE 0 END) verified
+                                       FROM matches t JOIN data_sources d ON d.id = t.source_id WHERE t.season_id = :season",
+            'player_season_stats' => "SELECT COUNT(*) total, SUM(CASE WHEN d.confidence = 'verified' THEN 1 ELSE 0 END) verified
+                                       FROM player_season_stats t JOIN data_sources d ON d.id = t.source_id WHERE t.season_id = :season",
+            'player_match_stats'  => "SELECT COUNT(*) total, SUM(CASE WHEN d.confidence = 'verified' THEN 1 ELSE 0 END) verified
+                                       FROM player_match_stats t
+                                       JOIN data_sources d ON d.id = t.source_id
+                                       JOIN matches m ON m.id = t.match_id
+                                       WHERE m.season_id = :season",
+        ];
+
         $out = [];
         foreach (self::TABLES as $table => $label) {
-            $row = $this->fetchOne(
-                "SELECT COUNT(*) total,
-                        SUM(CASE WHEN d.confidence = 'verified' THEN 1 ELSE 0 END) verified
-                 FROM {$table} t
-                 JOIN data_sources d ON d.id = t.source_id"
-            ) ?? [];
+            $row = $this->fetchOne($queries[$table], ['season' => $seasonId]) ?? [];
             $total = (int) ($row['total'] ?? 0);
             $verified = (int) ($row['verified'] ?? 0);
             $out[] = [

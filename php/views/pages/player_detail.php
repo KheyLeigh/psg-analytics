@@ -46,6 +46,16 @@ $payload = json_encode(
     </div>
   </header>
 
+  <?php if (!empty($seasons) && count($seasons) > 1): ?>
+    <nav aria-label="Saisons PSG de ce joueur" class="pd__seasons">
+      <?php foreach ($seasons as $s): ?>
+        <a href="/joueurs/<?= View::e($s['playerId']) ?>" class="tag<?= $s['playerId'] === $player['id'] ? ' tag--active' : '' ?>">
+          <?= View::e($s['label']) ?><?= $s['isCurrent'] ? ' (en cours)' : '' ?>
+        </a>
+      <?php endforeach; ?>
+    </nav>
+  <?php endif; ?>
+
   <section aria-labelledby="pd-season-h">
     <h2 class="sec-h" id="pd-season-h">Saison en chiffres</h2>
     <div class="grid grid--4">

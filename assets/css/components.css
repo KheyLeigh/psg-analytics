@@ -214,6 +214,36 @@ body.transp .transp-btn__sw::after {
   color: var(--text);
 }
 
+.season-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.season-switch__select {
+  background: transparent;
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  color: var(--text);
+  font: inherit;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.season-switch__go {
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+  padding: 6px 10px;
+  font: inherit;
+}
+
+.season-switch__go:hover {
+  color: var(--text);
+}
+
 /* Badge champion : liseré or, réservé au titre. */
 .champ {
   display: inline-flex;
@@ -378,6 +408,11 @@ body.transp .transp-btn__sw::after {
 .tag--def { color: var(--blue-text); background: color-mix(in srgb, var(--blue) 16%, transparent); }
 .tag--mid { color: var(--ok-text);   background: color-mix(in srgb, var(--ok) 15%, transparent); }
 .tag--fwd { color: var(--red-text);  background: color-mix(in srgb, var(--red) 15%, transparent); }
+
+.tag--active {
+  border: 1px solid var(--red);
+  color: var(--text);
+}
 
 /* Fiche joueur compacte : maillot, nom, poste, badge de traçabilité. */
 .player-card {

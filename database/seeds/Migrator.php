@@ -73,7 +73,7 @@ function migrator_seed_players(PDO $pdo, int $seasonId): array
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
     $players = [];
-    foreach (require __DIR__ . '/verified/players.php' as [$num, $first, $last, $pos, $detailed, $nat, $captain]) {
+    foreach (require __DIR__ . '/verified/2025-26/players.php' as [$num, $first, $last, $pos, $detailed, $nat, $captain]) {
         $personId = migrator_resolve_person($pdo, $first, $last);
         $stmt->execute([$seasonId, $personId, $num, $first, $last, $pos, $detailed, $nat, (int) $captain]);
         $id = (int) $pdo->lastInsertId();
@@ -112,7 +112,7 @@ function migrator_seed_player_season(PDO $pdo, array $players, array $ref): void
         'INSERT INTO player_season_stats (player_id, season_id, appearances, starts, goals, assists, yellow_cards, red_cards, source_id)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
-    foreach (require __DIR__ . '/verified/player_season.php' as [$shirt, $apps, $starts, $goals, $assists, $yellow, $red]) {
+    foreach (require __DIR__ . '/verified/2025-26/player_season.php' as [$shirt, $apps, $starts, $goals, $assists, $yellow, $red]) {
         if (!isset($idByShirt[$shirt])) {
             throw new RuntimeException("bilan saison : joueur au numéro {$shirt} introuvable");
         }
@@ -132,7 +132,7 @@ function migrator_seed_matches(PDO $pdo, array $ref): array
     $compId = $ref['competition_ids']['ligue1'];
     $sourceId = $ref['source_ids']['fbref'];
     $matches = [];
-    foreach (require __DIR__ . '/verified/matches_l1.php' as [$round, $date, $opponent, $isHome, $psgGoals, $advGoals, $attendance, $possession]) {
+    foreach (require __DIR__ . '/verified/2025-26/matches_l1.php' as [$round, $date, $opponent, $isHome, $psgGoals, $advGoals, $attendance, $possession]) {
         $oppId = $ref['team_ids'][$opponent];
         [$homeId, $awayId, $homeGoals, $awayGoals] = $isHome
             ? [$psgId, $oppId, $psgGoals, $advGoals]
@@ -155,7 +155,7 @@ function migrator_seed_other_matches(PDO $pdo, array $ref): void
     );
     $psgId = $ref['psg_id'];
     $sourceId = $ref['source_ids']['fbref'];
-    foreach (require __DIR__ . '/verified/matches_other.php' as [
+    foreach (require __DIR__ . '/verified/2025-26/matches_other.php' as [
         $compKey, $round, $date, $venue, $opponent, $psgGoals, $advGoals,
         $possession, $attendance, $wentToExtra, $penaltyShootout, $penaltyScore,
     ]) {

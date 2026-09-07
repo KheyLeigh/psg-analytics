@@ -26,7 +26,7 @@ function migrator_l1_totals(array $players): array
         $idByKey[$p['key']] = $p['id'];
     }
     $totals = [];
-    foreach (require __DIR__ . '/verified/players_l1_fbref.php' as $key => $data) {
+    foreach (require __DIR__ . '/verified/2025-26/players_l1_fbref.php' as $key => $data) {
         if (!isset($idByKey[$key])) {
             throw new RuntimeException("statistiques L1 fbref : joueur introuvable pour la clé {$key}");
         }

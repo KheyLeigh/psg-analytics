@@ -6,7 +6,7 @@ final class StatsApiControllerTest extends TestCase
     private function heatmapService(): HeatmapService
     {
         $stats = new class(new PDO('sqlite::memory:')) extends StatisticRepository {
-            public function goalsByPlayerAndMonth(): array {
+            public function goalsByPlayerAndMonth(int $seasonId): array {
                 return [
                     ['playerId' => 29, 'month' => '2025-08', 'goals' => 2],
                     ['playerId' => 29, 'month' => '2025-09', 'goals' => 1],
@@ -30,7 +30,7 @@ final class StatsApiControllerTest extends TestCase
     private function kpiService(): KpiService
     {
         $stats = new class(new PDO('sqlite::memory:')) extends StatisticRepository {
-            public function topScorers(int $limit, ?int $competitionId): array {
+            public function topScorers(int $seasonId, int $limit, ?int $competitionId): array {
                 return [['player' => Player::fromRow(['id'=>29,'season_id'=>1,'person_id'=>29,'shirt_number'=>29,'first_name'=>'Bradley','last_name'=>'Barcola','position'=>'FW','detailed_position'=>'LW','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>182,'is_captain'=>0]), 'goals'=>11, 'assists'=>4, 'minutes'=>2400]];
             }
         };

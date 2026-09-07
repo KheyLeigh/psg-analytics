@@ -4,15 +4,16 @@ declare(strict_types=1);
 // Non final : les tests de services la sous-classent en doublure (idiome du plan Phase 5).
 class StatisticRepository extends Repository
 {
-    public function topScorers(int $limit, ?int $competitionId): array
+    public function topScorers(int $seasonId, int $limit, ?int $competitionId): array
     {
-        $join = $competitionId !== null ? 'JOIN matches m ON m.id = s.match_id AND m.competition_id = :comp' : '';
-        $params = $competitionId !== null ? ['comp' => $competitionId] : [];
+        $compFilter = $competitionId !== null ? ' AND m.competition_id = :comp' : '';
+        $params = ['season' => $seasonId] + ($competitionId !== null ? ['comp' => $competitionId] : []);
         $rows = $this->fetchAll(
             "SELECT p.*, SUM(s.goals) goals, SUM(s.assists) assists, SUM(s.minutes) minutes
              FROM player_match_stats s
              JOIN players p ON p.id = s.player_id
-             {$join}
+             JOIN matches m ON m.id = s.match_id
+             WHERE m.season_id = :season{$compFilter}
              GROUP BY p.id
              HAVING SUM(s.goals) > 0
              ORDER BY goals DESC, assists DESC
@@ -63,20 +64,23 @@ class StatisticRepository extends Repository
         ];
     }
 
-    // Maxima de l'effectif par axe du radar de profil : chaque axe est le meilleur
-    // total d'un joueur de l'équipe, ce qui permet de normaliser un profil (valeur du
-    // joueur / meilleur total de l'axe) pour une lecture de 0 à 1.
-    public function squadAxisMax(): array
+    // Maxima de l'effectif par axe du radar de profil, pour une saison donnée : chaque
+    // axe est le meilleur total d'un joueur de cette saison, pour normaliser un profil
+    // (valeur du joueur / meilleur total de l'axe) sur une lecture de 0 à 1.
+    public function squadAxisMax(int $seasonId): array
     {
         $row = $this->fetchOne(
             'SELECT MAX(g) goals, MAX(a) assists, MAX(mn) minutes, MAX(sh) shots,
                     MAX(dw) duels_won, MAX(rt) rating
              FROM (
-                 SELECT SUM(goals) g, SUM(assists) a, SUM(minutes) mn, SUM(shots) sh,
-                        SUM(duels_won) dw, AVG(rating) rt
-                 FROM player_match_stats
-                 GROUP BY player_id
-             ) t'
+                 SELECT SUM(s.goals) g, SUM(s.assists) a, SUM(s.minutes) mn, SUM(s.shots) sh,
+                        SUM(s.duels_won) dw, AVG(s.rating) rt
+                 FROM player_match_stats s
+                 JOIN matches m ON m.id = s.match_id
+                 WHERE m.season_id = :season
+                 GROUP BY s.player_id
+             ) t',
+            ['season' => $seasonId]
         ) ?? [];
 
         return [
@@ -112,17 +116,19 @@ class StatisticRepository extends Repository
         }, $rows);
     }
 
-    // Buts marqués par joueur et par mois ; regroupement portable via SUBSTR
-    // (les 7 premiers caractères de played_at, format AAAA-MM-JJ, donnent le mois).
-    public function goalsByPlayerAndMonth(): array
+    // Buts marqués par joueur et par mois, pour une saison donnée ; regroupement
+    // portable via SUBSTR (les 7 premiers caractères de played_at, format AAAA-MM-JJ).
+    public function goalsByPlayerAndMonth(int $seasonId): array
     {
         $rows = $this->fetchAll(
             "SELECT s.player_id, SUBSTR(m.played_at, 1, 7) month, SUM(s.goals) goals
              FROM player_match_stats s
              JOIN matches m ON m.id = s.match_id
+             WHERE m.season_id = :season
              GROUP BY s.player_id, SUBSTR(m.played_at, 1, 7)
              HAVING SUM(s.goals) > 0
-             ORDER BY month, s.player_id"
+             ORDER BY month, s.player_id",
+            ['season' => $seasonId]
         );
         return array_map(static function (array $r): array {
             return [

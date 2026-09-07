@@ -22,7 +22,7 @@ final class HomeControllerTest extends TestCase
         $player = fn (int $id, string $f, string $l) => $this->makePlayer($id, $f, $l);
         $stats = new class(new PDO('sqlite::memory:')) extends StatisticRepository {
             public array $rows = [];
-            public function topScorers(int $limit, ?int $competitionId): array
+            public function topScorers(int $seasonId, int $limit, ?int $competitionId): array
             {
                 return array_slice($this->rows, 0, $limit);
             }

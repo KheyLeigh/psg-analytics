@@ -152,7 +152,7 @@ final class PlayerControllerTest extends TestCase
             {
                 return ['goals' => 11, 'assists' => 5, 'minutes' => 2000, 'shots' => 40, 'duelsWon' => 30, 'rating' => 7.2];
             }
-            public function squadAxisMax(): array
+            public function squadAxisMax(int $seasonId): array
             {
                 return ['goals' => 22.0, 'assists' => 10.0, 'minutes' => 2000.0, 'shots' => 80.0, 'duelsWon' => 60.0, 'rating' => 7.2];
             }

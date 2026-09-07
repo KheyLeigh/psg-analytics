@@ -20,8 +20,11 @@ function run_migration(PDO $pdo): array
     migrator_generate_player_stats($pdo, $matches, $players, $ref);
     migrator_seed_player_season($pdo, $players, $ref);
 
-    $report = migrator_compute_report($pdo, $ref);
-    migrator_verify_identities($report);
+    $psgId = $ref['psg_id'];
+    $leagueCompId = $ref['competition_ids']['ligue1'];
+    $report = migrator_compute_report($pdo, $ref['season_id'], $psgId, $leagueCompId);
+    migrator_verify_generic($pdo, $ref['season_id']);
+    migrator_verify_fixed_totals('2025-26', $report);
     return $report;
 }
 

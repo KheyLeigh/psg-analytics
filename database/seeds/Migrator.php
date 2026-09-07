@@ -173,26 +173,26 @@ function migrator_seed_other_matches(PDO $pdo, array $ref): void
     }
 }
 
-// Calcule le bilan Ligue 1 (V/N/D, buts) et le recoupe avec les buts
-// individuels affectés, pour vérification d'intégrité.
-function migrator_compute_report(PDO $pdo, array $ref): array
+// Calcule le bilan Ligue 1 d'une saison (V/N/D, buts) et le recoupe avec les buts
+// individuels affectés, pour vérification d'intégrité. COALESCE(...,0) : une saison
+// sans matchs (ex. tout juste amorcée) ne doit jamais produire de NULL arithmétique.
+function migrator_compute_report(PDO $pdo, int $seasonId, int $psgId, int $leagueCompId): array
 {
-    $psgId = $ref['psg_id'];
-    $compId = $ref['competition_ids']['ligue1'];
     $row = $pdo->query("SELECT
-        SUM(CASE WHEN (home_team_id={$psgId} AND home_goals>away_goals) OR (away_team_id={$psgId} AND away_goals>home_goals) THEN 1 ELSE 0 END) w,
-        SUM(CASE WHEN home_goals=away_goals THEN 1 ELSE 0 END) d,
-        SUM(CASE WHEN (home_team_id={$psgId} AND home_goals<away_goals) OR (away_team_id={$psgId} AND away_goals<home_goals) THEN 1 ELSE 0 END) l,
-        SUM(CASE WHEN home_team_id={$psgId} THEN home_goals ELSE away_goals END) gf,
-        SUM(CASE WHEN home_team_id={$psgId} THEN away_goals ELSE home_goals END) ga
-        FROM matches WHERE competition_id={$compId}")->fetch();
+        COALESCE(SUM(CASE WHEN (home_team_id={$psgId} AND home_goals>away_goals) OR (away_team_id={$psgId} AND away_goals>home_goals) THEN 1 ELSE 0 END), 0) w,
+        COALESCE(SUM(CASE WHEN home_goals=away_goals THEN 1 ELSE 0 END), 0) d,
+        COALESCE(SUM(CASE WHEN (home_team_id={$psgId} AND home_goals<away_goals) OR (away_team_id={$psgId} AND away_goals<home_goals) THEN 1 ELSE 0 END), 0) l,
+        COALESCE(SUM(CASE WHEN home_team_id={$psgId} THEN home_goals ELSE away_goals END), 0) gf,
+        COALESCE(SUM(CASE WHEN home_team_id={$psgId} THEN away_goals ELSE home_goals END), 0) ga
+        FROM matches WHERE competition_id={$leagueCompId} AND season_id={$seasonId}")->fetch();
     $individualGoals = (int) $pdo->query(
-        "SELECT SUM(goals) FROM player_match_stats s JOIN matches m ON m.id = s.match_id WHERE m.competition_id={$compId}"
+        "SELECT COALESCE(SUM(goals),0) FROM player_match_stats s JOIN matches m ON m.id = s.match_id
+         WHERE m.competition_id={$leagueCompId} AND m.season_id={$seasonId}"
     )->fetchColumn();
 
     return [
-        'matches' => (int) $pdo->query('SELECT COUNT(*) FROM matches')->fetchColumn(),
-        'players' => (int) $pdo->query('SELECT COUNT(*) FROM players')->fetchColumn(),
+        'matches' => (int) $pdo->query("SELECT COUNT(*) FROM matches WHERE season_id={$seasonId}")->fetchColumn(),
+        'players' => (int) $pdo->query("SELECT COUNT(*) FROM players WHERE season_id={$seasonId}")->fetchColumn(),
         'l1_wins' => (int) $row['w'],
         'l1_draws' => (int) $row['d'],
         'l1_losses' => (int) $row['l'],
@@ -202,24 +202,67 @@ function migrator_compute_report(PDO $pdo, array $ref): array
     ];
 }
 
-// Garde-fou : échoue explicitement si une identité vérifiée n'est pas
-// respectée (attrape une erreur de transcription des données réelles).
-// l1_individual_goals = 73, pas 74 : le but d'équipe restant est le but
-// contre son camp adverse, jamais attribué à un joueur PSG (cf. verified/players_l1_fbref.php).
-function migrator_verify_identities(array $report): void
+// Garde-fou générique, toujours actif : ne suppose aucun total connu à l'avance,
+// s'applique donc aussi bien à une saison terminée qu'en cours.
+function migrator_verify_generic(PDO $pdo, int $seasonId): void
 {
-    $ok = $report['l1_wins'] === 24
-        && $report['l1_draws'] === 4
-        && $report['l1_losses'] === 6
-        && $report['l1_goals_for'] === 74
-        && $report['l1_goals_against'] === 29
-        && $report['l1_individual_goals'] === 73;
+    $rows = $pdo->query(
+        "SELECT m.competition_id,
+                SUM(CASE WHEN m.home_team_id IN (SELECT id FROM teams WHERE is_psg=1) THEN m.home_goals ELSE m.away_goals END) team_goals,
+                COALESCE((
+                    SELECT SUM(s.goals) FROM player_match_stats s JOIN matches mm ON mm.id = s.match_id
+                    WHERE mm.competition_id = m.competition_id AND mm.season_id = {$seasonId}
+                ), 0) individual_goals
+         FROM matches m
+         WHERE m.season_id = {$seasonId}
+           AND (m.home_team_id IN (SELECT id FROM teams WHERE is_psg=1) OR m.away_team_id IN (SELECT id FROM teams WHERE is_psg=1))
+         GROUP BY m.competition_id"
+    )->fetchAll();
+
+    foreach ($rows as $row) {
+        if ((int) $row['individual_goals'] > (int) $row['team_goals']) {
+            throw new RuntimeException(sprintf(
+                'Garde-fou générique : saison %d, compétition %d : buts individuels (%d) dépassent les buts d\'équipe (%d)',
+                $seasonId, $row['competition_id'], $row['individual_goals'], $row['team_goals']
+            ));
+        }
+    }
+
+    $orphans = (int) $pdo->query(
+        "SELECT COUNT(*) FROM player_match_stats s
+         JOIN players p ON p.id = s.player_id
+         JOIN matches m ON m.id = s.match_id
+         WHERE m.season_id = {$seasonId} AND p.season_id <> m.season_id"
+    )->fetchColumn();
+    if ($orphans > 0) {
+        throw new RuntimeException("Garde-fou générique : saison {$seasonId}, {$orphans} ligne(s) player_match_stats référencent un joueur d'une autre saison");
+    }
+}
+
+// Totaux figés, optionnels par saison : vérifiés seulement si verified/{clé}/season_totals.php
+// existe (saison terminée). Aucune vérification pour une saison en cours qui n'a pas ce fichier.
+function migrator_verify_fixed_totals(string $seasonKey, array $report): void
+{
+    $file = __DIR__ . "/verified/{$seasonKey}/season_totals.php";
+    if (!is_file($file)) {
+        return;
+    }
+    $expected = require $file;
+    $ok = $report['l1_wins'] === $expected['l1_wins']
+        && $report['l1_draws'] === $expected['l1_draws']
+        && $report['l1_losses'] === $expected['l1_losses']
+        && $report['l1_goals_for'] === $expected['l1_goals_for']
+        && $report['l1_goals_against'] === $expected['l1_goals_against']
+        && $report['l1_individual_goals'] === $expected['l1_individual_goals'];
 
     if (!$ok) {
         throw new RuntimeException(sprintf(
-            'Identité invalide : %dV %dN %dD (%d-%d), buts individuels %d (attendu 73)',
+            'Identité invalide (%s) : obtenu %dV %dN %dD (%d-%d) buts indiv. %d, attendu %dV %dN %dD (%d-%d) buts indiv. %d',
+            $seasonKey,
             $report['l1_wins'], $report['l1_draws'], $report['l1_losses'],
-            $report['l1_goals_for'], $report['l1_goals_against'], $report['l1_individual_goals']
+            $report['l1_goals_for'], $report['l1_goals_against'], $report['l1_individual_goals'],
+            $expected['l1_wins'], $expected['l1_draws'], $expected['l1_losses'],
+            $expected['l1_goals_for'], $expected['l1_goals_against'], $expected['l1_individual_goals']
         ));
     }
 }

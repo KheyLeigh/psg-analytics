@@ -11,13 +11,15 @@ $goalsFor = (int) $record['goals_for'];
 $cleanSheets = (int) $kpi['clean_sheets'];
 
 // Vitrine partagée avec le hero : le nombre de trophées nourrit aussi le récit.
-$trophies = [
+// Propre à la saison 2025-26 (terminée) : aucune autre saison n'a de palmarès
+// vérifié, donc rien n'est fabriqué pour les autres (voir partials/hero.php).
+$trophies = $selectedSeason === '2025-26' ? [
     ['name' => 'Ligue des Champions', 'stat' => 'sacre européen'],
     ['name' => 'Ligue 1', 'stat' => $totalPoints . ' pts · ' . $record['wins'] . '-' . $record['draws'] . '-' . $record['losses']],
     ['name' => 'Coupe de France', 'stat' => 'doublé national'],
     ['name' => 'Trophée des Champions', 'stat' => 'supercoupe de France'],
     ['name' => 'Coupe Intercontinentale', 'stat' => '2-1 tab · Flamengo'],
-];
+] : [];
 
 // Chiffres phares de la saison : quelques totaux vérifiés en très gros, badges à
 // l'appui. Volontairement peu nombreux (l'Accueil raconte, le Dashboard détaille).
@@ -27,21 +29,25 @@ $headline = [
         'confidence' => 'verified',
         'tip' => 'Cumul V=3 / N=1 / D=0 sur les 34 journées de Ligue 1, résultats vérifiés FBref.',
     ],
-    [
-        'label' => 'Trophées 2025-26', 'value' => count($trophies), 'countup' => count($trophies),
+];
+// Carte trophées : uniquement quand un palmarès existe pour la saison affichée
+// (jamais de compteur à zéro sous un libellé qui suggérerait le contraire).
+if ($trophies !== []) {
+    $headline[] = [
+        'label' => "Trophées {$selectedSeason}", 'value' => count($trophies), 'countup' => count($trophies),
         'confidence' => 'verified',
         'tip' => 'Ligue des Champions, Ligue 1, Coupe de France et Trophée des Champions.',
-    ],
-    [
-        'label' => 'Buts marqués', 'value' => $goalsFor, 'countup' => $goalsFor,
-        'confidence' => 'verified',
-        'tip' => 'Total des buts inscrits par le PSG sur la saison de Ligue 1 (source FBref).',
-    ],
-    [
-        'label' => 'Clean sheets', 'value' => $cleanSheets, 'countup' => $cleanSheets,
-        'confidence' => 'verified',
-        'tip' => 'Matchs de Ligue 1 sans encaisser de but, comptés sur les scores vérifiés.',
-    ],
+    ];
+}
+$headline[] = [
+    'label' => 'Buts marqués', 'value' => $goalsFor, 'countup' => $goalsFor,
+    'confidence' => 'verified',
+    'tip' => 'Total des buts inscrits par le PSG sur la saison de Ligue 1 (source FBref).',
+];
+$headline[] = [
+    'label' => 'Clean sheets', 'value' => $cleanSheets, 'countup' => $cleanSheets,
+    'confidence' => 'verified',
+    'tip' => 'Matchs de Ligue 1 sans encaisser de but, comptés sur les scores vérifiés.',
 ];
 
 // Portes d'entrée : chaque carte dit en un mot ce qu'on trouve derrière.
@@ -70,9 +76,10 @@ $formTitles = ['W' => 'Victoire', 'D' => 'Nul', 'L' => 'Défaite'];
 ?>
 <div class="stack section">
   <?php
-  $heroEyebrow = 'Paris Saint-Germain · Saison 2025-26';
-  $heroTitle = 'Une saison, cinq trophées';
-  $heroYear = '25·26';
+  $heroEyebrow = "Paris Saint-Germain · Saison {$selectedSeason}";
+  $heroTitle = $trophies !== [] ? 'Une saison, cinq trophées' : 'La saison, chiffres à l\'appui';
+  $heroYear = substr($selectedSeason, 2, 2) . '·' . substr($selectedSeason, 5, 2);
+  $trophiesNote = "Saison {$selectedSeason} en cours, palmarès à venir.";
   require BASE_PATH . '/php/views/partials/hero.php';
   ?>
 

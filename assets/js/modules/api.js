@@ -7,6 +7,11 @@ export async function get(path) {
     throw new Error(`Chemin d'API invalide : un chemin absolu de même origine est attendu (reçu ${String(path)}).`);
   }
 
+  const saison = new URLSearchParams(window.location.search).get('saison');
+  if (saison && !path.includes('saison=')) {
+    path += (path.includes('?') ? '&' : '?') + `saison=${encodeURIComponent(saison)}`;
+  }
+
   let response;
   try {
     response = await fetch(path, { headers: { Accept: 'application/json' } });

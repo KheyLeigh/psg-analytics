@@ -58,13 +58,32 @@ function migrator_seed_catalog(PDO $pdo): array
     ];
 }
 
+// Garde-fou : exactement une saison doit porter is_current => true dans le tableau
+// chargé depuis verified/seasons.php. Extrait du chargement de fichier pour rester
+// testable indépendamment (voir tests/unit/MigratorGuardsTest.php).
+function migrator_assert_single_current(array $seasons): void
+{
+    $n = 0;
+    foreach ($seasons as $season) {
+        if ($season['is_current']) {
+            $n++;
+        }
+    }
+    if ($n !== 1) {
+        throw new RuntimeException("is_current : {$n} saison(s) marquée(s) courante(s), exactement une est attendue");
+    }
+}
+
 // Insère chaque saison déclarée dans verified/seasons.php ; renvoie la liste dans
 // l'ordre du fichier, avec l'id inséré et la clé (nom du sous-dossier verified/{clé}/).
 function migrator_seed_seasons(PDO $pdo): array
 {
+    $declared = require __DIR__ . '/verified/seasons.php';
+    migrator_assert_single_current($declared);
+
     $stmt = $pdo->prepare('INSERT INTO seasons (label, start_date, end_date, is_current) VALUES (?, ?, ?, ?)');
     $seasons = [];
-    foreach (require __DIR__ . '/verified/seasons.php' as $season) {
+    foreach ($declared as $season) {
         $stmt->execute([$season['label'], $season['start_date'], $season['end_date'], (int) $season['is_current']]);
         $seasons[] = ['id' => (int) $pdo->lastInsertId(), 'key' => $season['key'], 'is_current' => $season['is_current']];
     }
@@ -111,6 +130,9 @@ function migrator_seed_players(PDO $pdo, int $seasonId, string $seasonKey): arra
 
 // Retrouve la people.id d'un joueur par nom/prénom exact, ou en crée une nouvelle.
 // C'est cette résolution qui relie les lignes players de plusieurs saisons entre elles.
+// Correspondance EXACTE (comparaison de chaînes strictes), sans normalisation de casse
+// ni d'accents : c'est un choix assumé, pas un oubli. Deux graphies différentes du même
+// nom (ex. avec/sans accent, casse différente) créeraient deux identités people distinctes.
 function migrator_resolve_person(PDO $pdo, string $firstName, string $lastName): int
 {
     $stmt = $pdo->prepare('SELECT id FROM people WHERE first_name = ? AND last_name = ?');

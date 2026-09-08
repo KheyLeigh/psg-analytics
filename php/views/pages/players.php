@@ -13,7 +13,7 @@ $tagByPosition = ['GK' => 'tag--gk', 'DF' => 'tag--def', 'MF' => 'tag--mid', 'FW
 
 // Construit une URL /joueurs en ne conservant que les paramètres connus et non
 // défaut : jamais de sort/order/position hors liste blanche (déjà validés en amont).
-$buildQuery = static function (array $over) use ($sort, $order, $position): string {
+$buildQuery = static function (array $over) use ($sort, $order, $position, $selectedSeason): string {
     $q = array_merge(['sort' => $sort, 'order' => $order, 'position' => $position, 'page' => 1], $over);
     $parts = [];
     if (!empty($q['position'])) {
@@ -25,6 +25,9 @@ $buildQuery = static function (array $over) use ($sort, $order, $position): stri
     }
     if ((int) $q['page'] > 1) {
         $parts['page'] = (int) $q['page'];
+    }
+    if ($selectedSeason !== '') {
+        $parts['saison'] = $selectedSeason;
     }
     return '/joueurs' . ($parts !== [] ? '?' . http_build_query($parts) : '');
 };
@@ -47,7 +50,7 @@ $totalPages = (int) $meta['total_pages'];
 <div class="stack section players">
 
   <header class="players-head">
-    <p class="players-head__eyebrow">Paris Saint-Germain · Saison 2025-26 · Effectif</p>
+    <p class="players-head__eyebrow">Paris Saint-Germain · Saison <?= View::e($selectedSeason) ?> · Effectif</p>
     <h1 class="players-head__title">L'effectif, joueur par joueur</h1>
     <p class="players-head__lede">
       <?= View::e($total) ?> <?= $total > 1 ? 'joueurs' : 'joueur' ?>, une seule source d'identité. Cherchez, triez, filtrez par poste,

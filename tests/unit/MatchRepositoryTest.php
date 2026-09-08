@@ -10,21 +10,24 @@ final class MatchRepositoryTest extends TestCase
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         $pdo->exec('CREATE TABLE competitions (id INTEGER PRIMARY KEY, name TEXT)');
-        $pdo->exec('CREATE TABLE matches (id INTEGER PRIMARY KEY, season_id INT, competition_id INT, home_team_id INT, away_team_id INT, home_goals INT, away_goals INT, psg_possession REAL, played_at TEXT)');
+        $pdo->exec('CREATE TABLE matches (id INTEGER PRIMARY KEY, season_id INT, competition_id INT, home_team_id INT, away_team_id INT, home_goals INT, away_goals INT, psg_possession REAL, played_at TEXT, went_to_extra INT, penalty_shootout INT, attendance INT, psg_shots INT, psg_shots_on_target INT, source_id INT)');
         $pdo->exec("INSERT INTO competitions VALUES (1,'Ligue 1'),(2,'Coupe de France')");
         // PSG (id 1) : mêmes six issues que CompetitionRepositoryTest, un seul clean sheet
         // (match 2, où PSG encaisse 0), possession partiellement renseignée (NULL sur 3 matchs).
         // Tous saison_id=10, sauf le match 8 (saison_id=20) qui doit être exclu par le filtre.
+        // went_to_extra/penalty_shootout à 0 (booléens), attendance/psg_shots/psg_shots_on_target
+        // à NULL (non renseignés, non nécessaires à ces tests), source_id à 1 (colonne NOT NULL
+        // côté schéma réel, lue par MatchGame::fromRow()).
         $pdo->exec(
-            'INSERT INTO matches (id,season_id,competition_id,home_team_id,away_team_id,home_goals,away_goals,psg_possession) VALUES
-            (1,10,1,1,2,3,1,60),   -- victoire PSG à domicile, encaisse 1
-            (2,10,1,3,1,0,2,NULL), -- victoire PSG à l\'extérieur, encaisse 0 (clean sheet)
-            (3,10,1,1,4,0,2,55),   -- défaite PSG à domicile, encaisse 2
-            (4,10,1,2,1,3,0,NULL), -- défaite PSG à l\'extérieur, encaisse 3
-            (5,10,1,1,3,1,1,50),   -- nul PSG à domicile, encaisse 1
-            (6,10,1,4,1,2,2,NULL), -- nul PSG à l\'extérieur, encaisse 2
-            (7,10,2,1,5,4,0,99),   -- Coupe de France : exclue du bilan Ligue 1
-            (8,20,1,1,2,9,0,10)   -- autre saison : doit être totalement exclue
+            'INSERT INTO matches (id,season_id,competition_id,home_team_id,away_team_id,home_goals,away_goals,psg_possession,went_to_extra,penalty_shootout,attendance,psg_shots,psg_shots_on_target,source_id) VALUES
+            (1,10,1,1,2,3,1,60,0,0,NULL,NULL,NULL,1),   -- victoire PSG à domicile, encaisse 1
+            (2,10,1,3,1,0,2,NULL,0,0,NULL,NULL,NULL,1), -- victoire PSG à l\'extérieur, encaisse 0 (clean sheet)
+            (3,10,1,1,4,0,2,55,0,0,NULL,NULL,NULL,1),   -- défaite PSG à domicile, encaisse 2
+            (4,10,1,2,1,3,0,NULL,0,0,NULL,NULL,NULL,1), -- défaite PSG à l\'extérieur, encaisse 3
+            (5,10,1,1,3,1,1,50,0,0,NULL,NULL,NULL,1),   -- nul PSG à domicile, encaisse 1
+            (6,10,1,4,1,2,2,NULL,0,0,NULL,NULL,NULL,1), -- nul PSG à l\'extérieur, encaisse 2
+            (7,10,2,1,5,4,0,99,0,0,NULL,NULL,NULL,1),   -- Coupe de France : exclue du bilan Ligue 1
+            (8,20,1,1,2,9,0,10,0,0,NULL,NULL,NULL,1)   -- autre saison : doit être totalement exclue
             '
         );
         return $pdo;

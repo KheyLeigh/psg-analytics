@@ -12,9 +12,13 @@ declare(strict_types=1);
  * @var string $heroEyebrow Contexte affiché au-dessus du titre
  * @var string $heroTitle   Titre principal, rendu comme unique <h1> de la page
  * @var string $heroYear    Année de saison portée par la banderole (ex: 25·26)
- * @var array<int,array{name:string,stat:string}> $trophies
+ * @var array<int,array{name:string,stat:string}> $trophies Peut être vide (saison sans
+ *      palmarès connu, ex. en cours) : la vitrine cède alors la place à $trophiesNote.
+ * @var string|null $trophiesNote Message affiché à la place de la vitrine quand $trophies
+ *      est vide. Optionnel : une valeur par défaut générique est utilisée sinon.
  */
 $heroYear = $heroYear ?? '25·26';
+$trophiesNote = $trophiesNote ?? 'Palmarès de la saison non disponible pour le moment.';
 
 // Type de coupe 3D par compétition (mappe le nom vers le modèle WebGL de trophy3d.js).
 // Robuste a l'ordre des cartes ; repli 'ucl' si un nom inattendu apparait.
@@ -62,39 +66,43 @@ $trophySvg = '<svg viewBox="0 0 64 96" width="76" height="96" xmlns="http://www.
   <div class="hero__body">
     <div class="hero__eyebrow"><?= View::e($heroEyebrow) ?></div>
     <h1 class="hero__title"><?= View::e($heroTitle) ?></h1>
-    <?= $trophyDefs ?>
-    <div class="hero__cabinet">
-      <?php foreach ($trophies as $t): $key = $trophyKey[$t['name']] ?? 'ucl'; ?>
-        <article class="trophy">
-          <?php if ($hasGlb[$key]): $cfg = $trophyCfg[$key] ?? []; ?>
-            <div class="trophy__stage is-mv" data-trophy="<?= View::e($key) ?>" data-mv>
-              <model-viewer class="trophy__mv"
-                src="/assets/trophies/<?= View::e($key) ?>.glb"
-                environment-image="/assets/hdri/studio_small_09_1k.hdr"
-                exposure="<?= View::e($cfg['exposure'] ?? '1.0') ?>"
-                camera-orbit="<?= View::e($cfg['cameraOrbit'] ?? '0deg 80deg 100%') ?>"
-                shadow-intensity="0.5" shadow-softness="1"
-                auto-rotate auto-rotate-delay="0" rotation-per-second="16deg"
-                interaction-prompt="none" camera-controls disable-zoom disable-tap
-                touch-action="pan-y" loading="eager" reveal="auto"
-                aria-hidden="true" alt=""></model-viewer>
-              <span class="trophy__spin trophy__spin--fallback" hidden><?= $trophySvg ?></span>
-            </div>
-          <?php else: ?>
-            <div class="trophy__stage" data-trophy="<?= View::e($key) ?>"><span class="trophy__spin"><?= $trophySvg ?></span></div>
-          <?php endif; ?>
-          <div class="trophy__name"><?= View::e($t['name']) ?></div>
-          <div class="trophy__stat"><?= View::e($t['stat']) ?></div>
-        </article>
-      <?php endforeach; ?>
-    </div>
-    <?php if ($anyGlb): ?>
-      <script type="module" src="/assets/js/vendor/model-viewer.min.js"></script>
-    <?php endif; ?>
-    <?php if ($anyGlb): ?>
-      <p class="hero__note">Modèles 3D non officiels, reconstruits par IA à partir de photos ou d'illustrations libres de droits (méthode et crédits en <a href="/methodologie">Méthodologie</a>).</p>
+    <?php if ($trophies !== []): ?>
+      <?= $trophyDefs ?>
+      <div class="hero__cabinet">
+        <?php foreach ($trophies as $t): $key = $trophyKey[$t['name']] ?? 'ucl'; ?>
+          <article class="trophy">
+            <?php if ($hasGlb[$key]): $cfg = $trophyCfg[$key] ?? []; ?>
+              <div class="trophy__stage is-mv" data-trophy="<?= View::e($key) ?>" data-mv>
+                <model-viewer class="trophy__mv"
+                  src="/assets/trophies/<?= View::e($key) ?>.glb"
+                  environment-image="/assets/hdri/studio_small_09_1k.hdr"
+                  exposure="<?= View::e($cfg['exposure'] ?? '1.0') ?>"
+                  camera-orbit="<?= View::e($cfg['cameraOrbit'] ?? '0deg 80deg 100%') ?>"
+                  shadow-intensity="0.5" shadow-softness="1"
+                  auto-rotate auto-rotate-delay="0" rotation-per-second="16deg"
+                  interaction-prompt="none" camera-controls disable-zoom disable-tap
+                  touch-action="pan-y" loading="eager" reveal="auto"
+                  aria-hidden="true" alt=""></model-viewer>
+                <span class="trophy__spin trophy__spin--fallback" hidden><?= $trophySvg ?></span>
+              </div>
+            <?php else: ?>
+              <div class="trophy__stage" data-trophy="<?= View::e($key) ?>"><span class="trophy__spin"><?= $trophySvg ?></span></div>
+            <?php endif; ?>
+            <div class="trophy__name"><?= View::e($t['name']) ?></div>
+            <div class="trophy__stat"><?= View::e($t['stat']) ?></div>
+          </article>
+        <?php endforeach; ?>
+      </div>
+      <?php if ($anyGlb): ?>
+        <script type="module" src="/assets/js/vendor/model-viewer.min.js"></script>
+      <?php endif; ?>
+      <?php if ($anyGlb): ?>
+        <p class="hero__note">Modèles 3D non officiels, reconstruits par IA à partir de photos ou d'illustrations libres de droits (méthode et crédits en <a href="/methodologie">Méthodologie</a>).</p>
+      <?php else: ?>
+        <p class="hero__note">Coupes stylisées en 3D : une représentation générique, pas les trophées officiels.</p>
+      <?php endif; ?>
     <?php else: ?>
-      <p class="hero__note">Coupes stylisées en 3D : une représentation générique, pas les trophées officiels.</p>
+      <p class="hero__note"><?= View::e($trophiesNote) ?></p>
     <?php endif; ?>
   </div>
 </section>

@@ -57,7 +57,7 @@ La migration affiche un récapitulatif de contrôle par saison, par exemple :
 | `/methodologie` | Taux de vérification par table, liste des sources et exports. |
 | `/styleguide` | Laboratoire du design system (composants, thèmes, traçabilité). |
 
-Toutes les pages ci-dessus acceptent un paramètre `?saison=2025-26` (ou toute autre saison connue) pour changer la saison affichée ; absent, la saison courante s'applique. Un sélecteur dans le header permet de basculer sans connaître l'URL.
+Les pages de listage (`/`, `/dashboard`, `/joueurs`, `/matchs`, `/methodologie`) acceptent un paramètre `?saison=2025-26` (ou toute autre saison connue) pour changer la saison affichée ; absent, la saison courante s'applique. Un sélecteur dans le header permet de basculer sans connaître l'URL. Les fiches (`/joueurs/{id}`, `/matchs/{id}`) restent figées à la saison de l'enregistrement consulté, et `/styleguide`, page de démo du design system, n'a pas de notion de saison.
 
 ## API REST
 

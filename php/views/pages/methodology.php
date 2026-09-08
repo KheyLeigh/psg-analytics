@@ -7,7 +7,7 @@ declare(strict_types=1);
 ?>
 <div class="stack section mth">
   <div>
-    <div class="hero__eyebrow">Paris Saint-Germain · Saison 2025-26 · Sources</div>
+    <div class="hero__eyebrow">Paris Saint-Germain · Saison <?= View::e($selectedSeason) ?> · Sources</div>
     <h1 class="mth-title">D'où viennent les chiffres</h1>
     <p class="mth-lede">Chaque chiffre de ce site remonte à sa source. Une donnée <span class="mth-ok">vérifiée</span> vient d'une feuille de match officielle ou d'un relevé public (FBref, captures d'application). Une donnée <span class="mth-est">estimée</span> est reconstituée par un générateur déterministe, calibré sur des totaux vérifiés, et signalée partout comme telle. Le bouton Transparence du header fait ressortir les estimations sur tout le site.</p>
   </div>

@@ -6,6 +6,11 @@
     <div class="header-spacer"></div>
     <?php if (isset($seasons, $selectedSeason)): ?>
       <form method="get" class="season-switch">
+        <?php foreach ($_GET as $key => $value): ?>
+          <?php if ($key !== 'saison' && is_string($value)): ?>
+            <input type="hidden" name="<?= View::e($key) ?>" value="<?= View::e($value) ?>">
+          <?php endif; ?>
+        <?php endforeach; ?>
         <label for="saison-select" class="sr-only">Saison</label>
         <select name="saison" id="saison-select" class="season-switch__select" onchange="this.form.submit()">
           <?php foreach ($seasons as $s): ?>

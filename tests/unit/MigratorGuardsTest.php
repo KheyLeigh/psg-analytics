@@ -71,4 +71,89 @@ final class MigratorGuardsTest extends TestCase
             'totaux volontairement faux face à 2025-26/season_totals.php'
         );
     }
+
+    // I1 : la contrainte "une seule saison courante" doit être vérifiée, pas seulement
+    // documentée en commentaire. migrator_assert_single_current() prend directement un
+    // tableau de saisons déjà chargé, indépendamment de la lecture de verified/seasons.php.
+    public function testAssertSingleCurrentEchoueSiAucuneSaisonCourante(): void
+    {
+        $this->assertThrows(
+            static fn () => migrator_assert_single_current([
+                ['key' => 'a', 'is_current' => false],
+                ['key' => 'b', 'is_current' => false],
+            ]),
+            RuntimeException::class,
+            'zéro saison is_current => true doit échouer'
+        );
+    }
+
+    public function testAssertSingleCurrentEchoueSiDeuxSaisonsCourantes(): void
+    {
+        $this->assertThrows(
+            static fn () => migrator_assert_single_current([
+                ['key' => 'a', 'is_current' => true],
+                ['key' => 'b', 'is_current' => true],
+            ]),
+            RuntimeException::class,
+            'deux saisons is_current => true doit échouer'
+        );
+    }
+
+    public function testAssertSingleCurrentLaisseFairePasserUneSeuleSaisonCourante(): void
+    {
+        migrator_assert_single_current([
+            ['key' => 'a', 'is_current' => false],
+            ['key' => 'b', 'is_current' => true],
+        ]);
+        $this->assertTrue(true, 'aucune exception levée avec exactement une saison courante');
+    }
+
+    public function testMigratorSeedSeasonsSurLesDonneesReellesNeLevePasException(): void
+    {
+        // La migration réelle (2025-26 is_current=false, 2026-27 is_current=true) doit
+        // continuer de passer : régression contre le garde-fou nouvellement ajouté.
+        $pdo = new PDO('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $pdo->exec('CREATE TABLE seasons (id INTEGER PRIMARY KEY, label TEXT, start_date TEXT, end_date TEXT, is_current INT)');
+        $seasons = migrator_seed_seasons($pdo);
+        $this->assertSame(2, count($seasons), 'deux saisons déclarées dans verified/seasons.php');
+    }
+
+    // I2 : migrator_resolve_person() n'était testée nulle part. Correspondance exacte
+    // (pas de normalisation), documentée en commentaire au-dessus de la fonction.
+    private function pdoAvecTablePeople(): PDO
+    {
+        $pdo = new PDO('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $pdo->exec('CREATE TABLE people (id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT)');
+        return $pdo;
+    }
+
+    public function testResolvePersonCreeUneLignePourUnNouveauJoueur(): void
+    {
+        $pdo = $this->pdoAvecTablePeople();
+        $id = migrator_resolve_person($pdo, 'Gianluigi', 'Donnarumma');
+        $this->assertSame(1, $id, 'premier insert, id auto-incrémenté à 1');
+        $this->assertSame(1, (int) $pdo->query('SELECT COUNT(*) FROM people')->fetchColumn());
+    }
+
+    public function testResolvePersonRenvoieLeMemeIdPourLeMemeNomExact(): void
+    {
+        $pdo = $this->pdoAvecTablePeople();
+        $id1 = migrator_resolve_person($pdo, 'Gianluigi', 'Donnarumma');
+        $id2 = migrator_resolve_person($pdo, 'Gianluigi', 'Donnarumma');
+        $this->assertSame($id1, $id2, 'même prénom/nom exact : pas de doublon');
+        $this->assertSame(1, (int) $pdo->query('SELECT COUNT(*) FROM people')->fetchColumn(), 'une seule ligne people');
+    }
+
+    public function testResolvePersonCreeUneNouvelleLignePourUnNomDifferent(): void
+    {
+        $pdo = $this->pdoAvecTablePeople();
+        $id1 = migrator_resolve_person($pdo, 'Gianluigi', 'Donnarumma');
+        $id2 = migrator_resolve_person($pdo, 'Ousmane', 'Dembélé');
+        $this->assertTrue($id1 !== $id2, 'noms différents : identifiants différents');
+        $this->assertSame(2, (int) $pdo->query('SELECT COUNT(*) FROM people')->fetchColumn());
+    }
 }

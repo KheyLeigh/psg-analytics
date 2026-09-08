@@ -13,13 +13,16 @@ $resultMeta = [
 ];
 
 // Construit une URL de filtre en conservant l'autre critère et en repartant page 1.
-$filterHref = static function (?int $competitionId, ?string $result): string {
+$filterHref = static function (?int $competitionId, ?string $result) use ($selectedSeason): string {
     $params = [];
     if ($competitionId !== null) {
         $params['competition_id'] = $competitionId;
     }
     if ($result !== null) {
         $params['result'] = $result;
+    }
+    if ($selectedSeason !== '') {
+        $params['saison'] = $selectedSeason;
     }
     return '/matchs' . ($params ? '?' . http_build_query($params) : '');
 };
@@ -29,7 +32,7 @@ $currentResult = $filters['result'];
 ?>
 <div class="stack section">
   <div>
-    <div class="hero__eyebrow">Paris Saint-Germain · Saison 2025-26 · Calendrier</div>
+    <div class="hero__eyebrow">Paris Saint-Germain · Saison <?= View::e($selectedSeason) ?> · Calendrier</div>
     <h1 class="mt-title">La saison, match par match</h1>
     <p class="mt-lede">Les <?= View::e($meta['total']) ?> rencontres de la saison, filtrables par compétition et par résultat. Chaque score vient des feuilles de match.</p>
   </div>
@@ -91,10 +94,11 @@ $currentResult = $filters['result'];
       <nav class="mt-pager" aria-label="Pagination des matchs">
         <?php $prev = max(1, $meta['page'] - 1); $next = min($meta['total_pages'], $meta['page'] + 1); ?>
         <?php
-          $pageHref = static function (int $p) use ($currentComp, $currentResult): string {
+          $pageHref = static function (int $p) use ($currentComp, $currentResult, $selectedSeason): string {
               $params = ['page' => $p];
               if ($currentComp !== null) { $params['competition_id'] = $currentComp; }
               if ($currentResult !== null) { $params['result'] = $currentResult; }
+              if ($selectedSeason !== '') { $params['saison'] = $selectedSeason; }
               return '/matchs?' . http_build_query($params);
           };
         ?>

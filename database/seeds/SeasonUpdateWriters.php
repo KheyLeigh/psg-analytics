@@ -39,12 +39,17 @@ function season_update_replace_totals(string $path, array $totals, string $comme
 function season_update_write_php_array(string $path, array $data, string $comment): void
 {
     // $comment finit dans un commentaire // sur une seule ligne : un retour à la
-    // ligne y ferait sortir la suite du commentaire (donc du fichier généré),
-    // avec le fichier PHP obtenu invalide ou, pire, du code non prévu exécuté.
-    // Aucun appelant actuel ne passe de retour à la ligne, mais la signature
-    // (string $comment) ne le garantit pas : on neutralise plutôt que de faire
-    // confiance à l'appelant.
-    $safeComment = str_replace(["\r\n", "\n", "\r"], ' ', $comment);
+    // ligne, ou la balise de fermeture PHP (point d'interrogation suivi d'un
+    // chevron fermant), y ferait sortir la suite du commentaire (donc du
+    // fichier généré), avec le fichier PHP obtenu invalide ou, pire, du code
+    // arbitraire exécuté au require (cette balise termine un commentaire //
+    // même sans retour à la ligne, comportement documenté du langage : ne
+    // jamais l'écrire en toutes lettres dans un commentaire // du code source
+    // lui-même, comme cette explication l'illustre par nécessité). Aucun
+    // appelant actuel ne passe l'un ou l'autre, mais la signature
+    // (string $comment) ne le garantit pas : on neutralise les deux plutôt
+    // que de faire confiance à l'appelant.
+    $safeComment = str_replace(["\r\n", "\n", "\r", '?>'], [' ', ' ', ' ', '? >'], $comment);
     $php = "<?php\ndeclare(strict_types=1);\n// {$safeComment}\n"
         . '// Fichier généré automatiquement, dernière mise à jour : ' . date('Y-m-d') . ".\n"
         . 'return ' . var_export($data, true) . ";\n";

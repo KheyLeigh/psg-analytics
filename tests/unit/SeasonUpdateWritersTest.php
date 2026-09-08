@@ -91,6 +91,25 @@ final class SeasonUpdateWritersTest extends TestCase
         $this->assertSame(['Barcola' => ['mp' => 10]], $totals, 'le fichier reste un simple retour de tableau, rien injecté');
     }
 
+    public function testReplaceTotalsNeutraliseUneFermetureDeBalisePhp(): void
+    {
+        // La balise de fermeture PHP termine un commentaire // sans le moindre
+        // retour à la ligne (comportement du langage) : sans neutralisation,
+        // tout ce qui suit dans $comment serait exécuté comme du code PHP au
+        // require. Volontairement pas écrite en toutes lettres ici : le faire
+        // dans un commentaire // du code source la déclencherait aussi.
+        $path = $this->tmp('players_l1_fbref_fermeture.php');
+
+        season_update_replace_totals($path, ['Barcola' => ['mp' => 10]], 'texte anodin ?><?php echo "INJECTE"; //');
+
+        ob_start();
+        $totals = require $path;
+        $sortie = ob_get_clean();
+
+        $this->assertSame('', $sortie, 'rien ne doit s\'exécuter depuis le commentaire');
+        $this->assertSame(['Barcola' => ['mp' => 10]], $totals);
+    }
+
     public function testTouchSourcesMetAJourUniquementLesClesDemandees(): void
     {
         $path = $this->tmp('sources.php');

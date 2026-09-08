@@ -32,8 +32,10 @@ final class SeedIntegrityTest extends TestCase
     public function testEffectifComplet(): void
     {
         $pdo = $this->migratedPdo();
-        $n = (int) $pdo->query("SELECT COUNT(*) FROM players")->fetchColumn();
-        $this->assertSame(24, $n, '24 joueurs');
+        $n = (int) $pdo->query(
+            "SELECT COUNT(*) FROM players p JOIN seasons s ON s.id = p.season_id WHERE s.label = '2025-26'"
+        )->fetchColumn();
+        $this->assertSame(24, $n, '24 joueurs (saison 2025-26)');
     }
 
     public function testButsIndividuelsL1Egalent73AvecUnCscAdverse(): void

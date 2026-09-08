@@ -18,6 +18,20 @@ final class SeasonUpdateWritersTest extends TestCase
         return $this->tmpDir . '/' . $name;
     }
 
+    // Le lanceur de tests maison (tests/run.php) n'appelle aucun hook
+    // setUp/tearDown : le nettoyage du répertoire temporaire se fait donc ici,
+    // à la destruction de l'instance (une seule par classe de test).
+    public function __destruct()
+    {
+        if (!isset($this->tmpDir) || !is_dir($this->tmpDir)) {
+            return;
+        }
+        foreach (glob($this->tmpDir . '/*') ?: [] as $file) {
+            unlink($file);
+        }
+        rmdir($this->tmpDir);
+    }
+
     public function testAppendMatchesAjouteALaFinDunFichierExistant(): void
     {
         $path = $this->tmp('matches_l1.php');
@@ -62,6 +76,19 @@ final class SeasonUpdateWritersTest extends TestCase
 
         $totals = require $path;
         $this->assertSame(['Barcola' => ['mp' => 10, 'goals' => 5]], $totals);
+    }
+
+    public function testReplaceTotalsNeutraliseUnCommentaireMultiLignes(): void
+    {
+        // Un retour à la ligne dans $comment ferait sortir la suite du texte du
+        // commentaire // et casserait le fichier généré (ou pire) : il doit être
+        // neutralisé avant écriture.
+        $path = $this->tmp('players_l1_fbref_comment.php');
+
+        season_update_replace_totals($path, ['Barcola' => ['mp' => 10]], "Ligne 1\nreturn ['injecte' => true];");
+
+        $totals = require $path;
+        $this->assertSame(['Barcola' => ['mp' => 10]], $totals, 'le fichier reste un simple retour de tableau, rien injecté');
     }
 
     public function testTouchSourcesMetAJourUniquementLesClesDemandees(): void

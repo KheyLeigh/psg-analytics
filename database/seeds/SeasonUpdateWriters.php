@@ -38,7 +38,14 @@ function season_update_replace_totals(string $path, array $totals, string $comme
 // seeds 2025-26 écrits manuellement).
 function season_update_write_php_array(string $path, array $data, string $comment): void
 {
-    $php = "<?php\ndeclare(strict_types=1);\n// {$comment}\n"
+    // $comment finit dans un commentaire // sur une seule ligne : un retour à la
+    // ligne y ferait sortir la suite du commentaire (donc du fichier généré),
+    // avec le fichier PHP obtenu invalide ou, pire, du code non prévu exécuté.
+    // Aucun appelant actuel ne passe de retour à la ligne, mais la signature
+    // (string $comment) ne le garantit pas : on neutralise plutôt que de faire
+    // confiance à l'appelant.
+    $safeComment = str_replace(["\r\n", "\n", "\r"], ' ', $comment);
+    $php = "<?php\ndeclare(strict_types=1);\n// {$safeComment}\n"
         . '// Fichier généré automatiquement, dernière mise à jour : ' . date('Y-m-d') . ".\n"
         . 'return ' . var_export($data, true) . ";\n";
     file_put_contents($path, $php);

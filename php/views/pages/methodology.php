@@ -98,8 +98,8 @@ declare(strict_types=1);
     <div class="panel__header"><h2 class="panel__title">Exports</h2></div>
     <p>Les données de l'effectif et une synthèse de la saison sont téléchargeables.</p>
     <div class="row">
-      <a class="btn btn--primary" href="/api/export/players.csv" download>Joueurs (CSV)</a>
-      <a class="btn" href="/api/export/report.pdf" download>Rapport de saison (PDF)</a>
+      <a class="btn btn--primary" href="/api/export/players.csv?saison=<?= urlencode($selectedSeason) ?>" download>Joueurs (CSV)</a>
+      <a class="btn" href="/api/export/report.pdf?saison=<?= urlencode($selectedSeason) ?>" download>Rapport de saison (PDF)</a>
     </div>
   </section>
 </div>

@@ -50,22 +50,25 @@ $headline[] = [
     'tip' => 'Matchs de Ligue 1 sans encaisser de but, comptés sur les scores vérifiés.',
 ];
 
-// Portes d'entrée : chaque carte dit en un mot ce qu'on trouve derrière.
+// Portes d'entrée : chaque carte dit en un mot ce qu'on trouve derrière. Le suffixe
+// conserve la saison consultée : sans lui, entrer dans le site depuis l'accueil
+// ramènerait silencieusement à la saison courante (voir revue finale, finding C2).
+$seasonSuffix = '?saison=' . urlencode($selectedSeason);
 $entries = [
     [
-        'href' => '/dashboard', 'kicker' => 'Analyse',
+        'href' => '/dashboard' . $seasonSuffix, 'kicker' => 'Analyse',
         'title' => 'Dashboard', 'desc' => 'La course au titre, la possession et les buts, graphiques à l\'appui.',
     ],
     [
-        'href' => '/joueurs', 'kicker' => 'Effectif',
+        'href' => '/joueurs' . $seasonSuffix, 'kicker' => 'Effectif',
         'title' => 'Joueurs', 'desc' => 'Fiches, totaux et comparaisons, poste par poste.',
     ],
     [
-        'href' => '/matchs', 'kicker' => 'Calendrier',
+        'href' => '/matchs' . $seasonSuffix, 'kicker' => 'Calendrier',
         'title' => 'Matchs', 'desc' => 'Chaque rencontre de la saison, résultat et feuille de match.',
     ],
     [
-        'href' => '/methodologie', 'kicker' => 'Sources',
+        'href' => '/methodologie' . $seasonSuffix, 'kicker' => 'Sources',
         'title' => 'Méthodologie', 'desc' => 'D\'où viennent les chiffres, vérifié contre estimé.',
     ],
 ];

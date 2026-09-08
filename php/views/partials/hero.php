@@ -19,6 +19,9 @@ declare(strict_types=1);
  */
 $heroYear = $heroYear ?? '25·26';
 $trophiesNote = $trophiesNote ?? 'Palmarès de la saison non disponible pour le moment.';
+// styleguide.php (démo du design system) inclut ce partial sans $selectedSeason :
+// le lien reste alors nu.
+$heroMethodoHref = '/methodologie' . (isset($selectedSeason) ? '?saison=' . urlencode($selectedSeason) : '');
 
 // Type de coupe 3D par compétition (mappe le nom vers le modèle WebGL de trophy3d.js).
 // Robuste a l'ordre des cartes ; repli 'ucl' si un nom inattendu apparait.
@@ -97,7 +100,7 @@ $trophySvg = '<svg viewBox="0 0 64 96" width="76" height="96" xmlns="http://www.
         <script type="module" src="/assets/js/vendor/model-viewer.min.js"></script>
       <?php endif; ?>
       <?php if ($anyGlb): ?>
-        <p class="hero__note">Modèles 3D non officiels, reconstruits par IA à partir de photos ou d'illustrations libres de droits (méthode et crédits en <a href="/methodologie">Méthodologie</a>).</p>
+        <p class="hero__note">Modèles 3D non officiels, reconstruits par IA à partir de photos ou d'illustrations libres de droits (méthode et crédits en <a href="<?= View::e($heroMethodoHref) ?>">Méthodologie</a>).</p>
       <?php else: ?>
         <p class="hero__note">Coupes stylisées en 3D : une représentation générique, pas les trophées officiels.</p>
       <?php endif; ?>

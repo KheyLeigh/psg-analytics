@@ -56,4 +56,32 @@ return [
         'confidence'   => 'estimated',
         'note'         => 'Répartition des buts, minutes et notes par match, calibrée sur les totaux vérifiés.',
     ],
+    [
+        'key'          => 'fbref_2026-27',
+        'label'        => 'FBref : journal des matchs PSG 2026-27 (toutes compétitions)',
+        'url'          => 'https://fbref.com/en/squads/e2d8892c/2026-2027/matchlogs/all_comps/schedule/',
+        'collected_at' => null,
+        'confidence'   => 'verified',
+        'note'         => 'Alimenté automatiquement, saison en cours (voir tâche planifiée '
+            . 'psg-analytics-collecte-2026-27) : matchs de la saison 2026-27, toutes compétitions confondues.',
+    ],
+    [
+        'key'          => 'fbref_players_l1_2026-27',
+        'label'        => 'FBref : statistiques standard par joueur, Ligue 1 2026-27',
+        'url'          => 'https://fbref.com/en/squads/e2d8892c/2026-2027/dom_lig/Paris-Saint-Germain-Ligue-1-Stats',
+        'collected_at' => null,
+        'confidence'   => 'verified',
+        'note'         => 'Alimenté automatiquement, saison en cours (voir tâche planifiée '
+            . 'psg-analytics-collecte-2026-27) : matchs joués, titularisations, minutes, buts, passes '
+            . 'décisives, penalties et cartons par joueur, Ligue 1 2026-27 uniquement.',
+    ],
+    [
+        'key'          => 'understat_2026-27',
+        'label'        => 'Understat : tirs individuels avec xG, saison PSG 2026-27',
+        'url'          => 'https://understat.com/team/Paris_Saint_Germain/2026',
+        'collected_at' => null,
+        'confidence'   => 'verified',
+        'note'         => 'Alimenté automatiquement, saison en cours (voir tâche planifiée '
+            . 'psg-analytics-collecte-2026-27) : position, minute et xG de chaque tir, par joueur, saison 2026-27.',
+    ],
 ];

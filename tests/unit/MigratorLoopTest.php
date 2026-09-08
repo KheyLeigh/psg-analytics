@@ -65,4 +65,17 @@ final class MigratorLoopTest extends TestCase
         $label = $pdo->query('SELECT label FROM seasons WHERE is_current = 1')->fetchColumn();
         $this->assertSame('2026-27', $label, '2026-27 est la saison courante');
     }
+
+    // I4 : la saison 2025-26 n'a pas de clé de source dédiée (fbref_2025-26) dans
+    // sources.php ; ses matchs doivent donc rester attribués à la source partagée
+    // fbref, même après l'ajout des clés dédiées 2026-27. Non-régression.
+    public function testLesMatchs2025_26RestentAttribuesALaSourceFbrefPartagee(): void
+    {
+        $pdo = $this->migratedPdo();
+        $label = $pdo->query(
+            "SELECT d.label FROM matches m JOIN data_sources d ON d.id = m.source_id
+             JOIN seasons s ON s.id = m.season_id WHERE s.label = '2025-26' LIMIT 1"
+        )->fetchColumn();
+        $this->assertSame('FBref : journal des matchs PSG 2025-26 (toutes compétitions)', $label);
+    }
 }

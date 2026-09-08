@@ -20,6 +20,14 @@ function migrator_player_key(string $firstName, string $lastName): string
     return $lastName !== '' ? $lastName : $firstName;
 }
 
+// Résout le source_id à utiliser pour une saison donnée : la clé spécifique à la
+// saison si elle existe dans sources.php (ex. "fbref_2026-27"), sinon la clé de
+// base partagée (ex. "fbref", utilisée par 2025-26 qui n'a pas de clé dédiée).
+function migrator_resolve_source_id(array $sourceIds, string $baseKey, string $seasonKey): int
+{
+    return $sourceIds["{$baseKey}_{$seasonKey}"] ?? $sourceIds[$baseKey];
+}
+
 // Insère teams, competitions et sources (catalogues partagés entre saisons) ;
 // renvoie les identifiants nécessaires au peuplement de chaque saison.
 function migrator_seed_catalog(PDO $pdo): array
@@ -183,7 +191,7 @@ function migrator_seed_matches(PDO $pdo, array $ref, string $seasonKey): array
     );
     $psgId = $ref['psg_id'];
     $compId = $ref['competition_ids']['ligue1'];
-    $sourceId = $ref['source_ids']['fbref'];
+    $sourceId = migrator_resolve_source_id($ref['source_ids'], 'fbref', $seasonKey);
     $matches = [];
     foreach (require __DIR__ . "/verified/{$seasonKey}/matches_l1.php" as [$round, $date, $opponent, $isHome, $psgGoals, $advGoals, $attendance, $possession]) {
         $oppId = $ref['team_ids'][$opponent];
@@ -207,7 +215,7 @@ function migrator_seed_other_matches(PDO $pdo, array $ref, string $seasonKey): v
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
     $psgId = $ref['psg_id'];
-    $sourceId = $ref['source_ids']['fbref'];
+    $sourceId = migrator_resolve_source_id($ref['source_ids'], 'fbref', $seasonKey);
     foreach (require __DIR__ . "/verified/{$seasonKey}/matches_other.php" as [
         $compKey, $round, $date, $venue, $opponent, $psgGoals, $advGoals,
         $possession, $attendance, $wentToExtra, $penaltyShootout, $penaltyScore,

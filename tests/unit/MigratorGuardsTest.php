@@ -156,4 +156,19 @@ final class MigratorGuardsTest extends TestCase
         $this->assertTrue($id1 !== $id2, 'noms différents : identifiants différents');
         $this->assertSame(2, (int) $pdo->query('SELECT COUNT(*) FROM people')->fetchColumn());
     }
+
+    // I3 : la clé de source dédiée à une saison (ex. "fbref_2026-27") doit primer sur
+    // la clé partagée (ex. "fbref") quand elle existe, pour que la tâche planifiée de
+    // collecte hebdomadaire ne date jamais faussement les entrées de saisons figées.
+    public function testResolveSourceIdUtiliseLaCleDedieeSiPresente(): void
+    {
+        $id = migrator_resolve_source_id(['fbref' => 1, 'fbref_2026-27' => 2], 'fbref', '2026-27');
+        $this->assertSame(2, $id, 'la clé dédiée à la saison prime sur la clé partagée');
+    }
+
+    public function testResolveSourceIdRetombeSurLaClePartageeSiAbsente(): void
+    {
+        $id = migrator_resolve_source_id(['fbref' => 1], 'fbref', '2025-26');
+        $this->assertSame(1, $id, 'pas de clé fbref_2025-26 : on retombe sur la clé partagée fbref');
+    }
 }

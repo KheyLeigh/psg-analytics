@@ -71,6 +71,9 @@ final class PlayerController extends Controller
             return null;
         }
 
+        $season = $this->seasons->find($player->seasonId);
+        $seasonLabel = $season?->label ?? '';
+
         $totals = $this->stats->seasonTotalsByPlayer($id);
         $max = $this->stats->squadAxisMax($player->seasonId);
 
@@ -88,8 +91,8 @@ final class PlayerController extends Controller
             // data-page vaut le nom de la vue (player_detail) : View::render conserve le
             // nom de template via extract(EXTR_SKIP). Le routeur app.js s'aligne dessus.
             'page'     => 'player_detail',
-            'shotmap'  => $this->shotmap($id, $player->fullName()),
-            'shotsByComp' => $this->shotsByCompetition($id),
+            'shotmap'  => $this->shotmap($id, $player->fullName(), $seasonLabel),
+            'shotsByComp' => $this->shotsByCompetition($id, $seasonLabel),
             'seasons'  => $this->players->seasonsForPerson($player->personId),
             'player'   => [
                 'id'               => $player->id,
@@ -109,12 +112,32 @@ final class PlayerController extends Controller
         ];
     }
 
-    // Carte des tirs du joueur : tirs vérifiés avec coordonnées réelles (Understat),
-    // indexés par id joueur. Renvoie null si le joueur n'a pas de tirs référencés
-    // (gardiens, joueurs sans tir en L1) : la vue masque alors la section.
-    private function shotmap(int $id, string $fullName): ?array
+    // Chemin du fichier de tirs Understat pour une saison donnée (ex. '2025-26' ->
+    // .../2025-26/understat-shots-2025.json). Statique et pure : testable sans
+    // accès disque, et réutilisée par shotmap().
+    public static function shotmapPath(string $seasonLabel): string
     {
-        $file = BASE_PATH . '/database/seeds/verified/understat-shots-2025.json';
+        $year = substr($seasonLabel, 0, 4);
+        return BASE_PATH . "/database/seeds/verified/{$seasonLabel}/understat-shots-{$year}.json";
+    }
+
+    // Chemin du fichier de tirs par compétition FBref pour une saison donnée.
+    public static function shotsByCompetitionPath(string $seasonLabel): string
+    {
+        $year = substr($seasonLabel, 0, 4);
+        return BASE_PATH . "/database/seeds/verified/{$seasonLabel}/fbref-shots-by-competition-{$year}.json";
+    }
+
+    // Carte des tirs du joueur : tirs vérifiés avec coordonnées réelles (Understat),
+    // indexés par id joueur, pour la saison du joueur consulté. Renvoie null si le
+    // joueur n'a pas de tirs référencés, ou si aucun fichier n'existe encore pour
+    // cette saison (saison en cours, pas encore de données Understat).
+    private function shotmap(int $id, string $fullName, string $seasonLabel): ?array
+    {
+        if ($seasonLabel === '') {
+            return null;
+        }
+        $file = self::shotmapPath($seasonLabel);
         if (!is_file($file)) {
             return null;
         }
@@ -135,13 +158,14 @@ final class PlayerController extends Controller
         ];
     }
 
-    // Tirs par compétition (FBref) : complète la carte des tirs (Ligue 1 seule, faute
-    // de coordonnées ailleurs) par les totaux tirs/buts de chaque compétition jouée.
-    // Renvoie null si le joueur n'a aucun tir référencé (gardiens) : la vue masque alors
-    // le bloc. Indexé par id joueur, comme understat-shots-2025.json.
-    private function shotsByCompetition(int $id): ?array
+    // Tirs par compétition (FBref), pour la saison du joueur consulté. Renvoie
+    // null si aucun fichier n'existe encore pour cette saison.
+    private function shotsByCompetition(int $id, string $seasonLabel): ?array
     {
-        $file = BASE_PATH . '/database/seeds/verified/fbref-shots-by-competition-2025.json';
+        if ($seasonLabel === '') {
+            return null;
+        }
+        $file = self::shotsByCompetitionPath($seasonLabel);
         if (!is_file($file)) {
             return null;
         }

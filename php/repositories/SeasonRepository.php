@@ -19,6 +19,12 @@ final class SeasonRepository extends Repository
         return $row ? Season::fromRow($row) : null;
     }
 
+    public function find(int $id): ?Season
+    {
+        $row = $this->fetchOne('SELECT * FROM seasons WHERE id = ?', [$id]);
+        return $row ? Season::fromRow($row) : null;
+    }
+
     // Résout la saison à afficher : le slug demandé s'il correspond à une saison
     // connue, sinon la saison courante. Ne lève jamais pour un slug absent/invalide.
     public function resolve(?string $slug): Season

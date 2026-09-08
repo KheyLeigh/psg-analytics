@@ -72,4 +72,18 @@ final class SeasonRepositoryTest extends TestCase
         $this->assertSame(false, $nav['seasons'][0]['isCurrent']);
         $this->assertSame(true, $nav['seasons'][1]['isCurrent']);
     }
+
+    public function testFindRenvoieLaSaisonParId(): void
+    {
+        $repo = new SeasonRepository($this->pdo());
+        $s = $repo->find(2);
+        $this->assertTrue($s instanceof Season);
+        $this->assertSame('2026-27', $s->label);
+    }
+
+    public function testFindRenvoieNullSiIdInconnu(): void
+    {
+        $repo = new SeasonRepository($this->pdo());
+        $this->assertSame(null, $repo->find(999));
+    }
 }

@@ -32,6 +32,15 @@ return [
             . 'Remplace les ancrages estimés de scorers_l1.php / discipline_l1.php (supprimés).',
     ],
     [
+        'key'          => 'understat',
+        'label'        => 'Understat : tirs individuels avec xG, saison PSG',
+        'url'          => 'https://understat.com/team/Paris_Saint_Germain/2025',
+        'collected_at' => '2026-08-11',
+        'confidence'   => 'verified',
+        'note'         => 'Export JSON Understat (database/seeds/verified/{saison}/understat-shots-{année}.json) : '
+            . 'position, minute et xG de chaque tir, par joueur.',
+    ],
+    [
         'key'          => 'squad_screenshots',
         'label'        => "Captures d'écran application de suivi (onglet Équipe, fournies par Mathis)",
         'url'          => null,

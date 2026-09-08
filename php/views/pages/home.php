@@ -98,7 +98,7 @@ $formTitles = ['W' => 'Victoire', 'D' => 'Nul', 'L' => 'Défaite'];
       </div>
       <p class="home-promise__more">
         Le <button type="button" class="linklike" id="home-transp-hint">mode Transparence</button> fait ressortir les estimations partout sur le site.
-        Méthode complète : <a href="/methodologie">voir la méthodologie</a>.
+        Méthode complète : <a href="<?= View::e('/methodologie' . $seasonSuffix) ?>">voir la méthodologie</a>.
       </p>
     </div>
   </section>

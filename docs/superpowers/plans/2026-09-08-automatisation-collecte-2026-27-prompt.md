@@ -91,8 +91,11 @@ rien inventer, et sans jamais toucher au déploiement.
      `php/controllers/PlayerController.php` ou de reconstruire le même
      chemin littéralement : `database/seeds/verified/2026-27/understat-shots-2026.json`).
    - `season_update_touch_sources()` sur `database/seeds/verified/sources.php`
-     avec la date du jour pour les clés `fbref`, `fbref_players_l1`, et
-     `understat` si l'étape 6 a réussi.
+     avec la date du jour pour les clés `fbref_2026-27`,
+     `fbref_players_l1_2026-27`, et `understat_2026-27` si l'étape 6 a
+     réussi. Ces clés sont dédiées à la saison 2026-27 : ne jamais toucher
+     aux clés `fbref`, `fbref_players_l1` ou `understat` (sans suffixe),
+     qui documentent la collecte 2025-26 déjà figée.
 
    Puis exécute `php database/migrate.php` et `php tests/run.php`. Si l'une
    des deux commandes échoue, n'effectue AUCUN commit : laisse les fichiers

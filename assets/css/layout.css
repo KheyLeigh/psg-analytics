@@ -104,7 +104,7 @@
   left: 12px;
   width: 6px;
   background: var(--red);
-  box-shadow: -2px 0 0 #fff, 4px 0 0 #fff;
+  box-shadow: -3px 0 0 #fff, 3px 0 0 #fff;
 }
 
 /* Navigation principale. */

@@ -77,15 +77,17 @@ a, button, .chip, .mt-row {
   border: 0;
 }
 
-/* Bande Hechter : deux liserés blancs encadrant la rayure rouge. Sert de galon
-   sous le header comme de bande verticale du hero. */
+/* Galon Hechter : rayure rouge liserée de blanc, répétée en continu sur toute la
+   largeur de la barre (galon sous le header, séparateurs de section). Les stops
+   fixes en pixels d'un simple linear-gradient laisseraient le motif ne s'afficher
+   qu'une fois à gauche puis transparent sur le reste de la barre : le
+   repeating-linear-gradient fait tenir la rayure sur toute la longueur, quelle
+   que soit la largeur du conteneur. */
 .hechter {
-  background: linear-gradient(90deg,
-    transparent 0 2px,
-    #fff 2px 4px,
-    var(--red) 4px 22px,
-    #fff 22px 24px,
-    transparent 24px);
+  background: repeating-linear-gradient(90deg,
+    #fff 0 2px,
+    var(--red) 2px 20px,
+    #fff 20px 22px);
 }
 
 /* Transitions douces au basculement de thème, sauf préférence contraire. */

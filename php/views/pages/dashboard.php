@@ -64,9 +64,15 @@ $kpiCards = [
 
 // Données embarquées pour l'hydratation : la courbe (sans endpoint) et le classement
 // des buteurs (totaux vérifiés). La répartition et la carte de chaleur passent par l'API.
+// Le jalon "Champion" ne vaut que pour la saison effectivement remportée
+// (2025-26) : l'afficher sur une saison en cours suggérerait à tort un titre
+// déjà acquis.
+$pointsMilestoneLabel = $selectedSeason === '2025-26'
+    ? $totalPoints . ' · Champion'
+    : (string) $totalPoints;
 $embedded = [
     'points' => $points,
-    'milestone' => ['value' => $totalPoints, 'label' => $totalPoints . ' · Champion'],
+    'milestone' => ['value' => $totalPoints, 'label' => $pointsMilestoneLabel],
     'topScorers' => $topScorers,
 ];
 $formLetters = ['W' => 'V', 'D' => 'N', 'L' => 'D'];
@@ -111,7 +117,7 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
         <figcaption class="chart-card__head">
           <div>
             <h3 class="chart-card__title">Course au titre</h3>
-            <p class="chart-card__sub">Points de Ligue 1 cumulés, journée par journée. Jalon <span class="gold">76 · champion</span> en or.</p>
+            <p class="chart-card__sub">Points de Ligue 1 cumulés, journée par journée.<?= $selectedSeason === '2025-26' ? ' Jalon <span class="gold">' . View::e($totalPoints) . ' · champion</span> en or.' : '' ?></p>
           </div>
           <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
         </figcaption>

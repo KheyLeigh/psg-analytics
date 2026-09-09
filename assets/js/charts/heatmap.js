@@ -46,6 +46,15 @@ export function render(container, data, options = {}) {
       });
       cell.appendChild(svgEl('title', {}, `${row.label}, ${(colLabels && colLabels[c]) || 'zone ' + (c + 1)} : ${value}`));
       svg.appendChild(cell);
+
+      // Valeur affichée en clair dans la cellule : la couleur seule ne porte pas
+      // assez l'information (au clic comme au coup d'oeil), le chiffre confirme.
+      if (value > 0) {
+        svg.appendChild(svgEl('text', {
+          class: 'heat-value', x: x + (cw - GAP) / 2, y: y + (ch - GAP) / 2,
+          'text-anchor': 'middle', 'dominant-baseline': 'central',
+        }, String(value)));
+      }
     });
   });
 

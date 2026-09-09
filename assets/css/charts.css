@@ -156,6 +156,20 @@
   font-size: 11px;
   fill: var(--dim);
 }
+/* Halo sombre en paint-order pour rester lisible quelle que soit l'intensité
+   de la cellule (du navy discret au rouge chaud). */
+.chart .heat-value {
+  font-family: var(--num);
+  font-style: italic;
+  font-size: 11px;
+  font-weight: 600;
+  fill: #fff;
+  paint-order: stroke;
+  stroke: color-mix(in srgb, var(--surface) 70%, #000);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
 
 /* Apparition douce et cohérente sur tous les charts, désactivée si l'utilisateur
    limite les animations. */

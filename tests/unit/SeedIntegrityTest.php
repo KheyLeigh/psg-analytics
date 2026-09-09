@@ -14,16 +14,26 @@ final class SeedIntegrityTest extends TestCase
         return $pdo;
     }
 
+    // Tous les totaux figés vérifiés ci-dessous portent sur la saison 2025-26
+    // (terminée, immuable) : chaque requête doit rester scopée à cette saison,
+    // sinon les matchs/stats 2026-27 (en cours, alimentés au fil de l'eau par
+    // la tâche planifiée) fausseraient les sommes dès qu'ils existent.
+    private function season2025_26(PDO $pdo): int
+    {
+        return (int) $pdo->query("SELECT id FROM seasons WHERE label = '2025-26'")->fetchColumn();
+    }
+
     public function testBilanLigue1(): void
     {
         $pdo = $this->migratedPdo();
+        $season = $this->season2025_26($pdo);
         $psg = (int) $pdo->query("SELECT id FROM teams WHERE is_psg = 1")->fetchColumn();
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type = 'league'")->fetchColumn();
         $row = $pdo->query("SELECT
             SUM(CASE WHEN (home_team_id={$psg} AND home_goals>away_goals) OR (away_team_id={$psg} AND away_goals>home_goals) THEN 1 ELSE 0 END) w,
             SUM(CASE WHEN home_goals=away_goals THEN 1 ELSE 0 END) d,
             SUM(CASE WHEN (home_team_id={$psg} AND home_goals<away_goals) OR (away_team_id={$psg} AND away_goals<home_goals) THEN 1 ELSE 0 END) l
-            FROM matches WHERE competition_id = {$comp}")->fetch();
+            FROM matches WHERE competition_id = {$comp} AND season_id = {$season}")->fetch();
         $this->assertSame(24, (int) $row['w'], '24 victoires L1');
         $this->assertSame(4, (int) $row['d'], '4 nuls L1');
         $this->assertSame(6, (int) $row['l'], '6 défaites L1');
@@ -41,8 +51,9 @@ final class SeedIntegrityTest extends TestCase
     public function testButsIndividuelsL1Egalent73AvecUnCscAdverse(): void
     {
         $pdo = $this->migratedPdo();
+        $season = $this->season2025_26($pdo);
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
-        $indiv = (int) $pdo->query("SELECT SUM(goals) FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp}")->fetchColumn();
+        $indiv = (int) $pdo->query("SELECT SUM(goals) FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp} AND m.season_id={$season}")->fetchColumn();
         // 74 buts d'équipe - 73 buts individuels = 1 but contre son camp
         // adverse, crédité à PSG mais jamais attribué à un joueur (FBref).
         $this->assertSame(73, $indiv, 'somme buts individuels L1 = 73 (1 csc adverse non attribué)');
@@ -51,17 +62,19 @@ final class SeedIntegrityTest extends TestCase
     public function testAssistsIndividuellesL1Egalent55(): void
     {
         $pdo = $this->migratedPdo();
+        $season = $this->season2025_26($pdo);
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
-        $indiv = (int) $pdo->query("SELECT SUM(assists) FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp}")->fetchColumn();
+        $indiv = (int) $pdo->query("SELECT SUM(assists) FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp} AND m.season_id={$season}")->fetchColumn();
         $this->assertSame(55, $indiv, 'somme passes décisives L1 = 55');
     }
 
     public function testTirsEtTaclesL1TotauxExacts(): void
     {
         $pdo = $this->migratedPdo();
+        $season = $this->season2025_26($pdo);
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
         $row = $pdo->query("SELECT SUM(shots) sh, SUM(shots_on_target) sot, SUM(duels_won) dw, SUM(interceptions) intc
-            FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp}")->fetch(PDO::FETCH_ASSOC);
+            FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp} AND m.season_id={$season}")->fetch(PDO::FETCH_ASSOC);
         // Totaux vérifiés FBref (tables Shooting et Miscellaneous) : la répartition
         // par match est estimée mais la somme reste exacte.
         $this->assertSame(599, (int) $row['sh'], 'somme tirs L1 = 599 (FBref Shooting)');
@@ -73,7 +86,7 @@ final class SeedIntegrityTest extends TestCase
         $shots = [];
         foreach ($pdo->query("SELECT p.last_name ln, p.first_name fn, SUM(s.shots) sh
             FROM player_match_stats s JOIN players p ON p.id=s.player_id JOIN matches m ON m.id=s.match_id
-            WHERE m.competition_id={$comp} GROUP BY p.id") as $r) {
+            WHERE m.competition_id={$comp} AND m.season_id={$season} GROUP BY p.id") as $r) {
             $shots[$r['ln'] !== '' ? $r['ln'] : $r['fn']] = (int) $r['sh'];
         }
         $this->assertSame(66, $shots['Barcola'] ?? 0, 'Barcola exactement 66 tirs L1');
@@ -83,12 +96,13 @@ final class SeedIntegrityTest extends TestCase
     public function testAssistsVitinhaEtDembeleExacts(): void
     {
         $pdo = $this->migratedPdo();
+        $season = $this->season2025_26($pdo);
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
         $rows = $pdo->query("SELECT p.last_name ln, p.first_name fn, SUM(s.assists) a
             FROM player_match_stats s
             JOIN players p ON p.id = s.player_id
             JOIN matches m ON m.id = s.match_id
-            WHERE m.competition_id = {$comp}
+            WHERE m.competition_id = {$comp} AND m.season_id = {$season}
             GROUP BY p.id")->fetchAll();
         $assists = [];
         foreach ($rows as $r) {
@@ -102,15 +116,16 @@ final class SeedIntegrityTest extends TestCase
     public function testCartonsRougesEtJaunesL1Exacts(): void
     {
         $pdo = $this->migratedPdo();
+        $season = $this->season2025_26($pdo);
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
-        $totalReds = (int) $pdo->query("SELECT SUM(red_card) FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp}")->fetchColumn();
+        $totalReds = (int) $pdo->query("SELECT SUM(red_card) FROM player_match_stats s JOIN matches m ON m.id=s.match_id WHERE m.competition_id={$comp} AND m.season_id={$season}")->fetchColumn();
         $this->assertSame(2, $totalReds, 'total cartons rouges L1 = 2 (Hakimi, Ramos)');
 
         $rows = $pdo->query("SELECT p.last_name ln, p.first_name fn, SUM(s.yellow_cards) y
             FROM player_match_stats s
             JOIN players p ON p.id = s.player_id
             JOIN matches m ON m.id = s.match_id
-            WHERE m.competition_id = {$comp}
+            WHERE m.competition_id = {$comp} AND m.season_id = {$season}
             GROUP BY p.id")->fetchAll();
         $yellows = [];
         foreach ($rows as $r) {
@@ -135,15 +150,15 @@ final class SeedIntegrityTest extends TestCase
         $this->assertSame($dump(), $dump(), 'deux migrations successives produisent des player_match_stats identiques');
     }
 
-    /** Buts L1 par joueur, indexés par nom de famille (ou prénom si mononyme). */
-    private function goalsByPlayer(PDO $pdo): array
+    /** Buts L1 par joueur pour une saison donnée, indexés par nom de famille (ou prénom si mononyme). */
+    private function goalsByPlayer(PDO $pdo, int $season): array
     {
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type='league'")->fetchColumn();
         $rows = $pdo->query("SELECT p.last_name ln, p.first_name fn, SUM(s.goals) g
             FROM player_match_stats s
             JOIN players p ON p.id = s.player_id
             JOIN matches m ON m.id = s.match_id
-            WHERE m.competition_id = {$comp}
+            WHERE m.competition_id = {$comp} AND m.season_id = {$season}
             GROUP BY p.id")->fetchAll();
         $goals = [];
         foreach ($rows as $r) {
@@ -155,7 +170,8 @@ final class SeedIntegrityTest extends TestCase
 
     public function testTotauxButeursVerifiesExacts(): void
     {
-        $goals = $this->goalsByPlayer($this->migratedPdo());
+        $pdo = $this->migratedPdo();
+        $goals = $this->goalsByPlayer($pdo, $this->season2025_26($pdo));
         $this->assertSame(11, $goals['Barcola'] ?? 0, 'Barcola exactement 11 buts L1');
         $this->assertSame(10, $goals['Dembélé'] ?? 0, 'Dembélé exactement 10');
         $this->assertSame(8, $goals['Kvaratskhelia'] ?? 0, 'Kvaratskhelia exactement 8');
@@ -165,23 +181,26 @@ final class SeedIntegrityTest extends TestCase
 
     public function testAucunButeurNeDepasseBarcola(): void
     {
-        $goals = $this->goalsByPlayer($this->migratedPdo());
+        $pdo = $this->migratedPdo();
+        $goals = $this->goalsByPlayer($pdo, $this->season2025_26($pdo));
         $this->assertTrue(max($goals) <= 11, 'aucun buteur au-dessus de 11 (Barcola en tête)');
     }
 
     public function testPossessionMoyenneL1Realiste(): void
     {
         $pdo = $this->migratedPdo();
+        $season = $this->season2025_26($pdo);
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type = 'league'")->fetchColumn();
-        $avg = (float) $pdo->query("SELECT AVG(psg_possession) FROM matches WHERE competition_id = {$comp}")->fetchColumn();
+        $avg = (float) $pdo->query("SELECT AVG(psg_possession) FROM matches WHERE competition_id = {$comp} AND season_id = {$season}")->fetchColumn();
         $this->assertTrue($avg >= 66 && $avg <= 72, "possession moyenne L1 réaliste (obtenu {$avg})");
     }
 
     public function testAffluenceEtPossessionRenseigneesSurTousLesMatchsL1(): void
     {
         $pdo = $this->migratedPdo();
+        $season = $this->season2025_26($pdo);
         $comp = (int) $pdo->query("SELECT id FROM competitions WHERE type = 'league'")->fetchColumn();
-        $rows = $pdo->query("SELECT attendance, psg_possession FROM matches WHERE competition_id = {$comp}")->fetchAll();
+        $rows = $pdo->query("SELECT attendance, psg_possession FROM matches WHERE competition_id = {$comp} AND season_id = {$season}")->fetchAll();
         $this->assertSame(34, count($rows), '34 matchs de Ligue 1');
         foreach ($rows as $row) {
             $this->assertTrue((int) $row['attendance'] > 0, 'affluence non nulle et positive');
@@ -193,9 +212,10 @@ final class SeedIntegrityTest extends TestCase
     public function testMatchweek21ContreMarseille(): void
     {
         $pdo = $this->migratedPdo();
+        $season = $this->season2025_26($pdo);
         $psg = (int) $pdo->query("SELECT id FROM teams WHERE is_psg = 1")->fetchColumn();
         $row = $pdo->query("SELECT home_goals, away_goals, attendance, psg_possession
-            FROM matches WHERE round_label = 'J21' AND home_team_id = {$psg}")->fetch();
+            FROM matches WHERE round_label = 'J21' AND home_team_id = {$psg} AND season_id = {$season}")->fetch();
         $this->assertSame(5, (int) $row['home_goals'], 'PSG marque 5 buts face à Marseille (J21)');
         $this->assertSame(0, (int) $row['away_goals'], 'Marseille encaisse 5-0 (J21)');
         $this->assertSame(47926, (int) $row['attendance'], 'affluence J21 vérifiée FBref');
@@ -205,15 +225,17 @@ final class SeedIntegrityTest extends TestCase
     public function testTotalMatchsToutesCompetitions(): void
     {
         $pdo = $this->migratedPdo();
-        $n = (int) $pdo->query('SELECT COUNT(*) FROM matches')->fetchColumn();
+        $season = $this->season2025_26($pdo);
+        $n = (int) $pdo->query("SELECT COUNT(*) FROM matches WHERE season_id = {$season}")->fetchColumn();
         $this->assertSame(55, $n, '34 matchs L1 + 21 matchs hors L1 (Supercoupe, C1, Trophée, Coupe de France)');
     }
 
     public function testMatchsHorsL1OntUneCompetitionEtUnVenueValides(): void
     {
         $pdo = $this->migratedPdo();
+        $season = $this->season2025_26($pdo);
         $leagueComp = (int) $pdo->query("SELECT id FROM competitions WHERE type = 'league'")->fetchColumn();
-        $rows = $pdo->query("SELECT m.competition_id, m.venue FROM matches m WHERE m.competition_id != {$leagueComp}")->fetchAll();
+        $rows = $pdo->query("SELECT m.competition_id, m.venue FROM matches m WHERE m.competition_id != {$leagueComp} AND m.season_id = {$season}")->fetchAll();
         $this->assertSame(21, count($rows), '21 matchs hors Ligue 1');
         foreach ($rows as $row) {
             $this->assertTrue((int) $row['competition_id'] > 0, 'competition_id valide');

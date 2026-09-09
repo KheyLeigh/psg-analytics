@@ -45,7 +45,7 @@ final class MigratorLoopTest extends TestCase
 
         $this->assertTrue(array_key_exists('2026-27', $reports), 'la clé 2026-27 est présente');
         $this->assertSame(5, $reports['2026-27']['matches'], 'matchs 2026-27 déjà collectés par la tâche planifiée');
-        $this->assertSame(26, $reports['2026-27']['players'], 'effectif professionnel 2026-27 déjà renseigné');
+        $this->assertSame(24, $reports['2026-27']['players'], 'effectif professionnel 2026-27 déjà renseigné');
 
         // 2025-26 reste strictement identique, quelle que soit la présence de 2026-27.
         $this->assertSame(55, $reports['2025-26']['matches']);

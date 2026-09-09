@@ -7,6 +7,10 @@ declare(strict_types=1);
 // une graphie différente créerait une identité en double au lieu de relier les saisons.
 // Format identique à verified/2025-26/players.php : [numéro, prénom, nom, poste,
 // poste détaillé, nationalité, capitaine].
+// Mise à jour du 9 septembre 2026 : Bradley Barcola et Ibrahim Mbaye retirés,
+// partis en Premier League (confirmé par Mathis). Nuno Mendes et Quentin
+// Ndjantou restent au club malgré une absence du tableau FBref de la semaine
+// (aucun n'a encore joué en Ligue 1 cette saison, pas un départ).
 return [
     // [num, prénom, nom, position, position_détaillée, nationalité, capitaine]
     [30, 'Lucas', 'Chevalier', 'GK', 'GK', 'France', false],
@@ -32,7 +36,5 @@ return [
     [11, 'Maghnes', 'Akliouche', 'FW', 'RW', 'France', false],
     [14, 'Désiré', 'Doué', 'FW', 'RW', 'France', false],
     [22, 'Mika', 'Godts', 'FW', 'LW', 'Belgique', false],
-    [29, 'Bradley', 'Barcola', 'FW', 'LW', 'France', false],
     [47, 'Quentin', 'Ndjantou', 'FW', 'LW', 'France', false],
-    [49, 'Ibrahim', 'Mbaye', 'FW', 'RW', 'Sénégal', false],
 ];

@@ -37,4 +37,5 @@ return [
     ['name' => 'Chelsea',                'short_name' => 'CHE', 'country' => 'Angleterre', 'is_psg' => false],
     ['name' => 'Liverpool',              'short_name' => 'LIV', 'country' => 'Angleterre', 'is_psg' => false],
     ['name' => 'Arsenal',                'short_name' => 'ARS', 'country' => 'Angleterre', 'is_psg' => false],
+    ['name' => 'Aston Villa',            'short_name' => 'AVL', 'country' => 'Angleterre', 'is_psg' => false],
 ];

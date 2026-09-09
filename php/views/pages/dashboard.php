@@ -88,10 +88,10 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
   // trophée n'existe : jamais de donnée fabriquée, la vitrine cède la place à un
   // message générique (voir partials/hero.php).
   $trophies = $selectedSeason === '2025-26' ? [
-      ['name' => 'Ligue des Champions', 'stat' => 'sacre européen'],
+      ['name' => 'Ligue des Champions', 'stat' => '1-1 (4-3 tab) · Arsenal'],
       ['name' => 'Ligue 1', 'stat' => $totalPoints . ' pts · ' . $record['wins'] . '-' . $record['draws'] . '-' . $record['losses']],
       ['name' => 'Supercoupe UEFA', 'stat' => '2-2 (4-3 tab) · Tottenham'],
-      ['name' => 'Trophée des Champions', 'stat' => 'supercoupe de France'],
+      ['name' => 'Trophée des Champions', 'stat' => '2-2 (4-1 tab) · Marseille'],
       ['name' => 'Coupe Intercontinentale', 'stat' => '2-1 tab · Flamengo'],
   ] : [];
   $trophiesNote = "Saison {$selectedSeason} en cours, palmarès à venir.";

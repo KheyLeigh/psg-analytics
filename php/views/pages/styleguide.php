@@ -9,10 +9,10 @@ declare(strict_types=1);
 // Trophées de la saison : un rectangle or par compétition gagnée, passés au partial
 // hero (mutualisé avec le Dashboard). Illustratifs, à sourcer en étape de finition.
 $trophies = [
-    ['name' => 'Ligue des Champions', 'stat' => '17 matchs européens'],
+    ['name' => 'Ligue des Champions', 'stat' => '1-1 (4-3 tab) · Arsenal'],
     ['name' => 'Ligue 1', 'stat' => '76 points · 24-4-6'],
     ['name' => 'Supercoupe UEFA', 'stat' => '2-2 (4-3 tab) · Tottenham'],
-    ['name' => 'Trophée des Champions', 'stat' => 'supercoupe de France'],
+    ['name' => 'Trophée des Champions', 'stat' => '2-2 (4-1 tab) · Marseille'],
     ['name' => 'Coupe Intercontinentale', 'stat' => '2-1 tab · Flamengo'],
 ];
 

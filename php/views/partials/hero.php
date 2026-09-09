@@ -80,7 +80,8 @@ $trophySvg = '<svg viewBox="0 0 64 96" width="76" height="96" xmlns="http://www.
                   src="/assets/trophies/<?= View::e($key) ?>.glb"
                   environment-image="/assets/hdri/studio_small_09_1k.hdr"
                   exposure="<?= View::e($cfg['exposure'] ?? '1.0') ?>"
-                  camera-orbit="<?= View::e($cfg['cameraOrbit'] ?? '0deg 80deg 100%') ?>"
+                  camera-orbit="<?= View::e($cfg['cameraOrbit'] ?? '0deg 80deg 1.4m') ?>"
+                  field-of-view="30deg"
                   shadow-intensity="0.5" shadow-softness="1"
                   auto-rotate auto-rotate-delay="0" rotation-per-second="16deg"
                   interaction-prompt="none" camera-controls disable-zoom disable-tap

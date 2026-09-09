@@ -14,10 +14,10 @@ $cleanSheets = (int) $kpi['clean_sheets'];
 // Propre à la saison 2025-26 (terminée) : aucune autre saison n'a de palmarès
 // vérifié, donc rien n'est fabriqué pour les autres (voir partials/hero.php).
 $trophies = $selectedSeason === '2025-26' ? [
-    ['name' => 'Ligue des Champions', 'stat' => 'sacre européen'],
+    ['name' => 'Ligue des Champions', 'stat' => '1-1 (4-3 tab) · Arsenal'],
     ['name' => 'Ligue 1', 'stat' => $totalPoints . ' pts · ' . $record['wins'] . '-' . $record['draws'] . '-' . $record['losses']],
     ['name' => 'Supercoupe UEFA', 'stat' => '2-2 (4-3 tab) · Tottenham'],
-    ['name' => 'Trophée des Champions', 'stat' => 'supercoupe de France'],
+    ['name' => 'Trophée des Champions', 'stat' => '2-2 (4-1 tab) · Marseille'],
     ['name' => 'Coupe Intercontinentale', 'stat' => '2-1 tab · Flamengo'],
 ] : [];
 

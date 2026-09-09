@@ -8,7 +8,7 @@ declare(strict_types=1);
 return [
     'ucl' => ['cameraOrbit' => '0deg 78deg 100%', 'exposure' => '1.0'],
     'l1'  => ['cameraOrbit' => '0deg 80deg 100%', 'exposure' => '1.05'],
-    'cdf' => ['cameraOrbit' => '0deg 78deg 100%', 'exposure' => '1.0'],
+    'usc' => ['cameraOrbit' => '0deg 80deg 100%', 'exposure' => '1.0'],
     'tdc' => ['cameraOrbit' => '0deg 80deg 100%', 'exposure' => '1.0'],
     'ic'  => ['cameraOrbit' => '0deg 80deg 100%', 'exposure' => '1.0'],
 ];

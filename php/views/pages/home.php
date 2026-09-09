@@ -16,7 +16,7 @@ $cleanSheets = (int) $kpi['clean_sheets'];
 $trophies = $selectedSeason === '2025-26' ? [
     ['name' => 'Ligue des Champions', 'stat' => 'sacre européen'],
     ['name' => 'Ligue 1', 'stat' => $totalPoints . ' pts · ' . $record['wins'] . '-' . $record['draws'] . '-' . $record['losses']],
-    ['name' => 'Coupe de France', 'stat' => 'doublé national'],
+    ['name' => 'Supercoupe UEFA', 'stat' => '2-2 (4-3 tab) · Tottenham'],
     ['name' => 'Trophée des Champions', 'stat' => 'supercoupe de France'],
     ['name' => 'Coupe Intercontinentale', 'stat' => '2-1 tab · Flamengo'],
 ] : [];
@@ -36,7 +36,7 @@ if ($trophies !== []) {
     $headline[] = [
         'label' => "Trophées {$selectedSeason}", 'value' => count($trophies), 'countup' => count($trophies),
         'confidence' => 'verified',
-        'tip' => 'Ligue des Champions, Ligue 1, Coupe de France et Trophée des Champions.',
+        'tip' => 'Ligue des Champions, Ligue 1, Supercoupe UEFA, Trophée des Champions et Coupe Intercontinentale. Éliminé en Coupe de France (0-1, Paris FC, 32es de finale).',
     ];
 }
 $headline[] = [

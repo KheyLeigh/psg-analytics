@@ -83,13 +83,14 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
   $heroEyebrow = "Paris Saint-Germain · Saison {$selectedSeason} · Dashboard";
   $heroTitle = 'La saison, chiffres à l\'appui';
   $heroYear = substr($selectedSeason, 2, 2) . '·' . substr($selectedSeason, 5, 2);
-  // Palmarès propre à la saison 2025-26 (terminée, cinq trophées). Pour toute autre
-  // saison, aucune donnée de trophée n'existe : jamais de donnée fabriquée, la vitrine
-  // cède la place à un message générique (voir partials/hero.php).
+  // Palmarès propre à la saison 2025-26 (terminée, cinq trophées ; éliminé en Coupe
+  // de France par le Paris FC en 32es). Pour toute autre saison, aucune donnée de
+  // trophée n'existe : jamais de donnée fabriquée, la vitrine cède la place à un
+  // message générique (voir partials/hero.php).
   $trophies = $selectedSeason === '2025-26' ? [
       ['name' => 'Ligue des Champions', 'stat' => 'sacre européen'],
       ['name' => 'Ligue 1', 'stat' => $totalPoints . ' pts · ' . $record['wins'] . '-' . $record['draws'] . '-' . $record['losses']],
-      ['name' => 'Coupe de France', 'stat' => 'doublé national'],
+      ['name' => 'Supercoupe UEFA', 'stat' => '2-2 (4-3 tab) · Tottenham'],
       ['name' => 'Trophée des Champions', 'stat' => 'supercoupe de France'],
       ['name' => 'Coupe Intercontinentale', 'stat' => '2-1 tab · Flamengo'],
   ] : [];

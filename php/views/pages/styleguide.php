@@ -11,7 +11,7 @@ declare(strict_types=1);
 $trophies = [
     ['name' => 'Ligue des Champions', 'stat' => '17 matchs européens'],
     ['name' => 'Ligue 1', 'stat' => '76 points · 24-4-6'],
-    ['name' => 'Coupe de France', 'stat' => 'doublé national'],
+    ['name' => 'Supercoupe UEFA', 'stat' => '2-2 (4-3 tab) · Tottenham'],
     ['name' => 'Trophée des Champions', 'stat' => 'supercoupe de France'],
     ['name' => 'Coupe Intercontinentale', 'stat' => '2-1 tab · Flamengo'],
 ];

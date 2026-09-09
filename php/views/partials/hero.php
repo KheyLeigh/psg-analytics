@@ -28,7 +28,7 @@ $heroMethodoHref = '/methodologie' . (isset($selectedSeason) ? '?saison=' . urle
 $trophyKey = [
     'Ligue des Champions'     => 'ucl',
     'Ligue 1'                 => 'l1',
-    'Coupe de France'         => 'cdf',
+    'Supercoupe UEFA'         => 'usc',
     'Trophée des Champions'   => 'tdc',
     'Coupe Intercontinentale' => 'ic',
 ];

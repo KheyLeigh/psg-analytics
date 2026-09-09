@@ -67,7 +67,7 @@ declare(strict_types=1);
 
   <section class="panel">
     <div class="panel__header"><h2 class="panel__title">Modèles 3D des trophées</h2></div>
-    <p class="mth-note">Les coupes du hero ne sont pas des assets officiels : les cinq sont reconstruites par IA (Meshy) à partir d'une photo ou d'une illustration du trophée réel, sans garantie de fidélité totale au design officiel. Aucun modèle 3D existant, libre de droits, n'a été trouvé pour ces cinq compétitions.</p>
+    <p class="mth-note">Les coupes du hero ne sont pas des assets officiels : les cinq sont reconstruites par IA (Meshy) à partir d'une photo ou d'une illustration du trophée réel, sans garantie de fidélité totale au design officiel.</p>
     <ul class="mth-sources">
       <li class="mth-source">
         <div class="mth-source__head"><span class="mth-source__label">Ligue des Champions</span></div>
@@ -78,8 +78,9 @@ declare(strict_types=1);
         <p class="mth-source__note">Reconstruit par IA (Meshy) à partir d'une image de référence.</p>
       </li>
       <li class="mth-source">
-        <div class="mth-source__head"><span class="mth-source__label">Coupe de France</span></div>
-        <p class="mth-source__note">Reconstruit par IA (Meshy) à partir d'une image de référence.</p>
+        <div class="mth-source__head"><span class="mth-source__label">Supercoupe UEFA</span></div>
+        <p class="mth-source__note">Reconstruit par IA (Meshy) à partir d'une photo du trophée, licence CC-BY 2.0.</p>
+        <div class="mth-source__meta"><a href="https://commons.wikimedia.org/wiki/File:UEFA_Super_Cup_Trophy_(6896943435).jpg" rel="noopener noreferrer" target="_blank">source en ligne</a></div>
       </li>
       <li class="mth-source">
         <div class="mth-source__head"><span class="mth-source__label">Trophée des Champions</span></div>

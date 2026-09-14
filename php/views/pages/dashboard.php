@@ -133,42 +133,6 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
       <figure class="panel chart-card">
         <figcaption class="chart-card__head">
           <div>
-            <h3 class="chart-card__title">Top passeurs · Ligue 1</h3>
-            <p class="chart-card__sub">Meilleurs passeurs du PSG (totaux vérifiés).</p>
-          </div>
-          <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
-        </figcaption>
-        <div class="chart-card__canvas" id="chart-assists" data-chart="assists">
-          <p class="chart-fallback">
-            <?php foreach ($topAssists as $i => $s): ?>
-              <?= View::e($s['label']) ?> <?= View::e($s['value']) ?><?= $i < count($topAssists) - 1 ? ' · ' : '' ?>
-            <?php endforeach; ?>
-          </p>
-        </div>
-      </figure>
-
-      <?php if ($topAssistsLdc !== []): ?>
-      <figure class="panel chart-card">
-        <figcaption class="chart-card__head">
-          <div>
-            <h3 class="chart-card__title">Top passeurs · Ligue des Champions</h3>
-            <p class="chart-card__sub">Meilleurs passeurs du PSG (totaux vérifiés).</p>
-          </div>
-          <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
-        </figcaption>
-        <div class="chart-card__canvas" id="chart-assists-ldc" data-chart="assists-ldc">
-          <p class="chart-fallback">
-            <?php foreach ($topAssistsLdc as $i => $s): ?>
-              <?= View::e($s['label']) ?> <?= View::e($s['value']) ?><?= $i < count($topAssistsLdc) - 1 ? ' · ' : '' ?>
-            <?php endforeach; ?>
-          </p>
-        </div>
-      </figure>
-      <?php endif; ?>
-
-      <figure class="panel chart-card">
-        <figcaption class="chart-card__head">
-          <div>
             <h3 class="chart-card__title">Top buteurs · Ligue 1</h3>
             <p class="chart-card__sub">Meilleurs artificiers du PSG (totaux vérifiés).</p>
           </div>
@@ -178,6 +142,23 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
           <p class="chart-fallback">
             <?php foreach ($topScorers as $i => $s): ?>
               <?= View::e($s['label']) ?> <?= View::e($s['value']) ?><?= $i < count($topScorers) - 1 ? ' · ' : '' ?>
+            <?php endforeach; ?>
+          </p>
+        </div>
+      </figure>
+
+      <figure class="panel chart-card">
+        <figcaption class="chart-card__head">
+          <div>
+            <h3 class="chart-card__title">Top passeurs · Ligue 1</h3>
+            <p class="chart-card__sub">Meilleurs passeurs du PSG (totaux vérifiés).</p>
+          </div>
+          <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
+        </figcaption>
+        <div class="chart-card__canvas" id="chart-assists" data-chart="assists">
+          <p class="chart-fallback">
+            <?php foreach ($topAssists as $i => $s): ?>
+              <?= View::e($s['label']) ?> <?= View::e($s['value']) ?><?= $i < count($topAssists) - 1 ? ' · ' : '' ?>
             <?php endforeach; ?>
           </p>
         </div>
@@ -196,6 +177,25 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
           <p class="chart-fallback">
             <?php foreach ($topScorersLdc as $i => $s): ?>
               <?= View::e($s['label']) ?> <?= View::e($s['value']) ?><?= $i < count($topScorersLdc) - 1 ? ' · ' : '' ?>
+            <?php endforeach; ?>
+          </p>
+        </div>
+      </figure>
+      <?php endif; ?>
+
+      <?php if ($topAssistsLdc !== []): ?>
+      <figure class="panel chart-card">
+        <figcaption class="chart-card__head">
+          <div>
+            <h3 class="chart-card__title">Top passeurs · Ligue des Champions</h3>
+            <p class="chart-card__sub">Meilleurs passeurs du PSG (totaux vérifiés).</p>
+          </div>
+          <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
+        </figcaption>
+        <div class="chart-card__canvas" id="chart-assists-ldc" data-chart="assists-ldc">
+          <p class="chart-fallback">
+            <?php foreach ($topAssistsLdc as $i => $s): ?>
+              <?= View::e($s['label']) ?> <?= View::e($s['value']) ?><?= $i < count($topAssistsLdc) - 1 ? ' · ' : '' ?>
             <?php endforeach; ?>
           </p>
         </div>

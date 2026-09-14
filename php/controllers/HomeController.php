@@ -50,11 +50,17 @@ final class HomeController extends Controller
 
         $scorers = $this->stats->topScorers($seasonId, 5, $leagueId);
         $topGoals = $scorers !== [] ? (int) $scorers[0]['goals'] : 0;
-        $topScorers = array_map(static fn (array $s): array => [
-            'name'  => $s['player']->lastName,
-            'first' => $s['player']->firstName,
-            'goals' => (int) $s['goals'],
-        ], $scorers);
+        // 'name' est le nom mis en avant, 'first' le prénom en retrait. Pour un joueur à
+        // nom unique (ex. Marquinhos, Vitinha), lastName est vide : le prénom prend alors
+        // la place du nom mis en avant, sans doublon en retrait.
+        $topScorers = array_map(static function (array $s): array {
+            $player = $s['player'];
+            return [
+                'name'  => $player->lastName !== '' ? $player->lastName : $player->firstName,
+                'first' => $player->lastName !== '' ? $player->firstName : '',
+                'goals' => (int) $s['goals'],
+            ];
+        }, $scorers);
 
         return [
             'title'       => 'PSG Analytics · La saison remonte à sa source',

@@ -47,10 +47,11 @@ final class DashboardController extends Controller
         $recent = $this->matches->recentDetailed($seasonId, $psgId, 5);
         $form = array_reverse(array_map(static fn (array $m): string => $m['result'], $recent));
 
-        // Meilleurs buteurs de Ligue 1 de la saison sélectionnée.
+        // Meilleurs buteurs de Ligue 1 de la saison sélectionnée. Repli sur le prénom
+        // pour les joueurs à nom unique (ex. Marquinhos, Vitinha), lastName vide sinon.
         $scorers = $this->stats->topScorers($seasonId, 5, $leagueId);
         $topScorers = array_map(static fn (array $s): array => [
-            'label' => $s['player']->lastName,
+            'label' => $s['player']->lastName !== '' ? $s['player']->lastName : $s['player']->firstName,
             'value' => $s['goals'],
         ], $scorers);
 

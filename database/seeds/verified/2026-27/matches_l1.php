@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 // Matchs de Ligue 1, mis à jour automatiquement (voir sources.php).
-// Fichier généré automatiquement, dernière mise à jour : 2026-09-09.
+// Fichier généré automatiquement, dernière mise à jour : 2026-09-14.
 return array (
   0 => 
   array (
@@ -35,5 +35,16 @@ return array (
     5 => 2,
     6 => 46945,
     7 => 68,
+  ),
+  3 => 
+  array (
+    0 => 'J4',
+    1 => '2026-09-13',
+    2 => 'Brest',
+    3 => false,
+    4 => 1,
+    5 => 0,
+    6 => NULL,
+    7 => 59,
   ),
 );

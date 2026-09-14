@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 // Matchs hors Ligue 1, mis à jour automatiquement (voir sources.php).
-// Fichier généré automatiquement, dernière mise à jour : 2026-09-09.
+// Fichier généré automatiquement, dernière mise à jour : 2026-09-14.
 return array (
   0 => 
   array (
@@ -29,6 +29,21 @@ return array (
     6 => 1,
     7 => 69,
     8 => 38223,
+    9 => false,
+    10 => false,
+    11 => NULL,
+  ),
+  2 => 
+  array (
+    0 => 'ldc',
+    1 => 'League phase',
+    2 => '2026-09-09',
+    3 => 'home',
+    4 => 'Slovan Bratislava',
+    5 => 6,
+    6 => 1,
+    7 => 72,
+    8 => 47511,
     9 => false,
     10 => false,
     11 => NULL,

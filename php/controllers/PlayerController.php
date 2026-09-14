@@ -34,10 +34,12 @@ final class PlayerController extends Controller
         private ?PlayerRepository $players = null,
         private ?StatisticRepository $stats = null,
         private ?SeasonRepository $seasons = null,
+        private ?CompetitionRepository $comps = null,
     ) {
         $this->players ??= new PlayerRepository();
         $this->stats ??= new StatisticRepository();
         $this->seasons ??= new SeasonRepository();
+        $this->comps ??= new CompetitionRepository();
     }
 
     public function index(Request $r, array $params): void
@@ -74,8 +76,12 @@ final class PlayerController extends Controller
         $season = $this->seasons->find($player->seasonId);
         $seasonLabel = $season?->label ?? '';
 
-        $totals = $this->stats->seasonTotalsByPlayer($id);
-        $max = $this->stats->squadAxisMax($player->seasonId);
+        // Scopé explicitement à la Ligue 1 : sans ce filtre, un joueur ayant aussi
+        // marqué en Ligue des Champions verrait ses totaux des deux compétitions
+        // additionnés sur sa fiche, sans qu'aucun libellé ne le précise.
+        $leagueId = $this->comps->leagueId() ?? 0;
+        $totals = $this->stats->seasonTotalsByPlayer($id, $leagueId);
+        $max = $this->stats->squadAxisMax($player->seasonId, $leagueId);
 
         $axes = [];
         $values = [];

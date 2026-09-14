@@ -6,7 +6,7 @@ final class StatsApiControllerTest extends TestCase
     private function heatmapService(): HeatmapService
     {
         $stats = new class(new PDO('sqlite::memory:')) extends StatisticRepository {
-            public function goalsByPlayerAndMonth(int $seasonId): array {
+            public function goalsByPlayerAndMonth(int $seasonId, ?int $competitionId = null): array {
                 return [
                     ['playerId' => 29, 'month' => '2025-08', 'goals' => 2],
                     ['playerId' => 29, 'month' => '2025-09', 'goals' => 1],
@@ -24,7 +24,10 @@ final class StatsApiControllerTest extends TestCase
                 ]);
             }
         };
-        return new HeatmapService($stats, $players);
+        $comps = new class(new PDO('sqlite::memory:')) extends CompetitionRepository {
+            public function leagueId(): ?int { return 1; }
+        };
+        return new HeatmapService($stats, $players, $comps);
     }
 
     private function kpiService(): KpiService

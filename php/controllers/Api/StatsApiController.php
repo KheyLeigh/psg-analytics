@@ -10,7 +10,7 @@ final class StatsApiController extends Controller
         private ?TeamRepository $teams = null,
         private ?SeasonRepository $seasons = null,
     ) {
-        $this->heatmap ??= new HeatmapService(new StatisticRepository(), new PlayerRepository());
+        $this->heatmap ??= new HeatmapService(new StatisticRepository(), new PlayerRepository(), new CompetitionRepository());
         $this->seasons ??= new SeasonRepository();
     }
 

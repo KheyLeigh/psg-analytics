@@ -108,8 +108,9 @@ function migrator_seed_season(PDO $pdo, array $season, array $catalog): array
 
     $players = migrator_seed_players($pdo, $seasonId, $seasonKey);
     $matches = migrator_seed_matches($pdo, $ref, $seasonKey);
-    migrator_seed_other_matches($pdo, $ref, $seasonKey);
+    $ldcMatches = migrator_seed_other_matches($pdo, $ref, $seasonKey);
     migrator_generate_player_stats($pdo, $matches, $players, $ref, $seasonKey);
+    migrator_generate_ldc_player_stats($pdo, $ldcMatches, $players, $ref, $seasonKey);
     migrator_seed_player_season($pdo, $players, $ref, $seasonKey);
 
     $report = migrator_compute_report($pdo, $seasonId, $catalog['psg_id'], $catalog['competition_ids']['ligue1']);
@@ -206,9 +207,11 @@ function migrator_seed_matches(PDO $pdo, array $ref, string $seasonKey): array
 }
 
 // Insère les matchs hors Ligue 1 (Supercoupe UEFA, Ligue des Champions,
-// Trophée des Champions, Coupe de France ; source fbref, verified). Aucun
-// but individuel n'est réparti pour ces matchs (pas de player_match_stats).
-function migrator_seed_other_matches(PDO $pdo, array $ref, string $seasonKey): void
+// Trophée des Champions, Coupe de France ; source fbref, verified). Aucun but
+// individuel n'est réparti pour ces matchs, à l'exception de la Ligue des
+// Champions (cf. migrator_generate_ldc_player_stats) : renvoie donc la liste
+// de ses matchs (id + buts PSG), sur le même modèle que migrator_seed_matches.
+function migrator_seed_other_matches(PDO $pdo, array $ref, string $seasonKey): array
 {
     $stmt = $pdo->prepare(
         'INSERT INTO matches (season_id, competition_id, round_label, played_at, home_team_id, away_team_id, home_goals, away_goals, went_to_extra, penalty_shootout, penalty_score, venue, attendance, psg_possession, source_id)
@@ -216,6 +219,8 @@ function migrator_seed_other_matches(PDO $pdo, array $ref, string $seasonKey): v
     );
     $psgId = $ref['psg_id'];
     $sourceId = migrator_resolve_source_id($ref['source_ids'], 'fbref', $seasonKey);
+    $ldcCompId = $ref['competition_ids']['ldc'];
+    $ldcMatches = [];
     foreach (require __DIR__ . "/verified/{$seasonKey}/matches_other.php" as [
         $compKey, $round, $date, $venue, $opponent, $psgGoals, $advGoals,
         $possession, $attendance, $wentToExtra, $penaltyShootout, $penaltyScore,
@@ -231,7 +236,11 @@ function migrator_seed_other_matches(PDO $pdo, array $ref, string $seasonKey): v
             $ref['season_id'], $compId, $round, $date, $homeId, $awayId, $homeGoals, $awayGoals,
             (int) $wentToExtra, (int) $penaltyShootout, $penaltyScore, $venue, $attendance, $possession, $sourceId,
         ]);
+        if ($compId === $ldcCompId) {
+            $ldcMatches[] = ['id' => (int) $pdo->lastInsertId(), 'psg_goals' => $psgGoals];
+        }
     }
+    return $ldcMatches;
 }
 
 // Calcule le bilan Ligue 1 d'une saison (V/N/D, buts) et le recoupe avec les buts

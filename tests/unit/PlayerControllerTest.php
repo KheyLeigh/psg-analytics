@@ -39,6 +39,13 @@ final class PlayerControllerTest extends TestCase
         return new SeasonRepository($pdo);
     }
 
+    private function compsDouble(): CompetitionRepository
+    {
+        return new class(new PDO('sqlite::memory:')) extends CompetitionRepository {
+            public function leagueId(): ?int { return 1; }
+        };
+    }
+
     public function testValeursParDefaut(): void
     {
         $repo = $this->repo();
@@ -130,7 +137,7 @@ final class PlayerControllerTest extends TestCase
         $players = new class(new PDO('sqlite::memory:')) extends PlayerRepository {
             public function find(int $id): ?Player { return null; }
         };
-        $ctrl = new PlayerController($players, $this->statsDouble());
+        $ctrl = new PlayerController($players, $this->statsDouble(), null, $this->compsDouble());
         $this->assertSame(null, $ctrl->buildDetail(999));
     }
 
@@ -151,7 +158,7 @@ final class PlayerControllerTest extends TestCase
                 return [['label' => '2025-26', 'isCurrent' => false, 'playerId' => 29]];
             }
         };
-        $data = (new PlayerController($players, $this->statsDouble()))->buildDetail(29);
+        $data = (new PlayerController($players, $this->statsDouble(), null, $this->compsDouble()))->buildDetail(29);
 
         $this->assertSame('Bradley Barcola', $data['player']['name']);
         $this->assertSame(['Buts', 'Passes déc.', 'Minutes', 'Tirs', 'Tacles gagnés', 'Note'], $data['profile']['axes']);
@@ -202,7 +209,7 @@ final class PlayerControllerTest extends TestCase
         $seasonsPdo->exec("INSERT INTO seasons VALUES (2,'2026-27','2026-07-01','2027-06-30',1)");
         $seasons = new SeasonRepository($seasonsPdo);
 
-        $ctrl = new PlayerController($players, $this->statsDouble(), $seasons);
+        $ctrl = new PlayerController($players, $this->statsDouble(), $seasons, $this->compsDouble());
         $data = $ctrl->buildDetail(1);
 
         $this->assertSame(null, $data['shotmap']);
@@ -231,7 +238,7 @@ final class PlayerControllerTest extends TestCase
         $seasonsPdo->exec("INSERT INTO seasons VALUES (1,'2025-26','2025-07-01','2026-06-30',0)");
         $seasons = new SeasonRepository($seasonsPdo);
 
-        $ctrl = new PlayerController($players, $this->statsDouble(), $seasons);
+        $ctrl = new PlayerController($players, $this->statsDouble(), $seasons, $this->compsDouble());
         $data = $ctrl->buildDetail(4);
 
         $this->assertTrue($data['shotmap'] !== null, 'le fichier déplacé en 2025-26/ est retrouvé');
@@ -242,11 +249,11 @@ final class PlayerControllerTest extends TestCase
     private function statsDouble(): StatisticRepository
     {
         return new class(new PDO('sqlite::memory:')) extends StatisticRepository {
-            public function seasonTotalsByPlayer(int $playerId): array
+            public function seasonTotalsByPlayer(int $playerId, ?int $competitionId = null): array
             {
                 return ['goals' => 11, 'assists' => 5, 'minutes' => 2000, 'shots' => 40, 'duelsWon' => 30, 'rating' => 7.2];
             }
-            public function squadAxisMax(int $seasonId): array
+            public function squadAxisMax(int $seasonId, ?int $competitionId = null): array
             {
                 return ['goals' => 22.0, 'assists' => 10.0, 'minutes' => 2000.0, 'shots' => 80.0, 'duelsWon' => 60.0, 'rating' => 7.2];
             }

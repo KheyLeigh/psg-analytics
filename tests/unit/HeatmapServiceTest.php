@@ -19,7 +19,7 @@ final class HeatmapServiceTest extends TestCase
     {
         $pdo = $this->migratedPdo();
         $seasonId = (int) $pdo->query("SELECT id FROM seasons WHERE label = '2025-26'")->fetchColumn();
-        $svc = new HeatmapService(new StatisticRepository($pdo), new PlayerRepository($pdo));
+        $svc = new HeatmapService(new StatisticRepository($pdo), new PlayerRepository($pdo), new CompetitionRepository($pdo));
 
         $matrix = $svc->goalsByPlayerAndMonth($seasonId);
 
@@ -35,9 +35,12 @@ final class HeatmapServiceTest extends TestCase
                 $this->assertTrue(array_key_exists($month, $row['cells']), 'chaque ligne couvre tous les mois (0 par défaut)');
             }
         }
+        // Scopé Ligue 1 : depuis l'ajout des stats Ligue des Champions, la matrice
+        // (comme le service) ne couvre plus "toutes compétitions" mais la L1 seule.
+        $leagueId = (int) $pdo->query("SELECT id FROM competitions WHERE type = 'league'")->fetchColumn();
         $totalReel = (int) $pdo->query(
-            "SELECT SUM(s.goals) FROM player_match_stats s JOIN matches m ON m.id = s.match_id WHERE m.season_id = {$seasonId}"
+            "SELECT SUM(s.goals) FROM player_match_stats s JOIN matches m ON m.id = s.match_id WHERE m.season_id = {$seasonId} AND m.competition_id = {$leagueId}"
         )->fetchColumn();
-        $this->assertSame($totalReel, $total, 'la somme de la matrice égale le total des buts individuels de la saison 2025-26');
+        $this->assertSame($totalReel, $total, 'la somme de la matrice égale le total des buts individuels L1 de la saison 2025-26');
     }
 }

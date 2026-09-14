@@ -7,13 +7,20 @@ final class HeatmapService
     public function __construct(
         private StatisticRepository $stats,
         private PlayerRepository $players,
-    ) {}
+        private ?CompetitionRepository $comps = null,
+    ) {
+        $this->comps ??= new CompetitionRepository();
+    }
 
+    // Scopé explicitement à la Ligue 1 : sans ce filtre, un but marqué en Ligue
+    // des Champions s'ajouterait silencieusement à la heatmap et à la répartition
+    // mensuelle du Dashboard, qui ne précisent aujourd'hui aucune compétition.
     public function goalsByPlayerAndMonth(int $seasonId): array
     {
+        $leagueId = $this->comps->leagueId() ?? 0;
         $months = [];
         $cellsByPlayer = [];
-        foreach ($this->stats->goalsByPlayerAndMonth($seasonId) as $row) {
+        foreach ($this->stats->goalsByPlayerAndMonth($seasonId, $leagueId) as $row) {
             if (!in_array($row['month'], $months, true)) {
                 $months[] = $row['month'];
             }

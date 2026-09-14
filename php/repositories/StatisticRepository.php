@@ -30,18 +30,27 @@ class StatisticRepository extends Repository
         }, $rows);
     }
 
-    public function seasonTotalsByPlayer(int $playerId): array
+    // $competitionId : filtre optionnel (ex. Ligue 1 uniquement). Sans lui, agrège
+    // toutes les compétitions ayant des player_match_stats pour ce joueur (jusqu'à
+    // l'ajout des stats Ligue des Champions, la L1 était la seule, donc l'appel
+    // sans filtre restait de fait scopé L1). Les appelants (fiche joueur,
+    // comparateur) passent désormais explicitement la Ligue 1 pour ne jamais
+    // additionner silencieusement plusieurs compétitions dans un même total.
+    public function seasonTotalsByPlayer(int $playerId, ?int $competitionId = null): array
     {
+        $compFilter = $competitionId !== null ? ' AND m.competition_id = :comp' : '';
+        $params = ['player' => $playerId] + ($competitionId !== null ? ['comp' => $competitionId] : []);
         $row = $this->fetchOne(
-            'SELECT COUNT(*) matches, SUM(minutes) minutes, SUM(goals) goals, SUM(assists) assists,
-                    SUM(shots) shots, SUM(shots_on_target) shots_on_target, SUM(passes) passes,
-                    SUM(duels_won) duels_won, SUM(interceptions) interceptions,
-                    SUM(yellow_cards) yellow_cards, SUM(red_card) red_cards,
-                    SUM(saves) saves, SUM(goals_conceded) goals_conceded, SUM(xg) xg, SUM(xag) xag,
-                    AVG(rating) rating
-             FROM player_match_stats
-             WHERE player_id = ?',
-            [$playerId]
+            "SELECT COUNT(*) matches, SUM(s.minutes) minutes, SUM(s.goals) goals, SUM(s.assists) assists,
+                    SUM(s.shots) shots, SUM(s.shots_on_target) shots_on_target, SUM(s.passes) passes,
+                    SUM(s.duels_won) duels_won, SUM(s.interceptions) interceptions,
+                    SUM(s.yellow_cards) yellow_cards, SUM(s.red_card) red_cards,
+                    SUM(s.saves) saves, SUM(s.goals_conceded) goals_conceded, SUM(s.xg) xg, SUM(s.xag) xag,
+                    AVG(s.rating) rating
+             FROM player_match_stats s
+             JOIN matches m ON m.id = s.match_id
+             WHERE s.player_id = :player{$compFilter}",
+            $params
         ) ?? [];
 
         return [
@@ -67,20 +76,25 @@ class StatisticRepository extends Repository
     // Maxima de l'effectif par axe du radar de profil, pour une saison donnée : chaque
     // axe est le meilleur total d'un joueur de cette saison, pour normaliser un profil
     // (valeur du joueur / meilleur total de l'axe) sur une lecture de 0 à 1.
-    public function squadAxisMax(int $seasonId): array
+    // $competitionId : même filtre optionnel que seasonTotalsByPlayer(), pour rester
+    // cohérent avec le total normalisé (jamais un max toutes compétitions appliqué à
+    // un total Ligue 1 seule, ou inversement).
+    public function squadAxisMax(int $seasonId, ?int $competitionId = null): array
     {
+        $compFilter = $competitionId !== null ? ' AND m.competition_id = :comp' : '';
+        $params = ['season' => $seasonId] + ($competitionId !== null ? ['comp' => $competitionId] : []);
         $row = $this->fetchOne(
-            'SELECT MAX(g) goals, MAX(a) assists, MAX(mn) minutes, MAX(sh) shots,
+            "SELECT MAX(g) goals, MAX(a) assists, MAX(mn) minutes, MAX(sh) shots,
                     MAX(dw) duels_won, MAX(rt) rating
              FROM (
                  SELECT SUM(s.goals) g, SUM(s.assists) a, SUM(s.minutes) mn, SUM(s.shots) sh,
                         SUM(s.duels_won) dw, AVG(s.rating) rt
                  FROM player_match_stats s
                  JOIN matches m ON m.id = s.match_id
-                 WHERE m.season_id = :season
+                 WHERE m.season_id = :season{$compFilter}
                  GROUP BY s.player_id
-             ) t',
-            ['season' => $seasonId]
+             ) t",
+            $params
         ) ?? [];
 
         return [
@@ -118,17 +132,21 @@ class StatisticRepository extends Repository
 
     // Buts marqués par joueur et par mois, pour une saison donnée ; regroupement
     // portable via SUBSTR (les 7 premiers caractères de played_at, format AAAA-MM-JJ).
-    public function goalsByPlayerAndMonth(int $seasonId): array
+    // $competitionId : filtre optionnel, même raison que seasonTotalsByPlayer() (la
+    // heatmap et la répartition mensuelle du Dashboard restent scopées Ligue 1).
+    public function goalsByPlayerAndMonth(int $seasonId, ?int $competitionId = null): array
     {
+        $compFilter = $competitionId !== null ? ' AND m.competition_id = :comp' : '';
+        $params = ['season' => $seasonId] + ($competitionId !== null ? ['comp' => $competitionId] : []);
         $rows = $this->fetchAll(
             "SELECT s.player_id, SUBSTR(m.played_at, 1, 7) month, SUM(s.goals) goals
              FROM player_match_stats s
              JOIN matches m ON m.id = s.match_id
-             WHERE m.season_id = :season
+             WHERE m.season_id = :season{$compFilter}
              GROUP BY s.player_id, SUBSTR(m.played_at, 1, 7)
              HAVING SUM(s.goals) > 0
              ORDER BY month, s.player_id",
-            ['season' => $seasonId]
+            $params
         );
         return array_map(static function (array $r): array {
             return [

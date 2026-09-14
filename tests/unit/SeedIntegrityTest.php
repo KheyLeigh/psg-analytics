@@ -242,4 +242,57 @@ final class SeedIntegrityTest extends TestCase
             $this->assertTrue(in_array($row['venue'], ['home', 'away', 'neutral'], true), 'venue valide');
         }
     }
+
+    /** Buts LDC par joueur pour une saison donnée, indexés par nom de famille (ou prénom si mononyme). */
+    private function goalsByPlayerLdc(PDO $pdo, int $season): array
+    {
+        $comp = (int) $pdo->query("SELECT id FROM competitions WHERE name = 'Ligue des Champions'")->fetchColumn();
+        $rows = $pdo->query("SELECT p.last_name ln, p.first_name fn, SUM(s.goals) g
+            FROM player_match_stats s
+            JOIN players p ON p.id = s.player_id
+            JOIN matches m ON m.id = s.match_id
+            WHERE m.competition_id = {$comp} AND m.season_id = {$season}
+            GROUP BY p.id")->fetchAll();
+        $goals = [];
+        foreach ($rows as $r) {
+            $key = $r['ln'] !== '' ? $r['ln'] : $r['fn'];
+            $goals[$key] = (int) $r['g'];
+        }
+        return $goals;
+    }
+
+    public function testTotauxButeursLdc2025_26VerifiesExacts(): void
+    {
+        $pdo = $this->migratedPdo();
+        $goals = $this->goalsByPlayerLdc($pdo, $this->season2025_26($pdo));
+        $this->assertSame(10, $goals['Kvaratskhelia'] ?? 0, 'Kvaratskhelia exactement 10 buts LDC 2025-26');
+        $this->assertSame(8, $goals['Dembélé'] ?? 0, 'Dembélé exactement 8');
+        $this->assertSame(6, $goals['Vitinha'] ?? 0, 'Vitinha exactement 6');
+        $this->assertSame(5, $goals['Doué'] ?? 0, 'Doué exactement 5');
+        // 45 buts joueurs = 45 buts d'équipe (aucun csc adverse identifié sur cette
+        // compétition, contrairement à la L1), total record UEFA de la campagne.
+        $this->assertSame(45, array_sum($goals), 'total buts individuels LDC 2025-26 = 45 (record UEFA)');
+    }
+
+    public function testTotauxButeursLdc2026_27VerifiesExacts(): void
+    {
+        $pdo = $this->migratedPdo();
+        $season2026_27 = (int) $pdo->query("SELECT id FROM seasons WHERE label = '2026-27'")->fetchColumn();
+        $goals = $this->goalsByPlayerLdc($pdo, $season2026_27);
+        $this->assertSame(3, $goals['Torres'] ?? 0, 'Torres exactement 3 buts LDC 2026-27 (seul match joué)');
+        $this->assertSame(2, $goals['Dembélé'] ?? 0, 'Dembélé exactement 2');
+        $this->assertSame(1, $goals['Ruiz'] ?? 0, 'Ruiz exactement 1');
+        $this->assertSame(6, array_sum($goals), 'total buts individuels LDC 2026-27 = 6 (score du match PSG 6-1 Slovan Bratislava)');
+    }
+
+    public function testL1RestentScopeesMalgreLesStatsLdc(): void
+    {
+        // Garde-fou explicite de la stricte isolation L1/LDC (cf. StatisticRepository,
+        // KpiService, PlayerController, ComparisonService, HeatmapService) : les totaux
+        // L1 déjà vérifiés ailleurs dans cette classe ne doivent jamais inclure les buts
+        // LDC désormais présents dans player_match_stats pour la même saison.
+        $pdo = $this->migratedPdo();
+        $goalsL1 = $this->goalsByPlayer($pdo, $this->season2025_26($pdo));
+        $this->assertSame(10, $goalsL1['Dembélé'] ?? 0, 'Dembélé reste à 10 buts L1 (pas 10+8=18)');
+    }
 }

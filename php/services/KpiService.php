@@ -14,15 +14,19 @@ final class KpiService
 
     public function dashboard(): array
     {
-        $scorers = $this->stats->topScorers($this->seasonId, 1, null);
+        // Scopé explicitement à la Ligue 1 : sans ce filtre, un joueur ayant
+        // aussi marqué en Ligue des Champions verrait ses buts des deux
+        // compétitions additionnés dans ce KPI, sans que le libellé "Meilleur
+        // buteur" ne le précise.
         $leagueId = $this->comps->leagueId() ?? 0;
+        $scorers = $this->stats->topScorers($this->seasonId, 1, $leagueId);
         $record = $this->matches->seasonRecord($this->seasonId, $this->psgTeamId, $leagueId);
         $played = max(1, (int) $record['played']);
         $topScorer = $scorers[0] ?? null;
 
         return [
             'top_scorer'      => $topScorer ? ['name' => $topScorer['player']->fullName(), 'goals' => $topScorer['goals']] : null,
-            'top_assister'    => $this->topAssister(),
+            'top_assister'    => $this->topAssister($leagueId),
             'wins'            => (int) $record['wins'],
             'draws'           => (int) $record['draws'],
             'losses'          => (int) $record['losses'],
@@ -32,9 +36,9 @@ final class KpiService
         ];
     }
 
-    private function topAssister(): ?array
+    private function topAssister(int $leagueId): ?array
     {
-        $rows = $this->stats->topScorers($this->seasonId, 50, null);
+        $rows = $this->stats->topScorers($this->seasonId, 50, $leagueId);
         usort($rows, static fn($a, $b) => $b['assists'] <=> $a['assists']);
         $best = $rows[0] ?? null;
         return $best ? ['name' => $best['player']->fullName(), 'assists' => $best['assists']] : null;

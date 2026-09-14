@@ -9,12 +9,19 @@ final class ComparisonService
     public function __construct(
         private StatisticRepository $stats,
         private PlayerRepository $players,
-    ) {}
+        private ?CompetitionRepository $comps = null,
+    ) {
+        $this->comps ??= new CompetitionRepository();
+    }
 
+    // Scopé explicitement à la Ligue 1 : sans ce filtre, un joueur ayant aussi
+    // marqué en Ligue des Champions verrait ses totaux des deux compétitions
+    // additionnés dans le comparateur, sans qu'aucun axe ne le précise.
     public function compare(int $idA, int $idB): array
     {
-        $valuesA = $this->extractAxes($this->stats->seasonTotalsByPlayer($idA));
-        $valuesB = $this->extractAxes($this->stats->seasonTotalsByPlayer($idB));
+        $leagueId = $this->comps->leagueId() ?? 0;
+        $valuesA = $this->extractAxes($this->stats->seasonTotalsByPlayer($idA, $leagueId));
+        $valuesB = $this->extractAxes($this->stats->seasonTotalsByPlayer($idB, $leagueId));
 
         [$normalizedA, $normalizedB] = $this->normalize($valuesA, $valuesB);
 

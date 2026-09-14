@@ -8,10 +8,12 @@ final class PlayerApiController extends Controller
         private ?StatisticRepository $stats = null,
         private ?ComparisonService $comparison = null,
         private ?SeasonRepository $seasons = null,
+        private ?CompetitionRepository $comps = null,
     ) {
         $this->players ??= new PlayerRepository();
         $this->stats ??= new StatisticRepository();
-        $this->comparison ??= new ComparisonService($this->stats, $this->players);
+        $this->comps ??= new CompetitionRepository();
+        $this->comparison ??= new ComparisonService($this->stats, $this->players, $this->comps);
         $this->seasons ??= new SeasonRepository();
     }
 

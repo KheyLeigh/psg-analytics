@@ -8,6 +8,13 @@ final class ExportApiControllerTest extends TestCase
         return new Season(1, '2025-26', '2025-07-01', '2026-06-30', true);
     }
 
+    private function comps(): CompetitionRepository
+    {
+        return new class(new PDO('sqlite::memory:')) extends CompetitionRepository {
+            public function leagueId(): ?int { return 1; }
+        };
+    }
+
     public function testCsvContientEnTete(): void
     {
         $stats = new class(new PDO('sqlite::memory:')) extends StatisticRepository {
@@ -15,7 +22,7 @@ final class ExportApiControllerTest extends TestCase
                 return [['player'=>Player::fromRow(['id'=>29,'season_id'=>1,'person_id'=>29,'shirt_number'=>29,'first_name'=>'Bradley','last_name'=>'Barcola','position'=>'FW','detailed_position'=>'LW','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>182,'is_captain'=>0]),'goals'=>11,'assists'=>4,'minutes'=>2400]];
             }
         };
-        $csv = (new ExportApiController($stats))->buildCsv($this->saison());
+        $csv = (new ExportApiController($stats, null, $this->comps()))->buildCsv($this->saison());
         $this->assertTrue(str_contains($csv, 'Joueur;Buts;Passes;Minutes'), 'en-tête CSV');
         $this->assertTrue(str_contains($csv, 'Bradley Barcola;11;4;2400'), 'ligne joueur');
     }
@@ -27,7 +34,7 @@ final class ExportApiControllerTest extends TestCase
                 return [['player'=>Player::fromRow(['id'=>29,'season_id'=>1,'person_id'=>29,'shirt_number'=>29,'first_name'=>'Bradley','last_name'=>'Barcola','position'=>'FW','detailed_position'=>'LW','foot'=>'right','nationality'=>'France','birth_date'=>null,'height_cm'=>182,'is_captain'=>0]),'goals'=>11,'assists'=>4,'minutes'=>2400]];
             }
         };
-        $pdf = (new ExportApiController($stats))->buildPdf($this->saison());
+        $pdf = (new ExportApiController($stats, null, $this->comps()))->buildPdf($this->saison());
         $this->assertTrue(str_starts_with($pdf, '%PDF-1.4'), 'entête PDF');
         $this->assertTrue(str_contains($pdf, 'Bradley Barcola'), 'contenu buteur');
     }

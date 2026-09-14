@@ -17,9 +17,10 @@ function migrator_shuffle_tokens(array $items): array
     return $items;
 }
 
-// Résout les totaux saison L1 vérifiés FBref (verified/{clé}/players_l1_fbref.php)
-// vers les identifiants joueurs réels, indexés par player_id.
-function migrator_l1_totals(array $players, string $file): array
+// Résout des totaux saison vérifiés (verified/{clé}/players_l1_fbref.php ou
+// players_ldc_fbref.php) vers les identifiants joueurs réels, indexés par
+// player_id. Réutilisée par la L1 et la Ligue des Champions.
+function migrator_totals_by_key(array $players, string $file): array
 {
     $idByKey = [];
     foreach ($players as $p) {
@@ -28,7 +29,7 @@ function migrator_l1_totals(array $players, string $file): array
     $totals = [];
     foreach (require $file as $key => $data) {
         if (!isset($idByKey[$key])) {
-            throw new RuntimeException("statistiques L1 fbref : joueur introuvable pour la clé {$key}");
+            throw new RuntimeException("statistiques fbref : joueur introuvable pour la clé {$key}");
         }
         $totals[$idByKey[$key]] = $data;
     }
@@ -249,7 +250,7 @@ function migrator_generate_player_stats(PDO $pdo, array $matches, array $players
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
 
-    $totals = migrator_l1_totals($players, $totalsFile);
+    $totals = migrator_totals_by_key($players, $totalsFile);
     $goalTotals = array_map(static fn (array $t): int => $t['goals'], $totals);
     $assistTotals = array_map(static fn (array $t): int => $t['assists'], $totals);
 
@@ -259,6 +260,65 @@ function migrator_generate_player_stats(PDO $pdo, array $matches, array $players
     migrator_spread_cards($agg, $matches, $totals);
     migrator_top_up_appearances($agg, $matches, $totals);
     migrator_insert_stats($stmt, $gen, $agg, $totals, $sourceId);
+}
+
+// Affecte les buts LDC à des matchs précis, en respectant le total marqué par
+// PSG dans chaque match. Contrairement à migrator_spread_goals (L1), ne
+// soustrait jamais 1 but au match le plus prolifique : aucun but contre son
+// camp adverse n'a été identifié sur cette compétition (le total buts joueurs
+// égale exactement le total buts d'équipe, cf. players_ldc_fbref.php).
+function migrator_spread_goals_exact(array &$agg, array $matches, array $goalTotals): void
+{
+    $tokens = [];
+    foreach ($goalTotals as $playerId => $count) {
+        for ($i = 0; $i < $count; $i++) {
+            $tokens[] = $playerId;
+        }
+    }
+    $tokens = migrator_shuffle_tokens($tokens);
+
+    $cursor = 0;
+    foreach ($matches as $match) {
+        $need = $match['psg_goals'];
+        $slice = array_slice($tokens, $cursor, $need);
+        $cursor += $need;
+        foreach (array_count_values($slice) as $playerId => $goals) {
+            $agg[$playerId][$match['id']]['goals'] = ($agg[$playerId][$match['id']]['goals'] ?? 0) + $goals;
+        }
+    }
+}
+
+// Génère les player_match_stats de Ligue des Champions : buts exacts
+// (verified/{saison}/players_ldc_fbref.php) répartis sur les vrais matchs de
+// C1. Volontairement minimal (pas de minutes/tirs/passes/cartons, non
+// recueillis pour cette compétition) : seul le but est renseigné, le reste
+// à 0 (défaut du schéma, jamais affiché), cohérent avec le principe de ne
+// jamais fabriquer de donnée. Même garde-fou que la L1 : rien sans total
+// vérifié.
+function migrator_generate_ldc_player_stats(PDO $pdo, array $matches, array $players, array $ref, string $seasonKey): void
+{
+    $totalsFile = __DIR__ . "/verified/{$seasonKey}/players_ldc_fbref.php";
+    if (!is_file($totalsFile) || $matches === [] || $players === []) {
+        return;
+    }
+
+    $sourceId = migrator_resolve_source_id($ref['source_ids'], 'fbref_players_ldc', $seasonKey);
+    $stmt = $pdo->prepare(
+        'INSERT INTO player_match_stats (player_id, match_id, is_starter, minutes, goals, assists, source_id)
+         VALUES (?, ?, 0, 0, ?, 0, ?)'
+    );
+
+    $totals = migrator_totals_by_key($players, $totalsFile);
+    $goalTotals = array_map(static fn (array $t): int => $t['goals'], $totals);
+
+    $agg = [];
+    migrator_spread_goals_exact($agg, $matches, $goalTotals);
+
+    foreach ($agg as $playerId => $byMatch) {
+        foreach ($byMatch as $matchId => $line) {
+            $stmt->execute([(int) $playerId, (int) $matchId, $line['goals'] ?? 0, $sourceId]);
+        }
+    }
 }
 
 // migrator_compute_report(), migrator_verify_generic() et

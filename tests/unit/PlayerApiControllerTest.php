@@ -92,11 +92,14 @@ final class PlayerApiControllerTest extends TestCase
             }
         };
         $stats = new class(new PDO('sqlite::memory:')) extends StatisticRepository {
-            public function seasonTotalsByPlayer(int $playerId): array {
+            public function seasonTotalsByPlayer(int $playerId, ?int $competitionId = null): array {
                 return ['goals' => $playerId === 1 ? 10 : 5, 'assists' => 2, 'minutes' => 900, 'shots' => 20, 'duelsWon' => 30, 'rating' => 7.0];
             }
         };
-        $comparison = new ComparisonService($stats, $players);
+        $comps = new class(new PDO('sqlite::memory:')) extends CompetitionRepository {
+            public function leagueId(): ?int { return 1; }
+        };
+        $comparison = new ComparisonService($stats, $players, $comps);
         $controller = new PlayerApiController($players, $stats, $comparison);
         $env = $controller->buildCompare(['a' => '1', 'b' => '2']);
         $this->assertSame('Prenom Alpha', $env['data']['a']['player']['name']);

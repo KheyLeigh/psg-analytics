@@ -74,6 +74,7 @@ $embedded = [
     'points' => $points,
     'milestone' => ['value' => $totalPoints, 'label' => $pointsMilestoneLabel],
     'topScorers' => $topScorers,
+    'topScorersLdc' => $topScorersLdc,
 ];
 $formLetters = ['W' => 'V', 'D' => 'N', 'L' => 'D'];
 $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
@@ -145,8 +146,8 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
       <figure class="panel chart-card">
         <figcaption class="chart-card__head">
           <div>
-            <h3 class="chart-card__title">Top buteurs</h3>
-            <p class="chart-card__sub">Meilleurs artificiers du PSG en Ligue 1 (totaux vérifiés).</p>
+            <h3 class="chart-card__title">Top buteurs · Ligue 1</h3>
+            <p class="chart-card__sub">Meilleurs artificiers du PSG (totaux vérifiés).</p>
           </div>
           <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
         </figcaption>
@@ -158,6 +159,25 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
           </p>
         </div>
       </figure>
+
+      <?php if ($topScorersLdc !== []): ?>
+      <figure class="panel chart-card">
+        <figcaption class="chart-card__head">
+          <div>
+            <h3 class="chart-card__title">Top buteurs · Ligue des Champions</h3>
+            <p class="chart-card__sub">Meilleurs artificiers du PSG (totaux vérifiés).</p>
+          </div>
+          <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
+        </figcaption>
+        <div class="chart-card__canvas" id="chart-scorers-ldc" data-chart="scorers-ldc">
+          <p class="chart-fallback">
+            <?php foreach ($topScorersLdc as $i => $s): ?>
+              <?= View::e($s['label']) ?> <?= View::e($s['value']) ?><?= $i < count($topScorersLdc) - 1 ? ' · ' : '' ?>
+            <?php endforeach; ?>
+          </p>
+        </div>
+      </figure>
+      <?php endif; ?>
 
       <figure class="panel chart-card chart-card--wide"
         data-est data-src="e"

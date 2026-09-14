@@ -43,4 +43,17 @@ final class CompetitionRepositoryTest extends TestCase
         $this->assertSame(8, $row['goalsFor'], 'buts marqués selon le côté de PSG, sans le match de la saison 20');
         $this->assertSame(9, $row['goalsAgainst'], 'buts encaissés selon le côté de PSG');
     }
+
+    public function testChampionsLeagueIdResoutParNom(): void
+    {
+        $repo = new CompetitionRepository($this->pdo());
+
+        $this->assertSame(null, $repo->championsLeagueId(), 'absente du jeu de compétitions de ce test');
+
+        $pdo = $this->pdo();
+        $pdo->exec("INSERT INTO competitions VALUES (2,'Ligue des Champions')");
+        $repo = new CompetitionRepository($pdo);
+
+        $this->assertSame(2, $repo->championsLeagueId());
+    }
 }

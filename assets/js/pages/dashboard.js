@@ -35,6 +35,7 @@ export function initDashboard() {
   const data = readEmbedded();
   hydratePoints(data);
   hydrateScorers(data);
+  hydrateScorersLdc(data);
   hydrateDistribution();
   hydrateHeatmap();
   countUpKpis();
@@ -84,6 +85,18 @@ function hydrateScorers(data) {
     return;
   }
   bar.render(el, scorers, { ariaLabel: 'Meilleurs buteurs du PSG en Ligue 1.' });
+}
+
+// Top buteurs en Ligue des Champions (données SSR, totaux vérifiés). La carte
+// n'existe dans le DOM que si le contrôleur a des buts à montrer (jamais de
+// donnée fabriquée en cas de saison sans but encore inscrit en C1).
+function hydrateScorersLdc(data) {
+  const el = document.querySelector('#chart-scorers-ldc');
+  const scorers = Array.isArray(data.topScorersLdc) ? data.topScorersLdc : [];
+  if (!el || scorers.length === 0) {
+    return;
+  }
+  bar.render(el, scorers, { ariaLabel: 'Meilleurs buteurs du PSG en Ligue des Champions.' });
 }
 
 // Répartition mensuelle des buts (API /api/distribution), série estimée.

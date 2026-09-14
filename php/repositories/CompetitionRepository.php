@@ -19,6 +19,15 @@ class CompetitionRepository extends Repository
         return $row !== null ? (int) $row['id'] : null;
     }
 
+    // Identifiant de la Ligue des Champions, ou null si absente. Contrairement à
+    // leagueId(), le type seul ne suffit pas (la Coupe de France est aussi de type
+    // 'cup') : on résout par nom.
+    public function championsLeagueId(): ?int
+    {
+        $row = $this->fetchOne("SELECT id FROM competitions WHERE name = 'Ligue des Champions'");
+        return $row !== null ? (int) $row['id'] : null;
+    }
+
     public function standings(int $seasonId, int $psgTeamId): array
     {
         $rows = $this->fetchAll(

@@ -44,6 +44,7 @@ final class DashboardControllerTest extends TestCase
         };
         $comps = new class(new PDO('sqlite::memory:')) extends CompetitionRepository {
             public function leagueId(): ?int { return 1; }
+            public function championsLeagueId(): ?int { return 2; }
         };
         $pdo = new PDO('sqlite::memory:');
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -66,11 +67,12 @@ final class DashboardControllerTest extends TestCase
 
         $data = $ctrl->buildViewData($season);
 
-        // topScorers est appelée trois fois avec la saison demandée : deux fois via
+        // topScorers est appelée quatre fois avec la saison demandée : deux fois via
         // KpiService::dashboard() (meilleur buteur, puis meilleur passeur), une fois
-        // directement dans buildViewData() pour le top 5 buteurs affiché.
+        // pour le top 5 buteurs de Ligue 1, une fois pour le top 5 de Ligue des
+        // Champions.
         $this->assertSame(
-            [['topScorers', 7], ['topScorers', 7], ['topScorers', 7]],
+            [['topScorers', 7], ['topScorers', 7], ['topScorers', 7], ['topScorers', 7]],
             $stats->seen
         );
         // seasonRecord est appelée deux fois avec la saison demandée : une fois via

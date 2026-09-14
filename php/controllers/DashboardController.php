@@ -55,16 +55,28 @@ final class DashboardController extends Controller
             'value' => $s['goals'],
         ], $scorers);
 
+        // Meilleurs buteurs de Ligue des Champions, même repli nom unique. Peut être
+        // vide (aucun but inscrit sur la compétition pour la saison, ex. phase de
+        // groupes non encore jouée) : jamais de donnée fabriquée, la carte s'efface
+        // alors côté vue.
+        $uclId = $this->comps->championsLeagueId();
+        $scorersLdc = $uclId !== null ? $this->stats->topScorers($seasonId, 5, $uclId) : [];
+        $topScorersLdc = array_map(static fn (array $s): array => [
+            'label' => $s['player']->lastName !== '' ? $s['player']->lastName : $s['player']->firstName,
+            'value' => $s['goals'],
+        ], $scorersLdc);
+
         return [
-            'title'       => 'Dashboard · PSG Analytics',
-            'page'        => 'dashboard',
-            'kpi'         => $kpi,
-            'record'      => $record,
-            'totalPoints' => $totalPoints,
-            'points'      => $points,
-            'recent'      => $recent,
-            'form'        => $form,
-            'topScorers'  => $topScorers,
+            'title'         => 'Dashboard · PSG Analytics',
+            'page'          => 'dashboard',
+            'kpi'           => $kpi,
+            'record'        => $record,
+            'totalPoints'   => $totalPoints,
+            'points'        => $points,
+            'recent'        => $recent,
+            'form'          => $form,
+            'topScorers'    => $topScorers,
+            'topScorersLdc' => $topScorersLdc,
         ] + $this->seasons->navData($season);
     }
 }

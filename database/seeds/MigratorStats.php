@@ -288,13 +288,37 @@ function migrator_spread_goals_exact(array &$agg, array $matches, array $goalTot
     }
 }
 
-// Génère les player_match_stats de Ligue des Champions : buts exacts
-// (verified/{saison}/players_ldc_fbref.php) répartis sur les vrais matchs de
-// C1. Volontairement minimal (pas de minutes/tirs/passes/cartons, non
-// recueillis pour cette compétition) : seul le but est renseigné, le reste
-// à 0 (défaut du schéma, jamais affiché), cohérent avec le principe de ne
-// jamais fabriquer de donnée. Même garde-fou que la L1 : rien sans total
-// vérifié.
+// Affecte les passes décisives LDC à des matchs, sans la contrainte "un seul
+// par match et par joueur" de migrator_spread_assists (L1, beaucoup de
+// matchs) : sur un nombre de matchs LDC parfois très restreint (une seule
+// rencontre en tout début de saison), un joueur peut légitimement cumuler
+// plusieurs passes décisives sur le même match. Aucun total par match connu
+// (comme pour les buts) : simple répartition déterministe, cyclique sur les
+// matchs disponibles.
+function migrator_spread_assists_exact(array &$agg, array $matches, array $assistTotals): void
+{
+    $tokens = [];
+    foreach ($assistTotals as $playerId => $count) {
+        for ($i = 0; $i < $count; $i++) {
+            $tokens[] = $playerId;
+        }
+    }
+    $tokens = migrator_shuffle_tokens($tokens);
+
+    $matchIds = array_column($matches, 'id');
+    $n = count($matchIds);
+    foreach ($tokens as $i => $playerId) {
+        $matchId = $matchIds[$i % $n];
+        $agg[$playerId][$matchId]['assists'] = ($agg[$playerId][$matchId]['assists'] ?? 0) + 1;
+    }
+}
+
+// Génère les player_match_stats de Ligue des Champions : buts et passes
+// décisives exacts (verified/{saison}/players_ldc_fbref.php) répartis sur
+// les vrais matchs de C1. Volontairement minimal (pas de minutes/tirs/cartons,
+// non recueillis pour cette compétition) : le reste à 0 (défaut du schéma,
+// jamais affiché), cohérent avec le principe de ne jamais fabriquer de
+// donnée. Même garde-fou que la L1 : rien sans total vérifié.
 function migrator_generate_ldc_player_stats(PDO $pdo, array $matches, array $players, array $ref, string $seasonKey): void
 {
     $totalsFile = __DIR__ . "/verified/{$seasonKey}/players_ldc_fbref.php";
@@ -305,18 +329,20 @@ function migrator_generate_ldc_player_stats(PDO $pdo, array $matches, array $pla
     $sourceId = migrator_resolve_source_id($ref['source_ids'], 'fbref_players_ldc', $seasonKey);
     $stmt = $pdo->prepare(
         'INSERT INTO player_match_stats (player_id, match_id, is_starter, minutes, goals, assists, source_id)
-         VALUES (?, ?, 0, 0, ?, 0, ?)'
+         VALUES (?, ?, 0, 0, ?, ?, ?)'
     );
 
     $totals = migrator_totals_by_key($players, $totalsFile);
     $goalTotals = array_map(static fn (array $t): int => $t['goals'], $totals);
+    $assistTotals = array_map(static fn (array $t): int => $t['assists'] ?? 0, $totals);
 
     $agg = [];
     migrator_spread_goals_exact($agg, $matches, $goalTotals);
+    migrator_spread_assists_exact($agg, $matches, $assistTotals);
 
     foreach ($agg as $playerId => $byMatch) {
         foreach ($byMatch as $matchId => $line) {
-            $stmt->execute([(int) $playerId, (int) $matchId, $line['goals'] ?? 0, $sourceId]);
+            $stmt->execute([(int) $playerId, (int) $matchId, $line['goals'] ?? 0, $line['assists'] ?? 0, $sourceId]);
         }
     }
 }

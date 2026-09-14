@@ -30,6 +30,35 @@ class StatisticRepository extends Repository
         }, $rows);
     }
 
+    // Même forme que topScorers(), mais classée sur les passes décisives (carte
+    // "Top passeurs" du Dashboard) : HAVING sur assists, ORDER BY assists puis
+    // goals en repli.
+    public function topAssists(int $seasonId, int $limit, ?int $competitionId): array
+    {
+        $compFilter = $competitionId !== null ? ' AND m.competition_id = :comp' : '';
+        $params = ['season' => $seasonId] + ($competitionId !== null ? ['comp' => $competitionId] : []);
+        $rows = $this->fetchAll(
+            "SELECT p.*, SUM(s.goals) goals, SUM(s.assists) assists, SUM(s.minutes) minutes
+             FROM player_match_stats s
+             JOIN players p ON p.id = s.player_id
+             JOIN matches m ON m.id = s.match_id
+             WHERE m.season_id = :season{$compFilter}
+             GROUP BY p.id
+             HAVING SUM(s.assists) > 0
+             ORDER BY assists DESC, goals DESC
+             LIMIT {$limit}",
+            $params
+        );
+        return array_map(static function (array $r): array {
+            return [
+                'player'  => Player::fromRow($r),
+                'goals'   => (int) $r['goals'],
+                'assists' => (int) $r['assists'],
+                'minutes' => (int) $r['minutes'],
+            ];
+        }, $rows);
+    }
+
     // $competitionId : filtre optionnel (ex. Ligue 1 uniquement). Sans lui, agrège
     // toutes les compétitions ayant des player_match_stats pour ce joueur (jusqu'à
     // l'ajout des stats Ligue des Champions, la L1 était la seule, donc l'appel

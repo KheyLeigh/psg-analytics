@@ -47,24 +47,17 @@ final class DashboardController extends Controller
         $recent = $this->matches->recentDetailed($seasonId, $psgId, 5);
         $form = array_reverse(array_map(static fn (array $m): string => $m['result'], $recent));
 
-        // Meilleurs buteurs de Ligue 1 de la saison sélectionnée. Repli sur le prénom
-        // pour les joueurs à nom unique (ex. Marquinhos, Vitinha), lastName vide sinon.
-        $scorers = $this->stats->topScorers($seasonId, 5, $leagueId);
-        $topScorers = array_map(static fn (array $s): array => [
-            'label' => $s['player']->lastName !== '' ? $s['player']->lastName : $s['player']->firstName,
-            'value' => $s['goals'],
-        ], $scorers);
+        // Meilleurs buteurs et passeurs de Ligue 1 de la saison sélectionnée.
+        $topScorers = self::toBars($this->stats->topScorers($seasonId, 5, $leagueId), 'goals');
+        $topAssists = self::toBars($this->stats->topAssists($seasonId, 5, $leagueId), 'assists');
 
-        // Meilleurs buteurs de Ligue des Champions, même repli nom unique. Peut être
-        // vide (aucun but inscrit sur la compétition pour la saison, ex. phase de
-        // groupes non encore jouée) : jamais de donnée fabriquée, la carte s'efface
-        // alors côté vue.
+        // Idem pour la Ligue des Champions. Peuvent être vides (aucun but/passe
+        // inscrit sur la compétition pour la saison, ex. phase de groupes non
+        // encore jouée) : jamais de donnée fabriquée, la carte s'efface alors
+        // côté vue.
         $uclId = $this->comps->championsLeagueId();
-        $scorersLdc = $uclId !== null ? $this->stats->topScorers($seasonId, 5, $uclId) : [];
-        $topScorersLdc = array_map(static fn (array $s): array => [
-            'label' => $s['player']->lastName !== '' ? $s['player']->lastName : $s['player']->firstName,
-            'value' => $s['goals'],
-        ], $scorersLdc);
+        $topScorersLdc = $uclId !== null ? self::toBars($this->stats->topScorers($seasonId, 5, $uclId), 'goals') : [];
+        $topAssistsLdc = $uclId !== null ? self::toBars($this->stats->topAssists($seasonId, 5, $uclId), 'assists') : [];
 
         return [
             'title'         => 'Dashboard · PSG Analytics',
@@ -77,6 +70,19 @@ final class DashboardController extends Controller
             'form'          => $form,
             'topScorers'    => $topScorers,
             'topScorersLdc' => $topScorersLdc,
+            'topAssists'    => $topAssists,
+            'topAssistsLdc' => $topAssistsLdc,
         ] + $this->seasons->navData($season);
+    }
+
+    // Réduit une liste topScorers()/topAssists() en paires label/value pour un
+    // bar chart : repli sur le prénom pour les joueurs à nom unique (ex.
+    // Marquinhos, Vitinha), lastName vide sinon.
+    private static function toBars(array $rows, string $valueKey): array
+    {
+        return array_map(static fn (array $r): array => [
+            'label' => $r['player']->lastName !== '' ? $r['player']->lastName : $r['player']->firstName,
+            'value' => $r[$valueKey],
+        ], $rows);
     }
 }

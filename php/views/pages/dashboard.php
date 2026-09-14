@@ -62,9 +62,9 @@ $kpiCards = [
     ],
 ];
 
-// Données embarquées pour l'hydratation : la courbe (sans endpoint) et le classement
-// des buteurs (totaux vérifiés). La répartition et la carte de chaleur passent par l'API.
-// Le jalon "Champion" ne vaut que pour la saison effectivement remportée
+// Données embarquées pour l'hydratation : la courbe (sans endpoint) et les
+// classements buteurs/passeurs (totaux vérifiés). La carte de chaleur passe par
+// l'API. Le jalon "Champion" ne vaut que pour la saison effectivement remportée
 // (2025-26) : l'afficher sur une saison en cours suggérerait à tort un titre
 // déjà acquis.
 $pointsMilestoneLabel = $selectedSeason === '2025-26'
@@ -75,6 +75,8 @@ $embedded = [
     'milestone' => ['value' => $totalPoints, 'label' => $pointsMilestoneLabel],
     'topScorers' => $topScorers,
     'topScorersLdc' => $topScorersLdc,
+    'topAssists' => $topAssists,
+    'topAssistsLdc' => $topAssistsLdc,
 ];
 $formLetters = ['W' => 'V', 'D' => 'N', 'L' => 'D'];
 $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
@@ -128,20 +130,41 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
         </div>
       </figure>
 
-      <figure class="panel chart-card"
-        data-est data-src="e"
-        data-tip="Répartition reconstituée mois par mois par le générateur déterministe (StatGenerator), calibrée sur les totaux de buts vérifiés.">
+      <figure class="panel chart-card">
         <figcaption class="chart-card__head">
           <div>
-            <h3 class="chart-card__title">Répartition des buts par mois</h3>
-            <p class="chart-card__sub">Buts du PSG ventilés par période de la saison.</p>
+            <h3 class="chart-card__title">Top passeurs · Ligue 1</h3>
+            <p class="chart-card__sub">Meilleurs passeurs du PSG (totaux vérifiés).</p>
           </div>
-          <?php $confidence = 'estimated'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
+          <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
         </figcaption>
-        <div class="chart-card__canvas" id="chart-distribution" data-chart="distribution">
-          <p class="chart-fallback">Graphique de répartition mensuelle des buts (hydraté avec JavaScript activé).</p>
+        <div class="chart-card__canvas" id="chart-assists" data-chart="assists">
+          <p class="chart-fallback">
+            <?php foreach ($topAssists as $i => $s): ?>
+              <?= View::e($s['label']) ?> <?= View::e($s['value']) ?><?= $i < count($topAssists) - 1 ? ' · ' : '' ?>
+            <?php endforeach; ?>
+          </p>
         </div>
       </figure>
+
+      <?php if ($topAssistsLdc !== []): ?>
+      <figure class="panel chart-card">
+        <figcaption class="chart-card__head">
+          <div>
+            <h3 class="chart-card__title">Top passeurs · Ligue des Champions</h3>
+            <p class="chart-card__sub">Meilleurs passeurs du PSG (totaux vérifiés).</p>
+          </div>
+          <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
+        </figcaption>
+        <div class="chart-card__canvas" id="chart-assists-ldc" data-chart="assists-ldc">
+          <p class="chart-fallback">
+            <?php foreach ($topAssistsLdc as $i => $s): ?>
+              <?= View::e($s['label']) ?> <?= View::e($s['value']) ?><?= $i < count($topAssistsLdc) - 1 ? ' · ' : '' ?>
+            <?php endforeach; ?>
+          </p>
+        </div>
+      </figure>
+      <?php endif; ?>
 
       <figure class="panel chart-card">
         <figcaption class="chart-card__head">

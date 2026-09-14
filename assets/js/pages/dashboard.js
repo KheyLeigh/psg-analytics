@@ -36,7 +36,8 @@ export function initDashboard() {
   hydratePoints(data);
   hydrateScorers(data);
   hydrateScorersLdc(data);
-  hydrateDistribution();
+  hydrateAssists(data);
+  hydrateAssistsLdc(data);
   hydrateHeatmap();
   countUpKpis();
 }
@@ -99,23 +100,26 @@ function hydrateScorersLdc(data) {
   bar.render(el, scorers, { ariaLabel: 'Meilleurs buteurs du PSG en Ligue des Champions.' });
 }
 
-// Répartition mensuelle des buts (API /api/distribution), série estimée.
-async function hydrateDistribution() {
-  const el = document.querySelector('#chart-distribution');
-  if (!el) {
+// Top passeurs (données SSR, totaux vérifiés) en barres identité rouge.
+function hydrateAssists(data) {
+  const el = document.querySelector('#chart-assists');
+  const assists = Array.isArray(data.topAssists) ? data.topAssists : [];
+  if (!el || assists.length === 0) {
     return;
   }
-  try {
-    const body = await get('/api/distribution');
-    const byMonth = (body && body.data && body.data.by_month) || {};
-    const series = Object.keys(byMonth).map((ym) => ({ label: monthLabel(ym), value: Number(byMonth[ym]) || 0 }));
-    if (series.length === 0) {
-      return;
-    }
-    bar.render(el, series, { ariaLabel: 'Buts du PSG répartis par mois de la saison.' });
-  } catch (err) {
-    console.warn('Répartition des buts indisponible.', err);
+  bar.render(el, assists, { ariaLabel: 'Meilleurs passeurs du PSG en Ligue 1.' });
+}
+
+// Top passeurs en Ligue des Champions (données SSR, totaux vérifiés). La carte
+// n'existe dans le DOM que si le contrôleur a des passes à montrer (jamais de
+// donnée fabriquée en cas de saison sans passe décisive encore inscrite en C1).
+function hydrateAssistsLdc(data) {
+  const el = document.querySelector('#chart-assists-ldc');
+  const assists = Array.isArray(data.topAssistsLdc) ? data.topAssistsLdc : [];
+  if (!el || assists.length === 0) {
+    return;
   }
+  bar.render(el, assists, { ariaLabel: 'Meilleurs passeurs du PSG en Ligue des Champions.' });
 }
 
 // Carte de chaleur buteurs x mois (API /api/heatmap), série estimée. On garde les

@@ -26,6 +26,10 @@ final class DashboardControllerTest extends TestCase
                 $this->seen[] = ['topScorers', $seasonId];
                 return [['player' => Player::fromRow(['id'=>9,'season_id'=>1,'person_id'=>9,'shirt_number'=>9,'first_name'=>'Ousmane','last_name'=>'Dembélé','position'=>'FW','detailed_position'=>'CF','foot'=>'both','nationality'=>'France','birth_date'=>null,'height_cm'=>178,'is_captain'=>0]), 'goals'=>21, 'assists'=>6, 'minutes'=>2600]];
             }
+            public function topAssists(int $seasonId, int $limit, ?int $competitionId): array {
+                $this->seen[] = ['topAssists', $seasonId];
+                return [['player' => Player::fromRow(['id'=>17,'season_id'=>1,'person_id'=>17,'shirt_number'=>17,'first_name'=>'Vitinha','last_name'=>'','position'=>'MF','detailed_position'=>'DM','foot'=>'right','nationality'=>'Portugal','birth_date'=>null,'height_cm'=>172,'is_captain'=>0]), 'goals'=>1, 'assists'=>7, 'minutes'=>2100]];
+            }
         };
         $matches = new class(new PDO('sqlite::memory:')) extends MatchRepository {
             public array $seen = [];
@@ -67,12 +71,16 @@ final class DashboardControllerTest extends TestCase
 
         $data = $ctrl->buildViewData($season);
 
-        // topScorers est appelée quatre fois avec la saison demandée : deux fois via
-        // KpiService::dashboard() (meilleur buteur, puis meilleur passeur), une fois
-        // pour le top 5 buteurs de Ligue 1, une fois pour le top 5 de Ligue des
-        // Champions.
+        // topScorers/topAssists sont appelées six fois avec la saison demandée : deux
+        // fois topScorers via KpiService::dashboard() (meilleur buteur, puis meilleur
+        // passeur), puis topScorers/topAssists pour le top 5 de Ligue 1, puis
+        // topScorers/topAssists pour le top 5 de Ligue des Champions.
         $this->assertSame(
-            [['topScorers', 7], ['topScorers', 7], ['topScorers', 7], ['topScorers', 7]],
+            [
+                ['topScorers', 7], ['topScorers', 7],
+                ['topScorers', 7], ['topAssists', 7],
+                ['topScorers', 7], ['topAssists', 7],
+            ],
             $stats->seen
         );
         // seasonRecord est appelée deux fois avec la saison demandée : une fois via

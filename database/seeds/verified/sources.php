@@ -88,19 +88,19 @@ return array (
   9 =>
   array (
     'key' => 'fbref_players_ldc',
-    'label' => 'FBref/StatMuse : buts par joueur, Ligue des Champions 2025-26',
+    'label' => 'FBref/StatMuse : buts et passes décisives par joueur, Ligue des Champions 2025-26',
     'url' => 'https://fbref.com/en/squads/e2d8892c/2025-2026/c8/Paris-Saint-Germain-Stats-Champions-League',
     'collected_at' => '2026-09-14',
     'confidence' => 'verified',
-    'note' => 'Relevé manuel (campagne 2025-26 terminée, ne nécessite plus de mise à jour) : buts par joueur uniquement, recoupés avec le total but pour but des 17 matchs déjà en base (matches_other.php) et avec le total officiel UEFA de 45 buts sur la saison. Passes décisives non recueillies pour cette compétition : non nécessaires à la carte Top buteurs, jamais fabriquées.',
+    'note' => 'Relevé manuel (campagne 2025-26 terminée, ne nécessite plus de mise à jour) : buts recoupés avec le but pour but des 17 matchs déjà en base (matches_other.php) et avec le total officiel UEFA de 45 buts sur la saison ; passes décisives recoupées avec le total d\'équipe de 33 sur la campagne.',
   ),
   10 =>
   array (
     'key' => 'fbref_players_ldc_2026-27',
-    'label' => 'ESPN : buts par joueur, Ligue des Champions 2026-27',
+    'label' => 'ESPN : buts et passes décisives par joueur, Ligue des Champions 2026-27',
     'url' => 'https://www.espn.com/soccer/team/stats/_/id/160/league/UEFA.CHAMPIONS',
     'collected_at' => '2026-09-14',
     'confidence' => 'verified',
-    'note' => 'Relevé manuel, saison en cours : un seul match joué à ce jour (PSG 6-1 Slovan Bratislava, 2026-09-09), buts recoupés avec le score du match. Contrairement aux sources L1 2026-27, ce fichier n\'est PAS alimenté par la tâche planifiée psg-analytics-collecte-2026-27 : à mettre à jour manuellement au fil des matchs de C1.',
+    'note' => 'Relevé manuel, saison en cours : un seul match joué à ce jour (PSG 6-1 Slovan Bratislava, 2026-09-09), buts et passes décisives recoupés avec le score du match. Contrairement aux sources L1 2026-27, ce fichier n\'est PAS alimenté par la tâche planifiée psg-analytics-collecte-2026-27 : à mettre à jour manuellement au fil des matchs de C1.',
   ),
 );

@@ -103,7 +103,7 @@ return array (
     'confidence' => 'verified',
     'note' => 'Relevé manuel, saison en cours : un seul match joué à ce jour (PSG 6-1 Slovan Bratislava, 2026-09-09), buts et passes décisives recoupés avec le score du match. Contrairement aux sources L1 2026-27, ce fichier n\'est PAS alimenté par la tâche planifiée psg-analytics-collecte-2026-27 : à mettre à jour manuellement au fil des matchs de C1.',
   ),
-  11 =>
+  11 => 
   array (
     'key' => 'sofascore_heatmap_2025',
     'label' => 'Sofascore : présence sur le terrain par joueur, saison 2025-26 (toutes compétitions)',

@@ -177,6 +177,11 @@ $payload = json_encode(
       <div id="pd-heatmap" class="pitchmap-wrap">
         <p class="chart-fallback">La carte de présence s'affiche ici (JavaScript activé).</p>
       </div>
+      <div class="pm-legend">
+        <span>Présence faible</span>
+        <span class="pm-legend__bar" aria-hidden="true"></span>
+        <span>Présence forte</span>
+      </div>
     </section>
   <?php endif; ?>
 

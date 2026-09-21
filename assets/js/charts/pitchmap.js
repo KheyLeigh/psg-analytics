@@ -1,9 +1,12 @@
 // Heatmap de présence sur le terrain (pitch map) : terrain complet vu du dessus,
-// attaque vers la droite, densité de touches de balle en camaïeu rouge identité.
-// Chaque cellule (grille Sofascore, pas de 12 sur 0-100) devient un disque flou dont
-// l'opacité suit le nombre de touches relatif au maximum du joueur : le flou (filtre
-// SVG) fait fusionner les disques voisins en zones chaudes, sans jamais dessiner de
-// valeur individuelle non vérifiée. Signature : render(el, { points }, { ariaLabel }).
+// attaque vers la droite, densité de touches de balle en camaïeu rouge identité
+// (color-mix vers le rouge, même logique que la heatmap buteurs x mois). Chaque
+// cellule (grille Sofascore, pas de 12 sur 0-100) devient un disque flou dont la
+// teinte suit l'intensité (racine carrée du nombre de touches relatif au maximum
+// du joueur, pour rester lisible malgré la loi de puissance des données réelles) :
+// le flou (filtre SVG) fait fusionner les disques voisins en zones chaudes, sans
+// jamais dessiner de valeur individuelle non vérifiée. Signature :
+// render(el, { points }, { ariaLabel }).
 
 import { svgEl } from './axis.js';
 
@@ -63,6 +66,15 @@ function drawPitch(svg) {
   }));
 }
 
+// Points de touches très inégaux (quelques cellules concentrent l'essentiel du
+// volume, en loi de puissance) : une intensité linéaire (valeur / max) écrase
+// tout sauf la cellule la plus chaude en à peine visible. La racine carrée
+// remonte les zones moyennement visitées à une intensité lisible, sans jamais
+// changer le classement relatif des cellules entre elles.
+function intensity(count, max) {
+  return Math.sqrt(Math.min(1, count / max));
+}
+
 export function render(container, data, options = {}) {
   const { ariaLabel = 'Carte de présence sur le terrain' } = options;
   const points = (data && data.points) || [];
@@ -76,7 +88,7 @@ export function render(container, data, options = {}) {
 
   const defs = svgEl('defs', {}, [
     svgEl('filter', { id: 'pm-blur', x: '-40%', y: '-40%', width: '180%', height: '180%' },
-      svgEl('feGaussianBlur', { stdDeviation: 14 })),
+      svgEl('feGaussianBlur', { stdDeviation: 9 })),
   ]);
   svg.appendChild(defs);
 
@@ -91,9 +103,14 @@ export function render(container, data, options = {}) {
   const blobs = svgEl('g', { filter: 'url(#pm-blur)' });
   for (const [x, y, c] of points) {
     const [cx, cy] = project(x, y);
-    const t = Math.min(1, c / max);
+    const t = intensity(c, max);
+    // `style` (pas l'attribut `fill`) : une règle CSS de classe (.pm-cell) gagne
+    // toujours sur un attribut de présentation dans la cascade, ce qui écraserait
+    // silencieusement le dégradé calculé ici par une même teinte pour toutes les
+    // cellules.
     blobs.appendChild(svgEl('circle', {
-      class: 'pm-cell', cx, cy, r: 26 + t * 20, 'fill-opacity': (0.12 + t * 0.55).toFixed(2),
+      class: 'pm-cell', cx, cy, r: 22 + t * 26,
+      style: `fill: color-mix(in srgb, var(--red) ${Math.round(20 + t * 80)}%, transparent)`,
     }));
   }
   svg.appendChild(blobs);

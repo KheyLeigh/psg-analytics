@@ -37,10 +37,20 @@ function migrator_totals_by_key(array $players, string $file): array
 }
 
 // Affecte les buts exacts de chaque joueur à des matchs précis, en respectant
-// le total marqué par PSG dans chaque match. Le total buts joueurs (73) est
-// inférieur d'exactement 1 au total buts d'équipe (74) : le match où PSG a
-// marqué le plus de buts absorbe ce déficit d'une unité, sans qu'aucun
-// joueur ne se voie attribuer ce but contre son camp adverse.
+// le total marqué par PSG dans chaque match.
+//
+// La somme des buts joueurs peut être inférieure à celle des buts d'équipe,
+// l'écart venant des buts contre leur camp adverses : en 2025-26, 73 buts
+// joueurs pour 74 buts d'équipe. Cet écart est mesuré, jamais supposé. Il
+// valait exactement 1 pour la saison 2025-26 et cette unité était retranchée en
+// dur, ce qui faisait disparaître un but réel dès qu'une saison n'avait aucun
+// but contre son camp en sa faveur (2026-27 : 8 buts joueurs pour 8 buts
+// d'équipe, et un but de Marquinhos perdu au passage, invisible au classement
+// des buteurs).
+//
+// Les matchs les plus prolifiques absorbent l'écart en premier : c'est là qu'un
+// but contre son camp adverse passe le plus inaperçu, et la capacité d'un match
+// ne peut jamais devenir négative.
 function migrator_spread_goals(array &$agg, array $matches, array $goalTotals): void
 {
     $tokens = [];
@@ -51,18 +61,50 @@ function migrator_spread_goals(array &$agg, array $matches, array $goalTotals): 
     }
     $tokens = migrator_shuffle_tokens($tokens);
 
-    $ownGoalMatchId = null;
-    $maxGoals = -1;
+    // Capacité de chaque match, réduite de l'écart constaté entre buts d'équipe
+    // et buts joueurs.
+    $capacite = [];
     foreach ($matches as $match) {
-        if ($match['psg_goals'] > $maxGoals) {
-            $maxGoals = $match['psg_goals'];
-            $ownGoalMatchId = $match['id'];
+        $capacite[$match['id']] = $match['psg_goals'];
+    }
+    $ecart = array_sum($capacite) - count($tokens);
+
+    if ($ecart > 0) {
+        // Du match le plus prolifique au moins prolifique, une unité à la fois :
+        // un match à 6 buts absorbe avant un match à 1 but, et aucun ne descend
+        // sous zéro.
+        $ordre = $matches;
+        usort($ordre, static fn (array $a, array $b): int => $b['psg_goals'] <=> $a['psg_goals']);
+        while ($ecart > 0) {
+            $place = false;
+            foreach ($ordre as $match) {
+                if ($ecart > 0 && $capacite[$match['id']] > 0) {
+                    $capacite[$match['id']]--;
+                    $ecart--;
+                    $place = true;
+                }
+            }
+            if (!$place) {
+                break; // plus aucune capacité : sécurité, ne boucle pas à l'infini
+            }
         }
+    }
+
+    // Garde-fou : la capacité restante doit pouvoir accueillir tous les buts
+    // joueurs. Sans lui, le trop-plein est silencieusement tronqué par le
+    // array_slice ci-dessous et le but disparaît du classement des buteurs sans
+    // que rien ne le signale, comme les passes et la discipline le font déjà
+    // plus bas.
+    if (array_sum($capacite) !== count($tokens)) {
+        throw new RuntimeException(
+            'buts incohérents : ' . count($tokens) . ' buts joueurs pour '
+            . array_sum($capacite) . ' places disponibles sur ' . count($matches) . ' matchs'
+        );
     }
 
     $cursor = 0;
     foreach ($matches as $match) {
-        $need = $match['id'] === $ownGoalMatchId ? $match['psg_goals'] - 1 : $match['psg_goals'];
+        $need = $capacite[$match['id']];
         $slice = array_slice($tokens, $cursor, $need);
         $cursor += $need;
         foreach (array_count_values($slice) as $playerId => $goals) {

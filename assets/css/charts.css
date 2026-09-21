@@ -284,39 +284,36 @@
   color: var(--text);
 }
 
-/* Pitch map (heatmap de présence) : terrain complet, densité de touches en
-   camaïeu rouge identité (mêmes tons que la shot map, dégradé en plus). */
+/* Pitch map (heatmap de présence) : champ de densité continu (canvas, palette
+   thermographique bleu->rouge) avec les lignes du terrain en SVG par-dessus,
+   nettes à toute résolution. Les deux calques partagent exactement le même
+   cadre (voir pitchmap.js : même largeur/hauteur, pas de marge). */
 .pitchmap-wrap {
   max-width: 620px;
   margin: 0 auto;
 }
-.pitchmap {
+.pitchmap-stage {
+  position: relative;
   width: 100%;
-  height: auto;
-  display: block;
-  overflow: visible;
+  border-radius: var(--r);
+  overflow: hidden;
 }
-.pm-pitch {
-  fill: color-mix(in srgb, var(--navy-900) 55%, var(--surface));
+.pitchmap-canvas,
+.pitchmap-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .pm-line {
-  stroke: color-mix(in srgb, var(--text) 38%, transparent);
+  stroke: rgb(255 255 255 / .85);
   stroke-width: 2;
 }
 .pm-goal {
-  fill: color-mix(in srgb, var(--text) 24%, transparent);
+  fill: rgb(255 255 255 / .85);
   stroke: none;
 }
-.pm-arrow {
-  stroke: var(--dim);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-/* .pm-cell n'a pas de règle fill ici : la teinte varie par cellule (intensité),
-   posée en style inline par pitchmap.js (un attribut de présentation serait
-   écrasé par une règle de classe, une règle de classe ne pourrait pas varier
-   par cellule). */
 .pm-legend {
   display: flex;
   align-items: center;
@@ -327,16 +324,18 @@
   font-size: var(--text-sm);
 }
 .pm-legend__bar {
-  width: 120px;
+  width: 140px;
   height: 10px;
   border-radius: var(--r-pill);
-  /* Même échelle à trois paliers que pitchmap.js (heatColor) : bordeaux
-     discret, rouge identité, orange chaud. */
+  /* Même palette que pitchmap.js (JET_STOPS) : bleu froid -> rouge chaud. */
   background: linear-gradient(
     to right,
-    rgb(122 15 28 / .35),
-    var(--red),
-    rgb(255 122 32)
+    rgb(18 24 110),
+    rgb(22 120 200),
+    rgb(40 175 120),
+    rgb(225 215 60),
+    rgb(240 140 30),
+    rgb(205 20 20)
   );
 }
 .sm-comp__table tfoot th {

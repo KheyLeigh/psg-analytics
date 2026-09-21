@@ -1,53 +1,122 @@
 // Heatmap de présence sur le terrain (pitch map) : terrain complet vu du dessus,
-// attaque vers la droite, densité de touches de balle en échelle de température
-// a trois paliers (bordeaux discret -> rouge identité -> orange chaud), bien plus
-// lisible qu'une simple opacité d'une seule teinte. Chaque cellule (grille
-// Sofascore, pas de 12 sur 0-100) devient un disque flou dont la couleur suit
-// l'intensité (racine carrée du nombre de touches relatif au maximum du joueur,
-// pour rester lisible malgré la loi de puissance des données réelles) : le flou
-// (filtre SVG) fait fusionner les disques voisins en zones chaudes, toujours
-// découpées aux limites exactes du terrain (clip-path) pour ne jamais déborder.
-// Jamais de valeur individuelle non vérifiée dessinée. Signature :
+// attaque vers la droite, champ de densité continu façon thermographie sportive
+// (bleu froid -> vert -> jaune -> orange -> rouge chaud), couvrant tout le
+// terrain plutôt que des îlots isolés. Un canvas calcule la densité (noyau
+// gaussien autour de chaque point vérifié, poids en racine carrée du nombre de
+// touches pour rester lisible malgré la loi de puissance des données réelles)
+// puis la colorise ; les lignes du terrain sont dessinées par-dessus en SVG,
+// nettes quel que soit le zoom. Jamais de valeur individuelle non vérifiée
+// dessinée, jamais de champ hors des limites exactes du terrain (canvas =
+// dimensions du terrain, rien ne peut déborder). Signature :
 // render(el, { points }, { ariaLabel }).
 
 import { svgEl } from './axis.js';
-
-// Échelle de température à trois paliers : bordeaux discret (présence faible),
-// rouge identité (moyenne), orange chaud (forte). Interpolation RVB par
-// segments, alpha croissante en continu pour que même les zones faibles restent
-// perceptibles sans jamais dominer les zones fortes.
-const HEAT_STOPS = [
-  [122, 15, 28],   // bordeaux discret
-  [226, 0, 26],    // rouge identité (--red)
-  [255, 122, 32],  // orange chaud
-];
-
-function lerp(a, b, t) {
-  return Math.round(a + (b - a) * t);
-}
-
-function heatColor(t) {
-  const seg = t < 0.5 ? [HEAT_STOPS[0], HEAT_STOPS[1], t * 2] : [HEAT_STOPS[1], HEAT_STOPS[2], (t - 0.5) * 2];
-  const [from, to, localT] = seg;
-  const [r, g, b] = [lerp(from[0], to[0], localT), lerp(from[1], to[1], localT), lerp(from[2], to[2], localT)];
-  const alpha = (0.16 + t * 0.8).toFixed(2);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
 
 // Terrain a l'echelle metrique (105 x 68 m), vue complete (pas de demi-terrain
 // contrairement a la shot map : la presence couvre tout le jeu).
 const W = 700;              // largeur = 105 m (longueur du terrain, affichee horizontalement)
 const H = 453;              // hauteur = 68 m (largeur du terrain)
 
+// Grille de calcul de densité : résolution réduite (perf, ~1/5) puis agrandie
+// avec lissage bilinéaire du canvas, qui produit déjà un dégradé continu sans
+// recalculer chaque pixel final.
+const GRID_W = 140;
+const GRID_H = 91;
+
+// Étalement du noyau gaussien autour de chaque point (en unités du terrain,
+// W=700) : assez large pour fusionner les points voisins en zones continues,
+// assez serré pour distinguer plusieurs foyers de présence.
+const SIGMA = 52;
+
+// Palette thermographique classique (froid -> chaud), interpolée par paliers.
+const JET_STOPS = [
+  [0.00, [18, 24, 110]],
+  [0.20, [22, 120, 200]],
+  [0.42, [40, 175, 120]],
+  [0.60, [225, 215, 60]],
+  [0.80, [240, 140, 30]],
+  [1.00, [205, 20, 20]],
+];
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function jetColor(t) {
+  const v = Math.max(0, Math.min(1, t));
+  let i = 0;
+  while (i < JET_STOPS.length - 2 && v > JET_STOPS[i + 1][0]) i++;
+  const [t0, c0] = JET_STOPS[i];
+  const [t1, c1] = JET_STOPS[i + 1];
+  const localT = t1 > t0 ? (v - t0) / (t1 - t0) : 0;
+  return [
+    Math.round(lerp(c0[0], c1[0], localT)),
+    Math.round(lerp(c0[1], c1[1], localT)),
+    Math.round(lerp(c0[2], c1[2], localT)),
+  ];
+}
+
 // Projette une coordonnee normalisee Sofascore (0-100 sur x et y) vers le repere SVG.
 function project(x, y) {
   return [(x / 100) * W, (y / 100) * H];
 }
 
-// Trace les lignes du terrain complet : contour, ligne mediane, rond central,
-// surfaces de reparation et de but, points et arcs de penalty, aux deux bouts.
-function drawPitch(svg) {
-  svg.appendChild(svgEl('rect', { class: 'pm-pitch', x: 0, y: 0, width: W, height: H }));
+// Calcule la grille de densité (noyau gaussien, poids en racine carrée du
+// nombre de touches) puis la peint sur un petit canvas hors-écran, agrandi
+// ensuite avec lissage sur le canvas visible : couverture continue de tout le
+// terrain, jamais de trou entre les zones visitées.
+function paintHeat(canvas, points) {
+  const weighted = points.map(([x, y, c]) => {
+    const [px, py] = project(x, y);
+    return [px, py, Math.sqrt(Math.max(0, c))];
+  });
+
+  const density = new Float64Array(GRID_W * GRID_H);
+  let max = 0;
+  const twoSigmaSq = 2 * SIGMA * SIGMA;
+  for (let gy = 0; gy < GRID_H; gy++) {
+    const py = ((gy + 0.5) / GRID_H) * H;
+    for (let gx = 0; gx < GRID_W; gx++) {
+      const px = ((gx + 0.5) / GRID_W) * W;
+      let sum = 0;
+      for (const [wx, wy, weight] of weighted) {
+        const dx = px - wx;
+        const dy = py - wy;
+        sum += weight * Math.exp(-(dx * dx + dy * dy) / twoSigmaSq);
+      }
+      const idx = gy * GRID_W + gx;
+      density[idx] = sum;
+      if (sum > max) max = sum;
+    }
+  }
+  if (max <= 0) return;
+
+  const off = document.createElement('canvas');
+  off.width = GRID_W;
+  off.height = GRID_H;
+  const offCtx = off.getContext('2d');
+  const img = offCtx.createImageData(GRID_W, GRID_H);
+  for (let i = 0; i < density.length; i++) {
+    const t = density[i] / max;
+    const [r, g, b] = jetColor(t);
+    img.data[i * 4] = r;
+    img.data[i * 4 + 1] = g;
+    img.data[i * 4 + 2] = b;
+    img.data[i * 4 + 3] = 255;
+  }
+  offCtx.putImageData(img, 0, 0);
+
+  const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.clearRect(0, 0, W, H);
+  ctx.drawImage(off, 0, 0, GRID_W, GRID_H, 0, 0, W, H);
+}
+
+// Trace les lignes du terrain complet, en blanc : contour, ligne mediane, rond
+// central, surfaces de reparation et de but, points, arcs de penalty et petits
+// arcs de corner, aux deux bouts.
+function drawPitchLines(svg) {
   const line = (attrs) => svg.appendChild(svgEl('rect', { class: 'pm-line', fill: 'none', ...attrs }));
 
   line({ x: 1, y: 1, width: W - 2, height: H - 2, rx: 2 });
@@ -55,7 +124,21 @@ function drawPitch(svg) {
   svg.appendChild(svgEl('circle', {
     class: 'pm-line', fill: 'none', cx: W / 2, cy: H / 2, r: (9.15 / 68) * H,
   }));
-  svg.appendChild(svgEl('circle', { class: 'pm-line', cx: W / 2, cy: H / 2, r: 2, fill: 'currentColor' }));
+  svg.appendChild(svgEl('circle', { class: 'pm-line', cx: W / 2, cy: H / 2, r: 2.5, fill: 'currentColor' }));
+
+  const cornerR = (1 / 68) * H * 4;
+  const corners = [[0, 0, 0, 90], [W, 0, 90, 180], [0, H, 270, 360], [W, H, 180, 270]];
+  for (const [cx, cy, a0] of corners) {
+    const rad0 = (a0 * Math.PI) / 180;
+    const rad1 = ((a0 + 90) * Math.PI) / 180;
+    const x0 = cx + cornerR * Math.cos(rad0);
+    const y0 = cy + cornerR * Math.sin(rad0);
+    const x1 = cx + cornerR * Math.cos(rad1);
+    const y1 = cy + cornerR * Math.sin(rad1);
+    svg.appendChild(svgEl('path', {
+      class: 'pm-line', fill: 'none', d: `M ${x0} ${y0} A ${cornerR} ${cornerR} 0 0 1 ${x1} ${y1}`,
+    }));
+  }
 
   // Cote gauche (x=0, but propre par convention Sofascore) puis cote droit (x=100).
   for (const side of [0, 1]) {
@@ -80,23 +163,8 @@ function drawPitch(svg) {
 
     const px = baseX + dir * (11 / 105) * W;
     const [, py] = project(0, 50);
-    svg.appendChild(svgEl('circle', { class: 'pm-line', cx: px, cy: py, r: 2, fill: 'currentColor' }));
+    svg.appendChild(svgEl('circle', { class: 'pm-line', cx: px, cy: py, r: 2.5, fill: 'currentColor' }));
   }
-
-  // Fleche de sens d'attaque, au-dessus du terrain.
-  svg.appendChild(svgEl('path', {
-    class: 'pm-arrow', d: `M ${W / 2 - 22} -14 H ${W / 2 + 14} M ${W / 2 + 6} -20 L ${W / 2 + 14} -14 L ${W / 2 + 6} -8`,
-    fill: 'none',
-  }));
-}
-
-// Points de touches très inégaux (quelques cellules concentrent l'essentiel du
-// volume, en loi de puissance) : une intensité linéaire (valeur / max) écrase
-// tout sauf la cellule la plus chaude en à peine visible. La racine carrée
-// remonte les zones moyennement visitées à une intensité lisible, sans jamais
-// changer le classement relatif des cellules entre elles.
-function intensity(count, max) {
-  return Math.sqrt(Math.min(1, count / max));
 }
 
 export function render(container, data, options = {}) {
@@ -105,43 +173,29 @@ export function render(container, data, options = {}) {
   container.textContent = '';
   container.classList.add('chart');
 
+  const stage = document.createElement('div');
+  stage.className = 'pitchmap-stage';
+  stage.style.aspectRatio = `${W} / ${H}`;
+
+  const canvas = document.createElement('canvas');
+  canvas.className = 'pitchmap-canvas';
+  canvas.width = W;
+  canvas.height = H;
+  canvas.setAttribute('role', 'img');
+  canvas.setAttribute('aria-label', ariaLabel);
+  stage.appendChild(canvas);
+
+  if (points.length > 0) {
+    paintHeat(canvas, points);
+  }
+
   const svg = svgEl('svg', {
-    viewBox: `0 -26 ${W} ${H + 26}`, role: 'img', 'aria-label': ariaLabel,
-    preserveAspectRatio: 'xMidYMid meet', class: 'pitchmap',
+    viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'xMidYMid meet', class: 'pitchmap-lines',
+    'aria-hidden': 'true',
   });
+  drawPitchLines(svg);
+  stage.appendChild(svg);
 
-  const defs = svgEl('defs', {}, [
-    svgEl('filter', { id: 'pm-blur', x: '-30%', y: '-30%', width: '160%', height: '160%' },
-      svgEl('feGaussianBlur', { stdDeviation: 6 })),
-    // Découpe aux limites exactes du terrain : sans ce clip, le flou des
-    // cellules proches du bord déborde visuellement hors du rectangle vert.
-    svgEl('clipPath', { id: 'pm-clip' }, svgEl('rect', { x: 0, y: 0, width: W, height: H })),
-  ]);
-  svg.appendChild(defs);
-
-  drawPitch(svg);
-
-  if (points.length === 0) {
-    container.appendChild(svg);
-    return svg;
-  }
-
-  const max = Math.max(...points.map((p) => p[2]));
-  const blobs = svgEl('g', { filter: 'url(#pm-blur)', 'clip-path': 'url(#pm-clip)' });
-  for (const [x, y, c] of points) {
-    const [cx, cy] = project(x, y);
-    const t = intensity(c, max);
-    // `style` (pas l'attribut `fill`) : une règle CSS de classe (.pm-cell) gagne
-    // toujours sur un attribut de présentation dans la cascade, ce qui écraserait
-    // silencieusement le dégradé calculé ici par une même teinte pour toutes les
-    // cellules.
-    blobs.appendChild(svgEl('circle', {
-      class: 'pm-cell', cx, cy, r: 15 + t * 17,
-      style: `fill: ${heatColor(t)}`,
-    }));
-  }
-  svg.appendChild(blobs);
-
-  container.appendChild(svg);
-  return svg;
+  container.appendChild(stage);
+  return stage;
 }

@@ -99,6 +99,7 @@ final class PlayerController extends Controller
             'page'     => 'player_detail',
             'shotmap'  => $this->shotmap($id, $player->fullName(), $seasonLabel),
             'shotsByComp' => $this->shotsByCompetition($id, $seasonLabel),
+            'heatmap'  => $this->heatmap($id, $seasonLabel),
             'seasons'  => $this->players->seasonsForPerson($player->personId),
             'player'   => [
                 'id'               => $player->id,
@@ -185,6 +186,40 @@ final class PlayerController extends Controller
             'source' => $all['source'] ?? '',
             'rows'   => $entry['byCompetition'],
             'total'  => $entry['total'] ?? ['shots' => 0, 'goals' => 0],
+        ];
+    }
+
+    // Chemin du fichier de heatmap de présence Sofascore pour une saison donnée.
+    public static function heatmapPath(string $seasonLabel): string
+    {
+        $year = substr($seasonLabel, 0, 4);
+        return BASE_PATH . "/database/seeds/verified/{$seasonLabel}/sofascore-heatmap-{$year}.json";
+    }
+
+    // Heatmap de présence sur le terrain (densité de touches, toutes compétitions
+    // confondues), pour la saison du joueur consulté. Renvoie null si le joueur n'a
+    // pas de heatmap référencée, ou si aucun fichier n'existe encore pour cette
+    // saison (saison en cours ou pas encore de relevé Sofascore).
+    private function heatmap(int $id, string $seasonLabel): ?array
+    {
+        if ($seasonLabel === '') {
+            return null;
+        }
+        $file = self::heatmapPath($seasonLabel);
+        if (!is_file($file)) {
+            return null;
+        }
+        $all = json_decode((string) file_get_contents($file), true);
+        $entry = $all['players'][(string) $id] ?? null;
+        if (!$entry || empty($entry['points'])) {
+            return null;
+        }
+        return [
+            'season'       => $all['season'] ?? '',
+            'competitions' => $all['competitions'] ?? '',
+            'source'       => $all['source'] ?? '',
+            'matches'      => (int) ($entry['matches'] ?? 0),
+            'points'       => $entry['points'],
         ];
     }
 

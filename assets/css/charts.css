@@ -273,6 +273,39 @@
   font-weight: 700;
   color: var(--text);
 }
+
+/* Pitch map (heatmap de présence) : terrain complet, densité de touches en
+   camaïeu rouge identité (mêmes tons que la shot map, dégradé en plus). */
+.pitchmap-wrap {
+  max-width: 620px;
+  margin: 0 auto;
+}
+.pitchmap {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.pm-pitch {
+  fill: color-mix(in srgb, var(--navy-900) 55%, var(--surface));
+}
+.pm-line {
+  stroke: color-mix(in srgb, var(--text) 24%, transparent);
+  stroke-width: 2;
+}
+.pm-goal {
+  fill: color-mix(in srgb, var(--text) 24%, transparent);
+  stroke: none;
+}
+.pm-arrow {
+  stroke: var(--dim);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.pm-cell {
+  fill: var(--red);
+}
 .sm-comp__table tfoot th {
   text-transform: none;
   letter-spacing: 0;

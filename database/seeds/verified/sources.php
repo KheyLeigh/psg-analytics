@@ -103,4 +103,13 @@ return array (
     'confidence' => 'verified',
     'note' => 'Relevé manuel, saison en cours : un seul match joué à ce jour (PSG 6-1 Slovan Bratislava, 2026-09-09), buts et passes décisives recoupés avec le score du match. Contrairement aux sources L1 2026-27, ce fichier n\'est PAS alimenté par la tâche planifiée psg-analytics-collecte-2026-27 : à mettre à jour manuellement au fil des matchs de C1.',
   ),
+  11 =>
+  array (
+    'key' => 'sofascore_heatmap_2025',
+    'label' => 'Sofascore : présence sur le terrain par joueur, saison 2025-26 (toutes compétitions)',
+    'url' => 'https://www.sofascore.com/football/player/vitinha/902029',
+    'collected_at' => '2026-09-21',
+    'confidence' => 'verified',
+    'note' => 'Relevé manuel via l\'API interne de Sofascore (points de densité de touches, grille 0-100 regroupée par pas de 12) : Ligue 1, Ligue des Champions, Trophée des Champions, Supercoupe UEFA et Coupe Intercontinentale. Chaque total de matchs recoupé avec les apparitions réelles déjà connues (ex. Vitinha 49 = 29 L1 + 17 LDC + 3 finales). Coupe de France 2025-26 non disponible sur Sofascore pour cette saison, jamais complétée par une donnée fabriquée. Campagne terminée, ne nécessite plus de mise à jour.',
+  ),
 );

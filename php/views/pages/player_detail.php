@@ -21,9 +21,10 @@ if (($totals['rating'] ?? null) !== null) {
     $kpis[] = ['label' => 'Note moy.', 'value' => number_format((float) $totals['rating'], 2, ',', ' ')];
 }
 
-// Données transmises au JS pour hydrater les graphiques (profil, contribution, tirs).
+// Données transmises au JS pour hydrater les graphiques (profil, contribution, tirs,
+// présence sur le terrain).
 $payload = json_encode(
-    ['profile' => $profile, 'timeline' => $timeline, 'shotmap' => $shotmap ?? null],
+    ['profile' => $profile, 'timeline' => $timeline, 'shotmap' => $shotmap ?? null, 'heatmap' => $heatmap ?? null],
     JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE
 );
 ?>
@@ -143,6 +144,21 @@ $payload = json_encode(
           </div>
         </div>
       <?php endif; ?>
+    </section>
+  <?php endif; ?>
+
+  <?php if (!empty($heatmap)): ?>
+    <section class="panel" aria-labelledby="pd-heatmap-h">
+      <div class="panel__header">
+        <h2 class="panel__title" id="pd-heatmap-h">Présence sur le terrain · <?= View::e($heatmap['season']) ?></h2>
+        <?php $confidence = 'verified'; require BASE_PATH . '/php/views/partials/source_badge.php'; ?>
+      </div>
+      <p class="pd__panel-sub">
+        Densité de touches de balle sur <?= View::e((string) $heatmap['matches']) ?> matchs, <?= View::e($heatmap['competitions']) ?> (source <?= View::e($heatmap['source']) ?>). Les zones les plus sollicitées ressortent en rouge le plus soutenu.
+      </p>
+      <div id="pd-heatmap" class="pitchmap-wrap">
+        <p class="chart-fallback">La carte de présence s'affiche ici (JavaScript activé).</p>
+      </div>
     </section>
   <?php endif; ?>
 

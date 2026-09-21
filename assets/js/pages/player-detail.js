@@ -4,6 +4,7 @@
 import { render as renderRadar } from '../charts/radar.js';
 import { render as renderLine } from '../charts/line.js';
 import { render as renderShotmap } from '../charts/shotmap.js';
+import { render as renderPitchmap } from '../charts/pitchmap.js';
 
 export function initPlayerDetail() {
   const dataEl = document.querySelector('#pd-data');
@@ -75,6 +76,17 @@ export function initPlayerDetail() {
     shotEl.textContent = '';
     renderShotmap(shotEl, shotmap, {
       ariaLabel: `Carte des tirs de ${name} en ${shotmap.competition || ''} ${shotmap.season || ''}.`,
+    });
+  }
+
+  // Heatmap de présence : densité de touches réelles (source Sofascore), toutes
+  // compétitions confondues.
+  const heatEl = document.querySelector('#pd-heatmap');
+  const heatmap = payload.heatmap;
+  if (heatEl && heatmap && Array.isArray(heatmap.points) && heatmap.points.length > 0) {
+    heatEl.textContent = '';
+    renderPitchmap(heatEl, heatmap, {
+      ariaLabel: `Densité de présence sur le terrain de ${name}, ${heatmap.season || ''}.`,
     });
   }
 }

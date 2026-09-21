@@ -106,22 +106,31 @@ $payload = json_encode(
       </div>
       <div class="sm-legend">
         <span class="sm-legend__item"><span class="sm-key sm-key--goal"></span>But</span>
-        <span class="sm-legend__item"><span class="sm-key"></span>Tir (taille = xG)</span>
+        <?php
+          $couvertes = $shotmap['competitions'] ?? [];
+          $ordreFichier = $shotmap['competitions_all'] ?? $couvertes;
+          // La légende nomme les compétitions dès que la carte en distingue
+          // plusieurs, même si ce joueur n'a tiré que dans l'une d'elles : sans
+          // ça, son trait discontinu ne serait expliqué nulle part.
+        ?>
+        <?php if (count($ordreFichier) > 1): ?>
+          <?php foreach ($couvertes as $competition): ?>
+            <?php $rang = array_search($competition, $ordreFichier, true); ?>
+            <span class="sm-legend__item"><span class="sm-key<?= $rang === 1 ? ' sm-key--comp2' : '' ?>"></span><?= View::e($competition) ?></span>
+          <?php endforeach; ?>
+          <span class="sm-legend__item">Taille = xG</span>
+        <?php else: ?>
+          <span class="sm-legend__item"><span class="sm-key"></span>Tir (taille = xG)</span>
+        <?php endif; ?>
       </div>
 
       <?php if (!empty($shotsByComp)): ?>
         <div class="sm-comp">
           <h3 class="sm-comp__title">Tirs par compétition</h3>
-          <?php
-            // Couverture annoncée d'après les données, pas en dur : elle dépend de
-            // la source de la saison consultée (Understat ne donnait que la Ligue 1,
-            // FotMob couvre aussi la Ligue des Champions).
-            $couvertes = $shotmap['competitions'] ?? [];
-            $libelle = count($couvertes) > 1
-                ? implode(', ', array_slice($couvertes, 0, -1)) . ' et ' . end($couvertes)
-                : ($couvertes[0] ?? 'la Ligue 1');
-          ?>
-          <p class="pd__panel-sub">La carte ci-dessus couvre <?= View::e($libelle) ?> (positions réelles, source <?= View::e($shotmap['source']) ?>). Les compétitions non couvertes sont ici en volume (tirs et buts, source FBref).</p>
+          <?php // Couverture annoncée d'après les données, pas en dur : elle dépend de
+                // la source de la saison ET des compétitions où ce joueur a tiré
+                // (libellé assemblé par PlayerController::shotmapCompetitionLabel()). ?>
+          <p class="pd__panel-sub">La carte ci-dessus couvre <?= View::e($shotmap['competition']) ?> (positions réelles, source <?= View::e($shotmap['source']) ?>). Les compétitions non couvertes sont ici en volume (tirs et buts, source FBref).</p>
           <div class="table-scroll">
             <table class="table sm-comp__table">
               <thead>

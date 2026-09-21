@@ -220,6 +220,13 @@
   stroke: #fff;
   stroke-width: 1.5;
 }
+/* Deuxième compétition de la carte (aujourd'hui la Ligue des Champions) : trait
+   discontinu. La taille encode déjà le xG et le rouge le but, le contour est le
+   seul canal encore libre. Rang attribué par shotmap.js d'après les données, pas
+   par nom de compétition : une troisième retombe sur le style de base. */
+.sm-shot--comp2 {
+  stroke-dasharray: 3 2.5;
+}
 .sm-legend {
   display: flex;
   gap: var(--space-6);
@@ -242,6 +249,9 @@
 .sm-key--goal {
   border-color: #fff;
   background: var(--red);
+}
+.sm-key--comp2 {
+  border-style: dashed;
 }
 
 /* Tirs par compétition : tableau compact sous la carte L1 (positions Understat),

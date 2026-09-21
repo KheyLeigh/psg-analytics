@@ -65,6 +65,22 @@ export function render(container, data, options = {}) {
   });
   drawPitch(svg);
 
+  // Rang d'une competition pour le style : la carte peut melanger plusieurs
+  // competitions (Ligue 1 et Ligue des Champions depuis FotMob). L'ordre vient
+  // des donnees, jamais d'un nom de competition code en dur ici : une Coupe de
+  // France qui arriverait en cours de saison doit se styler toute seule.
+  //
+  // On prend l'ordre du fichier (competitions_all) et non celui du joueur : une
+  // competition doit avoir la meme apparence sur toutes les fiches, y compris
+  // celle d'un joueur qui n'a tire que dans l'une d'elles.
+  const compOrder = [data && data.competitions_all, data && data.competitions]
+    .find((list) => Array.isArray(list) && list.length > 0)
+    || [...new Set(shots.map((s) => s.comp).filter(Boolean))];
+  const compRank = (comp) => {
+    const i = compOrder.indexOf(comp);
+    return i < 0 ? 0 : i;
+  };
+
   // Tirs sans but d'abord, buts par-dessus pour rester lisibles.
   const order = [...shots].sort((a, b) => (a.res === 'goal' ? 1 : 0) - (b.res === 'goal' ? 1 : 0));
   for (const s of order) {
@@ -72,11 +88,16 @@ export function render(container, data, options = {}) {
     const r = 4 + Math.sqrt(Math.max(0, s.xg)) * 26;   // aire ~ proportionnelle au xG
     const isGoal = s.res === 'goal';
     const dot = svgEl('circle', {
-      class: 'sm-shot' + (isGoal ? ' sm-shot--goal' : ''),
+      class: 'sm-shot'
+        + (isGoal ? ' sm-shot--goal' : '')
+        + (s.comp ? ` sm-shot--comp${compRank(s.comp) + 1}` : ''),
       cx, cy, r: Math.max(3, r),
     });
     const opp = s.opp ? ` ${s.ha === 'h' ? 'contre' : 'à'} ${s.opp}` : '';
-    dot.appendChild(svgEl('title', {}, `${RES_LABEL[s.res] || s.res} · ${s.min}'${opp} · xG ${s.xg.toFixed(2)}`));
+    // La competition est nommee explicitement : l'adversaire ne suffit pas a la
+    // deviner des que le PSG croise un Barcelone ou un Manchester City.
+    const comp = s.comp ? ` · ${s.comp}` : '';
+    dot.appendChild(svgEl('title', {}, `${RES_LABEL[s.res] || s.res} · ${s.min}'${opp}${comp} · xG ${s.xg.toFixed(2)}`));
     svg.appendChild(dot);
   }
 

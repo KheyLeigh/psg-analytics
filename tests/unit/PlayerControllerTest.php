@@ -182,6 +182,68 @@ final class PlayerControllerTest extends TestCase
         );
     }
 
+    // Le fichier de tirs couvre la saison entière, un joueur non : annoncer
+    // "Ligue 1 et Ligue des Champions" pour quelqu'un qui n'a tiré qu'en C1
+    // serait faux.
+    public function testCompetitionsDuShotmapSeLimitentACellesOuLeJoueurATire(): void
+    {
+        $ordre = ['Ligue 1', 'Ligue des Champions'];
+        $tirsC1 = [
+            ['comp' => 'Ligue des Champions', 'min' => 3],
+            ['comp' => 'Ligue des Champions', 'min' => 23],
+        ];
+
+        $this->assertSame(
+            ['Ligue des Champions'],
+            PlayerController::shotmapCompetitions($tirsC1, $ordre)
+        );
+        $this->assertSame(
+            ['Ligue 1', 'Ligue des Champions'],
+            PlayerController::shotmapCompetitions(
+                [['comp' => 'Ligue des Champions'], ['comp' => 'Ligue 1']],
+                $ordre
+            ),
+            'ordre du fichier respecté, pas celui des tirs'
+        );
+    }
+
+    // Les fichiers antérieurs à FotMob n'ont pas de compétition par tir : on
+    // retombe sur celle déclarée en tête, valable pour toute la saison.
+    public function testCompetitionsDuShotmapTolerentUnFichierSansCompetitionParTir(): void
+    {
+        $this->assertSame(
+            ['Ligue 1'],
+            PlayerController::shotmapCompetitions([['min' => 12], ['min' => 40]], ['Ligue 1'])
+        );
+    }
+
+    // Une compétition présente dans les tirs mais absente de l'entête signale un
+    // fichier incohérent : elle doit rester visible, pas disparaître sans bruit.
+    public function testCompetitionHorsEnteteEstConservee(): void
+    {
+        $this->assertSame(
+            ['Ligue 1', 'Coupe de France'],
+            PlayerController::shotmapCompetitions(
+                [['comp' => 'Coupe de France'], ['comp' => 'Ligue 1']],
+                ['Ligue 1']
+            )
+        );
+    }
+
+    public function testLibelleDesCompetitionsEnFrancais(): void
+    {
+        $this->assertSame('', PlayerController::shotmapCompetitionLabel([]));
+        $this->assertSame('Ligue 1', PlayerController::shotmapCompetitionLabel(['Ligue 1']));
+        $this->assertSame(
+            'Ligue 1 et Ligue des Champions',
+            PlayerController::shotmapCompetitionLabel(['Ligue 1', 'Ligue des Champions'])
+        );
+        $this->assertSame(
+            'Ligue 1, Ligue des Champions et Coupe de France',
+            PlayerController::shotmapCompetitionLabel(['Ligue 1', 'Ligue des Champions', 'Coupe de France'])
+        );
+    }
+
     public function testShotsByCompetitionPathDependDeLaSaison(): void
     {
         $this->assertSame(

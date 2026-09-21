@@ -130,6 +130,45 @@ final class PlayerController extends Controller
         return BASE_PATH . "/database/seeds/verified/{$seasonLabel}/shots-{$year}.json";
     }
 
+    // Compétitions réellement couvertes par les tirs d'un joueur, dans l'ordre
+    // déclaré par le fichier. Le fichier couvre la saison entière, un joueur non :
+    // annoncer "Ligue 1 et Ligue des Champions" pour quelqu'un qui n'a tiré qu'en
+    // C1 serait faux. Un fichier antérieur à FotMob ne porte pas de `comp` par
+    // tir : on retombe alors sur l'ordre fourni, valable pour toute la saison.
+    // Statique et pure : testable sans accès disque.
+    public static function shotmapCompetitions(array $shots, array $ordre): array
+    {
+        $presentes = [];
+        foreach ($shots as $shot) {
+            if (isset($shot['comp']) && $shot['comp'] !== '') {
+                $presentes[$shot['comp']] = true;
+            }
+        }
+        if ($presentes === []) {
+            return array_values($ordre);
+        }
+        $retenues = [];
+        foreach ($ordre as $competition) {
+            if (isset($presentes[$competition])) {
+                $retenues[] = $competition;
+                unset($presentes[$competition]);
+            }
+        }
+        // Compétition vue dans les tirs mais absente de l'entête : on la garde en
+        // queue plutôt que de la perdre sans bruit, c'est le signe d'un fichier
+        // incohérent qui doit rester visible.
+        return array_merge($retenues, array_keys($presentes));
+    }
+
+    // Énumération lisible en français : "A", "A et B", "A, B et C".
+    public static function shotmapCompetitionLabel(array $competitions): string
+    {
+        if (count($competitions) < 2) {
+            return (string) ($competitions[0] ?? '');
+        }
+        return implode(', ', array_slice($competitions, 0, -1)) . ' et ' . end($competitions);
+    }
+
     // Chemin du fichier de tirs par compétition FBref pour une saison donnée.
     public static function shotsByCompetitionPath(string $seasonLabel): string
     {
@@ -158,15 +197,23 @@ final class PlayerController extends Controller
         if (!$entry || empty($entry['shots'])) {
             return null;
         }
-        $competition = $all['competition'] ?? '';
+        // Fichiers antérieurs à FotMob : une seule compétition, en clair dans
+        // `competition`. On la reprend telle quelle plutôt que de laisser la vue
+        // deviner.
+        $ordre = $all['competitions'] ?? array_filter([$all['competition'] ?? '']);
+        $competitions = self::shotmapCompetitions($entry['shots'], $ordre);
         return [
             'player'       => $entry['name'] ?? $fullName,
             'season'       => $all['season'] ?? '',
-            'competition'  => $competition,
-            // Fichiers antérieurs à FotMob : une seule compétition, en clair dans
-            // `competition`. On la reprend telle quelle plutôt que de laisser la
-            // vue deviner.
-            'competitions' => $all['competitions'] ?? array_filter([$competition]),
+            'competition'  => self::shotmapCompetitionLabel($competitions),
+            'competitions' => $competitions,
+            // Ordre complet du fichier : c'est lui qui fixe l'apparence d'une
+            // compétition sur la carte, et pas le sous-ensemble du joueur. Sans
+            // ça, la Ligue des Champions serait en pointillés chez un joueur qui
+            // a aussi tiré en L1, et en trait plein chez un joueur qui n'a tiré
+            // qu'en C1 : la même compétition changerait de tête d'une fiche à
+            // l'autre.
+            'competitions_all' => array_values($ordre),
             'source'       => $all['source'] ?? '',
             'shots_total'  => (int) ($entry['shots_total'] ?? count($entry['shots'])),
             'goals'        => (int) ($entry['goals'] ?? 0),

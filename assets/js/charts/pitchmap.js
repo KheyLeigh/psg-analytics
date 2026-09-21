@@ -1,14 +1,38 @@
 // Heatmap de présence sur le terrain (pitch map) : terrain complet vu du dessus,
-// attaque vers la droite, densité de touches de balle en camaïeu rouge identité
-// (color-mix vers le rouge, même logique que la heatmap buteurs x mois). Chaque
-// cellule (grille Sofascore, pas de 12 sur 0-100) devient un disque flou dont la
-// teinte suit l'intensité (racine carrée du nombre de touches relatif au maximum
-// du joueur, pour rester lisible malgré la loi de puissance des données réelles) :
-// le flou (filtre SVG) fait fusionner les disques voisins en zones chaudes, sans
-// jamais dessiner de valeur individuelle non vérifiée. Signature :
+// attaque vers la droite, densité de touches de balle en échelle de température
+// a trois paliers (bordeaux discret -> rouge identité -> orange chaud), bien plus
+// lisible qu'une simple opacité d'une seule teinte. Chaque cellule (grille
+// Sofascore, pas de 12 sur 0-100) devient un disque flou dont la couleur suit
+// l'intensité (racine carrée du nombre de touches relatif au maximum du joueur,
+// pour rester lisible malgré la loi de puissance des données réelles) : le flou
+// (filtre SVG) fait fusionner les disques voisins en zones chaudes, toujours
+// découpées aux limites exactes du terrain (clip-path) pour ne jamais déborder.
+// Jamais de valeur individuelle non vérifiée dessinée. Signature :
 // render(el, { points }, { ariaLabel }).
 
 import { svgEl } from './axis.js';
+
+// Échelle de température à trois paliers : bordeaux discret (présence faible),
+// rouge identité (moyenne), orange chaud (forte). Interpolation RVB par
+// segments, alpha croissante en continu pour que même les zones faibles restent
+// perceptibles sans jamais dominer les zones fortes.
+const HEAT_STOPS = [
+  [122, 15, 28],   // bordeaux discret
+  [226, 0, 26],    // rouge identité (--red)
+  [255, 122, 32],  // orange chaud
+];
+
+function lerp(a, b, t) {
+  return Math.round(a + (b - a) * t);
+}
+
+function heatColor(t) {
+  const seg = t < 0.5 ? [HEAT_STOPS[0], HEAT_STOPS[1], t * 2] : [HEAT_STOPS[1], HEAT_STOPS[2], (t - 0.5) * 2];
+  const [from, to, localT] = seg;
+  const [r, g, b] = [lerp(from[0], to[0], localT), lerp(from[1], to[1], localT), lerp(from[2], to[2], localT)];
+  const alpha = (0.16 + t * 0.8).toFixed(2);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
 // Terrain a l'echelle metrique (105 x 68 m), vue complete (pas de demi-terrain
 // contrairement a la shot map : la presence couvre tout le jeu).
@@ -87,8 +111,11 @@ export function render(container, data, options = {}) {
   });
 
   const defs = svgEl('defs', {}, [
-    svgEl('filter', { id: 'pm-blur', x: '-40%', y: '-40%', width: '180%', height: '180%' },
-      svgEl('feGaussianBlur', { stdDeviation: 9 })),
+    svgEl('filter', { id: 'pm-blur', x: '-30%', y: '-30%', width: '160%', height: '160%' },
+      svgEl('feGaussianBlur', { stdDeviation: 6 })),
+    // Découpe aux limites exactes du terrain : sans ce clip, le flou des
+    // cellules proches du bord déborde visuellement hors du rectangle vert.
+    svgEl('clipPath', { id: 'pm-clip' }, svgEl('rect', { x: 0, y: 0, width: W, height: H })),
   ]);
   svg.appendChild(defs);
 
@@ -100,7 +127,7 @@ export function render(container, data, options = {}) {
   }
 
   const max = Math.max(...points.map((p) => p[2]));
-  const blobs = svgEl('g', { filter: 'url(#pm-blur)' });
+  const blobs = svgEl('g', { filter: 'url(#pm-blur)', 'clip-path': 'url(#pm-clip)' });
   for (const [x, y, c] of points) {
     const [cx, cy] = project(x, y);
     const t = intensity(c, max);
@@ -109,8 +136,8 @@ export function render(container, data, options = {}) {
     // silencieusement le dégradé calculé ici par une même teinte pour toutes les
     // cellules.
     blobs.appendChild(svgEl('circle', {
-      class: 'pm-cell', cx, cy, r: 22 + t * 26,
-      style: `fill: color-mix(in srgb, var(--red) ${Math.round(20 + t * 80)}%, transparent)`,
+      class: 'pm-cell', cx, cy, r: 15 + t * 17,
+      style: `fill: ${heatColor(t)}`,
     }));
   }
   svg.appendChild(blobs);

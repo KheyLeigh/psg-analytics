@@ -330,10 +330,13 @@
   width: 120px;
   height: 10px;
   border-radius: var(--r-pill);
+  /* Même échelle à trois paliers que pitchmap.js (heatColor) : bordeaux
+     discret, rouge identité, orange chaud. */
   background: linear-gradient(
     to right,
-    color-mix(in srgb, var(--red) 20%, var(--surface-2)),
-    var(--red)
+    rgb(122 15 28 / .35),
+    var(--red),
+    rgb(255 122 32)
   );
 }
 .sm-comp__table tfoot th {

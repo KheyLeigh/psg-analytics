@@ -5,10 +5,64 @@ declare(strict_types=1);
 // ces fichiers sont désormais générés à chaque passage, pas mis en forme à la
 // main comme les seeds 2025-26.
 
+// season_update_sync() délègue la fusion des lignes aux fonctions pures de
+// SeasonUpdateHelpers.php : dépendance explicite, plutôt que de compter sur
+// l'ordre de chargement de l'appelant.
+require_once __DIR__ . '/SeasonUpdateHelpers.php';
+
+// Synchronise matches_l1.php avec le relevé complet de la source : les matchs
+// déjà connus sont mis à jour en place (season_update_refresh_l1_matches), les
+// matchs nouveaux ajoutés à la suite, le tout en une seule écriture. C'est la
+// fonction qu'utilise la tâche planifiée : les fonctions d'ajout seules
+// laissaient définitivement à nul un champ publié en retard par FBref (une
+// affluence par exemple), puisqu'une ligne déjà présente n'était plus jamais
+// relue. Renvoie ['nouveaux' => lignes ajoutées, 'corrections' => journal des
+// champs mis à jour], pour le rapport hebdomadaire.
+function season_update_sync_matches(string $path, array $scraped): array
+{
+    return season_update_sync(
+        $path,
+        $scraped,
+        'season_update_refresh_l1_matches',
+        'season_update_new_l1_matches',
+        'Matchs de Ligue 1, mis à jour automatiquement (voir sources.php).'
+    );
+}
+
+// Idem pour matches_other.php.
+function season_update_sync_other_matches(string $path, array $scraped): array
+{
+    return season_update_sync(
+        $path,
+        $scraped,
+        'season_update_refresh_other_matches',
+        'season_update_new_other_matches',
+        'Matchs hors Ligue 1, mis à jour automatiquement (voir sources.php).'
+    );
+}
+
+// Corps commun des deux synchronisations : relire, fusionner, ajouter, écrire
+// une fois. Les deux fonctions de fusion sont passées par leur nom, elles
+// vivent dans SeasonUpdateHelpers.php (pur, testable sans fichier).
+function season_update_sync(string $path, array $scraped, callable $refresh, callable $detectNew, string $comment): array
+{
+    $existing = is_file($path) ? require $path : [];
+
+    $refreshed = $refresh($scraped, $existing);
+    $nouveaux  = $detectNew($scraped, $existing);
+
+    season_update_write_php_array($path, array_merge($refreshed['rows'], $nouveaux), $comment);
+
+    return ['nouveaux' => $nouveaux, 'corrections' => $refreshed['corrections']];
+}
+
 // Ajoute $newRows à la fin du tableau retourné par le fichier matches_l1.php
 // existant (ou en repart d'un tableau vide si le fichier est encore vide),
 // et réécrit le fichier en entier. $newRows est déjà filtré par
 // season_update_new_l1_matches() : cette fonction ne fait aucune déduplication.
+// Primitive d'ajout seul, conservée pour un premier remplissage : la tâche
+// planifiée passe par season_update_sync_matches(), qui corrige aussi
+// l'existant.
 function season_update_append_matches(string $path, array $newRows): void
 {
     $existing = is_file($path) ? require $path : [];

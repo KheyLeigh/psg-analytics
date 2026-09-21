@@ -169,12 +169,15 @@ final class PlayerControllerTest extends TestCase
 
     public function testShotmapPathDependDeLaSaison(): void
     {
+        // Le nom du fichier ne porte pas la source : elle a changé entre les deux
+        // saisons (Understat puis FotMob), seul le champ `source` du fichier en
+        // fait foi.
         $this->assertSame(
-            BASE_PATH . '/database/seeds/verified/2025-26/understat-shots-2025.json',
+            BASE_PATH . '/database/seeds/verified/2025-26/shots-2025.json',
             PlayerController::shotmapPath('2025-26')
         );
         $this->assertSame(
-            BASE_PATH . '/database/seeds/verified/2026-27/understat-shots-2026.json',
+            BASE_PATH . '/database/seeds/verified/2026-27/shots-2026.json',
             PlayerController::shotmapPath('2026-27')
         );
     }

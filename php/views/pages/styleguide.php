@@ -169,9 +169,10 @@ $formPills = ['W' => 'pill--w', 'D' => 'pill--n', 'L' => 'pill--l'];
   </div>
 
   <?php
-    // Démo shot map : tirs réels d'un joueur (positions x/y depuis Understat), lus du
-    // jeu de données par joueur. Ici Barcola (id 22) à titre d'illustration du composant.
-    $smPath = BASE_PATH . '/database/seeds/verified/2025-26/understat-shots-2025.json';
+    // Démo shot map : tirs réels d'un joueur (positions x/y vérifiées), lus du jeu
+    // de données par joueur. Ici Barcola (id 22) à titre d'illustration du composant.
+    // Chemin résolu par le contrôleur : le nom du fichier a changé avec la source.
+    $smPath = PlayerController::shotmapPath('2025-26');
     $smAll = is_file($smPath) ? (json_decode((string) file_get_contents($smPath), true) ?: []) : [];
     $smP = $smAll['players']['22'] ?? [];
     $sm = [

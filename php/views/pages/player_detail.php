@@ -112,7 +112,16 @@ $payload = json_encode(
       <?php if (!empty($shotsByComp)): ?>
         <div class="sm-comp">
           <h3 class="sm-comp__title">Tirs par compétition</h3>
-          <p class="pd__panel-sub">La carte ci-dessus couvre la Ligue 1 (positions réelles). Understat ne fournit pas de coordonnées pour les autres compétitions : elles sont ici en volume (tirs et buts, source FBref).</p>
+          <?php
+            // Couverture annoncée d'après les données, pas en dur : elle dépend de
+            // la source de la saison consultée (Understat ne donnait que la Ligue 1,
+            // FotMob couvre aussi la Ligue des Champions).
+            $couvertes = $shotmap['competitions'] ?? [];
+            $libelle = count($couvertes) > 1
+                ? implode(', ', array_slice($couvertes, 0, -1)) . ' et ' . end($couvertes)
+                : ($couvertes[0] ?? 'la Ligue 1');
+          ?>
+          <p class="pd__panel-sub">La carte ci-dessus couvre <?= View::e($libelle) ?> (positions réelles, source <?= View::e($shotmap['source']) ?>). Les compétitions non couvertes sont ici en volume (tirs et buts, source FBref).</p>
           <div class="table-scroll">
             <table class="table sm-comp__table">
               <thead>

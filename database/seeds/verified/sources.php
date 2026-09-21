@@ -78,12 +78,12 @@ return array (
   ),
   8 => 
   array (
-    'key' => 'understat_2026-27',
-    'label' => 'Understat : tirs individuels avec xG, saison PSG 2026-27',
-    'url' => 'https://understat.com/team/Paris_Saint_Germain/2026',
-    'collected_at' => '2026-09-14',
+    'key' => 'fotmob_2026-27',
+    'label' => 'FotMob : tirs individuels avec xG, saison PSG 2026-27',
+    'url' => 'https://www.fotmob.com/teams/9847/fixtures/paris-saint-germain',
+    'collected_at' => '2026-09-21',
     'confidence' => 'verified',
-    'note' => 'Alimenté automatiquement, saison en cours (voir tâche planifiée psg-analytics-collecte-2026-27) : position, minute et xG de chaque tir, par joueur, saison 2026-27.',
+    'note' => 'Position, minute, xG et situation de chaque tir, par joueur, Ligue 1 et Ligue des Champions. Relevé par match (une page FotMob par match), résolu par identifiant de joueur FotMob et non par nom (voir 2026-27/fotmob-players.php). Remplace Understat à partir du 21 septembre 2026 : ses pages n\'exposent plus aucune donnée embarquée, et ses agrégats étaient contaminés par des joueurs étrangers à l\'effectif. Totaux Ligue 1 recoupés avec FBref : 106 tirs, 8 buts, et le compte de tirs de chacun des 15 tireurs.',
   ),
   9 => 
   array (

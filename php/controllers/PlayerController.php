@@ -119,13 +119,15 @@ final class PlayerController extends Controller
         ];
     }
 
-    // Chemin du fichier de tirs Understat pour une saison donnée (ex. '2025-26' ->
-    // .../2025-26/understat-shots-2025.json). Statique et pure : testable sans
-    // accès disque, et réutilisée par shotmap().
+    // Chemin du fichier de tirs pour une saison donnée (ex. '2025-26' ->
+    // .../2025-26/shots-2025.json). Le nom ne porte pas la source : elle a changé
+    // en cours de route (Understat pour 2025-26, FotMob à partir de 2026-27) et
+    // c'est le champ `source` du fichier qui en fait foi, pas son nom. Statique
+    // et pure : testable sans accès disque, et réutilisée par shotmap().
     public static function shotmapPath(string $seasonLabel): string
     {
         $year = substr($seasonLabel, 0, 4);
-        return BASE_PATH . "/database/seeds/verified/{$seasonLabel}/understat-shots-{$year}.json";
+        return BASE_PATH . "/database/seeds/verified/{$seasonLabel}/shots-{$year}.json";
     }
 
     // Chemin du fichier de tirs par compétition FBref pour une saison donnée.
@@ -135,10 +137,13 @@ final class PlayerController extends Controller
         return BASE_PATH . "/database/seeds/verified/{$seasonLabel}/fbref-shots-by-competition-{$year}.json";
     }
 
-    // Carte des tirs du joueur : tirs vérifiés avec coordonnées réelles (Understat),
-    // indexés par id joueur, pour la saison du joueur consulté. Renvoie null si le
-    // joueur n'a pas de tirs référencés, ou si aucun fichier n'existe encore pour
-    // cette saison (saison en cours, pas encore de données Understat).
+    // Carte des tirs du joueur : tirs vérifiés avec coordonnées réelles, indexés
+    // par id joueur, pour la saison du joueur consulté. Renvoie null si le joueur
+    // n'a pas de tirs référencés, ou si aucun fichier n'existe encore pour cette
+    // saison. `competitions` liste celles que la carte couvre réellement : elle
+    // varie selon la source (Understat ne donnait que la Ligue 1, FotMob couvre
+    // aussi la Ligue des Champions), et la vue s'en sert pour ne pas annoncer une
+    // couverture fausse.
     private function shotmap(int $id, string $fullName, string $seasonLabel): ?array
     {
         if ($seasonLabel === '') {
@@ -153,15 +158,20 @@ final class PlayerController extends Controller
         if (!$entry || empty($entry['shots'])) {
             return null;
         }
+        $competition = $all['competition'] ?? '';
         return [
-            'player'      => $entry['name'] ?? $fullName,
-            'season'      => $all['season'] ?? '',
-            'competition' => $all['competition'] ?? '',
-            'source'      => $all['source'] ?? '',
-            'shots_total' => (int) ($entry['shots_total'] ?? count($entry['shots'])),
-            'goals'       => (int) ($entry['goals'] ?? 0),
-            'xg_total'    => (float) ($entry['xg_total'] ?? 0),
-            'shots'       => $entry['shots'],
+            'player'       => $entry['name'] ?? $fullName,
+            'season'       => $all['season'] ?? '',
+            'competition'  => $competition,
+            // Fichiers antérieurs à FotMob : une seule compétition, en clair dans
+            // `competition`. On la reprend telle quelle plutôt que de laisser la
+            // vue deviner.
+            'competitions' => $all['competitions'] ?? array_filter([$competition]),
+            'source'       => $all['source'] ?? '',
+            'shots_total'  => (int) ($entry['shots_total'] ?? count($entry['shots'])),
+            'goals'        => (int) ($entry['goals'] ?? 0),
+            'xg_total'     => (float) ($entry['xg_total'] ?? 0),
+            'shots'        => $entry['shots'],
         ];
     }
 

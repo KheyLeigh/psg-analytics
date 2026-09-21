@@ -63,7 +63,7 @@ return array (
     'key' => 'fbref_2026-27',
     'label' => 'FBref : journal des matchs PSG 2026-27 (toutes compétitions)',
     'url' => 'https://fbref.com/en/squads/e2d8892c/2026-2027/matchlogs/all_comps/schedule/',
-    'collected_at' => '2026-09-14',
+    'collected_at' => '2026-09-21',
     'confidence' => 'verified',
     'note' => 'Alimenté automatiquement, saison en cours (voir tâche planifiée psg-analytics-collecte-2026-27) : matchs de la saison 2026-27, toutes compétitions confondues.',
   ),
@@ -72,11 +72,11 @@ return array (
     'key' => 'fbref_players_l1_2026-27',
     'label' => 'FBref : statistiques standard par joueur, Ligue 1 2026-27',
     'url' => 'https://fbref.com/en/squads/e2d8892c/2026-2027/dom_lig/Paris-Saint-Germain-Ligue-1-Stats',
-    'collected_at' => '2026-09-14',
+    'collected_at' => '2026-09-21',
     'confidence' => 'verified',
     'note' => 'Alimenté automatiquement, saison en cours (voir tâche planifiée psg-analytics-collecte-2026-27) : matchs joués, titularisations, minutes, buts, passes décisives, penalties et cartons par joueur, Ligue 1 2026-27 uniquement.',
   ),
-  8 =>
+  8 => 
   array (
     'key' => 'understat_2026-27',
     'label' => 'Understat : tirs individuels avec xG, saison PSG 2026-27',
@@ -85,7 +85,7 @@ return array (
     'confidence' => 'verified',
     'note' => 'Alimenté automatiquement, saison en cours (voir tâche planifiée psg-analytics-collecte-2026-27) : position, minute et xG de chaque tir, par joueur, saison 2026-27.',
   ),
-  9 =>
+  9 => 
   array (
     'key' => 'fbref_players_ldc',
     'label' => 'FBref/StatMuse : buts et passes décisives par joueur, Ligue des Champions 2025-26',
@@ -94,7 +94,7 @@ return array (
     'confidence' => 'verified',
     'note' => 'Relevé manuel (campagne 2025-26 terminée, ne nécessite plus de mise à jour) : buts recoupés avec le but pour but des 17 matchs déjà en base (matches_other.php) et avec le total officiel UEFA de 45 buts sur la saison ; passes décisives recoupées avec le total d\'équipe de 33 sur la campagne.',
   ),
-  10 =>
+  10 => 
   array (
     'key' => 'fbref_players_ldc_2026-27',
     'label' => 'ESPN : buts et passes décisives par joueur, Ligue des Champions 2026-27',

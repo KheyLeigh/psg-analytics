@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 // Matchs hors Ligue 1, mis à jour automatiquement (voir sources.php).
-// Fichier généré automatiquement, dernière mise à jour : 2026-09-14.
+// Fichier généré automatiquement, dernière mise à jour : 2026-09-21.
 return array (
   0 => 
   array (

@@ -17,6 +17,7 @@ return [
     // playerId FotMob => id joueur en base
     267365  => 30, // Marquinhos
     1137670 => 35, // Willian Pacho
+    1255209 => 29, // Lucas Beraldo (premier tir cette saison le 2026-10-10)
     770881  => 28, // Achraf Hakimi
     1158945 => 34, // Nuno Mendes
     210111  => 32, // Lucas Digne

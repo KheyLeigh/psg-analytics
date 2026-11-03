@@ -190,6 +190,11 @@ $totalPages = (int) $meta['total_pages'];
       La sélection A ressort en <span class="ok">rouge</span>, la sélection B en <span class="blue">bleu</span>.
     </p>
 
+    <div class="compare__comp" id="compare-comp" role="group" aria-label="Compétitions prises en compte">
+      <button type="button" class="tag tag--active" data-comp="ligue1">Ligue 1</button>
+      <button type="button" class="tag" data-comp="all">Toutes compétitions</button>
+    </div>
+
     <div class="compare__slots">
       <div class="cmp-slot cmp-slot--a" id="cmp-slot-a" aria-label="Joueur A sélectionné">
         <span class="cmp-slot__tag" aria-hidden="true">A</span>

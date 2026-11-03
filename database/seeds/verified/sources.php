@@ -96,12 +96,12 @@ return array (
   ),
   10 => 
   array (
-    'key' => 'fbref_players_ldc_2026-27',
-    'label' => 'ESPN/FotMob : buts et passes décisives par joueur, Ligue des Champions 2026-27',
-    'url' => 'https://www.espn.com/soccer/team/stats/_/id/160/league/UEFA.CHAMPIONS',
+    'key' => 'sofascore_players_ldc_2026-27',
+    'label' => 'Sofascore : statistiques standard par joueur, Ligue des Champions 2026-27',
+    'url' => 'https://www.sofascore.com/api/v1/player/{id}/unique-tournament/7/season/96518/statistics/overall',
     'collected_at' => '2026-11-03',
     'confidence' => 'verified',
-    'note' => 'Relevé manuel, saison en cours, mis à jour au fil des matchs. Premier match (PSG 6-1 Slovan Bratislava, 2026-09-09) via ESPN ; les deux suivants (Manchester City 2-4 PSG le 2026-10-14, PSG 4-2 Barcelona le 2026-10-20) via les événements de but FotMob (même source que les tirs, cf. fotmob_2026-27), buts et passes décisives recoupés avec le score de chaque match. Contrairement aux sources L1 2026-27, ce fichier n\'est PAS alimenté par la tâche planifiée psg-analytics-collecte-2026-27 : à mettre à jour manuellement au fil des matchs de C1.',
+    'note' => 'Remplace fbref_players_ldc_2026-27 (buts/passes décisives seuls, ESPN) : même méthode que sofascore_players_l1_2026-27 (un appel par joueur, totaux saison déjà calculés), identifiants Ligue des Champions 2026-27 vérifiés le 2026-11-03 (unique-tournament 7, season 96518, à ne pas confondre avec la Ligue 1 qui est le tournoi 34 sur Sofascore). Totaux croisés avec les buts/passes relevés indépendamment match par match via les événements FotMob : exactement les mêmes 14 buts et 10 passes décisives, même répartition par joueur. Garde-fou tirs/buts vérifié (0 écart) contre le total d\'équipe Sofascore sur les 3 matchs. Couvre : PSG 6-1 Slovan Bratislava, Manchester City 2-4 PSG, PSG 4-2 Barcelona. Contrairement aux sources L1 2026-27, ce fichier n\'est PAS alimenté par la tâche planifiée psg-analytics-collecte-2026-27 : à mettre à jour manuellement au fil des matchs de C1.',
   ),
   11 => 
   array (

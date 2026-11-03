@@ -273,14 +273,27 @@ function migrator_insert_stats(PDOStatement $stmt, StatGenerator $gen, array $ag
     }
 }
 
-// Orchestre la génération des player_match_stats : totaux exacts, affectation
-// des buts/passes/cartons aux matchs, complément d'apparitions, puis
-// insertion d'une ligne par (joueur, match). Ne génère rien si la saison n'a
-// pas encore de totaux vérifiés (players_l1_fbref.php absent) ou pas de matchs :
-// aucune statistique individuelle n'est jamais fabriquée sans total vérifié.
-function migrator_generate_player_stats(PDO $pdo, array $matches, array $players, array $ref, string $seasonKey): void
-{
-    $totalsFile = __DIR__ . "/verified/{$seasonKey}/players_l1_fbref.php";
+// Corps commun de migrator_generate_player_stats() (L1) et
+// migrator_generate_ldc_player_stats() (Ligue des Champions), désormais
+// strictement identiques dans leur forme depuis que les deux compétitions
+// disposent d'un total saison complet (mp, starts, minutes, buts, passes,
+// cartons, tirs, tacles, interceptions) : seuls le fichier de totaux et les
+// fonctions de répartition des buts/passes diffèrent (migrator_spread_goals
+// soustrait les buts contre son camp adverses connus en L1,
+// migrator_spread_goals_exact non, faute d'un tel but identifié en C1 ; même
+// logique pour les passes décisives, cf. leurs commentaires respectifs).
+// Ne génère rien si la saison n'a pas encore de total vérifié ou pas de
+// matchs : aucune statistique individuelle n'est jamais fabriquée sans total
+// vérifié.
+function migrator_generate_full_player_stats(
+    PDO $pdo,
+    array $matches,
+    array $players,
+    array $ref,
+    string $totalsFile,
+    callable $spreadGoals,
+    callable $spreadAssists,
+): void {
     if (!is_file($totalsFile) || $matches === [] || $players === []) {
         return;
     }
@@ -297,11 +310,24 @@ function migrator_generate_player_stats(PDO $pdo, array $matches, array $players
     $assistTotals = array_map(static fn (array $t): int => $t['assists'], $totals);
 
     $agg = [];
-    migrator_spread_goals($agg, $matches, $goalTotals);
-    migrator_spread_assists($agg, $matches, $assistTotals);
+    $spreadGoals($agg, $matches, $goalTotals);
+    $spreadAssists($agg, $matches, $assistTotals);
     migrator_spread_cards($agg, $matches, $totals);
     migrator_top_up_appearances($agg, $matches, $totals);
     migrator_insert_stats($stmt, $gen, $agg, $totals, $sourceId);
+}
+
+// Orchestre la génération des player_match_stats de Ligue 1 : totaux exacts,
+// affectation des buts/passes/cartons aux matchs, complément d'apparitions,
+// puis insertion d'une ligne par (joueur, match).
+function migrator_generate_player_stats(PDO $pdo, array $matches, array $players, array $ref, string $seasonKey): void
+{
+    migrator_generate_full_player_stats(
+        $pdo, $matches, $players, $ref,
+        __DIR__ . "/verified/{$seasonKey}/players_l1_fbref.php",
+        'migrator_spread_goals',
+        'migrator_spread_assists',
+    );
 }
 
 // Affecte les buts LDC à des matchs précis, en respectant le total marqué par
@@ -355,12 +381,20 @@ function migrator_spread_assists_exact(array &$agg, array $matches, array $assis
     }
 }
 
-// Génère les player_match_stats de Ligue des Champions : buts et passes
-// décisives exacts (verified/{saison}/players_ldc_fbref.php) répartis sur
-// les vrais matchs de C1. Volontairement minimal (pas de minutes/tirs/cartons,
-// non recueillis pour cette compétition) : le reste à 0 (défaut du schéma,
-// jamais affiché), cohérent avec le principe de ne jamais fabriquer de
-// donnée. Même garde-fou que la L1 : rien sans total vérifié.
+// Génère les player_match_stats de Ligue des Champions, répartis sur les
+// vrais matchs de C1 (migrator_spread_goals_exact / migrator_spread_assists_exact :
+// mêmes totaux exacts que la L1, mais sans soustraction pour un but contre
+// son camp adverse, aucun n'étant identifié sur cette compétition).
+//
+// Deux formats cohabitent selon la saison, détectés sur la présence de la clé
+// 'minutes' dans le fichier de totaux : les saisons récentes (2026-27 et
+// suivantes) portent le même format complet que players_l1_fbref.php (mp,
+// starts, minutes, tirs, tacles, cartons...), collecté via Sofascore ; les
+// saisons antérieures (2025-26, campagne figée) ne portent que buts et
+// passes décisives, le reste n'ayant jamais été recueilli à l'époque
+// (volontairement laissé à 0, jamais fabriqué). Les deux formats restent
+// pris en charge indéfiniment : revenir sur une saison figée pour la
+// compléter n'est pas le travail de cette fonction.
 function migrator_generate_ldc_player_stats(PDO $pdo, array $matches, array $players, array $ref, string $seasonKey): void
 {
     $totalsFile = __DIR__ . "/verified/{$seasonKey}/players_ldc_fbref.php";
@@ -368,6 +402,21 @@ function migrator_generate_ldc_player_stats(PDO $pdo, array $matches, array $pla
         return;
     }
 
+    $totaux = require $totalsFile;
+    $isFullFormat = $totaux !== [] && array_key_exists('minutes', reset($totaux));
+
+    if ($isFullFormat) {
+        migrator_generate_full_player_stats(
+            $pdo, $matches, $players, $ref,
+            $totalsFile,
+            'migrator_spread_goals_exact',
+            'migrator_spread_assists_exact',
+        );
+        return;
+    }
+
+    // Format historique minimal (2025-26) : buts et passes décisives
+    // seulement, le reste à 0 (défaut du schéma, jamais affiché).
     $sourceId = migrator_resolve_source_id($ref['source_ids'], 'fbref_players_ldc', $seasonKey);
     $stmt = $pdo->prepare(
         'INSERT INTO player_match_stats (player_id, match_id, is_starter, minutes, goals, assists, source_id)

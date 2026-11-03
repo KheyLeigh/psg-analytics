@@ -52,7 +52,8 @@ final class PlayerController extends Controller
     public function show(Request $r, array $params): void
     {
         $id = Validator::int($params['id'] ?? 0, 1, PHP_INT_MAX, 0);
-        $data = $this->buildDetail($id);
+        $comp = Validator::inList($r->query('comp', 'ligue1'), ['ligue1', 'all'], 'ligue1');
+        $data = $this->buildDetail($id, $comp === 'all');
         if ($data === null) {
             // Joueur introuvable : même rendu 404 que le front controller (index.php).
             Response::html(View::render('errors/404', [], 'main'), 404);
@@ -64,9 +65,16 @@ final class PlayerController extends Controller
     // Assemble la fiche joueur (identité, totaux saison, profil normalisé contre le
     // meilleur de l'effectif par axe, timeline de contribution), isolé du rendu pour
     // rester testable. Renvoie null si le joueur est introuvable (le contrôleur répond
-    // alors 404). Traçabilité : les totaux saison sont vérifiés (FBref), l'attribution
-    // par match de la timeline est estimée (la vue la signale comme telle).
-    public function buildDetail(int $id): ?array
+    // alors 404). Traçabilité : les totaux saison sont vérifiés (FBref/Sofascore),
+    // l'attribution par match de la timeline est estimée (la vue la signale comme telle).
+    //
+    // $allCompetitions : false (par défaut) scope à la Ligue 1 ; sans ce filtre, un
+    // joueur ayant aussi marqué en Ligue des Champions verrait ses totaux des deux
+    // compétitions additionnés sur sa fiche sans qu'aucun libellé ne le précise. true
+    // additionne volontairement toutes les compétitions couvertes par des stats
+    // vérifiées (choix explicite de l'utilisateur via le bouton de la fiche, jamais le
+    // défaut silencieux).
+    public function buildDetail(int $id, bool $allCompetitions = false): ?array
     {
         $player = $this->players->find($id);
         if ($player === null) {
@@ -76,12 +84,9 @@ final class PlayerController extends Controller
         $season = $this->seasons->find($player->seasonId);
         $seasonLabel = $season?->label ?? '';
 
-        // Scopé explicitement à la Ligue 1 : sans ce filtre, un joueur ayant aussi
-        // marqué en Ligue des Champions verrait ses totaux des deux compétitions
-        // additionnés sur sa fiche, sans qu'aucun libellé ne le précise.
-        $leagueId = $this->comps->leagueId() ?? 0;
-        $totals = $this->stats->seasonTotalsByPlayer($id, $leagueId);
-        $max = $this->stats->squadAxisMax($player->seasonId, $leagueId);
+        $competitionId = $allCompetitions ? null : ($this->comps->leagueId() ?? 0);
+        $totals = $this->stats->seasonTotalsByPlayer($id, $competitionId);
+        $max = $this->stats->squadAxisMax($player->seasonId, $competitionId);
 
         $axes = [];
         $values = [];
@@ -116,6 +121,7 @@ final class PlayerController extends Controller
             'totals'   => $totals,
             'profile'  => ['axes' => $axes, 'values' => $values],
             'timeline' => $this->stats->timeline($id),
+            'comp'     => $allCompetitions ? 'all' : 'ligue1',
         ];
     }
 

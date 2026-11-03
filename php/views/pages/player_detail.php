@@ -58,7 +58,13 @@ $payload = json_encode(
   <?php endif; ?>
 
   <section aria-labelledby="pd-season-h">
-    <h2 class="sec-h" id="pd-season-h">Saison en chiffres</h2>
+    <div class="pd__season-bar">
+      <h2 class="sec-h" id="pd-season-h">Saison en chiffres</h2>
+      <nav aria-label="Compétitions prises en compte" class="pd__seasons">
+        <a href="/joueurs/<?= View::e($player['id']) ?>?comp=ligue1" class="tag<?= ($comp ?? 'ligue1') === 'ligue1' ? ' tag--active' : '' ?>">Ligue 1</a>
+        <a href="/joueurs/<?= View::e($player['id']) ?>?comp=all" class="tag<?= ($comp ?? 'ligue1') === 'all' ? ' tag--active' : '' ?>">Toutes compétitions</a>
+      </nav>
+    </div>
     <div class="grid grid--4">
       <?php foreach ($kpis as $k): ?>
         <?php $label = $k['label']; $value = $k['value']; $confidence = 'verified'; $tip = null; ?>

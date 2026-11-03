@@ -48,9 +48,16 @@ export function initCompare() {
   const clearBtn = document.querySelector('#cmp-clear');
   const tbody = document.querySelector('#roster-body');
   const tip = document.querySelector('#tip');
+  const compGroup = document.querySelector('#compare-comp');
   if (!canvas || !slotA || !slotB || !tbody) {
     return null;
   }
+
+  // Compétitions prises en compte dans le comparateur : 'ligue1' (défaut, scopé
+  // explicitement pour ne jamais mélanger silencieusement les compétitions) ou
+  // 'all' (toutes compétitions couvertes par des stats vérifiées, choix explicite
+  // de l'utilisateur via ce bouton).
+  let compScope = 'ligue1';
 
   // Survol d'un axe du radar : remplace le tooltip de provenance générique du
   // panneau (méthodologie) par les valeurs réelles de cet axe pour les deux
@@ -164,7 +171,7 @@ export function initCompare() {
     }
     setHint(`Comparaison : ${sel.a.name} (rouge) contre ${sel.b.name} (bleu).`);
     try {
-      const env = await get(`/api/compare?a=${encodeURIComponent(sel.a.id)}&b=${encodeURIComponent(sel.b.id)}`);
+      const env = await get(`/api/compare?a=${encodeURIComponent(sel.a.id)}&b=${encodeURIComponent(sel.b.id)}&comp=${encodeURIComponent(compScope)}`);
       draw((env && env.data) || {});
     } catch (err) {
       console.warn('Comparaison indisponible.', err);
@@ -291,6 +298,20 @@ export function initCompare() {
 
   if (clearBtn) {
     clearBtn.addEventListener('click', clearAll);
+  }
+
+  if (compGroup) {
+    compGroup.addEventListener('click', (event) => {
+      const btn = event.target.closest('[data-comp]');
+      if (!btn || btn.dataset.comp === compScope) {
+        return;
+      }
+      compScope = btn.dataset.comp;
+      compGroup.querySelectorAll('[data-comp]').forEach((b) => {
+        b.classList.toggle('tag--active', b === btn);
+      });
+      update();
+    });
   }
 
   // Après un rechargement du tableau (tri/pagination), on ré-applique l'état visuel.

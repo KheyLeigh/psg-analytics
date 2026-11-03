@@ -14,14 +14,16 @@ final class ComparisonService
         $this->comps ??= new CompetitionRepository();
     }
 
-    // Scopé explicitement à la Ligue 1 : sans ce filtre, un joueur ayant aussi
-    // marqué en Ligue des Champions verrait ses totaux des deux compétitions
-    // additionnés dans le comparateur, sans qu'aucun axe ne le précise.
-    public function compare(int $idA, int $idB): array
+    // $allCompetitions : false (par défaut) scope explicitement à la Ligue 1, pour
+    // qu'un joueur ayant aussi marqué en Ligue des Champions ne voie jamais ses totaux
+    // des deux compétitions additionnés dans le comparateur sans qu'aucun axe ne le
+    // précise. true additionne volontairement toutes les compétitions (choix explicite
+    // de l'utilisateur via le bouton du comparateur).
+    public function compare(int $idA, int $idB, bool $allCompetitions = false): array
     {
-        $leagueId = $this->comps->leagueId() ?? 0;
-        $valuesA = $this->extractAxes($this->stats->seasonTotalsByPlayer($idA, $leagueId));
-        $valuesB = $this->extractAxes($this->stats->seasonTotalsByPlayer($idB, $leagueId));
+        $competitionId = $allCompetitions ? null : ($this->comps->leagueId() ?? 0);
+        $valuesA = $this->extractAxes($this->stats->seasonTotalsByPlayer($idA, $competitionId));
+        $valuesB = $this->extractAxes($this->stats->seasonTotalsByPlayer($idB, $competitionId));
 
         [$normalizedA, $normalizedB] = $this->normalize($valuesA, $valuesB);
 

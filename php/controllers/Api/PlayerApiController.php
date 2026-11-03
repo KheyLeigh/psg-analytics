@@ -106,7 +106,8 @@ final class PlayerApiController extends Controller
     {
         $idA = Validator::int($query['a'] ?? 0, 1, PHP_INT_MAX, 0);
         $idB = Validator::int($query['b'] ?? 0, 1, PHP_INT_MAX, 0);
-        $result = $this->comparison->compare($idA, $idB);
+        $comp = Validator::inList($query['comp'] ?? 'ligue1', ['ligue1', 'all'], 'ligue1');
+        $result = $this->comparison->compare($idA, $idB, $comp === 'all');
 
         return Response::apiEnvelope([
             'a' => $this->formatSide($result['a']),

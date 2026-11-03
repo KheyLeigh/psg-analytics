@@ -700,6 +700,29 @@
   margin-bottom: var(--space-5);
 }
 
+/* Bascule de compétitions du comparateur : mêmes pastilles .tag que la fiche
+   joueur, mais sur des <button> (reset des styles natifs du navigateur). */
+.compare__comp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-5);
+}
+.compare__comp .tag {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--line-2);
+  color: var(--dim);
+  font-size: 11px;
+  font-weight: 600;
+}
+.compare__comp .tag--active {
+  border-color: var(--red);
+  color: var(--text);
+}
+
 .cmp-slot {
   display: flex;
   align-items: center;
@@ -899,6 +922,18 @@
   color: var(--dim);
   font-size: var(--text-sm);
 }
+
+/* Barre "Saison en chiffres" : titre de section et bascule de compétition
+   sur la même ligne, repliée en colonne sur petit écran. */
+.pd__season-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+.pd__season-bar .sec-h { margin: var(--space-8) 0 var(--space-4); }
+.pd__season-bar .pd__seasons { margin: 0; }
 
 .pd__chart {
   min-height: 300px;

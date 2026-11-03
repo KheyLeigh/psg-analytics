@@ -33,4 +33,7 @@ return [
     1339208 => 46, // Désiré Doué
     1305618 => 45, // Maghnes Akliouche
     1396372 => 47, // Mika Godts
+    1140003 => 7,  // Illia Zabarnyi (premier tir cette saison le 2026-10-17)
+    504606  => 8,  // Lucas Hernandez (premier tir cette saison le 2026-10-20)
+    1699549 => 23, // Quentin Ndjantou (premier tir cette saison le 2026-10-30)
 ];

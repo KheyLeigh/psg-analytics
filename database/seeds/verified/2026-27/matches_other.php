@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 // Matchs hors Ligue 1, mis à jour automatiquement (voir sources.php).
-// Fichier généré automatiquement, dernière mise à jour : 2026-10-12.
+// Fichier généré automatiquement, dernière mise à jour : 2026-11-03.
 return array (
   0 => 
   array (
@@ -44,6 +44,36 @@ return array (
     6 => 1,
     7 => 72,
     8 => 47511,
+    9 => false,
+    10 => false,
+    11 => NULL,
+  ),
+  3 => 
+  array (
+    0 => 'ldc',
+    1 => 'League phase',
+    2 => '2026-10-14',
+    3 => 'away',
+    4 => 'Manchester City',
+    5 => 4,
+    6 => 2,
+    7 => 46,
+    8 => 60021,
+    9 => false,
+    10 => false,
+    11 => NULL,
+  ),
+  4 => 
+  array (
+    0 => 'ldc',
+    1 => 'League phase',
+    2 => '2026-10-20',
+    3 => 'home',
+    4 => 'Barcelona',
+    5 => 4,
+    6 => 2,
+    7 => 47,
+    8 => 47421,
     9 => false,
     10 => false,
     11 => NULL,

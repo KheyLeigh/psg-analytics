@@ -112,4 +112,22 @@ return array (
     'confidence' => 'verified',
     'note' => 'Relevé manuel via l\'API interne de Sofascore (points de densité de touches, grille 0-100 regroupée par pas de 12) : Ligue 1, Ligue des Champions, Trophée des Champions, Supercoupe UEFA et Coupe Intercontinentale. Chaque total de matchs recoupé avec les apparitions réelles déjà connues (ex. Vitinha 49 = 29 L1 + 17 LDC + 3 finales). Coupe de France 2025-26 non disponible sur Sofascore pour cette saison, jamais complétée par une donnée fabriquée. Campagne terminée, ne nécessite plus de mise à jour.',
   ),
+  12 => 
+  array (
+    'key' => 'sofascore_2026-27',
+    'label' => 'Sofascore : calendrier et résultats Ligue 1 PSG 2026-27 (repli FBref)',
+    'url' => 'https://www.sofascore.com/api/v1/unique-tournament/34/season/96127/events/round/{n}',
+    'collected_at' => '2026-11-03',
+    'confidence' => 'verified',
+    'note' => 'Repli utilisé par la tâche planifiée psg-analytics-collecte-2026-27 uniquement quand FBref est inaccessible (bloqué par une vérification Cloudflare qui ne se résout jamais depuis plusieurs semaines à cette date). Identifiants Ligue 1 2026-27 vérifiés le 2026-11-03 : unique-tournament 34, season 96127, équipe PSG 1644 (ne pas confondre avec le tournoi 7, qui est la Ligue des Champions sur Sofascore). Score, affluence et possession recoupés avec FotMob sur Le Havre 1-5 PSG du 2026-10-30 (23714 spectateurs, 29/71% de possession, identiques des deux côtés).',
+  ),
+  13 => 
+  array (
+    'key' => 'sofascore_players_l1_2026-27',
+    'label' => 'Sofascore : statistiques standard par joueur, Ligue 1 2026-27 (repli FBref)',
+    'url' => 'https://www.sofascore.com/api/v1/player/{id}/unique-tournament/34/season/96127/statistics/overall',
+    'collected_at' => '2026-11-03',
+    'confidence' => 'verified',
+    'note' => 'Repli utilisé par la tâche planifiée psg-analytics-collecte-2026-27 uniquement quand FBref est inaccessible, en remplacement de fbref_players_l1_2026-27 pour la semaine concernée. Un appel par joueur (voir database/seeds/SofascoreSeasonStats.php et 2026-27/sofascore-players.php pour la correspondance identifiant/clé) renvoie déjà les totaux saison : aucune reconstruction match par match, à la différence de fotmob_2026-27. Mapping de champs vérifié le 2026-11-03 sur Désiré Doué (8 apparitions, 5 titularisations, 436 minutes, 24 tirs, 14 tacles en Ligue 1 à cette date).',
+  ),
 );

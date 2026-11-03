@@ -97,11 +97,11 @@ return array (
   10 => 
   array (
     'key' => 'fbref_players_ldc_2026-27',
-    'label' => 'ESPN : buts et passes décisives par joueur, Ligue des Champions 2026-27',
+    'label' => 'ESPN/FotMob : buts et passes décisives par joueur, Ligue des Champions 2026-27',
     'url' => 'https://www.espn.com/soccer/team/stats/_/id/160/league/UEFA.CHAMPIONS',
-    'collected_at' => '2026-09-14',
+    'collected_at' => '2026-11-03',
     'confidence' => 'verified',
-    'note' => 'Relevé manuel, saison en cours : un seul match joué à ce jour (PSG 6-1 Slovan Bratislava, 2026-09-09), buts et passes décisives recoupés avec le score du match. Contrairement aux sources L1 2026-27, ce fichier n\'est PAS alimenté par la tâche planifiée psg-analytics-collecte-2026-27 : à mettre à jour manuellement au fil des matchs de C1.',
+    'note' => 'Relevé manuel, saison en cours, mis à jour au fil des matchs. Premier match (PSG 6-1 Slovan Bratislava, 2026-09-09) via ESPN ; les deux suivants (Manchester City 2-4 PSG le 2026-10-14, PSG 4-2 Barcelona le 2026-10-20) via les événements de but FotMob (même source que les tirs, cf. fotmob_2026-27), buts et passes décisives recoupés avec le score de chaque match. Contrairement aux sources L1 2026-27, ce fichier n\'est PAS alimenté par la tâche planifiée psg-analytics-collecte-2026-27 : à mettre à jour manuellement au fil des matchs de C1.',
   ),
   11 => 
   array (

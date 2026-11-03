@@ -279,10 +279,14 @@ final class SeedIntegrityTest extends TestCase
         $pdo = $this->migratedPdo();
         $season2026_27 = (int) $pdo->query("SELECT id FROM seasons WHERE label = '2026-27'")->fetchColumn();
         $goals = $this->goalsByPlayerLdc($pdo, $season2026_27);
-        $this->assertSame(3, $goals['Torres'] ?? 0, 'Torres exactement 3 buts LDC 2026-27 (seul match joué)');
-        $this->assertSame(2, $goals['Dembélé'] ?? 0, 'Dembélé exactement 2');
-        $this->assertSame(1, $goals['Ruiz'] ?? 0, 'Ruiz exactement 1');
-        $this->assertSame(6, array_sum($goals), 'total buts individuels LDC 2026-27 = 6 (score du match PSG 6-1 Slovan Bratislava)');
+        $this->assertSame(3, $goals['Torres'] ?? 0, 'Torres exactement 3 buts LDC 2026-27');
+        $this->assertSame(3, $goals['Dembélé'] ?? 0, 'Dembélé exactement 3');
+        $this->assertSame(2, $goals['Ruiz'] ?? 0, 'Ruiz exactement 2');
+        $this->assertSame(2, $goals['Doué'] ?? 0, 'Doué exactement 2');
+        $this->assertSame(2, $goals['Vitinha'] ?? 0, 'Vitinha exactement 2');
+        // 14 buts joueurs = 14 buts d'équipe sur les 3 matchs joués (6+4+4), aucun
+        // but contre son camp adverse identifié à ce stade de la campagne.
+        $this->assertSame(14, array_sum($goals), 'total buts individuels LDC 2026-27 = 14 (6+4+4 sur les 3 matchs joués)');
     }
 
     public function testL1RestentScopeesMalgreLesStatsLdc(): void

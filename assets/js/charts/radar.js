@@ -13,12 +13,15 @@ const RINGS = 4;
 
 // Point du radar pour l'axe i (réparti sur le cercle) et un rayon normalisé t.
 function point(i, count, t) {
-  const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
+  return pointAtAngle((i / count) * Math.PI * 2 - Math.PI / 2, t);
+}
+
+function pointAtAngle(angle, t) {
   return [CX + R * t * Math.cos(angle), CY + R * t * Math.sin(angle)];
 }
 
 export function render(container, data, options = {}) {
-  const { ariaLabel = 'Radar comparatif' } = options;
+  const { ariaLabel = 'Radar comparatif', onAxisHover, onAxisLeave } = options;
   const { axes, series } = data;
   container.textContent = '';
   container.classList.add('chart');
@@ -74,6 +77,28 @@ export function render(container, data, options = {}) {
     svg.appendChild(svgEl('text', { class: 'legend-item', x: lx + 20, y: H - 8 }, serie.name));
     lx += 150;
   });
+
+  // Zones de survol, une par axe : triangle invisible du centre jusqu'au delà des
+  // libellés, couvrant tout le secteur angulaire de cet axe. Posées en dernier pour
+  // rester au-dessus des séries, afin que le survol fonctionne même là où les deux
+  // polygones se chevauchent. fill="transparent" (et non "none") pour rester
+  // cliquable : un remplissage "none" ne reçoit aucun événement de pointeur en SVG.
+  if (onAxisHover) {
+    axes.forEach((_, i) => {
+      const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+      const [x1, y1] = pointAtAngle(angle - Math.PI / n, 1.3);
+      const [x2, y2] = pointAtAngle(angle + Math.PI / n, 1.3);
+      const hit = svgEl('polygon', {
+        class: 'radar-hit', points: `${CX},${CY} ${x1},${y1} ${x2},${y2}`, fill: 'transparent',
+      });
+      hit.addEventListener('mouseenter', (e) => onAxisHover(i, e));
+      hit.addEventListener('mousemove', (e) => { e.stopPropagation(); onAxisHover(i, e); });
+      if (onAxisLeave) {
+        hit.addEventListener('mouseleave', onAxisLeave);
+      }
+      svg.appendChild(hit);
+    });
+  }
 
   container.appendChild(svg);
   return svg;

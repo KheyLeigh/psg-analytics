@@ -47,8 +47,52 @@ export function initCompare() {
   const hint = document.querySelector('#compare-hint');
   const clearBtn = document.querySelector('#cmp-clear');
   const tbody = document.querySelector('#roster-body');
+  const tip = document.querySelector('#tip');
   if (!canvas || !slotA || !slotB || !tbody) {
     return null;
+  }
+
+  // Survol d'un axe du radar : remplace le tooltip de provenance générique du
+  // panneau (méthodologie) par les valeurs réelles de cet axe pour les deux
+  // joueurs, le temps du survol. stopPropagation() côté radar.js empêche le
+  // tooltip générique du panneau de reprendre la main pendant ce survol.
+  function tipLine(name, color, value) {
+    const line = document.createElement('span');
+    line.className = 'cmp-tip__line';
+    const nameEl = document.createElement('span');
+    nameEl.className = 'cmp-tip__name';
+    nameEl.style.color = color;
+    nameEl.textContent = name;
+    line.append(nameEl, document.createTextNode(' : ' + value));
+    return line;
+  }
+
+  function showAxisTip(e, axisIndex, axisKey, axisLabel, playerData) {
+    if (!tip) return;
+    const va = num(playerData.a.totals ? playerData.a.totals[axisKey] : 0);
+    const vb = num(playerData.b.totals ? playerData.b.totals[axisKey] : 0);
+    const nameA = playerData.a.player ? playerData.a.player.name : 'A';
+    const nameB = playerData.b.player ? playerData.b.player.name : 'B';
+    tip.className = 'on';
+    tip.textContent = '';
+    const title = document.createElement('div');
+    title.className = 'tt';
+    title.textContent = axisLabel;
+    const p = document.createElement('p');
+    p.append(
+      tipLine(nameA, 'var(--red-text)', fmtValue(axisKey, va)),
+      document.createElement('br'),
+      tipLine(nameB, 'var(--blue)', fmtValue(axisKey, vb)),
+    );
+    tip.append(title, p);
+    tip.style.left = Math.min(e.clientX + 14, window.innerWidth - 250) + 'px';
+    tip.style.top = (e.clientY + 16) + 'px';
+  }
+
+  function hideAxisTip() {
+    if (tip) {
+      tip.className = '';
+    }
   }
 
   // Sélection courante : { id, name } ou null pour chaque emplacement.
@@ -137,6 +181,7 @@ export function initCompare() {
   function resetCanvas(message) {
     canvas.classList.remove('is-in');
     canvas.textContent = '';
+    hideAxisTip();
     const p = document.createElement('p');
     p.className = 'chart-fallback';
     p.textContent = message;
@@ -211,7 +256,11 @@ export function initCompare() {
       void canvas.offsetWidth;
       canvas.classList.add('is-in');
     }
-    radar.render(canvas, { axes: labels, series }, { ariaLabel });
+    radar.render(canvas, { axes: labels, series }, {
+      ariaLabel,
+      onAxisHover: (i, e) => showAxisTip(e, i, axes[i], labels[i], data),
+      onAxisLeave: hideAxisTip,
+    });
     renderStats(data, axes, labels);
   }
 

@@ -3025,7 +3025,7 @@
                 }
             ]
         },
-        "7": {
+        "31": {
             "name": "Illia Zabarnyi",
             "shots_total": 5,
             "goals": 2,
@@ -3192,7 +3192,7 @@
                 }
             ]
         },
-        "8": {
+        "33": {
             "name": "Lucas Hernandez",
             "shots_total": 4,
             "goals": 1,
@@ -3304,7 +3304,7 @@
                 }
             ]
         },
-        "23": {
+        "48": {
             "name": "Quentin Ndjantou",
             "shots_total": 1,
             "goals": 0,
@@ -3320,6 +3320,25 @@
                     "opp": "Le Havre",
                     "ha": "a",
                     "comp": "Ligue 1"
+                }
+            ]
+        },
+        "49": {
+            "name": "David Boly",
+            "shots_total": 1,
+            "goals": 1,
+            "xg_total": 0.04,
+            "shots": [
+                {
+                    "x": 0.8905,
+                    "y": 0.2932,
+                    "xg": 0.0377,
+                    "res": "goal",
+                    "min": 78,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
                 }
             ]
         }

@@ -45,10 +45,11 @@ final class MigratorLoopTest extends TestCase
 
         $seedsDir = dirname(__DIR__, 1) . '/../database/seeds/verified/2026-27';
         $expectedMatches = count(require "{$seedsDir}/matches_l1.php") + count(require "{$seedsDir}/matches_other.php");
+        $expectedPlayers = count(require "{$seedsDir}/players.php");
 
         $this->assertTrue(array_key_exists('2026-27', $reports), 'la clé 2026-27 est présente');
         $this->assertSame($expectedMatches, $reports['2026-27']['matches'], 'matchs 2026-27 déjà collectés par la tâche planifiée (saison en cours, alimentée au fil de l\'eau)');
-        $this->assertSame(24, $reports['2026-27']['players'], 'effectif professionnel 2026-27 déjà renseigné');
+        $this->assertSame($expectedPlayers, $reports['2026-27']['players'], 'effectif professionnel 2026-27 déjà renseigné (saison en cours, effectif ajustable)');
 
         // 2025-26 reste strictement identique, quelle que soit la présence de 2026-27.
         $this->assertSame(55, $reports['2025-26']['matches']);

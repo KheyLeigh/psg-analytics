@@ -11,6 +11,13 @@ declare(strict_types=1);
 // partis en Premier League (confirmé par Mathis). Nuno Mendes et Quentin
 // Ndjantou restent au club malgré une absence du tableau FBref de la semaine
 // (aucun n'a encore joué en Ligue 1 cette saison, pas un départ).
+// Mise à jour du 9 novembre 2026 : ajout de David Boly, signalé absent de
+// l'effectif par la tâche planifiée (buteur contre Villarreal le 3 novembre,
+// puis remplaçant non utilisé contre Troyes). Numéro 42 et poste confirmés
+// par recoupement FotMob (composition du match Villarreal, où il porte
+// effectivement le 42) et Sofascore (jerseyNumber 42, poste D) : la fiche
+// FotMob seule affiche un numéro « 2 » qui est celui de son équipe U19, pas
+// son numéro en équipe première, d'où la vérification croisée.
 return [
     // [num, prénom, nom, position, position_détaillée, nationalité, capitaine]
     [30, 'Lucas', 'Chevalier', 'GK', 'GK', 'France', false],
@@ -37,4 +44,5 @@ return [
     [14, 'Désiré', 'Doué', 'FW', 'RW', 'France', false],
     [22, 'Mika', 'Godts', 'FW', 'LW', 'Belgique', false],
     [47, 'Quentin', 'Ndjantou', 'FW', 'LW', 'France', false],
+    [42, 'David', 'Boly', 'DF', 'RB', 'France', false],
 ];

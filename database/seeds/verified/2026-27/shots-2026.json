@@ -6,9 +6,795 @@
         "Ligue des Champions"
     ],
     "source": "FotMob",
-    "collected_at": "2026-11-03",
-    "note": "Tirs verifies par joueur avec coordonnees x/y reelles (FotMob, donnees Opta). x: 0 = ligne de but propre, 1 = adverse ; y: 0 a 1 en largeur. res: goal/saved/miss/block/post. Cle = id joueur en base, resolue par identifiant FotMob (voir fotmob-players.php) et non par nom. Chaque tir porte sa competition. Remplace la collecte Understat, dont les pages n exposent plus aucune donnee depuis septembre 2026. Totaux Ligue 1 recoupes avec Sofascore (repli FBref) : 178 tirs, 21 buts.",
+    "collected_at": "2026-11-09",
+    "note": "Tirs verifies par joueur avec coordonnees x\/y reelles (FotMob, donnees Opta). x: 0 = ligne de but propre, 1 = adverse ; y: 0 a 1 en largeur. res: goal\/saved\/miss\/block\/post. Cle = id joueur en base, resolue par identifiant FotMob (voir fotmob-players.php) et non par nom. Chaque tir porte sa competition. Remplace la collecte Understat, dont les pages n exposent plus aucune donnee depuis septembre 2026. Totaux Ligue 1 recoupes avec Sofascore (repli FBref) : 193 tirs, 22 buts.",
     "players": {
+        "46": {
+            "name": "Désiré Doué",
+            "shots_total": 37,
+            "goals": 4,
+            "xg_total": 2.95,
+            "shots": [
+                {
+                    "x": 0.8924,
+                    "y": 0.3781,
+                    "xg": 0.1121,
+                    "res": "block",
+                    "min": 12,
+                    "sit": "OpenPlay",
+                    "opp": "Rennes",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.7523,
+                    "y": 0.4854,
+                    "xg": 0.0445,
+                    "res": "block",
+                    "min": 48,
+                    "sit": "OpenPlay",
+                    "opp": "Rennes",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.7952,
+                    "y": 0.7193,
+                    "xg": 0.0127,
+                    "res": "saved",
+                    "min": 54,
+                    "sit": "OpenPlay",
+                    "opp": "Rennes",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8377,
+                    "y": 0.5347,
+                    "xg": 0.1348,
+                    "res": "miss",
+                    "min": 76,
+                    "sit": "FastBreak",
+                    "opp": "Rennes",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8234,
+                    "y": 0.6913,
+                    "xg": 0.0841,
+                    "res": "block",
+                    "min": 82,
+                    "sit": "FastBreak",
+                    "opp": "Rennes",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8316,
+                    "y": 0.7419,
+                    "xg": 0.0223,
+                    "res": "miss",
+                    "min": 10,
+                    "sit": "OpenPlay",
+                    "opp": "Lille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.7727,
+                    "y": 0.4653,
+                    "xg": 0.0743,
+                    "res": "saved",
+                    "min": 8,
+                    "sit": "OpenPlay",
+                    "opp": "Monaco",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9109,
+                    "y": 0.4899,
+                    "xg": 0.1158,
+                    "res": "saved",
+                    "min": 12,
+                    "sit": "OpenPlay",
+                    "opp": "Monaco",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9357,
+                    "y": 0.6185,
+                    "xg": 0.0591,
+                    "res": "block",
+                    "min": 30,
+                    "sit": "OpenPlay",
+                    "opp": "Monaco",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.7716,
+                    "y": 0.7357,
+                    "xg": 0.0161,
+                    "res": "miss",
+                    "min": 77,
+                    "sit": "OpenPlay",
+                    "opp": "Brest",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8638,
+                    "y": 0.3738,
+                    "xg": 0.1317,
+                    "res": "block",
+                    "min": 8,
+                    "sit": "FastBreak",
+                    "opp": "Marseille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.897,
+                    "y": 0.3426,
+                    "xg": 0.1095,
+                    "res": "block",
+                    "min": 12,
+                    "sit": "OpenPlay",
+                    "opp": "Marseille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.881,
+                    "y": 0.2684,
+                    "xg": 0.029,
+                    "res": "saved",
+                    "min": 47,
+                    "sit": "OpenPlay",
+                    "opp": "Marseille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8543,
+                    "y": 0.6313,
+                    "xg": 0.061,
+                    "res": "miss",
+                    "min": 61,
+                    "sit": "OpenPlay",
+                    "opp": "Marseille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8648,
+                    "y": 0.5914,
+                    "xg": 0.0822,
+                    "res": "miss",
+                    "min": 88,
+                    "sit": "FromCorner",
+                    "opp": "Le Mans",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8952,
+                    "y": 0.5,
+                    "xg": 0.7884,
+                    "res": "saved",
+                    "min": 90,
+                    "sit": "Penalty",
+                    "opp": "Le Mans",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8962,
+                    "y": 0.2983,
+                    "xg": 0.0377,
+                    "res": "block",
+                    "min": 55,
+                    "sit": "OpenPlay",
+                    "opp": "Strasbourg",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8905,
+                    "y": 0.6976,
+                    "xg": 0.0282,
+                    "res": "block",
+                    "min": 69,
+                    "sit": "SetPiece",
+                    "opp": "Strasbourg",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8838,
+                    "y": 0.3138,
+                    "xg": 0.0357,
+                    "res": "saved",
+                    "min": 90,
+                    "sit": "FastBreak",
+                    "opp": "Strasbourg",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9228,
+                    "y": 0.5865,
+                    "xg": 0.1857,
+                    "res": "goal",
+                    "min": 90,
+                    "sit": "SetPiece",
+                    "opp": "Strasbourg",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8781,
+                    "y": 0.6038,
+                    "xg": 0.0543,
+                    "res": "saved",
+                    "min": 4,
+                    "sit": "OpenPlay",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9044,
+                    "y": 0.7501,
+                    "xg": 0.015,
+                    "res": "miss",
+                    "min": 34,
+                    "sit": "OpenPlay",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8989,
+                    "y": 0.7037,
+                    "xg": 0.0231,
+                    "res": "block",
+                    "min": 54,
+                    "sit": "OpenPlay",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8724,
+                    "y": 0.7316,
+                    "xg": 0.0539,
+                    "res": "miss",
+                    "min": 61,
+                    "sit": "OpenPlay",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.792,
+                    "y": 0.6728,
+                    "xg": 0.0233,
+                    "res": "goal",
+                    "min": 13,
+                    "sit": "OpenPlay",
+                    "opp": "Manchester City",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8183,
+                    "y": 0.5123,
+                    "xg": 0.0755,
+                    "res": "saved",
+                    "min": 5,
+                    "sit": "OpenPlay",
+                    "opp": "Barcelona",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8204,
+                    "y": 0.5191,
+                    "xg": 0.0787,
+                    "res": "goal",
+                    "min": 38,
+                    "sit": "OpenPlay",
+                    "opp": "Barcelona",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8829,
+                    "y": 0.714,
+                    "xg": 0.0377,
+                    "res": "block",
+                    "min": 70,
+                    "sit": "OpenPlay",
+                    "opp": "Barcelona",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8306,
+                    "y": 0.6262,
+                    "xg": 0.0282,
+                    "res": "block",
+                    "min": 77,
+                    "sit": "OpenPlay",
+                    "opp": "Barcelona",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.7866,
+                    "y": 0.6924,
+                    "xg": 0.0516,
+                    "res": "miss",
+                    "min": 9,
+                    "sit": "DirectFreekick",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9081,
+                    "y": 0.2787,
+                    "xg": 0.0315,
+                    "res": "block",
+                    "min": 25,
+                    "sit": "OpenPlay",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8667,
+                    "y": 0.3127,
+                    "xg": 0.0234,
+                    "res": "block",
+                    "min": 69,
+                    "sit": "OpenPlay",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8377,
+                    "y": 0.6831,
+                    "xg": 0.0437,
+                    "res": "block",
+                    "min": 5,
+                    "sit": "FastBreak",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.7942,
+                    "y": 0.6254,
+                    "xg": 0.023,
+                    "res": "saved",
+                    "min": 6,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8552,
+                    "y": 0.4308,
+                    "xg": 0.1111,
+                    "res": "goal",
+                    "min": 12,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9256,
+                    "y": 0.6677,
+                    "xg": 0.0737,
+                    "res": "saved",
+                    "min": 36,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.7534,
+                    "y": 0.6262,
+                    "xg": 0.0302,
+                    "res": "saved",
+                    "min": 54,
+                    "sit": "FastBreak",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                }
+            ]
+        },
+        "43": {
+            "name": "Ferran Torres",
+            "shots_total": 33,
+            "goals": 7,
+            "xg_total": 6.87,
+            "shots": [
+                {
+                    "x": 0.9053,
+                    "y": 0.4419,
+                    "xg": 0.6369,
+                    "res": "goal",
+                    "min": 71,
+                    "sit": "OpenPlay",
+                    "opp": "Rennes",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9201,
+                    "y": 0.5191,
+                    "xg": 0.1247,
+                    "res": "goal",
+                    "min": 82,
+                    "sit": "OpenPlay",
+                    "opp": "Rennes",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8781,
+                    "y": 0.4459,
+                    "xg": 0.2319,
+                    "res": "miss",
+                    "min": 18,
+                    "sit": "OpenPlay",
+                    "opp": "Lille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9375,
+                    "y": 0.5549,
+                    "xg": 0.3234,
+                    "res": "miss",
+                    "min": 33,
+                    "sit": "OpenPlay",
+                    "opp": "Lille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.921,
+                    "y": 0.4932,
+                    "xg": 0.0733,
+                    "res": "miss",
+                    "min": 45,
+                    "sit": "OpenPlay",
+                    "opp": "Lille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.7663,
+                    "y": 0.4899,
+                    "xg": 0.0409,
+                    "res": "goal",
+                    "min": 5,
+                    "sit": "OpenPlay",
+                    "opp": "Brest",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9338,
+                    "y": 0.5213,
+                    "xg": 0.2531,
+                    "res": "goal",
+                    "min": 66,
+                    "sit": "OpenPlay",
+                    "opp": "Marseille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.881,
+                    "y": 0.4247,
+                    "xg": 0.1356,
+                    "res": "saved",
+                    "min": 70,
+                    "sit": "OpenPlay",
+                    "opp": "Marseille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8347,
+                    "y": 0.4529,
+                    "xg": 0.0435,
+                    "res": "block",
+                    "min": 83,
+                    "sit": "OpenPlay",
+                    "opp": "Marseille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8752,
+                    "y": 0.4629,
+                    "xg": 0.039,
+                    "res": "miss",
+                    "min": 25,
+                    "sit": "FromCorner",
+                    "opp": "Slovan Bratislava",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8091,
+                    "y": 0.6707,
+                    "xg": 0.0289,
+                    "res": "miss",
+                    "min": 30,
+                    "sit": "OpenPlay",
+                    "opp": "Slovan Bratislava",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9567,
+                    "y": 0.4551,
+                    "xg": 0.2895,
+                    "res": "goal",
+                    "min": 31,
+                    "sit": "OpenPlay",
+                    "opp": "Slovan Bratislava",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8295,
+                    "y": 0.4799,
+                    "xg": 0.0799,
+                    "res": "goal",
+                    "min": 47,
+                    "sit": "OpenPlay",
+                    "opp": "Slovan Bratislava",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9026,
+                    "y": 0.4574,
+                    "xg": 0.0738,
+                    "res": "goal",
+                    "min": 57,
+                    "sit": "FromCorner",
+                    "opp": "Slovan Bratislava",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.7491,
+                    "y": 0.4809,
+                    "xg": 0.0189,
+                    "res": "miss",
+                    "min": 68,
+                    "sit": "OpenPlay",
+                    "opp": "Slovan Bratislava",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8952,
+                    "y": 0.2746,
+                    "xg": 0.019,
+                    "res": "miss",
+                    "min": 44,
+                    "sit": "OpenPlay",
+                    "opp": "Le Mans",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9219,
+                    "y": 0.6288,
+                    "xg": 0.4196,
+                    "res": "miss",
+                    "min": 66,
+                    "sit": "OpenPlay",
+                    "opp": "Le Mans",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9621,
+                    "y": 0.4407,
+                    "xg": 0.1565,
+                    "res": "saved",
+                    "min": 11,
+                    "sit": "OpenPlay",
+                    "opp": "Strasbourg",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8142,
+                    "y": 0.5516,
+                    "xg": 0.0735,
+                    "res": "miss",
+                    "min": 21,
+                    "sit": "OpenPlay",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9375,
+                    "y": 0.3004,
+                    "xg": 0.0259,
+                    "res": "saved",
+                    "min": 22,
+                    "sit": "OpenPlay",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9173,
+                    "y": 0.3478,
+                    "xg": 0.2012,
+                    "res": "saved",
+                    "min": 57,
+                    "sit": "OpenPlay",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9127,
+                    "y": 0.4453,
+                    "xg": 0.0681,
+                    "res": "saved",
+                    "min": 64,
+                    "sit": "OpenPlay",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9219,
+                    "y": 0.3882,
+                    "xg": 0.4106,
+                    "res": "saved",
+                    "min": 17,
+                    "sit": "OpenPlay",
+                    "opp": "Le Havre",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9503,
+                    "y": 0.321,
+                    "xg": 0.0381,
+                    "res": "saved",
+                    "min": 23,
+                    "sit": "OpenPlay",
+                    "opp": "Le Havre",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8495,
+                    "y": 0.4989,
+                    "xg": 0.0491,
+                    "res": "block",
+                    "min": 78,
+                    "sit": "OpenPlay",
+                    "opp": "Le Havre",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8952,
+                    "y": 0.5,
+                    "xg": 0.7884,
+                    "res": "saved",
+                    "min": 90,
+                    "sit": "Penalty",
+                    "opp": "Manchester City",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.898,
+                    "y": 0.5325,
+                    "xg": 0.4048,
+                    "res": "saved",
+                    "min": 25,
+                    "sit": "OpenPlay",
+                    "opp": "Barcelona",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9476,
+                    "y": 0.4444,
+                    "xg": 0.3243,
+                    "res": "saved",
+                    "min": 29,
+                    "sit": "OpenPlay",
+                    "opp": "Barcelona",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9302,
+                    "y": 0.4574,
+                    "xg": 0.5166,
+                    "res": "post",
+                    "min": 71,
+                    "sit": "OpenPlay",
+                    "opp": "Barcelona",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9612,
+                    "y": 0.645,
+                    "xg": 0.1534,
+                    "res": "saved",
+                    "min": 38,
+                    "sit": "FromCorner",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8886,
+                    "y": 0.4551,
+                    "xg": 0.3735,
+                    "res": "saved",
+                    "min": 45,
+                    "sit": "OpenPlay",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9145,
+                    "y": 0.3478,
+                    "xg": 0.1526,
+                    "res": "saved",
+                    "min": 45,
+                    "sit": "OpenPlay",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.879,
+                    "y": 0.4854,
+                    "xg": 0.3027,
+                    "res": "saved",
+                    "min": 67,
+                    "sit": "OpenPlay",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                }
+            ]
+        },
         "44": {
             "name": "Ousmane Dembélé",
             "shots_total": 32,
@@ -369,665 +1155,11 @@
                 }
             ]
         },
-        "43": {
-            "name": "Ferran Torres",
-            "shots_total": 29,
-            "goals": 7,
-            "xg_total": 5.89,
-            "shots": [
-                {
-                    "x": 0.9053,
-                    "y": 0.4419,
-                    "xg": 0.6369,
-                    "res": "goal",
-                    "min": 71,
-                    "sit": "OpenPlay",
-                    "opp": "Rennes",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9201,
-                    "y": 0.5191,
-                    "xg": 0.1247,
-                    "res": "goal",
-                    "min": 82,
-                    "sit": "OpenPlay",
-                    "opp": "Rennes",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8781,
-                    "y": 0.4459,
-                    "xg": 0.2319,
-                    "res": "miss",
-                    "min": 18,
-                    "sit": "OpenPlay",
-                    "opp": "Lille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9375,
-                    "y": 0.5549,
-                    "xg": 0.3234,
-                    "res": "miss",
-                    "min": 33,
-                    "sit": "OpenPlay",
-                    "opp": "Lille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.921,
-                    "y": 0.4932,
-                    "xg": 0.0733,
-                    "res": "miss",
-                    "min": 45,
-                    "sit": "OpenPlay",
-                    "opp": "Lille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.7663,
-                    "y": 0.4899,
-                    "xg": 0.0409,
-                    "res": "goal",
-                    "min": 5,
-                    "sit": "OpenPlay",
-                    "opp": "Brest",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9338,
-                    "y": 0.5213,
-                    "xg": 0.2531,
-                    "res": "goal",
-                    "min": 66,
-                    "sit": "OpenPlay",
-                    "opp": "Marseille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.881,
-                    "y": 0.4247,
-                    "xg": 0.1356,
-                    "res": "saved",
-                    "min": 70,
-                    "sit": "OpenPlay",
-                    "opp": "Marseille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8347,
-                    "y": 0.4529,
-                    "xg": 0.0435,
-                    "res": "block",
-                    "min": 83,
-                    "sit": "OpenPlay",
-                    "opp": "Marseille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8752,
-                    "y": 0.4629,
-                    "xg": 0.039,
-                    "res": "miss",
-                    "min": 25,
-                    "sit": "FromCorner",
-                    "opp": "Slovan Bratislava",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.8091,
-                    "y": 0.6707,
-                    "xg": 0.0289,
-                    "res": "miss",
-                    "min": 30,
-                    "sit": "OpenPlay",
-                    "opp": "Slovan Bratislava",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.9567,
-                    "y": 0.4551,
-                    "xg": 0.2895,
-                    "res": "goal",
-                    "min": 31,
-                    "sit": "OpenPlay",
-                    "opp": "Slovan Bratislava",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.8295,
-                    "y": 0.4799,
-                    "xg": 0.0799,
-                    "res": "goal",
-                    "min": 47,
-                    "sit": "OpenPlay",
-                    "opp": "Slovan Bratislava",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.9026,
-                    "y": 0.4574,
-                    "xg": 0.0738,
-                    "res": "goal",
-                    "min": 57,
-                    "sit": "FromCorner",
-                    "opp": "Slovan Bratislava",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.7491,
-                    "y": 0.4809,
-                    "xg": 0.0189,
-                    "res": "miss",
-                    "min": 68,
-                    "sit": "OpenPlay",
-                    "opp": "Slovan Bratislava",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.8952,
-                    "y": 0.2746,
-                    "xg": 0.019,
-                    "res": "miss",
-                    "min": 44,
-                    "sit": "OpenPlay",
-                    "opp": "Le Mans",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9219,
-                    "y": 0.6288,
-                    "xg": 0.4196,
-                    "res": "miss",
-                    "min": 66,
-                    "sit": "OpenPlay",
-                    "opp": "Le Mans",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9621,
-                    "y": 0.4407,
-                    "xg": 0.1565,
-                    "res": "saved",
-                    "min": 11,
-                    "sit": "OpenPlay",
-                    "opp": "Strasbourg",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8142,
-                    "y": 0.5516,
-                    "xg": 0.0735,
-                    "res": "miss",
-                    "min": 21,
-                    "sit": "OpenPlay",
-                    "opp": "Lyon",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9375,
-                    "y": 0.3004,
-                    "xg": 0.0259,
-                    "res": "saved",
-                    "min": 22,
-                    "sit": "OpenPlay",
-                    "opp": "Lyon",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9173,
-                    "y": 0.3478,
-                    "xg": 0.2012,
-                    "res": "saved",
-                    "min": 57,
-                    "sit": "OpenPlay",
-                    "opp": "Lyon",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9127,
-                    "y": 0.4453,
-                    "xg": 0.0681,
-                    "res": "saved",
-                    "min": 64,
-                    "sit": "OpenPlay",
-                    "opp": "Lyon",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9219,
-                    "y": 0.3882,
-                    "xg": 0.4106,
-                    "res": "saved",
-                    "min": 17,
-                    "sit": "OpenPlay",
-                    "opp": "Le Havre",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9503,
-                    "y": 0.321,
-                    "xg": 0.0381,
-                    "res": "saved",
-                    "min": 23,
-                    "sit": "OpenPlay",
-                    "opp": "Le Havre",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8495,
-                    "y": 0.4989,
-                    "xg": 0.0491,
-                    "res": "block",
-                    "min": 78,
-                    "sit": "OpenPlay",
-                    "opp": "Le Havre",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8952,
-                    "y": 0.5,
-                    "xg": 0.7884,
-                    "res": "saved",
-                    "min": 90,
-                    "sit": "Penalty",
-                    "opp": "Manchester City",
-                    "ha": "a",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.898,
-                    "y": 0.5325,
-                    "xg": 0.4048,
-                    "res": "saved",
-                    "min": 25,
-                    "sit": "OpenPlay",
-                    "opp": "Barcelona",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.9476,
-                    "y": 0.4444,
-                    "xg": 0.3243,
-                    "res": "saved",
-                    "min": 29,
-                    "sit": "OpenPlay",
-                    "opp": "Barcelona",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.9302,
-                    "y": 0.4574,
-                    "xg": 0.5166,
-                    "res": "post",
-                    "min": 71,
-                    "sit": "OpenPlay",
-                    "opp": "Barcelona",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                }
-            ]
-        },
-        "46": {
-            "name": "Désiré Doué",
-            "shots_total": 29,
-            "goals": 3,
-            "xg_total": 2.56,
-            "shots": [
-                {
-                    "x": 0.8924,
-                    "y": 0.3781,
-                    "xg": 0.1121,
-                    "res": "block",
-                    "min": 12,
-                    "sit": "OpenPlay",
-                    "opp": "Rennes",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.7523,
-                    "y": 0.4854,
-                    "xg": 0.0445,
-                    "res": "block",
-                    "min": 48,
-                    "sit": "OpenPlay",
-                    "opp": "Rennes",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.7952,
-                    "y": 0.7193,
-                    "xg": 0.0127,
-                    "res": "saved",
-                    "min": 54,
-                    "sit": "OpenPlay",
-                    "opp": "Rennes",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8377,
-                    "y": 0.5347,
-                    "xg": 0.1348,
-                    "res": "miss",
-                    "min": 76,
-                    "sit": "FastBreak",
-                    "opp": "Rennes",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8234,
-                    "y": 0.6913,
-                    "xg": 0.0841,
-                    "res": "block",
-                    "min": 82,
-                    "sit": "FastBreak",
-                    "opp": "Rennes",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8316,
-                    "y": 0.7419,
-                    "xg": 0.0223,
-                    "res": "miss",
-                    "min": 10,
-                    "sit": "OpenPlay",
-                    "opp": "Lille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.7727,
-                    "y": 0.4653,
-                    "xg": 0.0743,
-                    "res": "saved",
-                    "min": 8,
-                    "sit": "OpenPlay",
-                    "opp": "Monaco",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9109,
-                    "y": 0.4899,
-                    "xg": 0.1158,
-                    "res": "saved",
-                    "min": 12,
-                    "sit": "OpenPlay",
-                    "opp": "Monaco",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9357,
-                    "y": 0.6185,
-                    "xg": 0.0591,
-                    "res": "block",
-                    "min": 30,
-                    "sit": "OpenPlay",
-                    "opp": "Monaco",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.7716,
-                    "y": 0.7357,
-                    "xg": 0.0161,
-                    "res": "miss",
-                    "min": 77,
-                    "sit": "OpenPlay",
-                    "opp": "Brest",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8638,
-                    "y": 0.3738,
-                    "xg": 0.1317,
-                    "res": "block",
-                    "min": 8,
-                    "sit": "FastBreak",
-                    "opp": "Marseille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.897,
-                    "y": 0.3426,
-                    "xg": 0.1095,
-                    "res": "block",
-                    "min": 12,
-                    "sit": "OpenPlay",
-                    "opp": "Marseille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.881,
-                    "y": 0.2684,
-                    "xg": 0.029,
-                    "res": "saved",
-                    "min": 47,
-                    "sit": "OpenPlay",
-                    "opp": "Marseille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8543,
-                    "y": 0.6313,
-                    "xg": 0.061,
-                    "res": "miss",
-                    "min": 61,
-                    "sit": "OpenPlay",
-                    "opp": "Marseille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8648,
-                    "y": 0.5914,
-                    "xg": 0.0822,
-                    "res": "miss",
-                    "min": 88,
-                    "sit": "FromCorner",
-                    "opp": "Le Mans",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8952,
-                    "y": 0.5,
-                    "xg": 0.7884,
-                    "res": "saved",
-                    "min": 90,
-                    "sit": "Penalty",
-                    "opp": "Le Mans",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8962,
-                    "y": 0.2983,
-                    "xg": 0.0377,
-                    "res": "block",
-                    "min": 55,
-                    "sit": "OpenPlay",
-                    "opp": "Strasbourg",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8905,
-                    "y": 0.6976,
-                    "xg": 0.0282,
-                    "res": "block",
-                    "min": 69,
-                    "sit": "SetPiece",
-                    "opp": "Strasbourg",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8838,
-                    "y": 0.3138,
-                    "xg": 0.0357,
-                    "res": "saved",
-                    "min": 90,
-                    "sit": "FastBreak",
-                    "opp": "Strasbourg",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9228,
-                    "y": 0.5865,
-                    "xg": 0.1857,
-                    "res": "goal",
-                    "min": 90,
-                    "sit": "SetPiece",
-                    "opp": "Strasbourg",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8781,
-                    "y": 0.6038,
-                    "xg": 0.0543,
-                    "res": "saved",
-                    "min": 4,
-                    "sit": "OpenPlay",
-                    "opp": "Lyon",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9044,
-                    "y": 0.7501,
-                    "xg": 0.015,
-                    "res": "miss",
-                    "min": 34,
-                    "sit": "OpenPlay",
-                    "opp": "Lyon",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8989,
-                    "y": 0.7037,
-                    "xg": 0.0231,
-                    "res": "block",
-                    "min": 54,
-                    "sit": "OpenPlay",
-                    "opp": "Lyon",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8724,
-                    "y": 0.7316,
-                    "xg": 0.0539,
-                    "res": "miss",
-                    "min": 61,
-                    "sit": "OpenPlay",
-                    "opp": "Lyon",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.792,
-                    "y": 0.6728,
-                    "xg": 0.0233,
-                    "res": "goal",
-                    "min": 13,
-                    "sit": "OpenPlay",
-                    "opp": "Manchester City",
-                    "ha": "a",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.8183,
-                    "y": 0.5123,
-                    "xg": 0.0755,
-                    "res": "saved",
-                    "min": 5,
-                    "sit": "OpenPlay",
-                    "opp": "Barcelona",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.8204,
-                    "y": 0.5191,
-                    "xg": 0.0787,
-                    "res": "goal",
-                    "min": 38,
-                    "sit": "OpenPlay",
-                    "opp": "Barcelona",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.8829,
-                    "y": 0.714,
-                    "xg": 0.0377,
-                    "res": "block",
-                    "min": 70,
-                    "sit": "OpenPlay",
-                    "opp": "Barcelona",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.8306,
-                    "y": 0.6262,
-                    "xg": 0.0282,
-                    "res": "block",
-                    "min": 77,
-                    "sit": "OpenPlay",
-                    "opp": "Barcelona",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                }
-            ]
-        },
         "28": {
             "name": "Achraf Hakimi",
-            "shots_total": 26,
+            "shots_total": 28,
             "goals": 3,
-            "xg_total": 4.01,
+            "xg_total": 4.21,
             "shots": [
                 {
                     "x": 0.7812,
@@ -1314,14 +1446,36 @@
                     "opp": "Barcelona",
                     "ha": "h",
                     "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8838,
+                    "y": 0.4419,
+                    "xg": 0.127,
+                    "res": "block",
+                    "min": 31,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9173,
+                    "y": 0.355,
+                    "xg": 0.0696,
+                    "res": "block",
+                    "min": 45,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
                 }
             ]
         },
         "36": {
             "name": "Fabián Ruiz",
-            "shots_total": 20,
-            "goals": 2,
-            "xg_total": 1.99,
+            "shots_total": 25,
+            "goals": 4,
+            "xg_total": 2.58,
             "shots": [
                 {
                     "x": 0.881,
@@ -1541,6 +1695,61 @@
                     "sit": "OpenPlay",
                     "opp": "Barcelona",
                     "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.7126,
+                    "y": 0.5292,
+                    "xg": 0.0204,
+                    "res": "miss",
+                    "min": 15,
+                    "sit": "OpenPlay",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8714,
+                    "y": 0.5359,
+                    "xg": 0.1698,
+                    "res": "goal",
+                    "min": 17,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9738,
+                    "y": 0.6543,
+                    "xg": 0.0702,
+                    "res": "miss",
+                    "min": 22,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8204,
+                    "y": 0.4832,
+                    "xg": 0.0698,
+                    "res": "saved",
+                    "min": 43,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9302,
+                    "y": 0.5505,
+                    "xg": 0.2579,
+                    "res": "goal",
+                    "min": 50,
+                    "sit": "SetPiece",
+                    "opp": "Villarreal",
+                    "ha": "a",
                     "comp": "Ligue des Champions"
                 }
             ]
@@ -1968,11 +2177,206 @@
                 }
             ]
         },
+        "41": {
+            "name": "João Neves",
+            "shots_total": 17,
+            "goals": 1,
+            "xg_total": 2.63,
+            "shots": [
+                {
+                    "x": 0.9191,
+                    "y": 0.4037,
+                    "xg": 0.0285,
+                    "res": "block",
+                    "min": 28,
+                    "sit": "FromCorner",
+                    "opp": "Rennes",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8533,
+                    "y": 0.645,
+                    "xg": 0.0503,
+                    "res": "saved",
+                    "min": 40,
+                    "sit": "OpenPlay",
+                    "opp": "Rennes",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9485,
+                    "y": 0.4371,
+                    "xg": 0.0829,
+                    "res": "block",
+                    "min": 47,
+                    "sit": "FromCorner",
+                    "opp": "Rennes",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9593,
+                    "y": 0.4709,
+                    "xg": 0.2524,
+                    "res": "miss",
+                    "min": 12,
+                    "sit": "OpenPlay",
+                    "opp": "Monaco",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.7094,
+                    "y": 0.6615,
+                    "xg": 0.0153,
+                    "res": "miss",
+                    "min": 23,
+                    "sit": "OpenPlay",
+                    "opp": "Monaco",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9366,
+                    "y": 0.4296,
+                    "xg": 0.2401,
+                    "res": "saved",
+                    "min": 69,
+                    "sit": "OpenPlay",
+                    "opp": "Brest",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9873,
+                    "y": 0.4099,
+                    "xg": 0.168,
+                    "res": "saved",
+                    "min": 71,
+                    "sit": "OpenPlay",
+                    "opp": "Brest",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9044,
+                    "y": 0.5191,
+                    "xg": 0.0585,
+                    "res": "saved",
+                    "min": 48,
+                    "sit": "OpenPlay",
+                    "opp": "Marseille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9611,
+                    "y": 0.5012,
+                    "xg": 0.5383,
+                    "res": "miss",
+                    "min": 56,
+                    "sit": "OpenPlay",
+                    "opp": "Marseille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.7523,
+                    "y": 0.4709,
+                    "xg": 0.0731,
+                    "res": "miss",
+                    "min": 90,
+                    "sit": "DirectFreekick",
+                    "opp": "Marseille",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.7545,
+                    "y": 0.5123,
+                    "xg": 0.0795,
+                    "res": "miss",
+                    "min": 23,
+                    "sit": "OpenPlay",
+                    "opp": "Le Mans",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9081,
+                    "y": 0.4989,
+                    "xg": 0.0943,
+                    "res": "miss",
+                    "min": 53,
+                    "sit": "OpenPlay",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9246,
+                    "y": 0.4455,
+                    "xg": 0.1874,
+                    "res": "saved",
+                    "min": 54,
+                    "sit": "OpenPlay",
+                    "opp": "Barcelona",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9539,
+                    "y": 0.5168,
+                    "xg": 0.4513,
+                    "res": "goal",
+                    "min": 9,
+                    "sit": "FromCorner",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8619,
+                    "y": 0.446,
+                    "xg": 0.0581,
+                    "res": "block",
+                    "min": 13,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9182,
+                    "y": 0.4098,
+                    "xg": 0.1243,
+                    "res": "saved",
+                    "min": 60,
+                    "sit": "FromCorner",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8705,
+                    "y": 0.4448,
+                    "xg": 0.1303,
+                    "res": "block",
+                    "min": 70,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                }
+            ]
+        },
         "45": {
             "name": "Maghnes Akliouche",
-            "shots_total": 14,
+            "shots_total": 15,
             "goals": 2,
-            "xg_total": 2.13,
+            "xg_total": 2.24,
             "shots": [
                 {
                     "x": 0.9557,
@@ -2127,165 +2531,25 @@
                     "opp": "Manchester City",
                     "ha": "a",
                     "comp": "Ligue des Champions"
-                }
-            ]
-        },
-        "41": {
-            "name": "João Neves",
-            "shots_total": 13,
-            "goals": 0,
-            "xg_total": 1.87,
-            "shots": [
+                },
                 {
-                    "x": 0.9191,
-                    "y": 0.4037,
-                    "xg": 0.0285,
+                    "x": 0.9283,
+                    "y": 0.4382,
+                    "xg": 0.1076,
                     "res": "block",
-                    "min": 28,
-                    "sit": "FromCorner",
-                    "opp": "Rennes",
+                    "min": 16,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
                     "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.8533,
-                    "y": 0.645,
-                    "xg": 0.0503,
-                    "res": "saved",
-                    "min": 40,
-                    "sit": "OpenPlay",
-                    "opp": "Rennes",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9485,
-                    "y": 0.4371,
-                    "xg": 0.0829,
-                    "res": "block",
-                    "min": 47,
-                    "sit": "FromCorner",
-                    "opp": "Rennes",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9593,
-                    "y": 0.4709,
-                    "xg": 0.2524,
-                    "res": "miss",
-                    "min": 12,
-                    "sit": "OpenPlay",
-                    "opp": "Monaco",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.7094,
-                    "y": 0.6615,
-                    "xg": 0.0153,
-                    "res": "miss",
-                    "min": 23,
-                    "sit": "OpenPlay",
-                    "opp": "Monaco",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9366,
-                    "y": 0.4296,
-                    "xg": 0.2401,
-                    "res": "saved",
-                    "min": 69,
-                    "sit": "OpenPlay",
-                    "opp": "Brest",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9873,
-                    "y": 0.4099,
-                    "xg": 0.168,
-                    "res": "saved",
-                    "min": 71,
-                    "sit": "OpenPlay",
-                    "opp": "Brest",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9044,
-                    "y": 0.5191,
-                    "xg": 0.0585,
-                    "res": "saved",
-                    "min": 48,
-                    "sit": "OpenPlay",
-                    "opp": "Marseille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9611,
-                    "y": 0.5012,
-                    "xg": 0.5383,
-                    "res": "miss",
-                    "min": 56,
-                    "sit": "OpenPlay",
-                    "opp": "Marseille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.7523,
-                    "y": 0.4709,
-                    "xg": 0.0731,
-                    "res": "miss",
-                    "min": 90,
-                    "sit": "DirectFreekick",
-                    "opp": "Marseille",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.7545,
-                    "y": 0.5123,
-                    "xg": 0.0795,
-                    "res": "miss",
-                    "min": 23,
-                    "sit": "OpenPlay",
-                    "opp": "Le Mans",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9081,
-                    "y": 0.4989,
-                    "xg": 0.0943,
-                    "res": "miss",
-                    "min": 53,
-                    "sit": "OpenPlay",
-                    "opp": "Lyon",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9246,
-                    "y": 0.4455,
-                    "xg": 0.1874,
-                    "res": "saved",
-                    "min": 54,
-                    "sit": "OpenPlay",
-                    "opp": "Barcelona",
-                    "ha": "h",
                     "comp": "Ligue des Champions"
                 }
             ]
         },
         "47": {
             "name": "Mika Godts",
-            "shots_total": 9,
+            "shots_total": 10,
             "goals": 2,
-            "xg_total": 1.22,
+            "xg_total": 1.32,
             "shots": [
                 {
                     "x": 0.8214,
@@ -2385,14 +2649,25 @@
                     "opp": "Le Havre",
                     "ha": "a",
                     "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8838,
+                    "y": 0.4185,
+                    "xg": 0.0991,
+                    "res": "block",
+                    "min": 66,
+                    "sit": "FastBreak",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
                 }
             ]
         },
         "40": {
             "name": "Warren Zaïre-Emery",
-            "shots_total": 8,
+            "shots_total": 9,
             "goals": 0,
-            "xg_total": 1.39,
+            "xg_total": 1.58,
             "shots": [
                 {
                     "x": 0.8028,
@@ -2479,6 +2754,113 @@
                     "min": 30,
                     "sit": "OpenPlay",
                     "opp": "Manchester City",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9127,
+                    "y": 0.4697,
+                    "xg": 0.1925,
+                    "res": "miss",
+                    "min": 59,
+                    "sit": "OpenPlay",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                }
+            ]
+        },
+        "38": {
+            "name": "Senny Mayulu",
+            "shots_total": 8,
+            "goals": 3,
+            "xg_total": 1.62,
+            "shots": [
+                {
+                    "x": 0.8676,
+                    "y": 0.645,
+                    "xg": 0.0687,
+                    "res": "saved",
+                    "min": 78,
+                    "sit": "OpenPlay",
+                    "opp": "Slovan Bratislava",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.7952,
+                    "y": 0.5556,
+                    "xg": 0.0309,
+                    "res": "saved",
+                    "min": 80,
+                    "sit": "OpenPlay",
+                    "opp": "Slovan Bratislava",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8296,
+                    "y": 0.6903,
+                    "xg": 0.0177,
+                    "res": "goal",
+                    "min": 72,
+                    "sit": "OpenPlay",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.7287,
+                    "y": 0.6708,
+                    "xg": 0.8412,
+                    "res": "goal",
+                    "min": 62,
+                    "sit": "FastBreak",
+                    "opp": "Le Havre",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8829,
+                    "y": 0.5314,
+                    "xg": 0.2745,
+                    "res": "saved",
+                    "min": 4,
+                    "sit": "OpenPlay",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9109,
+                    "y": 0.3571,
+                    "xg": 0.1516,
+                    "res": "post",
+                    "min": 5,
+                    "sit": "OpenPlay",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8245,
+                    "y": 0.6368,
+                    "xg": 0.0277,
+                    "res": "miss",
+                    "min": 72,
+                    "sit": "OpenPlay",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9219,
+                    "y": 0.5527,
+                    "xg": 0.2034,
+                    "res": "goal",
+                    "min": 13,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
                     "ha": "a",
                     "comp": "Ligue des Champions"
                 }
@@ -2643,6 +3025,69 @@
                 }
             ]
         },
+        "7": {
+            "name": "Illia Zabarnyi",
+            "shots_total": 5,
+            "goals": 2,
+            "xg_total": 0.76,
+            "shots": [
+                {
+                    "x": 0.9393,
+                    "y": 0.5157,
+                    "xg": 0.4476,
+                    "res": "goal",
+                    "min": 77,
+                    "sit": "FromCorner",
+                    "opp": "Strasbourg",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9099,
+                    "y": 0.5556,
+                    "xg": 0.0432,
+                    "res": "block",
+                    "min": 28,
+                    "sit": "FromCorner",
+                    "opp": "Lyon",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9044,
+                    "y": 0.5426,
+                    "xg": 0.0772,
+                    "res": "saved",
+                    "min": 27,
+                    "sit": "SetPiece",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9219,
+                    "y": 0.4708,
+                    "xg": 0.1274,
+                    "res": "goal",
+                    "min": 39,
+                    "sit": "FromCorner",
+                    "opp": "Troyes",
+                    "ha": "h",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9302,
+                    "y": 0.546,
+                    "xg": 0.0703,
+                    "res": "miss",
+                    "min": 28,
+                    "sit": "FromCorner",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                }
+            ]
+        },
         "30": {
             "name": "Marquinhos",
             "shots_total": 4,
@@ -2695,55 +3140,107 @@
                 }
             ]
         },
-        "38": {
-            "name": "Senny Mayulu",
+        "29": {
+            "name": "Lucas Beraldo",
             "shots_total": 4,
-            "goals": 2,
-            "xg_total": 0.96,
+            "goals": 1,
+            "xg_total": 0.88,
             "shots": [
                 {
-                    "x": 0.8676,
-                    "y": 0.645,
-                    "xg": 0.0687,
-                    "res": "saved",
-                    "min": 78,
-                    "sit": "OpenPlay",
-                    "opp": "Slovan Bratislava",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.7952,
-                    "y": 0.5556,
-                    "xg": 0.0309,
-                    "res": "saved",
-                    "min": 80,
-                    "sit": "OpenPlay",
-                    "opp": "Slovan Bratislava",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                },
-                {
-                    "x": 0.8296,
-                    "y": 0.6903,
-                    "xg": 0.0177,
+                    "x": 0.8952,
+                    "y": 0.5,
+                    "xg": 0.7884,
                     "res": "goal",
-                    "min": 72,
-                    "sit": "OpenPlay",
-                    "opp": "Lyon",
+                    "min": 19,
+                    "sit": "Penalty",
+                    "opp": "Le Mans",
                     "ha": "h",
                     "comp": "Ligue 1"
                 },
                 {
-                    "x": 0.7287,
-                    "y": 0.6708,
-                    "xg": 0.8412,
-                    "res": "goal",
-                    "min": 62,
-                    "sit": "FastBreak",
-                    "opp": "Le Havre",
+                    "x": 0.9684,
+                    "y": 0.3313,
+                    "xg": 0.0139,
+                    "res": "miss",
+                    "min": 12,
+                    "sit": "FromCorner",
+                    "opp": "Strasbourg",
                     "ha": "a",
                     "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.747,
+                    "y": 0.5325,
+                    "xg": 0.0165,
+                    "res": "block",
+                    "min": 30,
+                    "sit": "OpenPlay",
+                    "opp": "Strasbourg",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.8543,
+                    "y": 0.5168,
+                    "xg": 0.0586,
+                    "res": "block",
+                    "min": 80,
+                    "sit": "OpenPlay",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                }
+            ]
+        },
+        "8": {
+            "name": "Lucas Hernandez",
+            "shots_total": 4,
+            "goals": 1,
+            "xg_total": 0.19,
+            "shots": [
+                {
+                    "x": 0.9567,
+                    "y": 0.622,
+                    "xg": 0.0571,
+                    "res": "miss",
+                    "min": 12,
+                    "sit": "FromCorner",
+                    "opp": "Strasbourg",
+                    "ha": "a",
+                    "comp": "Ligue 1"
+                },
+                {
+                    "x": 0.9155,
+                    "y": 0.5269,
+                    "xg": 0.049,
+                    "res": "goal",
+                    "min": 72,
+                    "sit": "FromCorner",
+                    "opp": "Barcelona",
+                    "ha": "h",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.8829,
+                    "y": 0.5292,
+                    "xg": 0.021,
+                    "res": "saved",
+                    "min": 45,
+                    "sit": "FromCorner",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
+                },
+                {
+                    "x": 0.9338,
+                    "y": 0.3712,
+                    "xg": 0.0588,
+                    "res": "miss",
+                    "min": 58,
+                    "sit": "FromCorner",
+                    "opp": "Villarreal",
+                    "ha": "a",
+                    "comp": "Ligue des Champions"
                 }
             ]
         },
@@ -2784,107 +3281,6 @@
                     "sit": "FromCorner",
                     "opp": "Strasbourg",
                     "ha": "a",
-                    "comp": "Ligue 1"
-                }
-            ]
-        },
-        "29": {
-            "name": "Lucas Beraldo",
-            "shots_total": 3,
-            "goals": 1,
-            "xg_total": 0.82,
-            "shots": [
-                {
-                    "x": 0.8952,
-                    "y": 0.5,
-                    "xg": 0.7884,
-                    "res": "goal",
-                    "min": 19,
-                    "sit": "Penalty",
-                    "opp": "Le Mans",
-                    "ha": "h",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9684,
-                    "y": 0.3313,
-                    "xg": 0.0139,
-                    "res": "miss",
-                    "min": 12,
-                    "sit": "FromCorner",
-                    "opp": "Strasbourg",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.747,
-                    "y": 0.5325,
-                    "xg": 0.0165,
-                    "res": "block",
-                    "min": 30,
-                    "sit": "OpenPlay",
-                    "opp": "Strasbourg",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                }
-            ]
-        },
-        "8": {
-            "name": "Lucas Hernandez",
-            "shots_total": 2,
-            "goals": 1,
-            "xg_total": 0.11,
-            "shots": [
-                {
-                    "x": 0.9567,
-                    "y": 0.622,
-                    "xg": 0.0571,
-                    "res": "miss",
-                    "min": 12,
-                    "sit": "FromCorner",
-                    "opp": "Strasbourg",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9155,
-                    "y": 0.5269,
-                    "xg": 0.049,
-                    "res": "goal",
-                    "min": 72,
-                    "sit": "FromCorner",
-                    "opp": "Barcelona",
-                    "ha": "h",
-                    "comp": "Ligue des Champions"
-                }
-            ]
-        },
-        "7": {
-            "name": "Illia Zabarnyi",
-            "shots_total": 2,
-            "goals": 1,
-            "xg_total": 0.49,
-            "shots": [
-                {
-                    "x": 0.9393,
-                    "y": 0.5157,
-                    "xg": 0.4476,
-                    "res": "goal",
-                    "min": 77,
-                    "sit": "FromCorner",
-                    "opp": "Strasbourg",
-                    "ha": "a",
-                    "comp": "Ligue 1"
-                },
-                {
-                    "x": 0.9099,
-                    "y": 0.5556,
-                    "xg": 0.0432,
-                    "res": "block",
-                    "min": 28,
-                    "sit": "FromCorner",
-                    "opp": "Lyon",
-                    "ha": "h",
                     "comp": "Ligue 1"
                 }
             ]

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 // Matchs hors Ligue 1, mis à jour automatiquement (voir sources.php).
-// Fichier généré automatiquement, dernière mise à jour : 2026-11-03.
+// Fichier généré automatiquement, dernière mise à jour : 2026-11-09.
 return array (
   0 => 
   array (
@@ -74,6 +74,21 @@ return array (
     6 => 2,
     7 => 47,
     8 => 47421,
+    9 => false,
+    10 => false,
+    11 => NULL,
+  ),
+  5 => 
+  array (
+    0 => 'ldc',
+    1 => 'League phase',
+    2 => '2026-11-03',
+    3 => 'away',
+    4 => 'Villarreal',
+    5 => 6,
+    6 => 0,
+    7 => 70,
+    8 => NULL,
     9 => false,
     10 => false,
     11 => NULL,
